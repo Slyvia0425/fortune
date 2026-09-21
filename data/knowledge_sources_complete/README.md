@@ -4,7 +4,7 @@
 
 ## 文件说明
 
-- `knowledge_sources_pages.json`：清洗后的主数据，共 764 个对象。
+- `knowledge_sources_pages.json`：整理后的主数据，共 363 个对象。
 - `validation.json`：字段、分类、正文、英文文本及重点页面的自动校验结果。
 - `crawl_report.json`：网页抓取结果与无法访问的链接说明。
 - `crawl_plan.json`：本次使用的网页及章节计划。
@@ -21,9 +21,6 @@
 - `category`：正文内容类型，可以同时包含多个值。
 - `content`：中文正文，使用 Markdown 保留标题、正文、诗行和列表层级。
 - `content_en`：网页本身提供的英文正文；没有时统一写为 `无`。
-- `source_name`：来源平台的展示名称。
-- `source_type`：来源类型，例如网站或项目资料库。
-- `content_blocks`：按原文、注释、翻译等类型拆分的结构化内容块。
 
 `category` 只使用以下四种值：
 

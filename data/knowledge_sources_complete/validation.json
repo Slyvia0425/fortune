@@ -1,48 +1,59 @@
 {
   "json_array": true,
-  "objects": 764,
-  "unique_urls": 764,
+  "objects": 363,
+  "unique_urls": 363,
   "field_names": [
     "catalog",
     "category",
     "content",
-    "content_blocks",
     "content_en",
     "source",
-    "source_name",
-    "source_type",
     "title",
     "url"
   ],
   "empty_content": 0,
   "content_en_available": 71,
   "by_source": {
-    "books_or_jp": 1,
-    "ctext": 107,
-    "luckclub": 51,
-    "ndl": 1,
-    "project_library": 342,
-    "snnu": 1,
-    "vr_d": 1,
-    "wikisource": 251,
-    "yimatrix": 7,
-    "zhbc": 2
-  },
-  "by_source_type": {
-    "bibliography": 2,
-    "pdf": 343,
-    "website": 419
+    "YiMatrix": 7,
+    "ctext": 117,
+    "glwx.zhbc.com.cn": 2,
+    "luckclub.cn": 53,
+    "ndlsearch.ndl.go.jp": 1,
+    "rcshm.snnu.edu.cn": 1,
+    "user-provided PDF": 1,
+    "vr-d.com PDF": 1,
+    "www.books.or.jp": 1,
+    "维基文库": 179
   },
   "by_category": {
-    "original": 515,
-    "commentary": 251,
-    "translation": 243,
-    "modern_commentary": 177
+    "original": 341,
+    "commentary": 252,
+    "translation": 130,
+    "modern_commentary": 66
   },
   "checks": {
     "all_objects_have_exact_fields": true,
     "no_empty_content": true,
-    "content_blocks_valid": true
+    "ctext_chapter_recovered": true,
+    "qiongtong_pdf_362_pages": true,
+    "luckclub_52_chapters_plus_index": true,
+    "luckclub_has_original_and_translation": true,
+    "no_unresolved_failed_links": true
   },
-  "sha256": "7b4bff1bebd0c89ffbf5e249711a5a124a2e8a43b840f63bccf6532b62b3eab6"
+  "failed_links": [],
+  "replaced_links": [
+    {
+      "url": "https://www.chinyuan.com.tw/Content/about/20191129%E6%9B%B8%E7%9B%AE%2812%E9%A0%81%29.pdf",
+      "status": "replaced",
+      "replacement": "https://luckclub.cn/bazi/002/",
+      "note": "The obsolete publisher PDF was replaced with the user-specified public chapter collection."
+    },
+    {
+      "url": "https://www.purenguji.cn/%E5%91%BD%E7%90%86/%E7%A9%B7%E9%80%9A%E5%AE%9D%E9%91%91/",
+      "status": "replaced",
+      "replacement": "file:///D:/Users/AIS课件/《穷通宝鉴》.pdf",
+      "note": "The expired-certificate page was replaced with the user-provided PDF."
+    }
+  ],
+  "sha256": "d26650fafdd2ff6a4455779880070690fea18e39cd09bb66c8cb710e63396fca"
 }
