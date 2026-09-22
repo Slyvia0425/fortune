@@ -21,6 +21,8 @@ export interface CollectionItem {
   snapshot_id: string | null;
   title: string | null;
   source_metadata: Record<string, unknown>;
+  tags?: string[];
+  category?: string | null;
   created_at: string;
 }
 
@@ -40,7 +42,61 @@ export interface NoteItem {
 export interface TagItem {
   tag_id: string;
   name: string;
+  usage_count?: number;
   created_at: string;
+}
+
+export interface PersonProfile {
+  profile_id: string;
+  user_id: string;
+  name: string;
+  relation: string | null;
+  gender: string | null;
+  calendar: string | null;
+  birth_date: string | null;
+  birth_time: string | null;
+  birth_place: Record<string, unknown>;
+  chart_snapshot: Record<string, unknown>;
+  tags: string[];
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PersonProfileUpsertDraft {
+  profileId?: string;
+  name: string;
+  relation?: string;
+  gender?: string;
+  calendar?: string;
+  birthDate?: string;
+  birthTime?: string;
+  birthPlace?: Record<string, unknown>;
+  chartSnapshot?: Record<string, unknown>;
+  tags?: string[];
+  notes?: string;
+}
+
+export interface AgentUsedRecord {
+  id: string;
+  title: string;
+  source_id: string | null;
+  item_type: string;
+  excerpt: string;
+  module: string | null;
+  tags: string[];
+  url: string | null;
+}
+
+export interface AgentAnalysis {
+  answer: string;
+  person: PersonProfile | null;
+  observations: string[];
+  suggestions: string[];
+  uncertainties: string[];
+  used_records: AgentUsedRecord[];
+  source_refs: string[];
+  model: string;
 }
 
 export interface PrivacySettings {
@@ -74,6 +130,16 @@ export interface CollectionDraft {
   sourceId: string;
   title: string;
   sourceUrl: string;
+  category?: string;
+  tags?: string;
+  sourceMetadata?: Record<string, unknown>;
+}
+
+export interface CollectionUpdateDraft {
+  title?: string;
+  tags?: string[];
+  category?: string | null;
+  sourceMetadata?: Record<string, unknown>;
 }
 
 export interface NoteDraft {

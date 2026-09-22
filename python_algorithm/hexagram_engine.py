@@ -109,3 +109,17 @@ def calculate(method: str, numbers: list[int] | None = None, coins: list[list[in
         "traditional_meaning": "卦象、动爻、互卦与变卦均由固定规则计算；传统释义与出处由知识检索层补充。",
         "contextual_interpretation": "此结果用于传统文化学习与交互演示，不构成现实决策建议。",
     }
+
+
+def hexagram_catalog() -> list[dict[str, object]]:
+    """Return the full 64-hexagram catalog for cross-module search."""
+    entries = []
+    for (_upper, _lower), (number, name) in HEXAGRAMS.items():
+        entries.append(
+            {
+                "number": number,
+                "name": name,
+                "description": "《周易》六十四卦之一，可结合典籍检索查看卦辞、彖传与象传。",
+            }
+        )
+    return sorted(entries, key=lambda entry: int(entry["number"]))

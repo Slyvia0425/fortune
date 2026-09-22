@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import CollectionButton from "@/app/components/collection-button";
 import type { ApiEnvelope } from "@/lib/contracts/api";
 import type { BaziChartRequest, BaziChartResult, BirthPlace } from "@/lib/contracts/bazi";
 import { CITY_OPTIONS } from "@/lib/bazi/cities";
+import { module4Api } from "@/lib/module4/api";
+import { getModule4UserId } from "@/lib/module4/activity";
+import type { PersonProfile } from "@/lib/module4/types";
 import { ElementsStep } from "./elements-step";
 import { PillarsStep } from "./pillars-step";
 import {
@@ -25,6 +29,15 @@ const STEPS = [
 ] as const;
 
 const MINUTES = Array.from({ length: 60 }, (_, i) => i);
+const RELATION_OPTIONS = ["本人", "家人", "亲友", "客户", "研究案例", "其他"] as const;
+
+function coordinateParts(value: number, axis: "lat" | "lng") {
+  const absolute = Math.abs(value);
+  const degrees = Math.floor(absolute);
+  const minutes = Math.round((absolute - degrees) * 60);
+  const hemisphere = axis === "lat" ? (value >= 0 ? "N" : "S") : value >= 0 ? "E" : "W";
+  return { hemisphere, degrees: String(degrees), minutes: String(Math.min(minutes, 59)) };
+}
 
 /**
  * Compact segmented control for binary choices.
@@ -192,6 +205,10 @@ function StepNav({
 export default function BaziWorkspace() {
   const [step, setStep] = useState(1);
 
+  const [profiles, setProfiles] = useState<PersonProfile[]>([]);
+  const [profileId, setProfileId] = useState("");
+  const [personName, setPersonName] = useState("本人");
+  const [personRelation, setPersonRelation] = useState("本人");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [gender, setGender] = useState<BaziChartRequest["gender"]>("unspecified");
@@ -211,6 +228,21 @@ export default function BaziWorkspace() {
   const [pending, setPending] = useState(false);
   const [notice, setNotice] = useState("");
 
+  useEffect(() => {
+    let cancelled = false;
+    module4Api
+      .listPersonProfiles(getModule4UserId())
+      .then((records) => {
+        if (!cancelled) setProfiles(records);
+      })
+      .catch(() => {
+        // Chart calculation remains available when the personal archive is offline.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const chart = result?.result ?? null;
   const unlocked = chart !== null;
 
@@ -221,6 +253,41 @@ export default function BaziWorkspace() {
   const isMock = chart?.meta?.mock ?? result?.meta.mock ?? false;
   // De-duplicated: the Next.js fallback puts the same warning on both.
   const warnings = [...new Set([...(result?.warnings ?? []), ...(chart?.meta?.warnings ?? [])])];
+  const profileActivity = {
+    profileId: profileId || undefined,
+    personName: personName.trim() || undefined,
+    personRelation,
+  };
+
+  function applyProfile(record: PersonProfile) {
+    setProfileId(record.profile_id);
+    setPersonName(record.name);
+    setPersonRelation(record.relation || "其他");
+    setDate(record.birth_date || "");
+    setTime(record.birth_time || "");
+    setGender((record.gender as BaziChartRequest["gender"] | null) || "unspecified");
+    setCalendar(record.calendar === "lunar" ? "lunar" : "solar");
+
+    const place = record.birth_place || {};
+    const city = typeof place.city_id === "string" ? place.city_id : "";
+    if (city && CITY_OPTIONS.some((option) => option.id === city)) {
+      setPlaceMode("dropdown");
+      setCityId(city);
+    } else if (typeof place.latitude === "number" && typeof place.longitude === "number") {
+      const latitude = coordinateParts(place.latitude, "lat");
+      const longitude = coordinateParts(place.longitude, "lng");
+      setPlaceMode("manual_coordinates");
+      setLatHemisphere(latitude.hemisphere);
+      setLatDegrees(latitude.degrees);
+      setLatMinutes(latitude.minutes);
+      setLngHemisphere(longitude.hemisphere);
+      setLngDegrees(longitude.degrees);
+      setLngMinutes(longitude.minutes);
+    }
+    setResult(null);
+    setNotice("已载入人物档案，请确认出生信息后重新生成命盘。");
+    setStep(1);
+  }
 
   /** Builds the structured birth_place the contract expects, or explains why it can't. */
   function buildBirthPlace(): { ok: true; value: BirthPlace } | { ok: false; message: string } {
@@ -272,6 +339,10 @@ export default function BaziWorkspace() {
   }
 
   async function submit() {
+    if (!personName.trim()) {
+      setNotice("请填写人物名称，以便把命盘保存到独立人物档案。");
+      return;
+    }
     if (!date || !time) {
       setNotice("请填写出生日期和时间。");
       return;
@@ -303,6 +374,34 @@ export default function BaziWorkspace() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error?.message ?? "排盘失败");
+      try {
+        const savedProfile = await module4Api.savePersonProfile(getModule4UserId(), {
+          profileId: profileId || undefined,
+          name: personName.trim(),
+          relation: personRelation,
+          gender,
+          calendar,
+          birthDate: date,
+          birthTime: time.slice(0, 5),
+          birthPlace: {
+            ...(place.value as unknown as Record<string, unknown>),
+            city_id: placeMode === "dropdown" ? cityId : undefined,
+          },
+          chartSnapshot: (data.result ?? {}) as Record<string, unknown>,
+          tags: ["人物档案", personRelation],
+        });
+        setProfileId(savedProfile.profile_id);
+        setProfiles((current) => [
+          savedProfile,
+          ...current.filter((item) => item.profile_id !== savedProfile.profile_id),
+        ]);
+      } catch (profileError) {
+        setNotice(
+          profileError instanceof Error
+            ? `排盘完成，但人物档案保存失败：${profileError.message}`
+            : "排盘完成，但人物档案保存失败。",
+        );
+      }
       setResult(data);
       setStep(2);
     } catch (error) {
@@ -352,10 +451,65 @@ export default function BaziWorkspace() {
           <>
             <h2>出生信息</h2>
             <p className="panel-intro">
-              仅用于本次排盘演示，不要求填写真实姓名。出生时间与地点共同决定时柱，请尽量准确。
+              每个姓名会建立独立人物档案；出生时间与地点共同决定时柱，请尽量准确。
             </p>
 
             <div className="form-grid">
+              {profiles.length > 0 && (
+                <div className="field full">
+                  <label htmlFor="person-profile">载入已有人物档案</label>
+                  <select
+                    id="person-profile"
+                    onChange={(event) => {
+                      const selected = profiles.find(
+                        (item) => item.profile_id === event.target.value,
+                      );
+                      if (selected) applyProfile(selected);
+                    }}
+                    value={profileId}
+                  >
+                    <option value="">新建人物档案</option>
+                    {profiles.map((profile) => (
+                      <option key={profile.profile_id} value={profile.profile_id}>
+                        {profile.name} · {profile.relation || "其他"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div className="field">
+                <label htmlFor="person-name">人物名称</label>
+                <input
+                  id="person-name"
+                  maxLength={128}
+                  onChange={(event) => {
+                    const nextName = event.target.value;
+                    const selected = profiles.find((item) => item.profile_id === profileId);
+                    setPersonName(nextName);
+                    if (selected && nextName !== selected.name) setProfileId("");
+                  }}
+                  placeholder="例如：本人、父亲、客户 A"
+                  required
+                  value={personName}
+                />
+              </div>
+
+              <div className="field">
+                <label htmlFor="person-relation">档案分类</label>
+                <select
+                  id="person-relation"
+                  onChange={(event) => setPersonRelation(event.target.value)}
+                  value={personRelation}
+                >
+                  {RELATION_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="field">
                 <label
                   htmlFor="date"
@@ -485,6 +639,21 @@ export default function BaziWorkspace() {
                 提示：真太阳时、节气交界与历法校准会影响专业排盘。演示结果不用于现实决策。
               </p>
               {notice && <p className="notice">{notice}</p>}
+              {date && time && (
+                <CollectionButton
+                  {...profileActivity}
+                  action="question"
+                  itemType="bazi_input"
+                  label="收藏出生信息"
+                  module="bazi"
+                  sourceId={`bazi-input:${calendar}:${date}:${time.slice(0, 5)}`}
+                  step="birth-input"
+                  summary={`${personName.trim() || "未命名人物"} · ${calendar === "lunar" ? "农历" : "公历"} ${date} ${time.slice(0, 5)}；出生地 ${placeMode === "manual_coordinates" ? `${latDegrees}°${latMinutes}′ / ${lngDegrees}°${lngMinutes}′` : cityId}。`}
+                  tags={["八字", "出生信息"]}
+                  title={`${personName.trim() || "未命名人物"} · 八字出生信息`}
+                  snapshot={{ birth_date: date, birth_time: time.slice(0, 5), calendar, is_leap_month: isLeapMonth, place_mode: placeMode, city_id: cityId, latitude: latDegrees, longitude: lngDegrees }}
+                />
+              )}
               <button className="button button-primary" disabled={pending} onClick={submit}>
                 {pending ? "排盘中……" : "生成命盘"}
               </button>
@@ -497,7 +666,14 @@ export default function BaziWorkspace() {
         {/* ---------------------------------------------------------- */}
         {step === 2 && chart && (
           <>
-            <PillarsStep chart={chart} isMock={isMock} warnings={warnings} />
+            <PillarsStep
+              chart={chart}
+              isMock={isMock}
+              warnings={warnings}
+              profileActivity={profileActivity}
+              personName={personName}
+              sessionId={result?.session_id}
+            />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}
@@ -507,7 +683,13 @@ export default function BaziWorkspace() {
         {/* ---------------------------------------------------------- */}
         {step === 3 && chart && (
           <>
-            <ElementsStep chart={chart} isMock={isMock} />
+            <ElementsStep
+              chart={chart}
+              isMock={isMock}
+              profileActivity={profileActivity}
+              personName={personName}
+              sessionId={result?.session_id}
+            />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}
@@ -546,6 +728,20 @@ export default function BaziWorkspace() {
               {STEM_LABEL[chart.current_period.day.stem]}
               {BRANCH_LABEL[chart.current_period.day.branch]} 日
             </p>
+
+            <CollectionButton
+              {...profileActivity}
+              action="calculation"
+              itemType="bazi_luck"
+              label="收藏大运流年"
+              module="bazi"
+              sourceId={`bazi-luck:${result?.session_id ?? "local"}`}
+              step="luck-cycles"
+              summary={`${personName.trim() || "未命名人物"} · 大运 ${chart.luck_cycles.map((cycle) => `${cycle.start_age}-${cycle.end_age}岁 ${STEM_LABEL[cycle.stem]}${BRANCH_LABEL[cycle.branch]}`).join("；")}；当前 ${chart.current_period.year.year} 年 ${STEM_LABEL[chart.current_period.year.stem]}${BRANCH_LABEL[chart.current_period.year.branch]}。`}
+              tags={["八字", "大运", "流年"]}
+              title={`${personName.trim() || "未命名人物"} · 大运与当前节气`}
+              snapshot={{ luck_cycles: chart.luck_cycles, current_period: chart.current_period }}
+            />
 
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
@@ -605,6 +801,21 @@ export default function BaziWorkspace() {
                   .join("；")}
               </p>
             )}
+
+            <CollectionButton
+              {...profileActivity}
+              action="interpretation"
+              evidence={chart.advisory.flatMap((domain) => domain.categories.flatMap((category) => category.citations.flatMap((citation) => citation.evidence)))}
+              itemType="bazi_advisory"
+              label="收藏方向依据"
+              module="bazi"
+              sourceId={`bazi-advisory:${result?.session_id ?? "local"}`}
+              step="advisory"
+              summary={`${personName.trim() || "未命名人物"} · ${chart.advisory.map((domain) => `${DOMAIN_LABEL[domain.domain]}：${domain.categories.map((category) => category.display_name).join("、")}`).join("；")}`}
+              tags={["八字", "方向依据"]}
+              title={`${personName.trim() || "未命名人物"} · 方向推荐依据`}
+              snapshot={{ advisory: chart.advisory, disposition: chart.disposition, source_refs: chart.source_refs }}
+            />
 
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>

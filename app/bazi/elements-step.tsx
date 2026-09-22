@@ -1,4 +1,5 @@
 import { useState } from "react";
+import CollectionButton from "@/app/components/collection-button";
 import type { BaziChartResult, DayMasterStrength, ElementKey } from "@/lib/contracts/bazi";
 import {
   ELEMENT_LABEL,
@@ -46,7 +47,19 @@ function formatValue(value: number): string {
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
 }
 
-export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock: boolean }) {
+export function ElementsStep({
+  chart,
+  isMock,
+  profileActivity,
+  personName,
+  sessionId,
+}: {
+  chart: BaziChartResult;
+  isMock: boolean;
+  profileActivity: { profileId?: string; personName?: string; personRelation: string };
+  personName: string;
+  sessionId?: string | null;
+}) {
   const dayMasterElement = chart.day_master.element;
   const positions = tenGodPositions(chart.pillars);
 
@@ -375,6 +388,26 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
           </span>
         </div>
       </section>
+
+      <CollectionButton
+        {...profileActivity}
+        action="interpretation"
+        evidence={chart.reasoning_trace.factors.flatMap((factor) => factor.evidence)}
+        itemType="bazi_analysis"
+        label="收藏五行十神"
+        module="bazi"
+        sourceId={`bazi-elements:${sessionId ?? "local"}`}
+        step="elements"
+        summary={`${personName.trim() || "未命名人物"} · 五行分布 ${(Object.keys(chart.elements) as Array<keyof typeof chart.elements>).map((key) => `${ELEMENT_LABEL[key]} ${chart.elements[key]}`).join("，")}；日主 ${STEM_LABEL[chart.day_master.stem]}${ELEMENT_LABEL[chart.day_master.element]}。`}
+        tags={["八字", "五行", "十神"]}
+        title={`${personName.trim() || "未命名人物"} · 五行十神依据`}
+        snapshot={{
+          elements: chart.elements,
+          day_master: chart.day_master,
+          ten_gods: chart.ten_gods,
+          reasoning_trace: chart.reasoning_trace,
+        }}
+      />
     </>
   );
 }

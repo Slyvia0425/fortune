@@ -48,6 +48,22 @@ next-env.d.ts
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+*.egg-info/
 .venv/
 venv/
+# local all-in-one runtime created by scripts/setup-local.sh
+/.runtime/
+
+# local user data and generated exports
+/storage/
+/exports/
+/uploads/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
 .idea/

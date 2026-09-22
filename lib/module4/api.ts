@@ -1,11 +1,15 @@
 import type {
+  AgentAnalysis,
   ApiEnvelope,
   CollectionDraft,
   CollectionItem,
+  CollectionUpdateDraft,
   DeleteDataResult,
   ExportJob,
   NoteDraft,
   NoteItem,
+  PersonProfile,
+  PersonProfileUpsertDraft,
   PrivacySettings,
   TagItem,
 } from "@/lib/module4/types";
@@ -71,6 +75,68 @@ async function request<T>(
 }
 
 export const module4Api = {
+  listPersonProfiles: (userId: string) =>
+    request<PersonProfile[]>("/api/v1/me/profiles", userId),
+
+  savePersonProfile: (userId: string, draft: PersonProfileUpsertDraft) =>
+    request<PersonProfile>("/api/v1/me/profiles", userId, {
+      method: "POST",
+      body: JSON.stringify({
+        profile_id: draft.profileId || null,
+        name: draft.name.trim(),
+        relation: draft.relation?.trim() || "其他",
+        gender: draft.gender || null,
+        calendar: draft.calendar || null,
+        birth_date: draft.birthDate || null,
+        birth_time: draft.birthTime || null,
+        birth_place: draft.birthPlace ?? {},
+        chart_snapshot: draft.chartSnapshot ?? {},
+        tags: draft.tags ?? [],
+        notes: draft.notes?.trim() || null,
+      }),
+    }),
+
+  updatePersonProfile: (
+    userId: string,
+    profileId: string,
+    draft: Partial<PersonProfileUpsertDraft>,
+  ) =>
+    request<PersonProfile>(
+      `/api/v1/me/profiles/${encodeURIComponent(profileId)}`,
+      userId,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          ...(draft.name !== undefined ? { name: draft.name.trim() } : {}),
+          ...(draft.relation !== undefined ? { relation: draft.relation.trim() || "其他" } : {}),
+          ...(draft.gender !== undefined ? { gender: draft.gender || null } : {}),
+          ...(draft.calendar !== undefined ? { calendar: draft.calendar || null } : {}),
+          ...(draft.birthDate !== undefined ? { birth_date: draft.birthDate || null } : {}),
+          ...(draft.birthTime !== undefined ? { birth_time: draft.birthTime || null } : {}),
+          ...(draft.birthPlace !== undefined ? { birth_place: draft.birthPlace } : {}),
+          ...(draft.chartSnapshot !== undefined
+            ? { chart_snapshot: draft.chartSnapshot }
+            : {}),
+          ...(draft.tags !== undefined ? { tags: draft.tags } : {}),
+          ...(draft.notes !== undefined ? { notes: draft.notes.trim() || null } : {}),
+        }),
+      },
+    ),
+
+  deletePersonProfile: (userId: string, profileId: string) =>
+    request<void>(`/api/v1/me/profiles/${encodeURIComponent(profileId)}`, userId, {
+      method: "DELETE",
+    }),
+
+  analyzeQuestion: (userId: string, question: string, profileId?: string) =>
+    request<AgentAnalysis>("/api/v1/me/analyze", userId, {
+      method: "POST",
+      body: JSON.stringify({
+        question,
+        profile_id: profileId || null,
+      }),
+    }),
+
   listCollections: (userId: string) =>
     request<CollectionItem[]>("/api/v1/me/collections", userId),
 
@@ -81,11 +147,42 @@ export const module4Api = {
         item_type: draft.itemType,
         source_id: draft.sourceId.trim(),
         title: draft.title.trim() || null,
-        source_metadata: draft.sourceUrl.trim()
-          ? { url: draft.sourceUrl.trim() }
-          : {},
+        source_metadata: {
+          ...(draft.sourceMetadata ?? {}),
+          ...(draft.category?.trim() ? { category: draft.category.trim() } : {}),
+          ...(draft.tags?.trim()
+            ? {
+                tags: draft.tags
+                  .split(/[,，]/)
+                  .map((tag) => tag.trim())
+                  .filter(Boolean),
+              }
+            : {}),
+          ...(draft.sourceUrl.trim() ? { url: draft.sourceUrl.trim() } : {}),
+        },
       }),
     }),
+
+  updateCollection: (
+    userId: string,
+    collectionId: string,
+    draft: CollectionUpdateDraft,
+  ) =>
+    request<CollectionItem>(
+      `/api/v1/me/collections/${encodeURIComponent(collectionId)}`,
+      userId,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          ...(draft.title !== undefined ? { title: draft.title.trim() || null } : {}),
+          ...(draft.tags !== undefined ? { tags: draft.tags } : {}),
+          ...(draft.category !== undefined ? { category: draft.category } : {}),
+          ...(draft.sourceMetadata !== undefined
+            ? { source_metadata: draft.sourceMetadata }
+            : {}),
+        }),
+      },
+    ),
 
   deleteCollection: (userId: string, collectionId: string) =>
     request<void>(`/api/v1/me/collections/${encodeURIComponent(collectionId)}`, userId, {
@@ -104,7 +201,7 @@ export const module4Api = {
         title: draft.title.trim() || null,
         body: draft.body.trim(),
         tags: draft.tags
-          .split(",")
+          .split(/[,，]/)
           .map((tag) => tag.trim())
           .filter(Boolean),
       }),
@@ -120,6 +217,12 @@ export const module4Api = {
   createTag: (userId: string, name: string) =>
     request<TagItem>("/api/v1/me/tags", userId, {
       method: "POST",
+      body: JSON.stringify({ name }),
+    }),
+
+  renameTag: (userId: string, tagId: string, name: string) =>
+    request<TagItem>(`/api/v1/me/tags/${encodeURIComponent(tagId)}`, userId, {
+      method: "PATCH",
       body: JSON.stringify({ name }),
     }),
 

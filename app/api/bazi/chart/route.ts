@@ -5,7 +5,7 @@ import { calculateBazi } from "@/lib/bazi/service";
 const SYSTEM = "bazi-chart-v1";
 
 /**
- * Validation here mirrors the Pydantic models in bazi_service/app/models/bazi.py
+ * Validation here mirrors the Pydantic models in python_algorithm/bazi/models/bazi.py
  * rule for rule. Anything this route lets through but Python rejects surfaces to
  * the user as a 502 ALGORITHM_SERVICE_ERROR, which reads like an outage rather
  * than a bad input — so the two must stay in step.

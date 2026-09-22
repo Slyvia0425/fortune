@@ -22,6 +22,10 @@ class ExplanationProvider(ABC):
     def explain_similar_case(self, context: dict[str, Any]) -> str:
         raise NotImplementedError
 
+    @abstractmethod
+    def analyze_personal_records(self, context: dict[str, Any]) -> str:
+        raise NotImplementedError
+
 
 class TemplateExplanationProvider(ExplanationProvider):
     @property
@@ -44,6 +48,9 @@ class TemplateExplanationProvider(ExplanationProvider):
         similar_text = "; ".join(similarities[:2]) or "the available anonymized features are close"
         difference_text = "; ".join(differences[:1]) or "some features were not available"
         return f"Similar because: {similar_text}. Key difference: {difference_text}."
+
+    def analyze_personal_records(self, context: dict[str, Any]) -> str:
+        return str(context.get("base_answer") or "现有资料不足，暂时无法形成分析。")
 
 
 class OpenAICompatibleExplanationProvider(ExplanationProvider):
@@ -76,7 +83,12 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
             "one to three source ids. Say clearly when evidence is insufficient. Context: "
             f"{json.dumps(context, ensure_ascii=False)}"
         )
-        return self._complete(system_prompt, user_prompt, context, case=False)
+        return self._complete(
+            system_prompt,
+            user_prompt,
+            fallback=self._fallback.explain_recommendation(context),
+            max_tokens=256,
+        )
 
     def explain_similar_case(self, context: dict[str, Any]) -> str:
         system_prompt = (
@@ -87,15 +99,41 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
             "请使用简体中文，至少说明两个相似点和至少一个关键差异，不要推断身份或命运。Context: "
             f"{json.dumps(context, ensure_ascii=False)}"
         )
-        return self._complete(system_prompt, user_prompt, context, case=True)
+        return self._complete(
+            system_prompt,
+            user_prompt,
+            fallback=self._fallback.explain_similar_case(context),
+            max_tokens=320,
+        )
+
+    def analyze_personal_records(self, context: dict[str, Any]) -> str:
+        system_prompt = (
+            "你是知命智库的分析助手。只能依据输入中的人物档案、命盘字段、签卦记录、"
+            "个人笔记和来源信息作答；不得编造缺失字段，不得把传统术数判断写成确定事实，"
+            "不得提供医疗、法律或投资保证。健康问题只能按传统文化作身心状态提醒，"
+            "不得作疾病判断，并应明确建议以专业医疗意见为准。请使用简体中文，"
+            "直接输出最终分析，不展示思考过程。"
+        )
+        user_prompt = (
+            "请针对 question 给出切实的分析，而不是只罗列来源。要求：先明确分析对象和问题领域；"
+            "然后解释命盘结构与问题的关系；再结合签卦、典籍和个人笔记形成结论；最后列出不确定性。"
+            "保留输入中的 record source_id，不要改动原始事实。输入如下："
+            f"{json.dumps(context, ensure_ascii=False)}"
+        )
+        fallback = str(context.get("base_answer") or "现有资料不足，暂时无法形成分析。")
+        return self._complete(
+            system_prompt,
+            user_prompt,
+            fallback=fallback,
+            max_tokens=1_400,
+        )
 
     def _complete(
         self,
         system_prompt: str,
         user_prompt: str,
-        context: dict[str, Any],
-        *,
-        case: bool,
+        fallback: str,
+        max_tokens: int,
     ) -> str:
         payload: dict[str, Any] = {
             "model": self._model,
@@ -104,7 +142,7 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
                 {"role": "user", "content": user_prompt},
             ],
             "temperature": 0.1,
-            "max_tokens": 256,
+            "max_tokens": max_tokens,
         }
         if self._reasoning_effort:
             payload["reasoning_effort"] = self._reasoning_effort
@@ -124,9 +162,7 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
         except (httpx.HTTPError, KeyError, IndexError, TypeError, ValueError):
             pass
 
-        if case:
-            return self._fallback.explain_similar_case(context)
-        return self._fallback.explain_recommendation(context)
+        return fallback
 
 
 @lru_cache(maxsize=1)

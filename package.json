@@ -4,12 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:all": "bash scripts/start-local.sh",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "check": "npm test && npm run lint && npm run typecheck"
+    "check": "npm test && npm run lint && npm run typecheck",
+    "verify:stack": "node scripts/verify-stack.mjs",
+    "verify": "npm run check && npm run build"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",

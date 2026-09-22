@@ -1,0 +1,28 @@
+.source-detail {
+  max-width: 900px;
+}
+
+.source-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+
+.source-content {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 34px;
+}
+
+.source-content p {
+  color: #333d37;
+  line-height: 2.1;
+  margin: 0 0 1.2em;
+}
+
+.source-content p:last-child {
+  margin-bottom: 0;
+}
