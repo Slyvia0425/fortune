@@ -30,6 +30,7 @@ import type {
   PrivacySettings,
   TagItem,
 } from "@/lib/module4/types";
+import type { AuthUser } from "@/lib/auth/types";
 
 type TabId = "all" | "sources" | "readings" | "notes";
 
@@ -85,11 +86,8 @@ function messageFrom(error: unknown): string {
   return error instanceof Error ? error.message : "请求失败";
 }
 
-export default function LibraryWorkspace() {
-  const [activeUser, setActiveUser] = useState(
-    process.env.NEXT_PUBLIC_MODULE4_USER_ID || "dev-user",
-  );
-  const [identityDraft, setIdentityDraft] = useState(activeUser);
+export default function LibraryWorkspace({ user }: { user: AuthUser }) {
+  const activeUser = user.id;
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [notes, setNotes] = useState<NoteItem[]>([]);
   const [tagItems, setTagItems] = useState<TagItem[]>([]);
@@ -107,17 +105,6 @@ export default function LibraryWorkspace() {
     useState<CollectionDraft>(emptyCollectionDraft);
   const [noteDraft, setNoteDraft] = useState<NoteDraft>(emptyNoteDraft);
   const [tagName, setTagName] = useState("");
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const saved = window.localStorage.getItem("module4-user-id")?.trim();
-      if (saved) {
-        setActiveUser(saved);
-        setIdentityDraft(saved);
-      }
-    }, 0);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -206,18 +193,6 @@ export default function LibraryWorkspace() {
     } finally {
       setBusy(false);
     }
-  }
-
-  async function submitIdentity(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const nextUser = identityDraft.trim();
-    if (!nextUser) {
-      setError("用户标识不能为空");
-      return;
-    }
-    window.localStorage.setItem("module4-user-id", nextUser);
-    setActiveUser(nextUser);
-    setNotice("身份已切换");
   }
 
   async function submitCollection(event: FormEvent<HTMLFormElement>) {
@@ -611,16 +586,11 @@ export default function LibraryWorkspace() {
                 <h2>数据与隐私</h2>
               </div>
             </div>
-            <form className="identity-form" onSubmit={submitIdentity}>
-              <label>
-                当前用户
-                <input
-                  onChange={(event) => setIdentityDraft(event.target.value)}
-                  value={identityDraft}
-                />
-              </label>
-              <button className="text-button" type="submit">切换身份</button>
-            </form>
+            <div className="identity-form">
+              <label>当前账户</label>
+              <strong>{user.display_name}</strong>
+              <small>{user.email}</small>
+            </div>
             {privacy ? (
               <div className="privacy-options">
                 <label className="switch-row">

@@ -226,7 +226,10 @@ tests/                 SQLite end-to-end API tests
 
 ## Security Notes
 
-- This repository stores only the pseudonymous `user_id` supplied by the authentication service.
+- Global accounts are stored in `users`; passwords use salted scrypt hashes and are never stored in plaintext.
+- Browser sessions use opaque tokens. Only SHA-256 token hashes are stored in `auth_sessions`.
+- The Next.js application keeps the opaque token in a same-origin HttpOnly cookie and proxies private API calls.
+- Set `ALLOW_LEGACY_USER_HEADER=false` outside local development so browsers cannot impersonate a user with `X-User-Id`.
 - Do not log note bodies, full question text, tokens, or direct identity data.
 - Anonymous case profiles are created only after `allow_anonymous_cases=true`.
 - Module 4 never writes to Module 3 public knowledge or public graph data.

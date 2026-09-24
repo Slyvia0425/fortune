@@ -7,6 +7,12 @@ describe("问卦 chatbot",()=>{
     expect(reply.status).toBe("clarify");
     expect(reply.message).toContain("两个正整数");
   });
+  it("识别明天为有效的相对时间",()=>{
+    const reply=continueDivinationChat([{role:"user",content:"我明天要不要去 career"}]);
+    expect(reply.status).toBe("clarify");
+    expect(reply.message).toContain("两个正整数");
+    expect(reply.message).not.toContain("时间范围");
+  });
   it("信息齐全时返回确定性的数字起卦请求",()=>{
     const reply=continueDivinationChat([{role:"user",content:"我想用六爻问未来三个月的工作，数字 18 和 27"}]);
     expect(reply.status).toBe("ready");

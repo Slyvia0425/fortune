@@ -29,20 +29,17 @@ export class Module4ApiError extends Error {
   }
 }
 
-const configuredBaseUrl = process.env.NEXT_PUBLIC_MODULE4_API_BASE_URL?.trim();
-const defaultBaseUrl = "http://127.0.0.1:8000";
-
 export function normalizeBaseUrl(value: string): string {
   return value.trim().replace(/\/+$/, "");
 }
 
 export function getApiBaseUrl(): string {
-  return normalizeBaseUrl(configuredBaseUrl || defaultBaseUrl);
+  return "/api/module4";
 }
 
 async function request<T>(
   path: string,
-  userId: string,
+  _userId: string,
   init: RequestInit = {},
 ): Promise<T> {
   const response = await fetch(`${getApiBaseUrl()}${path}`, {
@@ -50,7 +47,6 @@ async function request<T>(
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "X-User-Id": userId,
       ...init.headers,
     },
   });

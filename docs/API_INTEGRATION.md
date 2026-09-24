@@ -56,7 +56,19 @@ Every browser-facing response follows `ApiEnvelope<T>` in `lib/contracts/api.ts`
 
 ## Divination chatbot
 
-`POST /api/divination/chat` accepts a short conversation and returns either one necessary follow-up question or a ready-to-run divination request. It is deliberately a rule-based conversation coordinator: it does not calculate hexagrams, rewrite source text, or produce an authoritative interpretation. Guanyin lots are handled only by the separate `/guanyin` module.
+`POST /api/divination/chat` accepts a short conversation and returns either one necessary follow-up question or a ready-to-run divination request. It does not calculate hexagrams, rewrite source text, or produce an authoritative interpretation. Guanyin lots are handled only by the separate `/guanyin` module.
+
+By default it uses a deterministic parser, including relative dates such as `明天`. Optionally configure an OpenAI-compatible LLM to extract the question, time range, casting method and numbers from more natural Chinese. The LLM is server-side only and returns constrained JSON; its output is validated before dispatch. If it is unavailable, invalid, or unset, the deterministic parser is used instead. The LLM never calculates a hexagram: `/api/divination/cast` still sends the final request to Python's deterministic rule engine.
+
+When enabled, the conversation supplied to this endpoint is sent to the configured LLM provider for intent extraction. Do not send sensitive personal information unless your chosen provider and deployment policy permit it.
+
+```bash
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_API_KEY=your_server_side_key
+LLM_MODEL=gpt-4.1-mini
+```
+
+When an otherwise complete request does not specify a casting method, the LLM coordinator selects `random`; users may instead explicitly request `数字起卦` with two or three numbers, or `三币起卦`.
 
 ```json
 {

@@ -1,6 +1,7 @@
-import type {DivinationChatMessage,DivinationChatReply} from "@/lib/contracts/divination";
+import type {DivinationChatMessage,DivinationChatReply,DivinationExtraction} from "@/lib/contracts/divination";
+import {extractDivinationIntent} from "../server/divination-llm";
 
-const timeOf=(text:string)=>text.match(/(?:未来|近|在)?(?:[0-9一二三四五六七八九十]+\s*(?:天|周|个月|月|年)|今年|明年|本周|下周|近期)/)?.[0]??"";
+const timeOf=(text:string)=>text.match(/(?:未来|近|在)?(?:[0-9一二三四五六七八九十]+\s*(?:天|周|个月|月|年)|今天|明天|后天|今年|明年|本周|下周|这周末|下个月|近期)/)?.[0]??"";
 const numbersOf=(text:string)=>[...text.matchAll(/(?<!\d)(\d{1,6})(?!\d)/g)].map(match=>Number(match[1]));
 const userText=(messages:DivinationChatMessage[])=>messages.filter(message=>message.role==="user").map(message=>message.content.trim()).filter(Boolean).join(" ");
 
@@ -15,4 +16,20 @@ export function continueDivinationChat(messages:DivinationChatMessage[]):Divinat
   const numbers=numbersOf(text).filter(value=>value>0&&value<=999_999).slice(-3);
   if(numbers.length<2)return{status:"clarify",message:"请给我两个正整数作为上卦和下卦数字（可选第三个数字决定动爻），例如“18 和 27”。",suggestions:["18 和 27","18、27、9"]};
   return{status:"ready",message:"信息齐全。我将按固定规则计算本卦、动爻、互卦和变卦。",suggestions:[],cast_request:{question,method:"numbers",numbers,time_range:timeRange}};
+}
+
+export async function continueDivinationChatWithLlm(messages:DivinationChatMessage[]):Promise<DivinationChatReply>{
+  try{
+    const intent=await extractDivinationIntent(messages);
+    if(!intent)return withRuleExtraction(messages,"LLM_EMPTY_OR_INVALID_RESPONSE");
+    if(intent.method==="numbers"&&(!intent.numbers||intent.numbers.length<2))return withRuleExtraction(messages,"LLM_INVALID_NUMBERS");
+    if(!intent.timeRange)return withRuleExtraction(messages,"LLM_MISSING_TIME_RANGE");
+    const extraction:DivinationExtraction={source:"llm",question:intent.question,time_range:intent.timeRange,method:intent.method??"random",numbers:intent.method==="numbers"?intent.numbers:undefined};
+    return{status:"ready",message:intent.method==="random"?"我已理解你的问题与时间范围，将使用随机起卦并由规则引擎计算卦象。":"信息齐全。我将按固定规则计算本卦、动爻、互卦和变卦。",suggestions:[],cast_request:{question:intent.question,method:intent.method??"random",numbers:intent.method==="numbers"?intent.numbers:undefined,time_range:intent.timeRange},extraction};
+  }catch(error){return withRuleExtraction(messages,error instanceof Error?error.message:"LLM_UNKNOWN_ERROR")}
+}
+
+function withRuleExtraction(messages:DivinationChatMessage[],fallbackReason?:string):DivinationChatReply{
+  const text=userText(messages),timeRange=timeOf(text),numbers=numbersOf(text).filter(value=>value>0&&value<=999_999).slice(-3);
+  return{...continueDivinationChat(messages),extraction:{source:"rules",question:text||undefined,time_range:timeRange||undefined,method:numbers.length>=2?"numbers":undefined,numbers:numbers.length?numbers:undefined,fallback_reason:fallbackReason}};
 }

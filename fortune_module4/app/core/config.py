@@ -14,7 +14,7 @@ class Settings(BaseSettings):
 
     app_name: str = "fortune-module4"
     environment: str = "development"
-    debug: bool = True
+    debug: bool = Field(default=True, validation_alias="MODULE4_DEBUG")
     api_prefix: str = "/api/v1"
 
     database_url: str = "sqlite:///./module4.db"
@@ -22,6 +22,8 @@ class Settings(BaseSettings):
 
     dev_user_id: str = "dev-user"
     require_user_header: bool = False
+    allow_legacy_user_header: bool = True
+    auth_session_days: int = Field(default=30, ge=1, le=365)
 
     embedding_provider: str = "hash"
     embedding_model: str = "BAAI/bge-m3"
