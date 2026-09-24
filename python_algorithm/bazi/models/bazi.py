@@ -25,6 +25,7 @@ from bazi.models.enums import (
     LocationSource,
     PillarLabel,
     QiTier,
+    SolarTerm,
     SpecialPattern,
     StemPosition,
     TenGod,
@@ -131,6 +132,19 @@ class ResolvedTime(StrictModel):
     equation_of_time_minutes: float
     true_solar_time: str
     crossed_pillar_boundary: bool
+
+
+class SolarTermPosition(StrictModel):
+    """Where the birth moment sits in the solar-term cycle; consumed by 1.2."""
+
+    current_term: SolarTerm
+    current_term_at: str
+    days_since_term: float
+    next_term: SolarTerm
+    next_term_at: str
+    days_to_next_term: float
+    month_term: SolarTerm
+    near_boundary: bool
 
 
 class LuckCycle(StrictModel):
@@ -256,6 +270,7 @@ class ResultMeta(StrictModel):
 class BaziChartResult(StrictModel):
     # 1.1
     resolved_time: ResolvedTime
+    solar_term: SolarTermPosition
     pillars: List[BaziPillar]
     elements: Dict[ElementKey, float]
     luck_cycles: List[LuckCycle]

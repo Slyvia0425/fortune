@@ -43,6 +43,7 @@ def test_returns_every_contract_section():
     body = post().json()
     for key in (
         "resolved_time",
+        "solar_term",
         "pillars",
         "elements",
         "luck_cycles",
@@ -203,3 +204,29 @@ def test_carries_source_references():
 
 def test_reasoning_trace_cites_its_rules():
     assert post().json()["reasoning_trace"]["sources"]
+
+
+
+def test_solar_term_position_is_present():
+    """1.2's climate branch keys off the term, so 1.1 must supply it."""
+    term = post().json()["solar_term"]
+    for key in ("current_term", "next_term", "month_term", "days_since_term",
+                "days_to_next_term", "near_boundary"):
+        assert key in term
+
+
+def test_month_term_opens_a_month_pillar():
+    """The month pillar is set by a 节, never by a 中气."""
+    from bazi.models.enums import JIE_TERMS, SolarTerm
+
+    term = post().json()["solar_term"]
+    assert SolarTerm(term["month_term"]) in JIE_TERMS
+
+
+def test_term_window_is_consistent():
+    """Elapsed and remaining days should span a plausible term (~15 days)."""
+    term = post().json()["solar_term"]
+    assert term["days_since_term"] >= 0
+    assert term["days_to_next_term"] >= 0
+    span = term["days_since_term"] + term["days_to_next_term"]
+    assert 13 <= span <= 17, f"term span {span} days is not plausible"

@@ -22,6 +22,18 @@ export async function calculateBazi(
       true_solar_time: input.birth_time,
       crossed_pillar_boundary: false,
     },
+    // Placeholder like the rest of this fallback; 1.2's climate rules read
+    // month_term and the position within the term.
+    solar_term: {
+      current_term: "bailu",
+      current_term_at: `${input.birth_date}T00:00:00`,
+      days_since_term: 5,
+      next_term: "qiufen",
+      next_term_at: `${input.birth_date}T00:00:00`,
+      days_to_next_term: 10,
+      month_term: "bailu",
+      near_boundary: false,
+    },
     pillars: [
       {
         label: "year",
@@ -101,20 +113,19 @@ export async function calculateBazi(
     ],
     disposition: {
       useful: ["fire", "earth"],
-      unfavourable: ["wood", "metal"],
+      unfavourable: ["wood", "water"],
       rationale: "模拟数据仅用于验证接口和页面结构。",
     },
     reasoning_trace: {
+      // Four factors so the page shows the whole arbitration shape even when
+      // the Python service isn't running; the weights sum to 1 as they will.
       factors: [
-        {
-          key: "seasonal_command",
-          score: 0.6,
-          weight: 0.4,
-          weighted_score: 0.24,
-          evidence: ["模拟月令因素"],
-        },
+        { key: "seasonal_command", score: 0.6, weight: 0.4, weighted_score: 0.24, evidence: ["模拟：月令因素"] },
+        { key: "rootedness", score: 0.5, weight: 0.3, weighted_score: 0.15, evidence: ["模拟：地支通根"] },
+        { key: "revealed_support", score: 0.4, weight: 0.2, weighted_score: 0.08, evidence: ["模拟：天干透出"] },
+        { key: "assisting_support", score: 0.3, weight: 0.1, weighted_score: 0.03, evidence: ["模拟：生扶力量"] },
       ],
-      fused_score: 0.24,
+      fused_score: 0.5,
       threshold_band: "mock",
       provisional_strength: "somewhat_strong",
       override: null,

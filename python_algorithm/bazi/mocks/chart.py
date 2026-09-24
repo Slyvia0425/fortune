@@ -29,6 +29,7 @@ from bazi.models.bazi import (
     ResolvedTime,
     ResultMeta,
     RuledOutPattern,
+    SolarTermPosition,
     SourceReference,
     StemBranch,
     StrengthFactor,
@@ -44,6 +45,7 @@ from bazi.models.enums import (
     HeavenlyStem,
     PillarLabel,
     QiTier,
+    SolarTerm,
     SpecialPattern,
     StemPosition,
     TenGod,
@@ -59,8 +61,8 @@ MOCK_WARNING = "计算引擎尚未接入：以下四柱、五行与建议均为�
 PLACEHOLDER_SOURCES = [
     SourceReference(
         source_id="ziping-zhenquan",
-        title="子平真诠",
-        edition="徐乐吾评注本",
+        title="子平真诠评注",
+        edition="徐乐吾注",
         chapter="placeholder",
     )
 ]
@@ -332,6 +334,18 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
             equation_of_time_minutes=0.0,
             true_solar_time=request.birth_time,
             crossed_pillar_boundary=False,
+        ),
+        solar_term=SolarTermPosition(
+            # Placeholder: the real values come from the solar-term calculation
+            # in 1.1. 1.2's climate rules read days_since_term and month_term.
+            current_term=SolarTerm.BAILU,
+            current_term_at=f"{request.birth_date}T00:00:00",
+            days_since_term=5.0,
+            next_term=SolarTerm.QIUFEN,
+            next_term_at=f"{request.birth_date}T00:00:00",
+            days_to_next_term=10.0,
+            month_term=SolarTerm.BAILU,
+            near_boundary=False,
         ),
         pillars=_pillars(),
         elements={

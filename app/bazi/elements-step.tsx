@@ -42,10 +42,6 @@ function onRing(angleDeg: number) {
   return { x: CX + RING * Math.cos(a), y: CY + RING * Math.sin(a) };
 }
 
-function formatValue(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1);
-}
-
 export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock: boolean }) {
   const dayMasterElement = chart.day_master.element;
   const positions = tenGodPositions(chart.pillars);
@@ -93,7 +89,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
   return (
     <>
       <h2>五行十神</h2>
-      <p className="kicker">命局结构</p>
+      <p className="kicker">{isMock ? "模拟数据" : "命局结构"}</p>
       <p className={styles.subline}>
         日主 {STEM_LABEL[chart.day_master.stem]}
         {ELEMENT_LABEL[dayMasterElement]} · 以下十神均相对日主而论
@@ -103,7 +99,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
       <section className={`${styles.section} ${styles.rise}`}>
         <div className={styles.sectionHead}>
           <h3>五行分布</h3>
-          <span>各五行在命局中的力量占比</span>
+          <span>按天干、地支与藏干加权计算后，各五行占全局的比例</span>
         </div>
         <div className={styles.donutRow}>
           <div className={styles.donut}>
@@ -155,7 +151,6 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
                       />
                     )}
                   </div>
-                  <span className={styles.num}>{formatValue(segment.value)}</span>
                   <span className={styles.pct}>
                     {total > 0 ? `${((segment.value / total) * 100).toFixed(1)}%` : "—"}
                   </span>
@@ -301,6 +296,10 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
           </h3>
           {trace.sources.length > 0 && <span>依据 {trace.sources.map((source) => `《${source.title}》`).join("")}</span>}
         </div>
+
+        <p className={styles.sectionNote}>
+          每行为「因子满足程度（0–1）× 权重 = 贡献值」，四项贡献相加即为加权合计；权重由标注案例调优得出。
+        </p>
 
         <div className={styles.factorList}>
           {trace.factors.map((factor) => (

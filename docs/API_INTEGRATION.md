@@ -24,7 +24,7 @@ Request:
 
 `birth_place` is an object, not a string: `latitude` and `longitude` are required because they drive true-solar-time correction, and `source` is `dropdown` or `manual_coordinates`. `birth_date` must be a real calendar date and `birth_time` is 24-hour `HH:mm`. `calendar` defaults to `solar`; `is_leap_month` only applies to lunar input. `timezone` is normally omitted — the service resolves it from the coordinates. Unknown fields are rejected, and `app/api/bazi/chart/route.ts` validates the same rules as the Python models, so change both together.
 
-Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. While the engine is incomplete the service returns placeholders with `meta.mock: true`; treat `result.meta.mock` as authoritative, since the envelope only knows whether Python was reached.
+Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. While the engine is incomplete the service returns placeholders with `meta.mock: true`; treat `result.meta.mock` as authoritative, since the envelope only knows whether Python was reached.
 
 ### POST /divination/cast
 

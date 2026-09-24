@@ -72,6 +72,39 @@ class SpecialPattern(str, Enum):
     DUAL_QI_FORMATION = "dual_qi_formation"
 
 
+class SolarTerm(str, Enum):
+    """The twenty-four solar terms, in calendar order.
+
+    JIE_TERMS below marks the twelve that open a month pillar; the rest are
+    中气 and fall mid-month.
+    """
+
+    LICHUN = "lichun"
+    YUSHUI = "yushui"
+    JINGZHE = "jingzhe"
+    CHUNFEN = "chunfen"
+    QINGMING = "qingming"
+    GUYU = "guyu"
+    LIXIA = "lixia"
+    XIAOMAN = "xiaoman"
+    MANGZHONG = "mangzhong"
+    XIAZHI = "xiazhi"
+    XIAOSHU = "xiaoshu"
+    DASHU = "dashu"
+    LIQIU = "liqiu"
+    CHUSHU = "chushu"
+    BAILU = "bailu"
+    QIUFEN = "qiufen"
+    HANLU = "hanlu"
+    SHUANGJIANG = "shuangjiang"
+    LIDONG = "lidong"
+    XIAOXUE = "xiaoxue"
+    DAXUE = "daxue"
+    DONGZHI = "dongzhi"
+    XIAOHAN = "xiaohan"
+    DAHAN = "dahan"
+
+
 class PillarLabel(str, Enum):
     YEAR = "year"
     MONTH = "month"
@@ -192,3 +225,38 @@ DISPLAY_STRENGTH = {
     DayMasterStrength.SOMEWHAT_WEAK: "偏弱",
     DayMasterStrength.VERY_WEAK: "太弱",
 }
+
+
+DISPLAY_SOLAR_TERM = {
+    SolarTerm.LICHUN: "立春",
+    SolarTerm.YUSHUI: "雨水",
+    SolarTerm.JINGZHE: "惊蛰",
+    SolarTerm.CHUNFEN: "春分",
+    SolarTerm.QINGMING: "清明",
+    SolarTerm.GUYU: "谷雨",
+    SolarTerm.LIXIA: "立夏",
+    SolarTerm.XIAOMAN: "小满",
+    SolarTerm.MANGZHONG: "芒种",
+    SolarTerm.XIAZHI: "夏至",
+    SolarTerm.XIAOSHU: "小暑",
+    SolarTerm.DASHU: "大暑",
+    SolarTerm.LIQIU: "立秋",
+    SolarTerm.CHUSHU: "处暑",
+    SolarTerm.BAILU: "白露",
+    SolarTerm.QIUFEN: "秋分",
+    SolarTerm.HANLU: "寒露",
+    SolarTerm.SHUANGJIANG: "霜降",
+    SolarTerm.LIDONG: "立冬",
+    SolarTerm.XIAOXUE: "小雪",
+    SolarTerm.DAXUE: "大雪",
+    SolarTerm.DONGZHI: "冬至",
+    SolarTerm.XIAOHAN: "小寒",
+    SolarTerm.DAHAN: "大寒",
+}
+
+# The twelve 节: each opens a month pillar. The others are 中气.
+JIE_TERMS = frozenset({
+    SolarTerm.LICHUN, SolarTerm.JINGZHE, SolarTerm.QINGMING, SolarTerm.LIXIA,
+    SolarTerm.MANGZHONG, SolarTerm.XIAOSHU, SolarTerm.LIQIU, SolarTerm.BAILU,
+    SolarTerm.HANLU, SolarTerm.LIDONG, SolarTerm.DAXUE, SolarTerm.XIAOHAN,
+})

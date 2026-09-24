@@ -7,11 +7,16 @@
 
 /* ---- element colours ---------------------------------------------------- */
 
-.el[data-element="wood"] { --el: #2f6b40; --el-tint: #e7efe8; }
-.el[data-element="fire"] { --el: #a8352a; --el-tint: #f5e6e2; }
-.el[data-element="earth"] { --el: #7d5f33; --el-tint: #efe8dd; }
-.el[data-element="metal"] { --el: #86621c; --el-tint: #f2ebdc; }
-.el[data-element="water"] { --el: #2a5580; --el-tint: #e5ecf3; }
+/* Two tones per element: --el for small text, which has to clear 4.5:1 on the
+   tinted blocks, and --el-strong for large characters, icons and chart fills,
+   which only need 3:1 and can therefore run brighter. Metal is the only one
+   where the two differ — gold bright enough to read as metal fails small-text
+   contrast. Earth is a grey-brown so it no longer sits next to gold. */
+.el[data-element="wood"]  { --el: #2f6b40; --el-strong: #2f6b40; --el-tint: #e7efe8; }
+.el[data-element="fire"]  { --el: #a8352a; --el-strong: #a8352a; --el-tint: #f5e6e2; }
+.el[data-element="earth"] { --el: #6f6151; --el-strong: #6f6151; --el-tint: #efe8dd; }
+.el[data-element="metal"] { --el: #86621c; --el-strong: #a3760f; --el-tint: #f2ebdc; }
+.el[data-element="water"] { --el: #2a5580; --el-strong: #2a5580; --el-tint: #e5ecf3; }
 
 /* ---- motion ------------------------------------------------------------- */
 
@@ -78,6 +83,15 @@
   border: 1px solid var(--line);
 }
 .calibStrip .arrow { color: var(--muted); }
+.termRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  flex-basis: 100%;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
 .calibStrip strong { color: var(--jade); font-weight: 600; }
 
 .board {
@@ -98,10 +112,16 @@
   background: var(--white);
   border: 1px solid var(--line);
 }
-.pillarCardDay { border: 2px solid var(--jade); padding: 17px 11px; }
+/* Lifted rather than outlined: a coloured border would collide with whichever
+   element the day master happens to be. */
+.pillarCardDay {
+  border-color: rgba(23, 32, 28, 0.3);
+  box-shadow: 0 10px 26px rgba(23, 32, 28, 0.13);
+  background: #fffefb;
+}
 
 .pillarLabel { font-size: 13px; color: var(--muted); }
-.pillarLabelDay { color: var(--red); font-weight: 600; }
+.pillarLabelDay { color: var(--ink); font-weight: 600; }
 
 .godPill {
   font-size: 13px;
@@ -109,7 +129,7 @@
   border: 1px solid var(--line);
   border-radius: 999px;
 }
-.godPillDay { background: var(--jade); color: #fff; border-color: var(--jade); }
+.godPillDay { background: var(--ink); color: #fff; border-color: var(--ink); }
 
 .tile {
   width: 100%;
@@ -129,8 +149,9 @@
   transition: transform 0.22s ease, box-shadow 0.22s ease, outline-color 0.15s ease;
 }
 .tile:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(23, 63, 53, 0.14); }
-.tile:focus-visible, .tile[aria-pressed="true"] { outline-color: var(--jade); }
-.tileChar { font-size: 46px; font-weight: 700; line-height: 1; }
+/* Neutral so it doesn't read as a sixth element colour. */
+.tile:focus-visible, .tile[aria-pressed="true"] { outline-color: rgba(23, 32, 28, 0.45); }
+.tileChar { font-size: 46px; font-weight: 700; line-height: 1; color: var(--el-strong); }
 .tileMeta { display: flex; align-items: center; gap: 4px; font-size: 12px; }
 
 .hiddenList { display: grid; gap: 8px; width: 100%; }
@@ -139,7 +160,7 @@
 .hiddenRow b { color: var(--el); }
 .hiddenRow span:last-child { color: var(--muted); }
 .qiTrack { height: 4px; background: rgba(23, 32, 28, 0.08); }
-.qiBar { height: 4px; background: var(--el); }
+.qiBar { height: 4px; background: var(--el-strong); }
 
 .aside {
   display: flex;
@@ -149,7 +170,7 @@
   background: rgba(23, 63, 53, 0.035);
   border: 1px solid var(--line);
 }
-.asideChar { font-size: 64px; font-weight: 700; line-height: 1; color: var(--el); }
+.asideChar { font-size: 64px; font-weight: 700; line-height: 1; color: var(--el-strong); }
 .asideTitle { font-size: 19px; font-weight: 600; }
 .asidePlace { font-size: 14px; color: var(--muted); }
 .divider { height: 1px; background: var(--line); }
@@ -168,6 +189,13 @@
 }
 .legend span.el { display: inline-flex; align-items: center; gap: 5px; color: var(--el); }
 
+.legendNote {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
 /* ---- step 03: elements & ten gods --------------------------------------- */
 
 .section {
@@ -182,6 +210,7 @@
 .sectionHead { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
 .sectionHead h3 { margin: 0; font-size: 21px; font-weight: 500; display: flex; align-items: center; gap: 12px; }
 .sectionHead > span { font-size: 13px; color: var(--muted); }
+.sectionNote { margin: -6px 0 0; font-size: 13px; line-height: 1.8; color: var(--muted); }
 
 .donutRow { display: flex; align-items: center; gap: 44px; flex-wrap: wrap; }
 .donut { position: relative; width: 200px; height: 200px; flex-shrink: 0; }
@@ -195,24 +224,23 @@
   gap: 2px;
 }
 .donutCenter small { font-size: 12px; color: var(--muted); }
-.donutCenter strong { font-size: 28px; color: var(--el); }
-.segment { stroke: var(--el); animation: draw 0.9s ease-out both; }
+.donutCenter strong { font-size: 28px; color: var(--el-strong); }
+.segment { stroke: var(--el-strong); animation: draw 0.9s ease-out both; }
 @keyframes draw { from { stroke-dasharray: 0 1000; } }
 
 .legendGrid { flex: 1; min-width: 280px; display: grid; gap: 12px; }
 .legendRow {
   display: grid;
-  grid-template-columns: 18px 26px 128px minmax(0, 1fr) 44px 52px;
+  grid-template-columns: 18px 26px 128px minmax(0, 1fr) 56px;
   gap: 10px;
   align-items: center;
   font-size: 15px;
   color: var(--el);
 }
 .legendRow .groupText { font-size: 13px; color: var(--muted); }
-.legendRow .num { color: var(--ink); text-align: right; }
 .legendRow .pct { font-size: 13px; color: var(--muted); text-align: right; }
 .barTrack { height: 8px; background: rgba(23, 32, 28, 0.07); }
-.barFill { height: 8px; background: var(--el); }
+.barFill { height: 8px; background: var(--el-strong); }
 
 .relationGrid {
   display: grid;
@@ -234,7 +262,7 @@
   pointer-events: none;
 }
 .cycleCenter small { font-size: 11px; color: var(--muted); }
-.cycleCenter strong { font-size: 18px; color: var(--el); }
+.cycleCenter strong { font-size: 18px; color: var(--el-strong); }
 
 /* Positioned by its centre; the inner button keeps `transform` free for the
    entrance animation. */
@@ -255,9 +283,9 @@
   transition: box-shadow 0.2s ease, outline-color 0.15s ease;
 }
 .node:hover { box-shadow: 0 6px 18px rgba(23, 63, 53, 0.2); }
-.node:focus-visible, .node[aria-pressed="true"] { outline-color: var(--jade); }
+.node:focus-visible, .node[aria-pressed="true"] { outline-color: rgba(23, 32, 28, 0.45); }
 .nodeEmpty { border-style: dashed; }
-.nodeChar { font-size: 22px; font-weight: 700; line-height: 1; }
+.nodeChar { font-size: 22px; font-weight: 700; line-height: 1; color: var(--el-strong); }
 .nodeLabel { font-size: 11px; }
 
 .cycleLegend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; font-size: 12px; color: var(--muted); }
@@ -276,13 +304,13 @@
   border: 1px solid var(--line);
 }
 .groupNoteHead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.groupNoteHead b { font-size: 40px; line-height: 1; color: var(--el); }
+.groupNoteHead b { font-size: 40px; line-height: 1; color: var(--el-strong); }
 .groupNoteHead strong { font-size: 22px; font-weight: 600; }
 .groupNoteHead span { font-size: 15px; color: var(--muted); }
 .groupNote p { margin: 0; font-size: 14px; line-height: 1.85; }
 .positionList { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; font-size: 14px; }
 .positionList li { display: flex; align-items: center; gap: 10px; }
-.positionList li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--el); }
+.positionList li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--el-strong); }
 
 .factorList { display: grid; gap: 2px; }
 .factorRow {
@@ -355,6 +383,6 @@
   .pillarGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .factorRow { grid-template-columns: 48px minmax(0, 1fr); padding: 10px 12px; }
   .factorRow .factorTrack, .factorRow .value { grid-column: 2; }
-  .legendRow { grid-template-columns: 18px 26px minmax(0, 1fr) 40px 48px; }
+  .legendRow { grid-template-columns: 18px 26px minmax(0, 1fr) 52px; }
   .legendRow .barTrack { display: none; }
 }

@@ -79,6 +79,41 @@ export type SpecialPattern =
   | "dominant_element"     // 专旺格
   | "dual_qi_formation";   // 两气成象
 
+/**
+ * The twenty-four solar terms, in calendar order.
+ *
+ * Twelve of them are 节 (lichun, jingzhe, qingming, lixia, mangzhong, xiaoshu,
+ * liqiu, bailu, hanlu, lidong, daxue, xiaohan) and open a month pillar; the
+ * other twelve are 中气 and fall mid-month. The distinction matters because
+ * some rules split a month at its 中气 — Qiong Tong Bao Jian, for instance,
+ * treats a wood day master born before and after 秋分 differently.
+ */
+export type SolarTerm =
+  | "lichun"      // 立春 · 节
+  | "yushui"      // 雨水
+  | "jingzhe"     // 惊蛰 · 节
+  | "chunfen"     // 春分
+  | "qingming"    // 清明 · 节
+  | "guyu"        // 谷雨
+  | "lixia"       // 立夏 · 节
+  | "xiaoman"     // 小满
+  | "mangzhong"   // 芒种 · 节
+  | "xiazhi"      // 夏至
+  | "xiaoshu"     // 小暑 · 节
+  | "dashu"       // 大暑
+  | "liqiu"       // 立秋 · 节
+  | "chushu"      // 处暑
+  | "bailu"       // 白露 · 节
+  | "qiufen"      // 秋分
+  | "hanlu"       // 寒露 · 节
+  | "shuangjiang" // 霜降
+  | "lidong"      // 立冬 · 节
+  | "xiaoxue"     // 小雪
+  | "daxue"       // 大雪 · 节
+  | "dongzhi"     // 冬至
+  | "xiaohan"     // 小寒 · 节
+  | "dahan";      // 大寒
+
 export type PillarLabel = "year" | "month" | "day" | "hour";
 
 export type LocationSource = "dropdown" | "manual_coordinates";
@@ -169,6 +204,34 @@ export interface ResolvedTime {
   true_solar_time: string;
   /** True when true solar time pushed the chart across a pillar boundary. */
   crossed_pillar_boundary: boolean;
+}
+
+/**
+ * Where the birth moment sits in the solar-term cycle.
+ *
+ * Consumed by 1.2: the climate branch of the useful-god derivation keys off the
+ * term, and some of its rules turn on which side of a 中气 the birth falls.
+ */
+export interface SolarTermPosition {
+  /** Most recent term passed, whether 节 or 中气. */
+  current_term: SolarTerm;
+  /** When that term began, ISO 8601 in the birth place's timezone. */
+  current_term_at: string;
+  /** Decimal days elapsed since it. */
+  days_since_term: number;
+  next_term: SolarTerm;
+  next_term_at: string;
+  days_to_next_term: number;
+  /**
+   * The 节 that opened this month pillar. Equals current_term when the birth
+   * falls before the month's 中气.
+   */
+  month_term: SolarTerm;
+  /**
+   * True within a day of a term boundary, where a small error in the computed
+   * birth moment could put the chart on the other side of the rule.
+   */
+  near_boundary: boolean;
 }
 
 /** Display-only. Carries no interpretation. */
@@ -327,6 +390,8 @@ export interface AdvisoryDomainResult {
 export interface BaziChartResult {
   /* --- 1.1 --- */
   resolved_time: ResolvedTime;
+  /** Consumed by 1.2's climate branch; see SolarTermPosition. */
+  solar_term: SolarTermPosition;
   pillars: BaziPillar[];
   elements: Record<ElementKey, number>;
   /** Display only — no interpretation attached. */

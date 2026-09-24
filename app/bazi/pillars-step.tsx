@@ -1,6 +1,13 @@
 import { useState } from "react";
 import type { BaziChartResult } from "@/lib/contracts/bazi";
-import { ELEMENT_LABEL, PILLAR_LABEL, QI_LABEL, STEM_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
+import {
+  ELEMENT_LABEL,
+  PILLAR_LABEL,
+  QI_LABEL,
+  SOLAR_TERM_LABEL,
+  STEM_LABEL,
+  TEN_GOD_LABEL,
+} from "@/lib/bazi/display";
 import { cellNote, chartCells, GENERATING_ORDER, type ChartCell } from "@/lib/bazi/structure";
 import { ElementIcon } from "./element-icon";
 import styles from "./bazi-chart.module.css";
@@ -32,6 +39,7 @@ export function PillarsStep({
   const selected = cells.find((cell) => cell.id === selectedId) ?? dayMaster;
   const note = cellNote(selected, dayMaster);
   const time = chart.resolved_time;
+  const term = chart.solar_term;
 
   function renderTile(cell: ChartCell) {
     const meta = cell.polarity
@@ -105,7 +113,19 @@ export function PillarsStep({
           <span>均时差 {signed(time.equation_of_time_minutes)} 分</span>
           <span className={styles.arrow}>→</span>
           <strong>真太阳时 {time.true_solar_time}</strong>
+          {time.crossed_pillar_boundary && <span className={styles.arrow}>|</span>}
           {time.crossed_pillar_boundary && <span className="notice">校正后跨越了时柱边界</span>}
+          {/* The month pillar is set by a 节; some rules in 1.2 additionally
+              split the month at its 中气, so the position within the term is
+              shown, not just which month it is. */}
+          <span className={styles.termRow}>
+            节气：{SOLAR_TERM_LABEL[term.current_term]}后 {term.days_since_term.toFixed(1)} 天
+            <span className={styles.arrow}>·</span>
+            距{SOLAR_TERM_LABEL[term.next_term]} {term.days_to_next_term.toFixed(1)} 天
+            <span className={styles.arrow}>·</span>
+            月令取{SOLAR_TERM_LABEL[term.month_term]}
+            {term.near_boundary && <span className="notice">　接近节气交界，结论对出生时刻较敏感</span>}
+          </span>
         </div>
       )}
 
@@ -181,6 +201,9 @@ export function PillarsStep({
             {ELEMENT_LABEL[element]}
           </span>
         ))}
+        <p className={styles.legendNote}>
+          藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。
+        </p>
       </div>
 
       <p className="panel-intro" style={{ marginTop: 20 }}>
