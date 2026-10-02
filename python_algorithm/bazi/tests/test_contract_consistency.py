@@ -21,9 +21,15 @@ from pathlib import Path
 import pytest
 
 from bazi.models.enums import (
+    ArbitrationOutcome,
+    DerivationMethod,
+    DISPLAY_ARBITRATION,
+    DISPLAY_LUCK_DIRECTION,
     DISPLAY_BRANCH,
+    DISPLAY_METHOD,
     DISPLAY_ELEMENT,
     DISPLAY_PATTERN,
+    DISPLAY_PILLAR,
     DISPLAY_STEM,
     DISPLAY_STRENGTH,
     DISPLAY_TEN_GOD,
@@ -32,6 +38,7 @@ from bazi.models.enums import (
     EarthlyBranch,
     ElementKey,
     HeavenlyStem,
+    LuckDirection,
     SolarTerm,
     SpecialPattern,
     TenGod,
@@ -93,6 +100,9 @@ def assert_same(label: str, ts: set[str], py: set[str]) -> None:
         ("DayMasterStrength", DayMasterStrength),
         ("SpecialPattern", SpecialPattern),
         ("SolarTerm", SolarTerm),
+        ("DerivationMethod", DerivationMethod),
+        ("ArbitrationOutcome", ArbitrationOutcome),
+        ("LuckDirection", LuckDirection),
     ],
 )
 def test_enum_values_match(type_name, enum_cls):
@@ -110,7 +120,11 @@ DISPLAY_PAIRS = [
     ("TEN_GOD_LABEL", DISPLAY_TEN_GOD),
     ("STRENGTH_LABEL", DISPLAY_STRENGTH),
     ("PATTERN_LABEL", DISPLAY_PATTERN),
+    ("PILLAR_LABEL", DISPLAY_PILLAR),
     ("SOLAR_TERM_LABEL", DISPLAY_SOLAR_TERM),
+    ("METHOD_LABEL", DISPLAY_METHOD),
+    ("ARBITRATION_LABEL", DISPLAY_ARBITRATION),
+    ("LUCK_DIRECTION_LABEL", DISPLAY_LUCK_DIRECTION),
 ]
 
 

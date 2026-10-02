@@ -315,13 +315,51 @@
 .factorList { display: grid; gap: 2px; }
 .factorRow {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) 160px 132px;
+  grid-template-columns: 56px minmax(0, 1fr) 160px 148px;
   gap: 14px;
   align-items: center;
+  width: 100%;
   min-height: 50px;
-  padding: 0 12px;
+  padding: 4px 12px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.18s ease;
 }
-.factorRow:nth-child(odd) { background: rgba(23, 63, 53, 0.035); }
+.factorRow:disabled { cursor: default; }
+.factorRow:not(:disabled):hover { background: rgba(23, 63, 53, 0.06); }
+.factorRow:focus-visible { outline: 2px solid var(--jade); outline-offset: -2px; }
+
+/* Chevron; rotates when the row is open. */
+.caret {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 10px;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s ease;
+}
+.factorRow[aria-expanded="true"] .caret { transform: rotate(-135deg) translateY(-2px); }
+
+.factorDetail {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 6px 14px;
+  margin: 0;
+  padding: 12px 12px 14px 68px;
+  font-size: 13px;
+  line-height: 1.8;
+  background: rgba(23, 63, 53, 0.04);
+  border-left: 2px solid var(--jade);
+}
+.factorDetail dt { color: var(--muted); }
+.factorDetail dd { margin: 0; }
+.factorList > div:nth-child(odd) .factorRow { background: rgba(23, 63, 53, 0.035); }
 .factorRow b { font-size: 16px; font-weight: 600; }
 .factorRow .evidence { font-size: 14px; }
 .factorRow .value { font-size: 14px; text-align: right; }
@@ -382,7 +420,317 @@
 @media (max-width: 800px) {
   .pillarGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .factorRow { grid-template-columns: 48px minmax(0, 1fr); padding: 10px 12px; }
+  .factorDetail { grid-template-columns: 1fr; padding-left: 12px; }
   .factorRow .factorTrack, .factorRow .value { grid-column: 2; }
   .legendRow { grid-template-columns: 18px 26px minmax(0, 1fr) 52px; }
   .legendRow .barTrack { display: none; }
+}
+
+/* ---- 用神推导：两法并排 + 仲裁通栏 ------------------------------------ */
+
+/* The two chains are compared at the conclusion level, where they carry
+   comparable amounts of information; the long strength derivation stays
+   full-width above, so the cards balance without forcing equal heights. */
+.derivationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.methodCard {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 18px 20px;
+  background: rgba(23, 63, 53, 0.03);
+  border: 1px solid var(--line);
+}
+.methodCardAdopted {
+  background: #eef2ee;
+  border-color: #c3d2c7;
+}
+
+.methodHead { display: flex; align-items: center; gap: 10px; }
+.methodHead strong { font-size: 18px; }
+.adoptedTag {
+  padding: 1px 10px;
+  font-size: 12px;
+  color: #fff;
+  background: var(--jade);
+}
+
+.methodBasis { margin: 0; font-size: 14px; line-height: 1.8; }
+
+.chipRow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.chipLabel { font-size: 13px; color: var(--muted); }
+.chip, .chipMuted {
+  padding: 2px 12px;
+  font-size: 15px;
+  color: var(--el-strong);
+  background: var(--el-tint);
+}
+/* Unfavourable elements are outlined rather than filled, so the two rows stay
+   distinguishable without introducing a colour that competes with the five. */
+.chipMuted {
+  background: transparent;
+  border: 1px solid var(--el);
+  opacity: 0.75;
+}
+
+.methodSource {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.arbitration {
+  display: grid;
+  gap: 10px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--jade);
+}
+.arbitrationHead { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.arbitrationHead strong { font-size: 18px; color: var(--jade); }
+.arbitrationTag {
+  padding: 2px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  background: rgba(23, 32, 28, 0.06);
+}
+
+@media (max-width: 1080px) {
+  .derivationGrid { grid-template-columns: 1fr; }
+}
+
+/* ---- 大运（并入四柱排盘页） --------------------------------------------- */
+
+.luckBlock { display: grid; gap: 14px; margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+
+.timeline { display: grid; gap: 8px; }
+.timelineHead { display: flex; align-items: baseline; gap: 12px; }
+.timelineTitle { font-size: 15px; font-weight: 600; }
+.timelineNote { font-size: 12px; color: var(--muted); }
+
+/* One row, scrolled sideways rather than wrapped: wrapping turns a timeline
+   into a grid and the order stops reading as time. */
+.timelineRow {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 2px 8px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.timelineRow::-webkit-scrollbar { height: 6px; }
+.timelineRow::-webkit-scrollbar-thumb { background: rgba(23, 32, 28, 0.18); border-radius: 3px; }
+
+.luckCard {
+  position: relative;
+  flex: 0 0 auto;
+  width: 96px;
+  scroll-snap-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 14px 6px 12px;
+  font-family: inherit;
+  color: inherit;
+  text-align: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.luckCard:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(23, 32, 28, 0.1); }
+.luckCard:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+
+/* Selected, not "now": a neutral lift, so it never reads as an element colour. */
+.luckCardCurrent {
+  border-color: rgba(23, 32, 28, 0.32);
+  box-shadow: 0 8px 20px rgba(23, 32, 28, 0.13);
+  background: #fffefb;
+}
+
+.luckAge { font-size: 12px; color: var(--ink); line-height: 1.5; }
+.luckYear { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 4px; }
+
+/* Character with its ten god beside it, as the reference charts print them. */
+.luckChar { display: flex; align-items: baseline; justify-content: center; gap: 3px; color: var(--el-strong); }
+.luckChar b { font-size: 24px; font-weight: 600; line-height: 1.3; }
+.luckChar i { font-size: 11px; font-style: normal; color: var(--el); }
+
+.luckNow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #fff;
+  background: var(--ink);
+}
+
+@media (max-width: 800px) {
+  .luckCard { width: 86px; }
+}
+
+/* ---- 步骤 04 命局释义 --------------------------------------------------- */
+
+/* Everything on this page rests on 1.2's conclusions; the strip says so
+   rather than letting the reader assume it was derived here. */
+.carryOver {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 20px 0 8px;
+  padding: 14px 18px;
+  font-size: 15px;
+  background: rgba(23, 63, 53, 0.04);
+  border-left: 3px solid var(--jade);
+}
+
+.entryList { display: grid; gap: 14px; margin-top: 16px; }
+
+.entryCard {
+  display: grid;
+  gap: 12px;
+  padding: 20px 22px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+
+.entryHead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.entryHead strong { font-size: 20px; }
+.entryCount { font-size: 13px; color: var(--muted); }
+.entryGloss { font-size: 15px; }
+
+.quote {
+  margin: 0;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #3d3a34;
+  background: rgba(23, 32, 28, 0.035);
+  border-left: 2px solid var(--line);
+}
+.quote cite { display: block; margin-top: 4px; font-size: 12px; font-style: normal; color: var(--muted); }
+
+.occurrenceRow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.occurrence {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 3px 10px;
+  background: var(--el-tint);
+}
+.occurrence b { font-size: 19px; font-weight: 600; color: var(--el-strong); }
+.occurrence small { font-size: 12px; color: var(--el); }
+.dispositionTag { padding-left: 4px; border-left: 1px solid rgba(23, 32, 28, 0.15); }
+
+.narrative { margin: 18px 0 0; font-size: 15px; line-height: 1.9; color: #3d3a34; }
+
+.noQuote {
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+  background: rgba(23, 32, 28, 0.03);
+  border-left: 2px solid var(--line);
+}
+
+/* ---- 方向参考 ----------------------------------------------------------- */
+
+.domainTabs { display: flex; gap: 4px; margin: 22px 0 6px; border-bottom: 1px solid var(--line); }
+.domainTab {
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+.domainTab:hover { color: var(--ink); }
+.domainTabActive { color: var(--ink); font-weight: 600; border-bottom-color: var(--jade); }
+
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  font-size: 13px;
+  color: #fff;
+  background: var(--jade);
+  border-radius: 50%;
+}
+
+/* Relative to the best category in the same domain: the raw points are a sum
+   of table hits and carry no meaning on their own. */
+.fitBar { flex: 1; min-width: 60px; height: 6px; background: rgba(23, 32, 28, 0.08); }
+.fitFill { display: block; height: 6px; background: var(--jade); }
+
+.advisoryLine { display: flex; gap: 8px; margin: 0; font-size: 14px; line-height: 1.9; }
+.tagUseful, .tagCaution {
+  flex: 0 0 auto;
+  height: fit-content;
+  padding: 1px 8px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.tagUseful { color: #fff; background: var(--jade); }
+.tagCaution { color: var(--ink); background: rgba(182, 145, 82, 0.28); }
+
+/* ---- 命局倾向对照（第四页） ------------------------------------------- */
+
+.tabs { display: flex; gap: 4px; margin-top: 22px; border-bottom: 1px solid var(--line); }
+.tab {
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.tab:hover { color: var(--ink); }
+.tabActive { color: var(--ink); font-weight: 600; border-bottom-color: var(--jade); }
+
+.tallyList { display: grid; gap: 14px; margin-top: 20px; }
+
+.tallyCard {
+  display: grid;
+  gap: 12px;
+  padding: 20px 22px;
+  background: var(--white);
+  border: 1px solid var(--line);
+}
+/* Groups the chart does not hold are still listed; muted so the page reads at
+   a glance, but never hidden — absence is part of the picture. */
+.tallyCardEmpty { background: transparent; }
+.tallyCardEmpty .tallyHead strong { color: var(--muted); }
+
+.tallyHead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.tallyHead strong { font-size: 20px; font-weight: 600; }
+.tallyCount { font-size: 14px; color: var(--muted); }
+.dispositionUseful { color: var(--jade); }
+
+.groupNarrative { margin: 0; font-size: 15px; line-height: 1.9; }
+
+.groupTag {
+  padding: 1px 9px;
+  font-size: 13px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
 }

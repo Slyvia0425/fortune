@@ -24,7 +24,7 @@ Request:
 
 `birth_place` is an object, not a string: `latitude` and `longitude` are required because they drive true-solar-time correction, and `source` is `dropdown` or `manual_coordinates`. `birth_date` must be a real calendar date and `birth_time` is 24-hour `HH:mm`. `calendar` defaults to `solar`; `is_leap_month` only applies to lunar input. `timezone` is normally omitted — the service resolves it from the coordinates. Unknown fields are rejected, and `app/api/bazi/chart/route.ts` validates the same rules as the Python models, so change both together.
 
-Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. While the engine is incomplete the service returns placeholders with `meta.mock: true`; treat `result.meta.mock` as authoritative, since the envelope only knows whether Python was reached.
+Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle — module 1.2's climate rules key off `month_term` and off how far into the term the birth falls, so a month pillar alone is not enough. Its fields compare the birth moment against the term in **civil time, uncorrected**: a solar term is one astronomical instant worldwide, so true solar time shifts the hour pillar but never the month. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. While the engine is incomplete the service returns placeholders with `meta.mock: true`; treat `result.meta.mock` as authoritative, since the envelope only knows whether Python was reached.
 
 ### POST /divination/cast
 
@@ -56,19 +56,7 @@ Every browser-facing response follows `ApiEnvelope<T>` in `lib/contracts/api.ts`
 
 ## Divination chatbot
 
-`POST /api/divination/chat` accepts a short conversation and returns either one necessary follow-up question or a ready-to-run divination request. It does not calculate hexagrams, rewrite source text, or produce an authoritative interpretation. Guanyin lots are handled only by the separate `/guanyin` module.
-
-By default it uses a deterministic parser, including relative dates such as `明天`. Optionally configure an OpenAI-compatible LLM to extract the question, time range, casting method and numbers from more natural Chinese. The LLM is server-side only and returns constrained JSON; its output is validated before dispatch. If it is unavailable, invalid, or unset, the deterministic parser is used instead. The LLM never calculates a hexagram: `/api/divination/cast` still sends the final request to Python's deterministic rule engine.
-
-When enabled, the conversation supplied to this endpoint is sent to the configured LLM provider for intent extraction. Do not send sensitive personal information unless your chosen provider and deployment policy permit it.
-
-```bash
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_API_KEY=your_server_side_key
-LLM_MODEL=gpt-4.1-mini
-```
-
-When an otherwise complete request does not specify a casting method, the LLM coordinator selects `random`; users may instead explicitly request `数字起卦` with two or three numbers, or `三币起卦`.
+`POST /api/divination/chat` accepts a short conversation and returns either one necessary follow-up question or a ready-to-run divination request. It is deliberately a rule-based conversation coordinator: it does not calculate hexagrams, rewrite source text, or produce an authoritative interpretation. Guanyin lots are handled only by the separate `/guanyin` module.
 
 ```json
 {

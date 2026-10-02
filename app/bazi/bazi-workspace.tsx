@@ -5,14 +5,8 @@ import type { ApiEnvelope } from "@/lib/contracts/api";
 import type { BaziChartRequest, BaziChartResult, BirthPlace } from "@/lib/contracts/bazi";
 import { CITY_OPTIONS } from "@/lib/bazi/cities";
 import { ElementsStep } from "./elements-step";
+import { AdvisoryStep } from "./advisory-step";
 import { PillarsStep } from "./pillars-step";
-import {
-  BRANCH_LABEL,
-  DISPOSITION_LABEL,
-  DOMAIN_LABEL,
-  STEM_LABEL,
-  TEN_GOD_LABEL,
-} from "@/lib/bazi/display";
 
 type PlaceMode = "dropdown" | "manual_coordinates";
 
@@ -20,8 +14,7 @@ const STEPS = [
   { id: 1, label: "出生信息" },
   { id: 2, label: "四柱排盘" },
   { id: 3, label: "五行十神" },
-  { id: 4, label: "大运流年" },
-  { id: 5, label: "方向推荐" },
+  { id: 4, label: "倾向对照" },
 ] as const;
 
 const MINUTES = Array.from({ length: 60 }, (_, i) => i);
@@ -513,102 +506,15 @@ export default function BaziWorkspace() {
         )}
 
         {/* ---------------------------------------------------------- */}
-        {/* 04 大运流年 — display only, no interpretation                */}
+        {/* 04 命局释义                                                  */}
         {/* ---------------------------------------------------------- */}
         {step === 4 && chart && (
           <>
-            <h2>大运流年</h2>
-            <p className="panel-intro">以下为推算结果展示，不含有利与否的判断。</p>
-
-            <div className="pillars">
-              {chart.luck_cycles.map((cycle) => (
-                <div className="pillar" key={cycle.start_age}>
-                  <small>
-                    {cycle.start_age}–{cycle.end_age} 岁
-                  </small>
-                  <strong>
-                    {STEM_LABEL[cycle.stem]}
-                    {BRANCH_LABEL[cycle.branch]}
-                  </strong>
-                  <small>
-                    {cycle.start_year}–{cycle.end_year}
-                  </small>
-                </div>
-              ))}
-            </div>
-
-            <p className="panel-intro">
-              当前：{chart.current_period.year.year} 年{" "}
-              {STEM_LABEL[chart.current_period.year.stem]}
-              {BRANCH_LABEL[chart.current_period.year.branch]}　
-              {STEM_LABEL[chart.current_period.month.stem]}
-              {BRANCH_LABEL[chart.current_period.month.branch]} 月　
-              {STEM_LABEL[chart.current_period.day.stem]}
-              {BRANCH_LABEL[chart.current_period.day.branch]} 日
-            </p>
-
+            <AdvisoryStep chart={chart} isMock={isMock} />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}
 
-        {/* ---------------------------------------------------------- */}
-        {/* 05 方向推荐                                                  */}
-        {/* ---------------------------------------------------------- */}
-        {step === 5 && chart && (
-          <>
-            <h2>方向推荐</h2>
-            <p className="panel-intro">
-              以下为传统命理体系下的结构契合度参考，并非对现实结果的预测。
-            </p>
-
-            {chart.advisory
-              .filter((domain) => domain.domain === "career")
-              .map((domain) => (
-                <div key={domain.domain}>
-                  <p className="kicker">{DOMAIN_LABEL[domain.domain]}</p>
-                  <ul>
-                    {domain.categories.map((category) => (
-                      <li key={category.category} style={{ marginBottom: 12 }}>
-                        <strong>
-                          {category.rank}. {category.display_name}
-                        </strong>
-                        （契合度 {category.fit_score}）
-                        {category.strengths.length > 0 && (
-                          <div>优点：{category.strengths.join("；")}</div>
-                        )}
-                        {category.considerations.length > 0 && (
-                          <div>可留意：{category.considerations.join("；")}</div>
-                        )}
-                        <small>
-                          依据：
-                          {category.citations
-                            .map(
-                              (citation) =>
-                                `${TEN_GOD_LABEL[citation.ten_god]}（${
-                                  DISPOSITION_LABEL[citation.disposition]
-                                } +${citation.points}）`,
-                            )
-                            .join("、")}
-                        </small>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="panel-intro">{domain.narrative}</p>
-                </div>
-              ))}
-
-            {chart.source_refs.length > 0 && (
-              <p className="form-note">
-                参考文献：
-                {chart.source_refs
-                  .map((ref) => [ref.title, ref.edition, ref.chapter].filter(Boolean).join(" · "))
-                  .join("；")}
-              </p>
-            )}
-
-            <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
-          </>
-        )}
       </section>
     </div>
   );

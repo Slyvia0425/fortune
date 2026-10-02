@@ -105,6 +105,32 @@ class SolarTerm(str, Enum):
     DAHAN = "dahan"
 
 
+class DerivationMethod(str, Enum):
+    """扶抑 / 调候：本模块并行运行的两种取用方法。"""
+
+    SUPPORTING = "supporting"
+    CLIMATIC = "climatic"
+
+
+class ArbitrationOutcome(str, Enum):
+    AGREE = "agree"
+    SUPPORTING = "supporting"
+    CLIMATIC = "climatic"
+    BOTH = "both"
+    OTHER = "other"
+
+
+class LuckDirection(str, Enum):
+    FORWARD = "forward"
+    REVERSE = "reverse"
+
+
+class AdvisoryDomain(str, Enum):
+    CAREER = "career"
+    STUDY = "study"
+    WEALTH = "wealth"
+
+
 class PillarLabel(str, Enum):
     YEAR = "year"
     MONTH = "month"
@@ -145,10 +171,14 @@ class Disposition(str, Enum):
     NEUTRAL = "neutral"
 
 
-class AdvisoryDomain(str, Enum):
-    CAREER = "career"
-    STUDY = "study"
+class TenGodGroup(str, Enum):
+    """十神按与日主的关系分五组。"""
+
+    COMPANION = "companion"
+    OUTPUT = "output"
     WEALTH = "wealth"
+    OFFICER = "officer"
+    RESOURCE = "resource"
 
 
 class FactorKey(str, Enum):
@@ -260,3 +290,47 @@ JIE_TERMS = frozenset({
     SolarTerm.MANGZHONG, SolarTerm.XIAOSHU, SolarTerm.LIQIU, SolarTerm.BAILU,
     SolarTerm.HANLU, SolarTerm.LIDONG, SolarTerm.DAXUE, SolarTerm.XIAOHAN,
 })
+
+
+DISPLAY_METHOD = {
+    DerivationMethod.SUPPORTING: "扶抑",
+    DerivationMethod.CLIMATIC: "调候",
+}
+
+DISPLAY_ARBITRATION = {
+    ArbitrationOutcome.AGREE: "两法一致",
+    ArbitrationOutcome.SUPPORTING: "采纳扶抑",
+    ArbitrationOutcome.CLIMATIC: "采纳调候",
+    ArbitrationOutcome.BOTH: "两者兼用",
+    ArbitrationOutcome.OTHER: "其他",
+}
+
+
+DISPLAY_LUCK_DIRECTION = {
+    LuckDirection.FORWARD: "顺排",
+    LuckDirection.REVERSE: "逆排",
+}
+
+
+DISPLAY_TEN_GOD_GROUP = {
+    TenGodGroup.COMPANION: "比劫",
+    TenGodGroup.OUTPUT: "食伤",
+    TenGodGroup.WEALTH: "财",
+    TenGodGroup.OFFICER: "官杀",
+    TenGodGroup.RESOURCE: "印",
+}
+
+
+DISPLAY_ADVISORY_DOMAIN = {
+    AdvisoryDomain.CAREER: "职业方向",
+    AdvisoryDomain.STUDY: "学业方向",
+    AdvisoryDomain.WEALTH: "财运",
+}
+
+
+DISPLAY_PILLAR = {
+    PillarLabel.YEAR: "年柱",
+    PillarLabel.MONTH: "月柱",
+    PillarLabel.DAY: "日柱",
+    PillarLabel.HOUR: "时柱",
+}

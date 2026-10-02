@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { BaziChartResult, DayMasterStrength, ElementKey } from "@/lib/contracts/bazi";
 import {
+  ARBITRATION_LABEL,
   ELEMENT_LABEL,
   FACTOR_LABEL,
+  METHOD_LABEL,
   PATTERN_LABEL,
   STEM_LABEL,
   STRENGTH_LABEL,
@@ -44,6 +46,8 @@ function onRing(angleDeg: number) {
 
 export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock: boolean }) {
   const dayMasterElement = chart.day_master.element;
+  // Which factor row is expanded; null when all are collapsed.
+  const [openFactor, setOpenFactor] = useState<string | null>(null);
   const positions = tenGodPositions(chart.pillars);
 
   // Relation diagram: day master's element at the top, the rest clockwise in
@@ -78,6 +82,8 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
   }));
 
   const trace = chart.reasoning_trace;
+  const derivation = chart.derivation;
+  const arbitration = derivation.arbitration;
   const override = trace.override;
   const checks = [
     ...(override && (override.triggered || !override.ruled_out.some((item) => item.pattern === override.pattern))
@@ -298,25 +304,73 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
         </div>
 
         <p className={styles.sectionNote}>
-          每行为「因子满足程度（0–1）× 权重 = 贡献值」，四项贡献相加即为加权合计；权重由标注案例调优得出。
+          每行为「因子满足程度（0–1）× 权重 = 贡献值」，四项贡献相加即为加权合计；权重由标注案例调优得出。点击任一行可查看其依据的规则与出处。
         </p>
 
         <div className={styles.factorList}>
-          {trace.factors.map((factor) => (
-            <div key={factor.key} className={styles.factorRow}>
-              <b>{FACTOR_LABEL[factor.key] ?? factor.key}</b>
-              <span className={styles.evidence}>{factor.evidence.join("；")}</span>
-              <div className={styles.factorTrack}>
-                <div
-                  className={`${styles.factorFill} ${styles.grow}`}
-                  style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }}
-                />
+          {trace.factors.map((factor) => {
+            const open = openFactor === factor.key;
+            const source = factor.source_id
+              ? chart.source_refs.find((ref) => ref.source_id === factor.source_id)
+              : undefined;
+            const hasDetail = Boolean(factor.rule_id || source || factor.evidence.length);
+            return (
+              <div key={factor.key}>
+                {/* The row itself is the control: clicking an item of evidence to
+                    see where it came from needs no separate affordance. */}
+                <button
+                  type="button"
+                  className={styles.factorRow}
+                  aria-expanded={open}
+                  disabled={!hasDetail}
+                  onClick={() => setOpenFactor(open ? null : factor.key)}
+                >
+                  <b>{FACTOR_LABEL[factor.key] ?? factor.key}</b>
+                  <span className={styles.evidence}>{factor.evidence.join("；")}</span>
+                  <div className={styles.factorTrack}>
+                    <div
+                      className={`${styles.factorFill} ${styles.grow}`}
+                      style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }}
+                    />
+                  </div>
+                  <span className={styles.value}>
+                    {factor.score} × {factor.weight} = <b>{factor.weighted_score.toFixed(2)}</b>
+                    {hasDetail && <i className={styles.caret} aria-hidden="true" />}
+                  </span>
+                </button>
+                {open && (
+                  <dl className={`${styles.factorDetail} ${styles.fade}`}>
+                    {factor.rule_id && (
+                      <>
+                        <dt>规则</dt>
+                        <dd>{factor.rule_id}</dd>
+                      </>
+                    )}
+                    {source && (
+                      <>
+                        <dt>依据</dt>
+                        <dd>
+                          《{source.title}》
+                          {[source.edition, source.chapter].filter(Boolean).join(" · ")}
+                        </dd>
+                      </>
+                    )}
+                    {factor.evidence.length > 0 && (
+                      <>
+                        <dt>命盘中的位置</dt>
+                        <dd>{factor.evidence.join("；")}</dd>
+                      </>
+                    )}
+                    <dt>计算</dt>
+                    <dd>
+                      因子满足程度 {factor.score} × 权重 {factor.weight} ={" "}
+                      {factor.weighted_score.toFixed(2)}
+                    </dd>
+                  </dl>
+                )}
               </div>
-              <span className={styles.value}>
-                {factor.score} × {factor.weight} = <b>{factor.weighted_score.toFixed(2)}</b>
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div>
@@ -367,11 +421,88 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
             {override?.triggered
               ? `因${PATTERN_LABEL[override.pattern]}成立，改按格局判定`
               : "按常规多因子判定，未触发特殊格局"}
-            {chart.disposition.useful.length > 0 &&
-              `　用神 ${chart.disposition.useful.map((element) => ELEMENT_LABEL[element]).join("、")}`}
-            {chart.disposition.unfavourable.length > 0 &&
-              `　忌神 ${chart.disposition.unfavourable.map((element) => ELEMENT_LABEL[element]).join("、")}`}
           </span>
+        </div>
+      </section>
+
+      {/* ---- 用神推导：两条链并排，仲裁通栏 ---- */}
+      <section className={`${styles.section} ${styles.rise}`} style={{ animationDelay: "360ms" }}>
+        <div className={styles.sectionHead}>
+          <h3>
+            用神推导
+            {isMock && <span className={styles.tag}>示例数值</span>}
+          </h3>
+          <span>扶抑与调候并行推导，结论冲突时按优先规则裁决</span>
+        </div>
+
+        <div className={styles.derivationGrid}>
+          {derivation.methods.map((method) => {
+            const adopted =
+              arbitration.outcome === method.method || arbitration.outcome === "both" ||
+              arbitration.outcome === "agree";
+            const source = method.source_id
+              ? chart.source_refs.find((ref) => ref.source_id === method.source_id)
+              : undefined;
+            return (
+              <div
+                key={method.method}
+                className={`${styles.methodCard} ${adopted ? styles.methodCardAdopted : ""}`}
+              >
+                <div className={styles.methodHead}>
+                  <strong>{METHOD_LABEL[method.method]}</strong>
+                  {adopted && <span className={styles.adoptedTag}>已采纳</span>}
+                </div>
+                <p className={styles.methodBasis}>{method.basis}</p>
+                <div className={styles.chipRow}>
+                  <span className={styles.chipLabel}>用神</span>
+                  {method.useful.map((element) => (
+                    <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
+                      {ELEMENT_LABEL[element]}
+                    </span>
+                  ))}
+                </div>
+                {method.unfavourable && method.unfavourable.length > 0 && (
+                  <div className={styles.chipRow}>
+                    <span className={styles.chipLabel}>忌神</span>
+                    {method.unfavourable.map((element) => (
+                      <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
+                        {ELEMENT_LABEL[element]}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <p className={styles.methodSource}>
+                  {method.rule_id && <span>{method.rule_id}</span>}
+                  {source && <span>《{source.title}》{source.chapter ?? ""}</span>}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className={styles.arbitration}>
+          <div className={styles.arbitrationHead}>
+            <span className={styles.arbitrationTag}>
+              {arbitration.conflict ? "结论冲突" : "结论一致"}
+            </span>
+            <strong>{ARBITRATION_LABEL[arbitration.outcome]}</strong>
+            {arbitration.rule_id && <span className={styles.methodSource}>{arbitration.rule_id}</span>}
+          </div>
+          <p className={styles.methodBasis}>{arbitration.rationale}</p>
+          <div className={styles.chipRow}>
+            <span className={styles.chipLabel}>用神</span>
+            {chart.disposition.useful.map((element) => (
+              <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
+                {ELEMENT_LABEL[element]}
+              </span>
+            ))}
+            <span className={styles.chipLabel} style={{ marginLeft: 16 }}>忌神</span>
+            {chart.disposition.unfavourable.map((element) => (
+              <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
+                {ELEMENT_LABEL[element]}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
     </>

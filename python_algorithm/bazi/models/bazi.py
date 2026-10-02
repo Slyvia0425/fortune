@@ -14,8 +14,10 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from bazi.models.enums import (
     AdvisoryDomain,
+    ArbitrationOutcome,
     Calendar,
     DayMasterStrength,
+    DerivationMethod,
     Disposition,
     EarthlyBranch,
     ElementKey,
@@ -23,12 +25,14 @@ from bazi.models.enums import (
     Gender,
     HeavenlyStem,
     LocationSource,
+    LuckDirection,
     PillarLabel,
     QiTier,
     SolarTerm,
     SpecialPattern,
     StemPosition,
     TenGod,
+    TenGodGroup,
 )
 
 _TIME_RE = re.compile(r"^([01]\d|2[0-3]):[0-5]\d$")
@@ -135,7 +139,13 @@ class ResolvedTime(StrictModel):
 
 
 class SolarTermPosition(StrictModel):
-    """Where the birth moment sits in the solar-term cycle; consumed by 1.2."""
+    """Where the birth moment sits in the solar-term cycle; consumed by 1.2.
+
+    Every field compares the birth moment against the term in CIVIL time,
+    uncorrected: a solar term is a single astronomical instant worldwide, so
+    true solar time shifts the hour pillar but never the month. See the note on
+    SolarTermPosition in lib/contracts/bazi.ts.
+    """
 
     current_term: SolarTerm
     current_term_at: str
@@ -147,6 +157,15 @@ class SolarTermPosition(StrictModel):
     near_boundary: bool
 
 
+class LuckOnset(StrictModel):
+    """When the cycles begin and which way they run; display-only."""
+
+    years: int
+    months: int
+    direction: LuckDirection
+    rationale: str
+
+
 class LuckCycle(StrictModel):
     start_age: int
     end_age: int
@@ -154,11 +173,26 @@ class LuckCycle(StrictModel):
     end_year: int
     stem: HeavenlyStem
     branch: EarthlyBranch
+    stem_element: ElementKey
+    branch_element: ElementKey
+    stem_ten_god: TenGod
+    branch_ten_god: TenGod
 
 
 class StemBranch(StrictModel):
     stem: HeavenlyStem
     branch: EarthlyBranch
+    stem_element: ElementKey
+    branch_element: ElementKey
+
+
+class TimelinePillar(StemBranch):
+    stem_ten_god: TenGod
+    branch_ten_god: TenGod
+
+
+class AnnualPillar(TimelinePillar):
+    year: int
 
 
 class AnnualStemBranch(StemBranch):
@@ -178,6 +212,10 @@ class CurrentPeriod(StrictModel):
 
 class StrengthFactor(StrictModel):
     key: FactorKey
+    # Which rule produced the score, and which source it was read from; the
+    # source_id points at an entry in the result's source_refs.
+    rule_id: Optional[str] = None
+    source_id: Optional[str] = None
     score: float
     weight: float
     weighted_score: float
@@ -219,6 +257,28 @@ class ElementDisposition(StrictModel):
     rationale: str
 
 
+class MethodConclusion(StrictModel):
+    method: DerivationMethod
+    basis: str
+    rule_id: Optional[str] = None
+    source_id: Optional[str] = None
+    useful: List[ElementKey]
+    unfavourable: Optional[List[ElementKey]] = None
+
+
+class Arbitration(StrictModel):
+    conflict: bool
+    outcome: ArbitrationOutcome
+    rule_id: Optional[str] = None
+    source_id: Optional[str] = None
+    rationale: str
+
+
+class UsefulGodDerivation(StrictModel):
+    methods: List[MethodConclusion]
+    arbitration: Arbitration
+
+
 class TenGodRelation(StrictModel):
     pillar: PillarLabel
     position: StemPosition
@@ -228,31 +288,50 @@ class TenGodRelation(StrictModel):
 
 
 # ------------------------------------------------------------------ #
-# 1.4 Advisory                                                        #
+# 1.4 Interpretation                                                  #
 # ------------------------------------------------------------------ #
 
 
-class Citation(StrictModel):
+class TenGodOccurrence(StrictModel):
+    pillar: PillarLabel
+    position: StemPosition
+    stem: HeavenlyStem
+    element: ElementKey
     ten_god: TenGod
     disposition: Disposition
-    points: float
-    evidence: List[str]
 
 
-class AdvisoryCategory(StrictModel):
+class DomainGroupTally(StrictModel):
+    """One ten-god group as it relates to one domain.
+
+    No score and no ranking: the texts supply no hierarchy among the groups,
+    and totals were not comparable across domains. Only what can be checked —
+    how many appear, whether 1.2 judged them useful, what the texts say, and
+    where each sits in the chart.
+    """
+
+    group: TenGodGroup
+    # 面向领域的名称，如「管理 / 组织」；依据仍是下面的 gloss 与 quotation。
     category: str
-    display_name: str
-    rank: int
-    fit_score: float
-    strengths: List[str]
-    considerations: List[str]
-    citations: List[Citation]
-
-
-class AdvisoryDomainResult(StrictModel):
-    domain: AdvisoryDomain
-    categories: List[AdvisoryCategory]
+    count: int
+    disposition: Disposition
+    gloss: str
+    quotation: Optional[str] = None
+    source_id: Optional[str] = None
+    chapter: Optional[str] = None
+    occurrences: List[TenGodOccurrence]
     narrative: str
+
+
+class DomainTally(StrictModel):
+    domain: AdvisoryDomain
+    # Fixed order, zero counts included: absence is informative, and a variable
+    # order would read as a ranking.
+    groups: List[DomainGroupTally]
+    narrative: str
+
+
+
 
 
 # ------------------------------------------------------------------ #
@@ -273,15 +352,18 @@ class BaziChartResult(StrictModel):
     solar_term: SolarTermPosition
     pillars: List[BaziPillar]
     elements: Dict[ElementKey, float]
+    luck_onset: LuckOnset
     luck_cycles: List[LuckCycle]
+    annual_cycles: List[AnnualPillar]
     current_period: CurrentPeriod
     # 1.2
     day_master: DayMaster
     ten_gods: List[TenGodRelation]
     disposition: ElementDisposition
+    derivation: UsefulGodDerivation
     reasoning_trace: ReasoningTrace
     # 1.4
-    advisory: List[AdvisoryDomainResult]
+    domain_tallies: List[DomainTally]
 
     overview: str
     # Forwarded into ApiEnvelope.source_refs by the Next.js route.

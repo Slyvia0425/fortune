@@ -1,0 +1,108 @@
+{
+  "$comment": "Data for checking the ten-god → RIASEC mapping with sentence embeddings. The decisive cell is 文言原文 × 第三方中文定义: neither side was written by this project. The English side remains ours and is kept only for comparison.",
+  "riasec": {
+    "zh": {
+      "R": "愿意使用工具从事操作性工作，动手能力强，做事手脚灵活，动作协调。偏好于具体任务，不善言辞，做事保守，较为谦虚。缺乏社交能力，通常喜欢独立做事。",
+      "I": "思想家而非实干家，抽象思维能力强，求知欲强，肯动脑，善思考，不愿动手。喜欢独立的和富有创造性的工作。知识渊博，有学识才能，不善于领导他人。考虑问题理性，做事喜欢精确，喜欢逻辑分析和推理，不断探讨未知的领域。",
+      "A": "有创造力，乐于创造新颖、与众不同的成果，渴望表现自己的个性，实现自身的价值。做事理想化，追求完美，不重实际。具有一定的艺术才能和个性。善于表达、怀旧、心态较为复杂。",
+      "S": "喜欢与人交往、不断结交新的朋友、善言谈、愿意教导别人。关心社会问题、渴望发挥自己的社会作用。寻求广泛的人际关系，比较看重社会义务和社会道德。",
+      "E": "追求权力、权威和物质财富，具有领导才能。喜欢竞争、敢冒风险、有野心、抱负。为人务实，习惯以利益得失，权利、地位、金钱等来衡量做事的价值，做事有较强的目的性。",
+      "C": "尊重权威和规章制度，喜欢按计划办事，细心、有条理，习惯接受他人的指挥和领导，自己不谋求领导职务。喜欢关注实际和细节情况，通常较为谨慎和保守，缺乏创造性，不喜欢冒险和竞争，富有自我牺牲精神。"
+    },
+    "en": {
+      "R": "working with tools machines and equipment, practical hands-on physical activity, building repairing and operating things outdoors",
+      "I": "researching investigating and analysing, working with ideas theories and data, scientific thinking and solving abstract problems",
+      "A": "creating and expressing, artistic work with words music or design, working without clear rules in unstructured settings",
+      "S": "helping teaching and serving others, caring for people, working closely with others and attending to their wellbeing",
+      "E": "leading persuading and selling, starting and managing projects and businesses, taking risks for profit and influence",
+      "C": "following established procedures and rules, working with records and details in an orderly way, respecting authority and structure"
+    },
+    "source": "Holland 六型的通行表述；英文取 O*NET 兴趣描述的用词，中文为对应表述。",
+    "zh_source": "霍兰德六型的通行中文表述，取自 https://www.apesk.com/holland/index.html 的「共同特征」段。该网站为第三方测评站点，非官方译本；采用它的目的在于使中文定义不出自本项目之手。原文另有「典型职业」段，含大量职业名词（教师、会计、木匠等），而典籍原文并无职业词汇，并入会引入词面噪声，故不采用。",
+    "en_source": "英文定义与英文转述均由本项目撰写，撰写时已知预期映射，存在确认偏差；首轮检验中仅此组显著（p=0.003），故不可单独采信。"
+  },
+  "ten_gods": [
+    {
+      "name": "正官",
+      "key": "direct_officer",
+      "assigned": "C",
+      "source": "《子平真诠·论正官》",
+      "classical": "正官者分所当尊，如在国有君，在家有亲，刑冲破害，以下犯上，乌乎可乎",
+      "modern": "正官是分位上应当尊敬的对象，如同国家有君主、家中有尊长，不可以下犯上",
+      "english": "one respects rightful authority as a subject respects the ruler and a child the parent, keeping to one's proper place and duty"
+    },
+    {
+      "name": "七杀",
+      "key": "seven_killings",
+      "assigned": "C",
+      "source": "《子平真诠·论偏官》",
+      "classical": "煞以攻身，似非美物，而大贵之格，多存七煞。盖控制得宜，煞为我用",
+      "modern": "七杀是攻克自身之物，看似不利，但大贵的格局多有七杀；只要制伏得当，七杀反为我所用",
+      "english": "a force that attacks the self, useful only once it is restrained and disciplined, demanding endurance under pressure"
+    },
+    {
+      "name": "正印",
+      "key": "direct_resource",
+      "assigned": "I",
+      "source": "《渊海子平·论印绶》",
+      "classical": "大抵人生得物以相助相生相养，使我得万物之见成，故主人多智虑，兼丰厚",
+      "modern": "印为生我养我之物，使我有所凭借，故主人思虑多、见识广，且生活丰厚",
+      "english": "a person of much thought and deliberation, learned and well provided for"
+    },
+    {
+      "name": "食神",
+      "key": "eating_god",
+      "assigned": "A",
+      "source": "《渊海子平·论食神》",
+      "classical": "命中带此者，主人财厚食丰、腹量宽洪、优游自足",
+      "modern": "命中有食神的人，衣食丰足、器量宽宏、从容自得",
+      "english": "generous and broad-minded, easy-going and content, at leisure with oneself"
+    },
+    {
+      "name": "伤官",
+      "key": "hurting_officer",
+      "assigned": "A",
+      "source": "《渊海子平·论伤官》",
+      "classical": "伤官主人多才艺、傲物气高，常以天下之人不如己",
+      "modern": "伤官的人才艺多、气性高傲，常觉得旁人不如自己",
+      "english": "a person of many talents and arts, proud and high-spirited, unwilling to defer to others"
+    },
+    {
+      "name": "正财",
+      "key": "direct_wealth",
+      "assigned": "C",
+      "source": "《渊海子平·论正财》",
+      "classical": "故财要得时，不要财多。若财多则自家日本有力，可以胜任",
+      "modern": "财要应时而有，不在于多；财多则须自身有力，方能承担",
+      "english": "wealth should be timely and proportionate rather than abundant, managed steadily within one's capacity"
+    },
+    {
+      "name": "偏财",
+      "key": "indirect_wealth",
+      "assigned": "E",
+      "source": "《渊海子平·论正财》",
+      "classical": "偏财主人慷慨、不甚吝财",
+      "modern": "偏财的人为人慷慨，对钱财不甚吝惜",
+      "english": "open-handed with money, generous and not grasping, wealth that flows in and out"
+    },
+    {
+      "name": "劫财",
+      "key": "rob_wealth",
+      "assigned": "E",
+      "source": "《渊海子平·论劫财》",
+      "classical": "兄见弟，弟能败兄之财，夺兄之妻",
+      "modern": "如兄弟相见，弟能耗损兄长的财物、争夺其所有",
+      "english": "a rival who competes for and takes away what one has, contending with peers"
+    }
+  ],
+  "excluded": [
+    {
+      "name": "偏印",
+      "reason": "典籍所载为吉凶、六亲与相貌之语，未涉认知取向，无引文可测"
+    },
+    {
+      "name": "比肩",
+      "reason": "典籍仅以六亲释之，未见性情描述，无引文可测"
+    }
+  ]
+}

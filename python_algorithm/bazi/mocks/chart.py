@@ -12,18 +12,21 @@ T8 real luck cycles. Until then meta.mock stays true.
 from __future__ import annotations
 
 from bazi.models.bazi import (
-    AdvisoryCategory,
-    AdvisoryDomainResult,
+    AnnualPillar,
     AnnualStemBranch,
+    Arbitration,
     BaziChartRequest,
     BaziChartResult,
     BaziPillar,
-    Citation,
     CurrentPeriod,
     DayMaster,
+    DomainGroupTally,
+    DomainTally,
     ElementDisposition,
     HiddenStem,
     LuckCycle,
+    LuckOnset,
+    MethodConclusion,
     PatternOverride,
     ReasoningTrace,
     ResolvedTime,
@@ -33,22 +36,32 @@ from bazi.models.bazi import (
     SourceReference,
     StemBranch,
     StrengthFactor,
+    TenGodOccurrence,
     TenGodRelation,
+    UsefulGodDerivation,
 )
 from bazi.models.enums import (
     AdvisoryDomain,
+    ArbitrationOutcome,
+    DISPLAY_PILLAR,
+    DISPLAY_STEM,
+    DISPLAY_TEN_GOD,
+    DISPLAY_TEN_GOD_GROUP,
     DayMasterStrength,
+    DerivationMethod,
     Disposition,
     EarthlyBranch,
     ElementKey,
     FactorKey,
     HeavenlyStem,
+    LuckDirection,
     PillarLabel,
     QiTier,
     SolarTerm,
     SpecialPattern,
     StemPosition,
     TenGod,
+    TenGodGroup,
 )
 
 # Shown to users in a Chinese UI, so it is written in Chinese. The frontend
@@ -63,8 +76,20 @@ PLACEHOLDER_SOURCES = [
         source_id="ziping-zhenquan",
         title="子平真诠评注",
         edition="徐乐吾注",
-        chapter="placeholder",
-    )
+        chapter="论用神",
+    ),
+    SourceReference(
+        source_id="yuanhai-ziping",
+        title="渊海子平",
+        edition="明刻本",
+        chapter="论十神各篇",
+    ),
+    SourceReference(
+        source_id="qiongtong-baojian",
+        title="穷通宝鉴",
+        edition="徐乐吾评注",
+        chapter="正月甲木",
+    ),
 ]
 
 
@@ -175,6 +200,8 @@ def _reasoning_trace() -> ReasoningTrace:
     factors = [
         StrengthFactor(
             key=FactorKey.SEASONAL_COMMAND,
+            rule_id="R-DELING-01",
+            source_id="ziping-zhenquan",
             score=1.0,
             weight=0.40,
             weighted_score=0.40,
@@ -182,6 +209,8 @@ def _reasoning_trace() -> ReasoningTrace:
         ),
         StrengthFactor(
             key=FactorKey.ROOTEDNESS,
+            rule_id="R-DEDI-02",
+            source_id="ziping-zhenquan",
             score=0.6,
             weight=0.30,
             weighted_score=0.18,
@@ -189,6 +218,8 @@ def _reasoning_trace() -> ReasoningTrace:
         ),
         StrengthFactor(
             key=FactorKey.REVEALED_SUPPORT,
+            rule_id="R-DESHI-03",
+            source_id="ziping-zhenquan",
             score=0.2,
             weight=0.20,
             weighted_score=0.04,
@@ -196,6 +227,8 @@ def _reasoning_trace() -> ReasoningTrace:
         ),
         StrengthFactor(
             key=FactorKey.ASSISTING_SUPPORT,
+            rule_id="R-DEZHU-01",
+            source_id="ziping-zhenquan",
             score=0.5,
             weight=0.10,
             weighted_score=0.05,
@@ -231,90 +264,106 @@ def _reasoning_trace() -> ReasoningTrace:
     )
 
 
-def _advisory() -> list[AdvisoryDomainResult]:
-    career = AdvisoryDomainResult(
-        domain=AdvisoryDomain.CAREER,
-        categories=[
-            AdvisoryCategory(
-                category="management",
-                display_name="管理 / 组织",
-                rank=1,
-                fit_score=3.0,
-                strengths=["placeholder strength"],
-                considerations=[],
-                citations=[
-                    Citation(
-                        ten_god=TenGod.SEVEN_KILLINGS,
-                        disposition=Disposition.USEFUL,
-                        points=3.0,
-                        evidence=["year stem geng"],
-                    )
-                ],
-            ),
-            AdvisoryCategory(
-                category="commerce",
-                display_name="经营 / 商业",
-                rank=2,
-                fit_score=2.0,
-                strengths=["placeholder strength"],
-                considerations=["placeholder consideration"],
-                citations=[
-                    Citation(
-                        ten_god=TenGod.DIRECT_WEALTH,
-                        disposition=Disposition.USEFUL,
-                        points=2.0,
-                        evidence=["month stem wu"],
-                    )
-                ],
-            ),
-        ],
-        narrative="Placeholder narrative. Verbalisation is wired up in 1.4.",
+
+def _domain_tallies() -> list[DomainTally]:
+    """Which ten-god groups the texts associate with each domain.
+
+    Placeholder occurrences, but the associations themselves are the ones the
+    rule base will carry: each group is glossed in the texts' own words and
+    quoted. Groups with no occurrence are still listed — absence is part of the
+    picture — and nothing is scored or ranked.
+    """
+    officer = TenGodOccurrence(
+        pillar=PillarLabel.YEAR, position=StemPosition.STEM, stem=HeavenlyStem.GENG,
+        element=ElementKey.METAL, ten_god=TenGod.SEVEN_KILLINGS,
+        disposition=Disposition.UNFAVOURABLE,
     )
-    study = AdvisoryDomainResult(
-        domain=AdvisoryDomain.STUDY,
-        categories=[
-            AdvisoryCategory(
-                category="humanities",
-                display_name="人文 / 学术",
-                rank=1,
-                fit_score=3.0,
-                strengths=["placeholder strength"],
-                considerations=[],
-                citations=[
-                    Citation(
-                        ten_god=TenGod.DIRECT_RESOURCE,
-                        disposition=Disposition.USEFUL,
-                        points=3.0,
-                        evidence=["hidden gui in the day branch"],
-                    )
-                ],
-            )
-        ],
-        narrative="Placeholder narrative. Verbalisation is wired up in 1.4.",
+    wealth = TenGodOccurrence(
+        pillar=PillarLabel.MONTH, position=StemPosition.STEM, stem=HeavenlyStem.WU,
+        element=ElementKey.EARTH, ten_god=TenGod.DIRECT_WEALTH,
+        disposition=Disposition.USEFUL,
     )
-    wealth = AdvisoryDomainResult(
-        domain=AdvisoryDomain.WEALTH,
-        categories=[
-            AdvisoryCategory(
-                category="steady_accumulation",
-                display_name="稳健积累",
-                rank=1,
-                fit_score=3.0,
-                strengths=["placeholder strength"],
-                considerations=["placeholder consideration"],
-                citations=[
-                    Citation(
-                        ten_god=TenGod.DIRECT_WEALTH,
-                        disposition=Disposition.USEFUL,
-                        points=3.0,
-                        evidence=["month stem wu"],
-                    )
-                ],
-            )
-        ],
-        narrative="Placeholder narrative. Verbalisation is wired up in 1.4.",
+    output = TenGodOccurrence(
+        pillar=PillarLabel.HOUR, position=StemPosition.STEM, stem=HeavenlyStem.BING,
+        element=ElementKey.FIRE, ten_god=TenGod.EATING_GOD,
+        disposition=Disposition.USEFUL,
     )
-    return [career, study, wealth]
+    resource = TenGodOccurrence(
+        pillar=PillarLabel.DAY, position=StemPosition.HIDDEN, stem=HeavenlyStem.GUI,
+        element=ElementKey.WATER, ten_god=TenGod.DIRECT_RESOURCE,
+        disposition=Disposition.NEUTRAL,
+    )
+
+    def tally(group, category, gloss, quotation, source_id, chapter, occ):
+        dispositions = {o.disposition for o in occ}
+        disposition = dispositions.pop() if len(dispositions) == 1 else Disposition.NEUTRAL
+        return DomainGroupTally(
+            group=group, category=category, count=len(occ), disposition=disposition,
+            gloss=gloss, quotation=quotation, source_id=source_id, chapter=chapter,
+            occurrences=occ,
+            narrative=_say(group, len(occ), disposition, gloss, occ),
+        )
+
+    return [
+        DomainTally(
+            domain=AdvisoryDomain.CAREER,
+            groups=[
+                tally(TenGodGroup.OFFICER, "管理 / 组织", "主管理、权威、约束",
+                      "正官者分所当尊，如在国有君，在家有亲", "ziping-zhenquan", "论正官", [officer]),
+                tally(TenGodGroup.WEALTH, "经营 / 资源调配", "主经营、资源调配",
+                      "故财要得时，不要财多", "yuanhai-ziping", "论正财", [wealth]),
+                tally(TenGodGroup.OUTPUT, "表达 / 才艺", "主表达、才华外显",
+                      "伤官主人多才艺、傲物气高", "yuanhai-ziping", "论伤官", [output]),
+                tally(TenGodGroup.COMPANION, "自主 / 协作", "主自主、同侪", None, None, None, []),
+            ],
+            narrative="占位文本：正式实现后由 LLM 依上列条目转述，不增加新的论断。",
+        ),
+        DomainTally(
+            domain=AdvisoryDomain.STUDY,
+            groups=[
+                tally(TenGodGroup.RESOURCE, "学问 / 受教", "主学问、受教",
+                      "大抵人生得物以相助相生相养，故主人多智虑，兼丰厚",
+                      "yuanhai-ziping", "论印绶", [resource]),
+                tally(TenGodGroup.OUTPUT, "才艺 / 创作", "主才华表达",
+                      "伤官主人多才艺、傲物气高", "yuanhai-ziping", "论伤官", [output]),
+            ],
+            narrative="占位文本：正式实现后由 LLM 依上列条目转述，不增加新的论断。",
+        ),
+        DomainTally(
+            domain=AdvisoryDomain.WEALTH,
+            groups=[
+                tally(TenGodGroup.WEALTH, "财之本体", "财星为财运本体",
+                      "故财要得时，不要财多", "yuanhai-ziping", "论正财", [wealth]),
+                tally(TenGodGroup.OUTPUT, "以才艺生财", "食伤生财，为财的来源通道",
+                      "食神者，生我财神之谓也", "yuanhai-ziping", "论食神", [output]),
+                tally(TenGodGroup.COMPANION, "协作与分担", "比劫克财", None, None, None, []),
+            ],
+            narrative="占位文本：正式实现后由 LLM 依上列条目转述，不增加新的论断。",
+        ),
+    ]
+
+
+def _say(group, count, disposition, gloss, occ) -> str:
+    """Restate one row in modern Chinese.
+
+    A placeholder for the LLM step, written as a template so the sentence can
+    only ever contain what the row already holds: the group, the count, where
+    they sit, the disposition from 1.2, and the gloss. Nothing may be added.
+    """
+    name = DISPLAY_TEN_GOD_GROUP[group]
+    if count == 0:
+        return f"本命局中未见{name}。典籍称{name}{gloss}。"
+    where = "、".join(
+        f"{DISPLAY_PILLAR[o.pillar]}{'藏干' if o.position == StemPosition.HIDDEN else ''}"
+        f"{DISPLAY_STEM[o.stem]}（{DISPLAY_TEN_GOD[o.ten_god]}）"
+        for o in occ
+    )
+    judged = {
+        Disposition.USEFUL: "，命局诊断判为用神",
+        Disposition.UNFAVOURABLE: "，命局诊断判为忌神",
+        Disposition.NEUTRAL: "",
+    }[disposition]
+    return f"本命局中{name}出现 {count} 处，见于{where}{judged}。典籍称{name}{gloss}。"
 
 
 def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
@@ -355,6 +404,15 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
             ElementKey.METAL: 1.0,
             ElementKey.WATER: 1.5,
         },
+        # Eight steps so the current one is visible for a typical adult;
+        # display only, no judgement attached.
+        luck_onset=LuckOnset(
+            years=3,
+            months=4,
+            direction=LuckDirection.FORWARD,
+            rationale="阳年男命，大运顺排；出生距下一节气 10 天，按三日折一年计，起运 3 岁 4 个月。",
+        ),
+        annual_cycles=_annual_cycles(2003, 2082),
         luck_cycles=[
             LuckCycle(
                 start_age=3,
@@ -363,6 +421,10 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
                 end_year=2012,
                 stem=HeavenlyStem.JI,
                 branch=EarthlyBranch.MAO,
+                stem_element=ElementKey.EARTH,
+                branch_element=ElementKey.WOOD,
+                stem_ten_god=TenGod.DIRECT_WEALTH,
+                branch_ten_god=TenGod.ROB_WEALTH,
             ),
             LuckCycle(
                 start_age=13,
@@ -371,6 +433,10 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
                 end_year=2022,
                 stem=HeavenlyStem.GENG,
                 branch=EarthlyBranch.CHEN,
+                stem_element=ElementKey.METAL,
+                branch_element=ElementKey.EARTH,
+                stem_ten_god=TenGod.SEVEN_KILLINGS,
+                branch_ten_god=TenGod.INDIRECT_WEALTH,
             ),
             LuckCycle(
                 start_age=23,
@@ -379,14 +445,92 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
                 end_year=2032,
                 stem=HeavenlyStem.XIN,
                 branch=EarthlyBranch.SI,
+                stem_element=ElementKey.METAL,
+                branch_element=ElementKey.FIRE,
+                stem_ten_god=TenGod.DIRECT_OFFICER,
+                branch_ten_god=TenGod.HURTING_OFFICER,
+            ),
+            LuckCycle(
+                start_age=33,
+                end_age=42,
+                start_year=2033,
+                end_year=2042,
+                stem=HeavenlyStem.REN,
+                branch=EarthlyBranch.WU_BRANCH,
+                stem_element=ElementKey.WATER,
+                branch_element=ElementKey.FIRE,
+                stem_ten_god=TenGod.INDIRECT_RESOURCE,
+                branch_ten_god=TenGod.EATING_GOD,
+            ),
+            LuckCycle(
+                start_age=43,
+                end_age=52,
+                start_year=2043,
+                end_year=2052,
+                stem=HeavenlyStem.GUI,
+                branch=EarthlyBranch.WEI,
+                stem_element=ElementKey.WATER,
+                branch_element=ElementKey.EARTH,
+                stem_ten_god=TenGod.DIRECT_RESOURCE,
+                branch_ten_god=TenGod.DIRECT_WEALTH,
+            ),
+            LuckCycle(
+                start_age=53,
+                end_age=62,
+                start_year=2053,
+                end_year=2062,
+                stem=HeavenlyStem.JIA,
+                branch=EarthlyBranch.SHEN,
+                stem_element=ElementKey.WOOD,
+                branch_element=ElementKey.METAL,
+                stem_ten_god=TenGod.FRIEND,
+                branch_ten_god=TenGod.SEVEN_KILLINGS,
+            ),
+            LuckCycle(
+                start_age=63,
+                end_age=72,
+                start_year=2063,
+                end_year=2072,
+                stem=HeavenlyStem.YI,
+                branch=EarthlyBranch.YOU,
+                stem_element=ElementKey.WOOD,
+                branch_element=ElementKey.METAL,
+                stem_ten_god=TenGod.ROB_WEALTH,
+                branch_ten_god=TenGod.DIRECT_OFFICER,
+            ),
+            LuckCycle(
+                start_age=73,
+                end_age=82,
+                start_year=2073,
+                end_year=2082,
+                stem=HeavenlyStem.BING,
+                branch=EarthlyBranch.XU,
+                stem_element=ElementKey.FIRE,
+                branch_element=ElementKey.EARTH,
+                stem_ten_god=TenGod.EATING_GOD,
+                branch_ten_god=TenGod.INDIRECT_WEALTH,
             ),
         ],
         current_period=CurrentPeriod(
             year=AnnualStemBranch(
-                year=2026, stem=HeavenlyStem.BING, branch=EarthlyBranch.WU_BRANCH
+                year=2026,
+                stem=HeavenlyStem.BING,
+                branch=EarthlyBranch.WU_BRANCH,
+                stem_element=ElementKey.FIRE,
+                branch_element=ElementKey.FIRE,
             ),
-            month=StemBranch(stem=HeavenlyStem.DING, branch=EarthlyBranch.YOU),
-            day=StemBranch(stem=HeavenlyStem.REN, branch=EarthlyBranch.XU),
+            month=StemBranch(
+                stem=HeavenlyStem.DING,
+                branch=EarthlyBranch.YOU,
+                stem_element=ElementKey.FIRE,
+                branch_element=ElementKey.METAL,
+            ),
+            day=StemBranch(
+                stem=HeavenlyStem.REN,
+                branch=EarthlyBranch.XU,
+                stem_element=ElementKey.WATER,
+                branch_element=ElementKey.EARTH,
+            ),
         ),
         day_master=DayMaster(
             stem=HeavenlyStem.JIA,
@@ -428,8 +572,37 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
             unfavourable=[ElementKey.WATER],
             rationale="Placeholder. Derived from the strength judgement in 1.2.",
         ),
+        # Placeholder, but shaped like a real conflict: the supporting method
+        # treats water as unfavourable while the climatic method asks for it,
+        # and the priority rule resolves in favour of the former.
+        derivation=UsefulGodDerivation(
+            methods=[
+                MethodConclusion(
+                    method=DerivationMethod.SUPPORTING,
+                    basis="日主偏旺，取克泄之神",
+                    rule_id="R-YONGSHEN-01",
+                    source_id="ziping-zhenquan",
+                    useful=[ElementKey.FIRE, ElementKey.EARTH],
+                    unfavourable=[ElementKey.WOOD, ElementKey.WATER],
+                ),
+                MethodConclusion(
+                    method=DerivationMethod.CLIMATIC,
+                    basis="正月甲木，木嫩气寒，先丙后癸",
+                    rule_id="R-TIAOHOU-0101",
+                    source_id="qiongtong-baojian",
+                    useful=[ElementKey.FIRE, ElementKey.WATER],
+                ),
+            ],
+            arbitration=Arbitration(
+                conflict=True,
+                outcome=ArbitrationOutcome.SUPPORTING,
+                rule_id="R-ZHONGCAI-01",
+                source_id="ziping-zhenquan",
+                rationale="日主属木而生于春季，不属「金水生于冬令、木火生于夏令」之调候为急，故以扶抑为主。",
+            ),
+        ),
         reasoning_trace=_reasoning_trace(),
-        advisory=_advisory(),
+        domain_tallies=_domain_tallies(),
         # Neutral placeholder — the warning above already says the data is fake.
         overview="命局概述将在计算引擎接入后生成。",
         source_refs=PLACEHOLDER_SOURCES,
@@ -440,3 +613,60 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
             warnings=[MOCK_WARNING],
         ),
     )
+
+# --- timelines ------------------------------------------------------------
+# Deterministic placeholder data: the sexagenary sequence and the ten gods are
+# computed properly, so the rows stand up to inspection during a demo; only the
+# chart they hang off is fictional.
+
+_STEMS = [HeavenlyStem.JIA, HeavenlyStem.YI, HeavenlyStem.BING, HeavenlyStem.DING,
+          HeavenlyStem.WU, HeavenlyStem.JI, HeavenlyStem.GENG, HeavenlyStem.XIN,
+          HeavenlyStem.REN, HeavenlyStem.GUI]
+_STEM_EL = [ElementKey.WOOD, ElementKey.WOOD, ElementKey.FIRE, ElementKey.FIRE,
+            ElementKey.EARTH, ElementKey.EARTH, ElementKey.METAL, ElementKey.METAL,
+            ElementKey.WATER, ElementKey.WATER]
+_BRANCHES = [EarthlyBranch.ZI, EarthlyBranch.CHOU, EarthlyBranch.YIN, EarthlyBranch.MAO,
+             EarthlyBranch.CHEN, EarthlyBranch.SI, EarthlyBranch.WU_BRANCH, EarthlyBranch.WEI,
+             EarthlyBranch.SHEN, EarthlyBranch.YOU, EarthlyBranch.XU, EarthlyBranch.HAI]
+_BR_EL = [ElementKey.WATER, ElementKey.EARTH, ElementKey.WOOD, ElementKey.WOOD,
+          ElementKey.EARTH, ElementKey.FIRE, ElementKey.FIRE, ElementKey.EARTH,
+          ElementKey.METAL, ElementKey.METAL, ElementKey.EARTH, ElementKey.WATER]
+_GEN = {ElementKey.WOOD: ElementKey.FIRE, ElementKey.FIRE: ElementKey.EARTH,
+        ElementKey.EARTH: ElementKey.METAL, ElementKey.METAL: ElementKey.WATER,
+        ElementKey.WATER: ElementKey.WOOD}
+_CTRL = {ElementKey.WOOD: ElementKey.EARTH, ElementKey.EARTH: ElementKey.WATER,
+         ElementKey.WATER: ElementKey.FIRE, ElementKey.FIRE: ElementKey.METAL,
+         ElementKey.METAL: ElementKey.WOOD}
+_DM_ELEMENT, _DM_YANG = ElementKey.WOOD, True   # 日主甲木
+
+def _ten_god(element: ElementKey, yang: bool) -> TenGod:
+    same = yang == _DM_YANG
+    if element == _DM_ELEMENT:
+        return TenGod.FRIEND if same else TenGod.ROB_WEALTH
+    if _GEN[_DM_ELEMENT] == element:
+        return TenGod.EATING_GOD if same else TenGod.HURTING_OFFICER
+    if _CTRL[_DM_ELEMENT] == element:
+        return TenGod.INDIRECT_WEALTH if same else TenGod.DIRECT_WEALTH
+    if _CTRL[element] == _DM_ELEMENT:
+        return TenGod.SEVEN_KILLINGS if same else TenGod.DIRECT_OFFICER
+    return TenGod.INDIRECT_RESOURCE if same else TenGod.DIRECT_RESOURCE
+
+def _pillar_fields(index: int) -> dict:
+    """The index-th pair of the sexagenary cycle, with elements and ten gods."""
+    g, b = index % 10, index % 12
+    return dict(
+        stem=_STEMS[g], branch=_BRANCHES[b],
+        stem_element=_STEM_EL[g], branch_element=_BR_EL[b],
+        stem_ten_god=_ten_god(_STEM_EL[g], g % 2 == 0),
+        branch_ten_god=_ten_god(_BR_EL[b], b % 2 == 0),
+    )
+
+# 1984 is 甲子; the offset of any year in the cycle follows from that.
+def _year_index(year: int) -> int:
+    return (year - 1984) % 60
+
+
+def _annual_cycles(first_year: int, last_year: int) -> list[AnnualPillar]:
+    return [AnnualPillar(year=y, **_pillar_fields(_year_index(y)))
+            for y in range(first_year, last_year + 1)]
+
