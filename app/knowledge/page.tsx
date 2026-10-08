@@ -1,1 +1,4 @@
-import type {Metadata} from "next";import PageHeading from "../components/page-heading";import KnowledgeSearch from "./search";export const metadata:Metadata={title:"典籍求索"};export default function Page(){return <main className="subpage"><PageHeading eyebrow="知识图谱与学习中心" title="循词入典，沿义见源" description="检索古籍原文、目录、注解与现代资料。结果保留来源、分类和原始链接，便于回到上下文核验。"/><section className="page-shell section-block"><KnowledgeSearch/></section></main>}
+import type {Metadata} from "next";
+import KnowledgeCentre from "./knowledge-centre";
+export const metadata:Metadata={title:"知识图谱与学习中心",description:"检索古籍、理解术语、比较注家观点，并沿概念关系追溯来源。"};
+export default function Page(){return <main className="knowledge-page"><KnowledgeCentre/></main>}

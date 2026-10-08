@@ -31,6 +31,14 @@ npm run dev
 
 浏览器打开 [http://localhost:3000](http://localhost:3000)。如果端口被占用，Next.js 会在终端显示实际端口。
 
+运行本地开发环境时，根目录的命令会同时启动 Next.js（端口 3000）和 Module 4 账户服务（端口 8001）：
+
+```bash
+npm run dev
+```
+
+按 `Ctrl+C` 会同时关闭两个服务。需要单独调试时可使用 `npm run dev:web` 或 `npm run dev:module4`；后者沿用 Module 4 独立运行的默认端口 8000。
+
 Python 算法服务尚未启动时可以保持 `.env.local` 中对应变量为空；系统会使用带有 Mock 标记的兼容结果。如果已经运行 Python/FastAPI 服务，配置：
 
 ```env

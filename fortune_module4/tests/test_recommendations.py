@@ -87,3 +87,27 @@ def test_feedback_changes_next_recommendation(client: TestClient) -> None:
     )
     assert response.status_code == 200
     assert response.json()["result"]["items"][0]["candidate_id"] == "with-feedback-signal"
+
+
+def test_chat_archive_events_do_not_change_recommendation_cold_start(client: TestClient) -> None:
+    session_id = create_session(client)
+    archived = client.post(
+        "/api/v1/events/ingest",
+        headers=headers(),
+        json={
+            "session_id": session_id,
+            "source_module": "module2a",
+            "event_type": "module2a.chat.user_message",
+            "system": "divination",
+            "payload": {"role": "user", "content": "我想问工作", "inference_eligible": False},
+        },
+    )
+    assert archived.status_code == 200
+
+    response = client.post(
+        "/api/v1/recommendations/next",
+        headers=headers(),
+        json={"session_id": session_id, "top_k": 1, "candidates": []},
+    )
+    assert response.status_code == 200
+    assert response.json()["result"]["cold_start"] is True

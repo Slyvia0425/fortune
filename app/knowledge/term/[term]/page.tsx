@@ -1,0 +1,7 @@
+import Link from "next/link";
+import {getKnowledgeGraph,searchKnowledge} from "@/lib/knowledge/library";
+
+export default async function TermDetail({params}:{params:Promise<{term:string}>}){
+  const raw=(await params).term;const term=decodeURIComponent(raw);const graph=getKnowledgeGraph(term,1);const center=graph.nodes.find(n=>n.id===graph.center);const sources=searchKnowledge(term,8);
+  return <main className="knowledge-page detail-page"><section className="detail-hero term-detail-hero"><div className="page-shell"><Link href="/knowledge" className="detail-back">← 返回术语解释</Link><p className="kicker">TERM DETAIL · 术语详情</p><h1>{term}</h1><p>{center?.summary??`“${term}”是传统文化资料中的常见术语，理解时需要结合原文语境和所属体系。`}</p></div></section><section className="page-shell term-detail-layout"><article className="term-explanation"><span>通俗解释</span><h2>{center?.summary??`本页汇集“${term}”的相关资料与概念关系。`}</h2><p>这个词在不同典籍、时代或使用体系中可能有不同侧重点。建议先理解基本含义，再查看下方资料，核对它在具体段落中的用法。</p><h3>相关概念</h3><div className="related-concepts">{graph.nodes.filter(n=>n.id!==graph.center).map(n=><span key={n.id}>{n.label}<small>{n.summary}</small></span>)}</div></article><section className="term-sources"><div className="section-title"><span>相关典籍资料</span><b>{sources.length} 条</b></div>{sources.map(item=><Link className="term-source-card" href={`/knowledge/source/${encodeURIComponent(item.id)}`} key={item.id}><small>{item.catalog}</small><h3>{item.title}</h3><p>{item.excerpt}</p><b>查看资料详情 →</b></Link>)}{!sources.length&&<p className="knowledge-empty">暂未找到直接对应的典籍段落。</p>}</section></section></main>
+}
