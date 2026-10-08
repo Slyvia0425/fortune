@@ -146,7 +146,6 @@ class LocationSource(str, Enum):
 class Gender(str, Enum):
     FEMALE = "female"
     MALE = "male"
-    UNSPECIFIED = "unspecified"
 
 
 class Calendar(str, Enum):
@@ -163,6 +162,24 @@ class QiTier(str, Enum):
 class StemPosition(str, Enum):
     STEM = "stem"
     HIDDEN = "hidden"
+
+
+class SeasonalState(str, Enum):
+    """旺相休囚死: how an element stands in the season set by the month branch."""
+
+    PEAK = "peak"              # 旺
+    SUPPORTING = "supporting"  # 相
+    RESTING = "resting"        # 休
+    CONFINED = "confined"      # 囚
+    DEAD = "dead"              # 死
+
+
+class EvidencePosition(str, Enum):
+    """Where in the chart a piece of evidence sits."""
+
+    STEM = "stem"      # a heavenly stem of a pillar
+    HIDDEN = "hidden"  # a stem hidden in a pillar's branch
+    BRANCH = "branch"  # the earthly branch itself (e.g. 月令)
 
 
 class Disposition(str, Enum):
@@ -231,6 +248,14 @@ DISPLAY_TEN_GOD = {
     TenGod.DIRECT_OFFICER: "正官",
     TenGod.INDIRECT_RESOURCE: "偏印",
     TenGod.DIRECT_RESOURCE: "正印",
+}
+
+DISPLAY_SEASONAL_STATE = {
+    SeasonalState.PEAK: "旺",
+    SeasonalState.SUPPORTING: "相",
+    SeasonalState.RESTING: "休",
+    SeasonalState.CONFINED: "囚",
+    SeasonalState.DEAD: "死",
 }
 
 DISPLAY_ELEMENT = {

@@ -76,6 +76,7 @@ export async function calculateBazi(
       },
     ],
     elements: { wood: 3, fire: 2, earth: 2.5, metal: 1, water: 1.5 },
+    element_states: { wood: "peak", fire: "supporting", earth: "dead", metal: "confined", water: "resting" },
     luck_onset: {
       years: 3,
       months: 4,
@@ -242,10 +243,10 @@ export async function calculateBazi(
       // Four factors so the page shows the whole arbitration shape even when
       // the Python service isn't running; the weights sum to 1 as they will.
       factors: [
-        { key: "seasonal_command", rule_id: "R-DELING-01", source_id: "ziping-zhenquan", score: 0.6, weight: 0.4, weighted_score: 0.24, evidence: ["模拟：月令因素"] },
-        { key: "rootedness", rule_id: "R-DEDI-02", source_id: "ziping-zhenquan", score: 0.5, weight: 0.3, weighted_score: 0.15, evidence: ["模拟：地支通根"] },
-        { key: "revealed_support", rule_id: "R-DESHI-03", source_id: "ziping-zhenquan", score: 0.4, weight: 0.2, weighted_score: 0.08, evidence: ["模拟：天干透出"] },
-        { key: "assisting_support", rule_id: "R-DEZHU-01", source_id: "ziping-zhenquan", score: 0.3, weight: 0.1, weighted_score: 0.03, evidence: ["模拟：生扶力量"] },
+        { key: "seasonal_command", rule_id: "R-DELING-01", source_id: "ziping-zhenquan", score: 1, weight: 0.4, weighted_score: 0.4, scale: { labels: ["旺", "相", "休", "囚", "死"], scores: [1, 0.75, 0.5, 0.25, 0], rule_id: "R-SCALE-DELING", derived: true }, level: 0, calculation: "模拟：月令寅（本气属木）与日主（木）的关系为旺，得 1", chapter: "示例章节", quotation: "示例引文", kb_url: null, derived: false, evidence: [{ pillar: "month", position: "branch", branch: "yin", stem: null, qi: null, description: "模拟：月令寅木，与日主甲木同气" }] },
+        { key: "rootedness", rule_id: "R-DEDI-01", source_id: "ziping-zhenquan", score: 1, weight: 0.3, weighted_score: 0.3, scale: { labels: ["本气通根", "中气通根", "余气通根", "无根"], scores: [1, 0.67, 0.33, 0], rule_id: "R-SCALE-DEDI", derived: true }, level: 0, calculation: "模拟：地支藏干中与日主同五行者，最深为本气，得 1", chapter: "示例章节", quotation: "示例引文", kb_url: null, derived: false, evidence: [{ pillar: "hour", position: "hidden", branch: "yin", stem: "jia", qi: "primary", description: "模拟：时支寅中藏甲木（本气），日主通根" }] },
+        { key: "revealed_support", rule_id: "R-DESHI-03", source_id: "ziping-zhenquan", score: 0.33, weight: 0.2, weighted_score: 0.066, scale: { labels: ["透出 3 个", "透出 2 个", "透出 1 个", "透出 0 个"], scores: [1, 0.67, 0.33, 0], rule_id: "R-SCALE-DESHI", derived: true }, level: 2, calculation: "模拟：日主以外的天干中印、比劫 1 个，得 0.33", chapter: "示例章节", quotation: "示例引文", kb_url: null, derived: true, evidence: [{ pillar: "year", position: "stem", branch: "chen", stem: "geng", qi: null, description: "模拟：年干庚金克日主，不计入印比" }] },
+        { key: "assisting_support", rule_id: "R-DEZHU-01", source_id: "ziping-zhenquan", score: 0.33, weight: 0.1, weighted_score: 0.033, scale: null, level: null, calculation: "模拟：地支藏干共 6 个，生日主者 2 个，2 ÷ 6 = 0.33", chapter: "示例章节", quotation: "示例引文", kb_url: null, derived: true, evidence: [{ pillar: "day", position: "hidden", branch: "zi", stem: "gui", qi: "primary", description: "模拟：日支子中藏癸水（本气），生日主" }] },
       ],
       fused_score: 0.5,
       threshold_band: "mock",

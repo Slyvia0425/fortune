@@ -1,0 +1,649 @@
+{
+ "version": "B3-0.1",
+ "task": "tuning组特殊格局标注（从财/从官杀/专旺/两气成象；化气、从儿等只登记）",
+ "annotations": [
+  {
+   "case_id": "DT-013",
+   "pillars": "戊戌 癸亥 戊戌 癸亥",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "status": "explicit",
+   "patterns": [
+    "liangqi"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "此水土各半,兩氣成象"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-017",
+   "pillars": "丙寅 甲午 丙午 癸巳",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=826601",
+   "chapter": "滴天髓闡微 · 第2部分",
+   "status": "described",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "只得從其強勢"
+   ],
+   "speaker": "任铁樵",
+   "note": "火旺极，从其强势",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-035",
+   "pillars": "戊申 己未 丙戌 己丑",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=703472",
+   "chapter": "滴天髓闡微 · 第3部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "為從兒格"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-049",
+   "pillars": "癸亥 甲子 丁酉 癸卯",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=703472",
+   "chapter": "滴天髓闡微 · 第3部分",
+   "status": "negated",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "不能棄命從殺"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-113",
+   "pillars": "辛卯 庚寅 甲辰 丙寅",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "status": "described",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "此寅卯辰東方,兼之寅時,旺之極矣"
+   ],
+   "speaker": "任铁樵",
+   "note": "东方一气、旺极；同段还说「強眾而敵寡」；未说格名",
+   "confirmed": true,
+   "reviewer_note": "人工抽查指出其实说了：专旺"
+  },
+  {
+   "case_id": "DT-120",
+   "pillars": "甲午 丁卯 甲午 丁卯",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "status": "explicit",
+   "patterns": [
+    "liangqi"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "此造木火各半,兩氣成象"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-173",
+   "pillars": "丙戌 壬辰 癸巳 甲寅",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "described",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "須從官星之勢"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-179",
+   "pillars": "庚子 庚辰 戊申 辛酉",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "格取從兒"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-218",
+   "pillars": "己巳 辛未 壬午 乙巳",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "合从",
+   "quotes": [
+    "合從矣"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-223",
+   "pillars": "癸亥 己未 癸亥 己未",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "status": "explicit",
+   "patterns": [
+    "liangqi"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "此土水相克,兩氣成象"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-226",
+   "pillars": "壬子 辛亥 癸丑 壬子",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=826601",
+   "chapter": "滴天髓闡微 · 第2部分",
+   "status": "explicit",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "局成潤下"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-229",
+   "pillars": "甲寅 乙亥 乙卯 癸未",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=826601",
+   "chapter": "滴天髓闡微 · 第2部分",
+   "status": "explicit",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "然四柱無金,其勢從強"
+   ],
+   "speaker": "任铁樵",
+   "note": "曲直类（木局）",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-257",
+   "pillars": "癸酉 甲子 庚辰 甲申",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=703472",
+   "chapter": "滴天髓闡微 · 第3部分",
+   "status": "ambiguous",
+   "patterns": [],
+   "other_pattern": "",
+   "quotes": [
+    "謂金水二人同心,必須順其金水之性"
+   ],
+   "speaker": "任铁樵",
+   "note": "「二人同心」顺其性，是印旺顺势还是专旺不明",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-303",
+   "pillars": "癸酉 乙丑 丙申 丙申",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从化",
+   "quotes": [
+    "從化金水之勢"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-307",
+   "pillars": "己未 辛未 丙戌 戊戌",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "格取從兒"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-308",
+   "pillars": "甲午 丁丑 甲午 丙寅",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "格取從兒"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-310",
+   "pillars": "壬寅 辛亥 辛亥 壬辰",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "格取從兒"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-311",
+   "pillars": "壬子 辛亥 辛卯 辛卯",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从儿",
+   "quotes": [
+    "格取從兒"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-326",
+   "pillars": "丁卯 丙午 丙午 庚寅",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "explicit",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "格成炎上"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-329",
+   "pillars": "戊戌 丁巳 甲寅 己巳",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "从弱",
+   "quotes": [
+    "此衰極從弱之理"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-371",
+   "pillars": "甲寅 丁卯 乙未 丁亥",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=826601",
+   "chapter": "滴天髓闡微 · 第2部分",
+   "status": "negated",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "非前造從強論也"
+   ],
+   "speaker": "任铁樵",
+   "note": "明说不是从强",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-374",
+   "pillars": "戊寅 甲寅 甲辰 丁卯",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=826601",
+   "chapter": "滴天髓闡微 · 第2部分",
+   "status": "described",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "此成方"
+   ],
+   "speaker": "任铁樵",
+   "note": "成方（东方一气）；未说格名",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-410",
+   "pillars": "庚戌 甲申 甲戌 乙丑",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=703472",
+   "chapter": "滴天髓闡微 · 第3部分",
+   "status": "explicit",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "格成從殺"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-425",
+   "pillars": "戊申 甲寅 壬寅 丁未",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "described",
+   "patterns": [
+    "cong_cai"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "見其財星有勢,自然從財而去"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-442",
+   "pillars": "戊戌 丙辰 乙未 丙戌",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "described",
+   "patterns": [
+    "cong_cai"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "四柱皆財,其勢必從"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-443",
+   "pillars": "丙寅 庚寅 壬午 乙巳",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "explicit",
+   "patterns": [
+    "cong_cai"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "從財格真"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-444",
+   "pillars": "丁卯 壬寅 庚午 丙戌",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "explicit",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "從象斯真"
+   ],
+   "speaker": "任铁樵",
+   "note": "庚金，支全火局，从火杀",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-448",
+   "pillars": "丙戌 戊戌 癸巳 壬戌",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=257437",
+   "chapter": "滴天髓闡微 · 第4部分",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "化气",
+   "quotes": [
+    "化火斯真"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-449",
+   "pillars": "乙卯 己卯 戊辰 癸亥",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "explicit",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "格取從官"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-450",
+   "pillars": "癸亥 乙卯 己未 丁卯",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=530386",
+   "chapter": "滴天髓闡微 · 第5部分",
+   "status": "described",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "不得不從殺矣"
+   ],
+   "speaker": "任铁樵",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "DT-479",
+   "pillars": "癸亥 乙卯 戊午 甲寅",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=827688",
+   "chapter": "滴天髓闡微 · 第6部分",
+   "status": "described",
+   "patterns": [
+    "cong_guansha"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "各成充命從殺"
+   ],
+   "speaker": "任铁樵",
+   "note": "该句原文有乱码，只能看出说从杀",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-013",
+   "pillars": "戊戌 己未 戊戌 丙辰",
+   "kb_url": "https://luckclub.cn/bazi/002/016/",
+   "chapter": "论用神配气候得失",
+   "status": "explicit",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    ",稼穑格也"
+   ],
+   "speaker": "徐乐吾",
+   "note": "稼穑；该例同时说气不中和、不能富贵",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-053",
+   "pillars": "甲寅 庚午 丙午 甲午",
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "倒冲",
+   "quotes": [
+    "以倒冲为说耳"
+   ],
+   "speaker": "徐乐吾",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-100",
+   "pillars": "戊子 庚申 庚申 庚辰",
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "井栏叉",
+   "quotes": [
+    "井栏叉格"
+   ],
+   "speaker": "徐乐吾",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-104",
+   "pillars": "丁巳 丁未 丁卯 癸卯",
+   "kb_url": "https://luckclub.cn/bazi/002/010/",
+   "chapter": "论用神",
+   "status": "described",
+   "patterns": [
+    "zhuanwang"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "亦宜顺其旺势"
+   ],
+   "speaker": "徐乐吾",
+   "note": "该例列在「专旺」一节下",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-138",
+   "pillars": "戊寅 乙卯 丁未 壬寅",
+   "kb_url": "https://luckclub.cn/bazi/002/010/",
+   "chapter": "论用神",
+   "status": "out_of_scope",
+   "patterns": [],
+   "other_pattern": "化气",
+   "quotes": [
+    "化气格真"
+   ],
+   "speaker": "徐乐吾",
+   "note": "",
+   "confirmed": true,
+   "reviewer_note": ""
+  },
+  {
+   "case_id": "ZP-171",
+   "pillars": "庚申 乙酉 丙申 己丑",
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "status": "explicit",
+   "patterns": [
+    "cong_cai"
+   ],
+   "other_pattern": "",
+   "quotes": [
+    "有弃命保财者,四柱皆财而身无气,舍而从之,格成大贵"
+   ],
+   "speaker": "沈孝瞻（原文）",
+   "note": "此例挂在原文这一句之下（引文在命盘之前）",
+   "confirmed": true,
+   "reviewer_note": ""
+  }
+ ],
+ "withdrawn": [
+  "ZP-167",
+  "DT-175",
+  "ZP-125"
+ ]
+}

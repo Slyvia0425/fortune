@@ -1,0 +1,401 @@
+{
+ "rules": [
+  {
+   "rule_id": "R-DELING-00",
+   "group": "seasonal_principle",
+   "condition": "取月令为强弱判断之首",
+   "conclusion": "得令因子以月令（月支本气五行）为参照",
+   "when": {},
+   "then": {
+    "reference": "month_branch_primary_element"
+   },
+   "derived": false,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论用神",
+   "quotation": "八字用神,专求月令",
+   "kb_url": "https://luckclub.cn/bazi/002/010/"
+  },
+  {
+   "rule_id": "R-DELING-01",
+   "group": "seasonal_state",
+   "condition": "五行与月令五行相同",
+   "conclusion": "旺",
+   "when": {
+    "relation": "same"
+   },
+   "then": {
+    "state": "peak",
+    "label": "旺",
+    "level": 0
+   },
+   "derived": false,
+   "source_id": "sanming-tonghui",
+   "chapter": "論五行旺相休囚死並寄生十二宮",
+   "quotation": "盛德乘時曰旺",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+  },
+  {
+   "rule_id": "R-DELING-02",
+   "group": "seasonal_state",
+   "condition": "月令五行生该五行",
+   "conclusion": "相",
+   "when": {
+    "relation": "month_generates"
+   },
+   "then": {
+    "state": "supporting",
+    "label": "相",
+    "level": 1
+   },
+   "derived": false,
+   "source_id": "sanming-tonghui",
+   "chapter": "論五行旺相休囚死並寄生十二宮",
+   "quotation": "旺則生火,火乃木之子,子乘父業,故火相",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+  },
+  {
+   "rule_id": "R-DELING-03",
+   "group": "seasonal_state",
+   "condition": "该五行生月令五行",
+   "conclusion": "休",
+   "when": {
+    "relation": "generates_month"
+   },
+   "then": {
+    "state": "resting",
+    "label": "休",
+    "level": 2
+   },
+   "derived": false,
+   "source_id": "sanming-tonghui",
+   "chapter": "論五行旺相休囚死並寄生十二宮",
+   "quotation": "生我者當知退矣,故水休",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+  },
+  {
+   "rule_id": "R-DELING-04",
+   "group": "seasonal_state",
+   "condition": "该五行克月令五行",
+   "conclusion": "囚",
+   "when": {
+    "relation": "controls_month"
+   },
+   "then": {
+    "state": "confined",
+    "label": "囚",
+    "level": 3
+   },
+   "derived": false,
+   "source_id": "sanming-tonghui",
+   "chapter": "論五行旺相休囚死並寄生十二宮",
+   "quotation": "金乃木之鬼,被火克制,不能施設,故金囚",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+  },
+  {
+   "rule_id": "R-DELING-05",
+   "group": "seasonal_state",
+   "condition": "月令五行克该五行",
+   "conclusion": "死",
+   "when": {
+    "relation": "month_controls"
+   },
+   "then": {
+    "state": "dead",
+    "label": "死",
+    "level": 4
+   },
+   "derived": false,
+   "source_id": "sanming-tonghui",
+   "chapter": "論五行旺相休囚死並寄生十二宮",
+   "quotation": "春木克土則死",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+  },
+  {
+   "rule_id": "R-SCALE-DELING",
+   "group": "seasonal_scale",
+   "condition": "得令五档的分值",
+   "conclusion": "旺 1 / 相 0.75 / 休 0.5 / 囚 0.25 / 死 0",
+   "when": {},
+   "then": {
+    "labels": [
+     "旺",
+     "相",
+     "休",
+     "囚",
+     "死"
+    ],
+    "scores": [
+     1,
+     0.75,
+     0.5,
+     0.25,
+     0
+    ]
+   },
+   "derived": true,
+   "note": "档位顺序取自典籍，间距典籍未规定，取等距作中性默认值"
+  },
+  {
+   "rule_id": "R-DEDI-01",
+   "group": "rootedness",
+   "condition": "日主五行在地支藏干中为本气",
+   "conclusion": "本气通根",
+   "when": {
+    "qi": "primary"
+   },
+   "then": {
+    "label": "本气通根",
+    "level": 0
+   },
+   "derived": false,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "长生禄旺,根之重者也",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-DEDI-02",
+   "group": "rootedness",
+   "condition": "日主五行在地支藏干中为中气（本气无）",
+   "conclusion": "中气通根",
+   "when": {
+    "qi": "middle"
+   },
+   "then": {
+    "label": "中气通根",
+    "level": 1
+   },
+   "derived": true,
+   "note": "典籍只分根之重、轻两类；中气居本气与余气之间属形式化"
+  },
+  {
+   "rule_id": "R-DEDI-03",
+   "group": "rootedness",
+   "condition": "日主五行在地支藏干中仅为余气",
+   "conclusion": "余气通根",
+   "when": {
+    "qi": "residual"
+   },
+   "then": {
+    "label": "余气通根",
+    "level": 2
+   },
+   "derived": false,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "墓库余气,根之轻者也",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-DEDI-04",
+   "group": "rootedness",
+   "condition": "地支藏干中没有与日主同五行者",
+   "conclusion": "无根",
+   "when": {
+    "qi": "none"
+   },
+   "then": {
+    "label": "无根",
+    "level": 3
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "十干不论月令休囚,只要四柱有根",
+   "note": "典籍强调有根的作用；无根为最低档属形式化",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-SCALE-DEDI",
+   "group": "rootedness_scale",
+   "condition": "得地四档的分值",
+   "conclusion": "本气 1 / 中气 0.67 / 余气 0.33 / 无根 0",
+   "when": {},
+   "then": {
+    "labels": [
+     "本气通根",
+     "中气通根",
+     "余气通根",
+     "无根"
+    ],
+    "scores": [
+     1,
+     0.67,
+     0.33,
+     0
+    ]
+   },
+   "derived": true,
+   "note": "多处通根取最深的一处；间距取等距"
+  },
+  {
+   "rule_id": "R-DESHI-01",
+   "group": "revealed",
+   "condition": "日主之外的三个天干中，透出印或比劫的有 3 个",
+   "conclusion": "透出 3 个",
+   "when": {
+    "count": 3
+   },
+   "then": {
+    "label": "透出 3 个",
+    "level": 0
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "比劫印绶通根扶助为党众",
+   "note": "典籍以比劫、印、通根为身之党众；按透出个数分档属形式化。得地、得势、得助按位置切分，见 R-PART-01",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-DESHI-02",
+   "group": "revealed",
+   "condition": "日主之外的三个天干中，透出印或比劫的有 2 个",
+   "conclusion": "透出 2 个",
+   "when": {
+    "count": 2
+   },
+   "then": {
+    "label": "透出 2 个",
+    "level": 1
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "比劫印绶通根扶助为党众",
+   "note": "典籍以比劫、印、通根为身之党众；按透出个数分档属形式化。得地、得势、得助按位置切分，见 R-PART-01",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-DESHI-03",
+   "group": "revealed",
+   "condition": "日主之外的三个天干中，透出印或比劫的有 1 个",
+   "conclusion": "透出 1 个",
+   "when": {
+    "count": 1
+   },
+   "then": {
+    "label": "透出 1 个",
+    "level": 2
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "比劫印绶通根扶助为党众",
+   "note": "典籍以比劫、印、通根为身之党众；按透出个数分档属形式化。得地、得势、得助按位置切分，见 R-PART-01",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-DESHI-04",
+   "group": "revealed",
+   "condition": "日主之外的三个天干中，透出印或比劫的有 0 个",
+   "conclusion": "透出 0 个",
+   "when": {
+    "count": 0
+   },
+   "then": {
+    "label": "透出 0 个",
+    "level": 3
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论十干得时不旺失时不弱",
+   "quotation": "比劫印绶通根扶助为党众",
+   "note": "典籍以比劫、印、通根为身之党众；按透出个数分档属形式化。得地、得势、得助按位置切分，见 R-PART-01",
+   "kb_url": "https://luckclub.cn/bazi/002/008/"
+  },
+  {
+   "rule_id": "R-SCALE-DESHI",
+   "group": "revealed_scale",
+   "condition": "得势四档的分值",
+   "conclusion": "3 个 1 / 2 个 0.67 / 1 个 0.33 / 0 个 0",
+   "when": {},
+   "then": {
+    "labels": [
+     "透出 3 个",
+     "透出 2 个",
+     "透出 1 个",
+     "透出 0 个"
+    ],
+    "scores": [
+     1,
+     0.67,
+     0.33,
+     0
+    ]
+   },
+   "derived": true,
+   "note": "只数天干层面的印与比劫，避免与得地、得助重复计数；间距取等距"
+  },
+  {
+   "rule_id": "R-DEZHU-01",
+   "group": "assisting",
+   "condition": "地支藏干中生日主者（印）所占比例",
+   "conclusion": "得助 = 生日主的藏干数 ÷ 藏干总数",
+   "when": {
+    "formula": "resource_hidden_over_hidden_total"
+   },
+   "then": {
+    "continuous": true
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "chapter": "论印绶",
+   "quotation": "印绶喜其生身",
+   "note": "取比值本身，连续，无分档；比例的算法属形式化",
+   "kb_url": "https://luckclub.cn/bazi/002/037/"
+  },
+  {
+   "rule_id": "R-PART-01",
+   "group": "partition",
+   "condition": "三个因子按位置切分，互不重叠",
+   "conclusion": "天干层面的印与比劫 → 得势；地支藏干中与日主同五行 → 得地；地支藏干中生日主 → 得助",
+   "when": {},
+   "then": {},
+   "derived": true,
+   "note": "比劫既属同我又能帮身，若得地与得助都计入，同一个字会被数两遍"
+  },
+  {
+   "rule_id": "R-WEIGHT-PROV",
+   "group": "weights",
+   "condition": "标定完成前使用的临时权重",
+   "conclusion": "得令 0.4 / 得地 0.3 / 得势 0.2 / 得助 0.1",
+   "when": {},
+   "then": {
+    "weight_set": "provisional-0",
+    "weights": {
+     "seasonal_command": 0.4,
+     "rootedness": 0.3,
+     "revealed_support": 0.2,
+     "assisting_support": 0.1
+    }
+   },
+   "derived": true,
+   "note": "未经案例标定，仅满足四权重之和为 1 与「月令权重最大」；D3 冻结后由标定值取代"
+  },
+  {
+   "rule_id": "R-CUT-PROV",
+   "group": "cutpoints",
+   "condition": "标定完成前使用的临时切点（方案 A）",
+   "conclusion": "0.2 / 0.4 / 0.6 / 0.8 等距切分五档",
+   "when": {},
+   "then": {
+    "cuts": [
+     0.2,
+     0.4,
+     0.6,
+     0.8
+    ],
+    "levels": [
+     "very_weak",
+     "somewhat_weak",
+     "balanced",
+     "somewhat_strong",
+     "very_strong"
+    ]
+   },
+   "derived": true,
+   "note": "方案 A；D2 比较 A/B/C 后取代"
+  }
+ ]
+}

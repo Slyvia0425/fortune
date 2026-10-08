@@ -734,3 +734,61 @@
   border: 1px solid var(--line);
   border-radius: 999px;
 }
+
+/* An evidence reference in a factor's detail: a small link back to the character. */
+.evidenceChip {
+  border: 1px solid var(--line, rgba(23, 32, 28, 0.15));
+  background: transparent;
+  padding: 3px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 999px;
+}
+.evidenceChip:hover:not(:disabled) { border-color: var(--gold, #b69152); }
+.evidenceChip:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+.evidenceChip:disabled { cursor: default; }
+
+/* The character a reference points at, on the pillars page. */
+.tile[data-ref-focus="true"] { outline-color: var(--gold, #b69152); }
+.hiddenRow[data-ref-focus="true"] { outline: 2px solid var(--gold, #b69152); outline-offset: 2px; }
+
+/* Factor detail: the tier ladder shows how many tiers there are and which one
+   this chart meets. */
+.ladder { display: flex; gap: 6px; flex-wrap: wrap; }
+.rung {
+  display: grid;
+  justify-items: center;
+  min-width: 64px;
+  padding: 6px 10px;
+  border: 1px solid var(--line, rgba(23, 32, 28, 0.15));
+  color: var(--muted);
+  background: transparent;
+}
+.rung b { font-size: 15px; font-weight: 500; }
+.rung span { font-size: 12px; }
+.rungOn {
+  background: var(--jade);
+  border-color: var(--jade);
+  color: #fff;
+}
+.rungOn b { font-weight: 600; }
+.ladderNote { display: block; margin-top: 6px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+.ratioTrack { height: 10px; max-width: 360px; background: rgba(23, 32, 28, 0.1); }
+.ratioFill { height: 100%; background: var(--jade); }
+.derivedTag {
+  margin-left: 8px;
+  padding: 0 7px;
+  font-size: 11px;
+  border: 1px solid var(--gold, #b69152);
+  color: var(--gold, #b69152);
+}
+.quote { display: block; margin-top: 4px; color: var(--muted); }
+.stateTag {
+  margin-left: 6px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+  border: 1px solid var(--line, rgba(23, 32, 28, 0.2));
+  padding: 0 5px;
+}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { BaziChartResult, ElementKey, TenGod } from "@/lib/contracts/bazi";
+import type { BaziChartResult, ElementKey, EvidenceRef, TenGod } from "@/lib/contracts/bazi";
+import { focusTileId, isFocusedHidden } from "@/lib/bazi/evidence";
 import {
   BRANCH_LABEL,
   ELEMENT_LABEL,
@@ -110,14 +111,18 @@ export function PillarsStep({
   chart,
   isMock,
   warnings,
+  focus = null,
 }: {
   chart: BaziChartResult;
   isMock: boolean;
   warnings: string[];
+  /** Arrived from an evidence reference: select and highlight that character.
+   *  The parent re-mounts this step (changes its key) for each new reference. */
+  focus?: EvidenceRef | null;
 }) {
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
-  const [selectedId, setSelectedId] = useState(dayMaster.id);
+  const [selectedId, setSelectedId] = useState(focus ? focusTileId(focus) : dayMaster.id);
   const [showCalib, setShowCalib] = useState(false);
 
   const selected = cells.find((cell) => cell.id === selectedId) ?? dayMaster;
@@ -154,6 +159,7 @@ export function PillarsStep({
         type="button"
         className={`${styles.tile} ${styles.el}`}
         data-element={cell.element}
+        data-ref-focus={focus != null && focusTileId(focus) === cell.id && focus.position !== "hidden"}
         aria-pressed={cell.id === selected.id}
         aria-label={`${cell.position === "stem" ? "天干" : "地支"} ${cell.char}`}
         onClick={() => setSelectedId(cell.id)}
@@ -259,6 +265,7 @@ export function PillarsStep({
                       key={`${hidden.stem}-${hidden.qi}`}
                       className={`${styles.hiddenRow} ${styles.el}`}
                       data-element={hidden.element}
+                      data-ref-focus={isFocusedHidden(focus, pillar.label, hidden)}
                     >
                       <div>
                         <span>

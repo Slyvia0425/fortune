@@ -1,11 +1,12 @@
 import { useState } from "react";
-import type { BaziChartResult, DayMasterStrength, ElementKey } from "@/lib/contracts/bazi";
+import type { BaziChartResult, DayMasterStrength, ElementKey, EvidenceRef } from "@/lib/contracts/bazi";
 import {
   ARBITRATION_LABEL,
   ELEMENT_LABEL,
   FACTOR_LABEL,
   METHOD_LABEL,
   PATTERN_LABEL,
+  SEASONAL_STATE_LABEL,
   STEM_LABEL,
   STRENGTH_LABEL,
 } from "@/lib/bazi/display";
@@ -44,7 +45,16 @@ function onRing(angleDeg: number) {
   return { x: CX + RING * Math.cos(a), y: CY + RING * Math.sin(a) };
 }
 
-export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock: boolean }) {
+export function ElementsStep({
+  chart,
+  isMock,
+  onShowEvidence,
+}: {
+  chart: BaziChartResult;
+  isMock: boolean;
+  /** Jump to the pillars page with this reference highlighted. */
+  onShowEvidence?: (ref: EvidenceRef) => void;
+}) {
   const dayMasterElement = chart.day_master.element;
   // Which factor row is expanded; null when all are collapsed.
   const [openFactor, setOpenFactor] = useState<string | null>(null);
@@ -145,7 +155,14 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
               return (
                 <div key={segment.element} className={`${styles.legendRow} ${styles.el}`} data-element={segment.element}>
                   <ElementIcon element={segment.element} size={17} />
-                  <strong>{ELEMENT_LABEL[segment.element]}</strong>
+                  <strong>
+                    {ELEMENT_LABEL[segment.element]}
+                    {chart.element_states?.[segment.element] && (
+                      <i className={styles.stateTag} title={`在出生月份的季节：${ELEMENT_LABEL[segment.element]}${SEASONAL_STATE_LABEL[chart.element_states[segment.element]]}`}>
+                        {SEASONAL_STATE_LABEL[chart.element_states[segment.element]]}
+                      </i>
+                    )}
+                  </strong>
                   <span className={styles.groupText}>
                     {info.label} · {info.relation}
                   </span>
@@ -164,6 +181,9 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
               );
             })}
           </div>
+          <p className={styles.sectionNote} style={{ gridColumn: "1 / -1" }}>
+            五行名称后的小字为该五行在出生月份的旺衰（旺、相、休、囚、死），以月令为准。
+          </p>
         </div>
       </section>
 
@@ -313,7 +333,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
             const source = factor.source_id
               ? chart.source_refs.find((ref) => ref.source_id === factor.source_id)
               : undefined;
-            const hasDetail = Boolean(factor.rule_id || source || factor.evidence.length);
+            const hasDetail = true;
             return (
               <div key={factor.key}>
                 {/* The row itself is the control: clicking an item of evidence to
@@ -326,7 +346,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
                   onClick={() => setOpenFactor(open ? null : factor.key)}
                 >
                   <b>{FACTOR_LABEL[factor.key] ?? factor.key}</b>
-                  <span className={styles.evidence}>{factor.evidence.join("；")}</span>
+                  <span className={styles.evidence}>{factor.evidence.map((ref) => ref.description).join("；")}</span>
                   <div className={styles.factorTrack}>
                     <div
                       className={`${styles.factorFill} ${styles.grow}`}
@@ -340,31 +360,86 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
                 </button>
                 {open && (
                   <dl className={`${styles.factorDetail} ${styles.fade}`}>
+                    <dt>满足程度</dt>
+                    <dd>
+                      {factor.scale && factor.level !== null ? (
+                        <>
+                          <div className={styles.ladder} role="img"
+                            aria-label={`共 ${factor.scale.labels.length} 档，满足第 ${factor.level + 1} 档：${factor.scale.labels[factor.level]}`}>
+                            {factor.scale.labels.map((label, index) => (
+                              <div key={label} className={`${styles.rung} ${index === factor.level ? styles.rungOn : ""}`}>
+                                <b>{label}</b>
+                                <span>{factor.scale!.scores[index]}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <span className={styles.ladderNote}>
+                            共 {factor.scale.labels.length} 档（自优到劣），本盘为第 {factor.level + 1} 档「{factor.scale.labels[factor.level]}」，得 {factor.score}
+                            {factor.scale.derived && `。档位顺序取自典籍，分值间距为本项目设定（${factor.scale.rule_id}）`}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <div className={styles.ratioTrack} role="img" aria-label={`比例 ${factor.score}`}>
+                            <div className={styles.ratioFill} style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }} />
+                          </div>
+                          <span className={styles.ladderNote}>连续取值 0–1，不分档；本盘为 {factor.score}</span>
+                        </>
+                      )}
+                    </dd>
+                    {factor.calculation && (
+                      <>
+                        <dt>计算</dt>
+                        <dd>{factor.calculation}</dd>
+                      </>
+                    )}
                     {factor.rule_id && (
                       <>
                         <dt>规则</dt>
-                        <dd>{factor.rule_id}</dd>
+                        <dd>
+                          {factor.rule_id}
+                          {factor.derived && <span className={styles.derivedTag}>本项目形式化</span>}
+                        </dd>
                       </>
                     )}
-                    {source && (
+                    {(source || factor.chapter) && (
                       <>
                         <dt>依据</dt>
                         <dd>
-                          《{source.title}》
-                          {[source.edition, source.chapter].filter(Boolean).join(" · ")}
+                          {source && `《${source.title}》`}
+                          {[source?.edition, factor.chapter].filter(Boolean).join(" · ")}
+                          {factor.quotation && <q className={styles.quote}>{factor.quotation}</q>}
+                          {factor.kb_url?.startsWith("http") && (
+                            <a href={factor.kb_url} target="_blank" rel="noreferrer" className={styles.quote}>
+                              在原文页面核对 ↗
+                            </a>
+                          )}
                         </dd>
                       </>
                     )}
                     {factor.evidence.length > 0 && (
                       <>
                         <dt>命盘中的位置</dt>
-                        <dd>{factor.evidence.join("；")}</dd>
+                        <dd style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                          {factor.evidence.map((ref, index) => (
+                            <button
+                              key={`${ref.pillar}-${ref.position}-${ref.stem ?? ref.branch}-${index}`}
+                              type="button"
+                              className={styles.evidenceChip}
+                              disabled={!onShowEvidence}
+                              onClick={() => onShowEvidence?.(ref)}
+                              title="在四柱排盘中查看"
+                            >
+                              {ref.description}
+                              {onShowEvidence && <span aria-hidden="true"> ↗</span>}
+                            </button>
+                          ))}
+                        </dd>
                       </>
                     )}
-                    <dt>计算</dt>
+                    <dt>合计贡献</dt>
                     <dd>
-                      因子满足程度 {factor.score} × 权重 {factor.weight} ={" "}
-                      {factor.weighted_score.toFixed(2)}
+                      {factor.score} × 权重 {factor.weight} = {factor.weighted_score.toFixed(2)}
                     </dd>
                   </dl>
                 )}

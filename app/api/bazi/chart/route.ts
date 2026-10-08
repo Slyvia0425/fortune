@@ -14,7 +14,7 @@ const SYSTEM = "bazi-chart-v1";
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 
-const GENDERS = ["female", "male", "unspecified"] as const;
+const GENDERS = ["female", "male"] as const;
 const CALENDARS = ["solar", "lunar"] as const;
 const LOCATION_SOURCES = ["dropdown", "manual_coordinates"] as const;
 
@@ -145,8 +145,19 @@ function parseRequest(body: Record<string, unknown>): ParseResult<BaziChartReque
     }
   }
 
+  // Calendar first: a lunar date such as 二月三十 is not a Gregorian date, so
+  // only solar input gets the real-date check (lunar goes through the
+  // conversion on the Python side).
+  let calendar: BaziChartRequest["calendar"] = "solar";
+  if (body.calendar !== undefined && body.calendar !== null) {
+    if (!CALENDARS.includes(body.calendar as (typeof CALENDARS)[number])) {
+      return { ok: false, message: "calendar 必须是 solar 或 lunar。" };
+    }
+    calendar = body.calendar as BaziChartRequest["calendar"];
+  }
+
   const birthDate = optionalString(body.birth_date, 10);
-  if (!birthDate || !DATE_RE.test(birthDate) || !isRealDate(birthDate)) {
+  if (!birthDate || !DATE_RE.test(birthDate) || (calendar === "solar" && !isRealDate(birthDate))) {
     return { ok: false, message: "birth_date 必须是有效日期，格式 YYYY-MM-DD。" };
   }
 
@@ -160,17 +171,7 @@ function parseRequest(body: Record<string, unknown>): ParseResult<BaziChartReque
 
   const gender = body.gender;
   if (!GENDERS.includes(gender as (typeof GENDERS)[number])) {
-    return { ok: false, message: "gender 必须是 female、male 或 unspecified。" };
-  }
-
-  // Defaults to solar, matching the Pydantic default. An explicit but
-  // unrecognised value is rejected rather than silently coerced.
-  let calendar: BaziChartRequest["calendar"] = "solar";
-  if (body.calendar !== undefined && body.calendar !== null) {
-    if (!CALENDARS.includes(body.calendar as (typeof CALENDARS)[number])) {
-      return { ok: false, message: "calendar 必须是 solar 或 lunar。" };
-    }
-    calendar = body.calendar as BaziChartRequest["calendar"];
+    return { ok: false, message: "gender 必须是 female 或 male。" };
   }
 
   let isLeapMonth: boolean | undefined;

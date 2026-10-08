@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ApiEnvelope } from "@/lib/contracts/api";
-import type { BaziChartRequest, BaziChartResult, BirthPlace } from "@/lib/contracts/bazi";
-import { CITY_OPTIONS } from "@/lib/bazi/cities";
+import type { BaziChartRequest, BaziChartResult, BirthPlace, EvidenceRef } from "@/lib/contracts/bazi";
+import type { CityHit } from "@/lib/bazi/city-search";
+import type { LunarCheck } from "@/lib/bazi/lunar-check";
 import { ElementsStep } from "./elements-step";
 import { AdvisoryStep } from "./advisory-step";
 import { PillarsStep } from "./pillars-step";
@@ -187,12 +188,26 @@ export default function BaziWorkspace() {
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [gender, setGender] = useState<BaziChartRequest["gender"]>("unspecified");
+  const [gender, setGender] = useState<BaziChartRequest["gender"] | "">("");
   const [calendar, setCalendar] = useState<"solar" | "lunar">("solar");
   const [isLeapMonth, setIsLeapMonth] = useState(false);
+  // A lunar date cannot go through <input type="date">: 二月三十 is a real lunar
+  // date but not a Gregorian one, so the browser would refuse to hold it.
+  const [lunarYear, setLunarYear] = useState("");
+  const [lunarMonth, setLunarMonth] = useState("1");
+  const [lunarDay, setLunarDay] = useState("1");
 
   const [placeMode, setPlaceMode] = useState<PlaceMode>("dropdown");
-  const [cityId, setCityId] = useState(CITY_OPTIONS[0].id);
+  // Result of the server-side lunar-date check, keyed by the input it was run on
+  // so a stale answer is never shown against a newer date.
+  const [lunarResult, setLunarResult] = useState<{ key: string; check: LunarCheck } | null>(null);
+  // Set when the user follows an evidence reference from the strength breakdown
+  // to the character it names; seq re-mounts the pillars page for each new one.
+  const [evidenceFocus, setEvidenceFocus] = useState<{ ref: EvidenceRef; seq: number } | null>(null);
+  const [cityQuery, setCityQuery] = useState("");
+  const [cityHits, setCityHits] = useState<CityHit[]>([]);
+  const [city, setCity] = useState<CityHit | null>(null);
+  const [cityLoading, setCityLoading] = useState(false);
   const [latHemisphere, setLatHemisphere] = useState("N");
   const [latDegrees, setLatDegrees] = useState("");
   const [latMinutes, setLatMinutes] = useState("0");
@@ -203,6 +218,57 @@ export default function BaziWorkspace() {
   const [result, setResult] = useState<ApiEnvelope<BaziChartResult> | null>(null);
   const [pending, setPending] = useState(false);
   const [notice, setNotice] = useState("");
+
+  const lunarDate = /^\d{4}$/.test(lunarYear)
+    ? `${lunarYear}-${lunarMonth.padStart(2, "0")}-${lunarDay.padStart(2, "0")}`
+    : "";
+  const birthDate = calendar === "lunar" ? lunarDate : date;
+  const lunarKey = `${lunarDate}|${isLeapMonth}`;
+  useEffect(() => {
+    if (calendar !== "lunar" || !lunarDate) return;
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/bazi/lunar?date=${lunarDate}&leap=${isLeapMonth}`, {
+          signal: controller.signal,
+        });
+        const data: ApiEnvelope<LunarCheck> = await res.json();
+        if (data.result) setLunarResult({ key: lunarKey, check: data.result });
+      } catch {
+        // network failure: leave unchecked; the server rejects a bad date at submit anyway
+      }
+    }, 250);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [calendar, lunarDate, isLeapMonth, lunarKey]);
+
+  const lunarCheck = calendar === "lunar" && lunarResult?.key === lunarKey ? lunarResult.check : null;
+  const lunarMessage = lunarCheck && !lunarCheck.valid ? lunarCheck.message : null;
+
+  // Debounced GeoNames search. Typing after a selection clears it (see onChange).
+  useEffect(() => {
+    const q = cityQuery.trim();
+    if (!q || (city && city.name === q)) return;
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setCityLoading(true);
+      try {
+        const res = await fetch(`/api/bazi/cities?q=${encodeURIComponent(q)}`, { signal: controller.signal });
+        const data: ApiEnvelope<CityHit[]> = await res.json();
+        setCityHits(data.result ?? []);
+      } catch {
+        if (!controller.signal.aborted) setCityHits([]);
+      } finally {
+        if (!controller.signal.aborted) setCityLoading(false);
+      }
+    }, 250);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [cityQuery, city]);
 
   const chart = result?.result ?? null;
   const unlocked = chart !== null;
@@ -218,14 +284,12 @@ export default function BaziWorkspace() {
   /** Builds the structured birth_place the contract expects, or explains why it can't. */
   function buildBirthPlace(): { ok: true; value: BirthPlace } | { ok: false; message: string } {
     if (placeMode === "dropdown") {
-      const city = CITY_OPTIONS.find((option) => option.id === cityId);
-      if (!city) return { ok: false, message: "请选择出生城市。" };
+      if (!city) return { ok: false, message: "请从搜索结果中选择出生城市。" };
       return {
         ok: true,
         value: {
           country_code: city.country_code,
-          country: city.country,
-          city: city.city,
+          city: city.name,
           latitude: city.latitude,
           longitude: city.longitude,
           source: "dropdown",
@@ -265,8 +329,18 @@ export default function BaziWorkspace() {
   }
 
   async function submit() {
-    if (!date || !time) {
+    if (!birthDate || !time) {
       setNotice("请填写出生日期和时间。");
+      return;
+    }
+
+    if (!gender) {
+      setNotice("请选择性别（用于确定大运顺逆）。");
+      return;
+    }
+
+    if (calendar === "lunar" && lunarMessage) {
+      setNotice(lunarMessage);
       return;
     }
 
@@ -278,7 +352,7 @@ export default function BaziWorkspace() {
 
     // Some browsers return "HH:mm:ss" from a time input; the contract wants "HH:mm".
     const payload: BaziChartRequest = {
-      birth_date: date,
+      birth_date: birthDate,
       birth_time: time.slice(0, 5),
       birth_place: place.value,
       gender,
@@ -307,6 +381,7 @@ export default function BaziWorkspace() {
 
   function goto(target: number) {
     if (target !== 1 && !unlocked) return;
+    if (target === 2) setEvidenceFocus((prev) => (prev ? null : prev));
     setStep(target);
   }
 
@@ -364,7 +439,41 @@ export default function BaziWorkspace() {
                     ]}
                   />
                 </label>
-                <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                {calendar === "solar" ? (
+                  <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+                ) : (
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <input
+                      id="date"
+                      type="number"
+                      inputMode="numeric"
+                      min={1900}
+                      max={2100}
+                      placeholder="年（1900–2100）"
+                      aria-label="农历年"
+                      value={lunarYear}
+                      onChange={(e) => setLunarYear(e.target.value)}
+                    />
+                    <select
+                      aria-label="农历月"
+                      value={lunarMonth}
+                      onChange={(e) => setLunarMonth(e.target.value)}
+                    >
+                      {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+                        <option key={m} value={String(m)}>
+                          {m} 月
+                        </option>
+                      ))}
+                    </select>
+                    <select aria-label="农历日" value={lunarDay} onChange={(e) => setLunarDay(e.target.value)}>
+                      {Array.from({ length: 30 }, (_, i) => i + 1).map((d) => (
+                        <option key={d} value={String(d)}>
+                          {d} 日
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
                 {calendar === "lunar" && (
                   /* Deliberately not .form-note — that class is styled for
                      full-width notes in the grid and stretches this row. */
@@ -390,6 +499,14 @@ export default function BaziWorkspace() {
                     <span>出生于闰月（不确定可不勾选）</span>
                   </label>
                 )}
+                {lunarMessage && (
+                  <small role="alert" style={{ color: "var(--red, #a13b31)" }}>
+                    {lunarMessage}
+                  </small>
+                )}
+                {lunarCheck?.valid && lunarCheck.solar_date && (
+                  <small style={{ opacity: 0.7 }}>对应公历 {lunarCheck.solar_date}</small>
+                )}
               </div>
 
               <div className="field">
@@ -412,18 +529,55 @@ export default function BaziWorkspace() {
                     ]}
                   />
                 </label>
-                <select
+                <input
                   id="city"
-                  value={cityId}
-                  onChange={(e) => setCityId(e.target.value)}
+                  type="text"
+                  autoComplete="off"
+                  placeholder="输入城市英文名，如 Shanghai"
+                  value={cityQuery}
                   disabled={placeMode === "manual_coordinates"}
-                >
-                  {CITY_OPTIONS.map((option) => (
-                    <option key={option.id} value={option.id}>
-                      {option.country} · {option.city}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(e) => {
+                    setCityQuery(e.target.value);
+                    setCity(null);
+                    if (!e.target.value.trim()) setCityHits([]);
+                  }}
+                />
+                {placeMode === "dropdown" && cityHits.length > 0 && (
+                  <ul
+                    role="listbox"
+                    style={{ listStyle: "none", margin: 0, padding: 0, border: "1px solid var(--line)" }}
+                  >
+                    {cityHits.map((hit) => (
+                      <li key={hit.id} role="option" aria-selected={false}>
+                        <button
+                          type="button"
+                          style={{ width: "100%", textAlign: "left", padding: "9px 12px", background: "transparent", border: 0, cursor: "pointer" }}
+                          onClick={() => {
+                            setCity(hit);
+                            setCityQuery(hit.name);
+                            setCityHits([]);
+                          }}
+                        >
+                          {hit.name}
+                          {hit.alias ? ` (${hit.alias})` : ""} · {hit.country_code}
+                          <small style={{ opacity: 0.6 }}>
+                            {"  "}
+                            {hit.latitude.toFixed(2)}, {hit.longitude.toFixed(2)}
+                          </small>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {placeMode === "dropdown" && (
+                  <small style={{ opacity: 0.7 }}>
+                    {city
+                      ? `已选：${city.name}（${city.country_code}），经度 ${city.longitude.toFixed(2)}°`
+                      : cityLoading
+                        ? "搜索中…"
+                        : "城市数据来自 GeoNames，暂只支持英文名；找不到可切换到「填经纬度」。"}
+                  </small>
+                )}
               </div>
 
               <div className="field">
@@ -431,11 +585,11 @@ export default function BaziWorkspace() {
                 <select
                   id="gender"
                   value={gender}
-                  onChange={(e) => setGender(e.target.value as BaziChartRequest["gender"])}
+                  onChange={(e) => setGender(e.target.value as BaziChartRequest["gender"] | "")}
                 >
+                  <option value="">请选择</option>
                   <option value="female">女</option>
                   <option value="male">男</option>
-                  <option value="unspecified">不便说明</option>
                 </select>
               </div>
 
@@ -490,7 +644,13 @@ export default function BaziWorkspace() {
         {/* ---------------------------------------------------------- */}
         {step === 2 && chart && (
           <>
-            <PillarsStep chart={chart} isMock={isMock} warnings={warnings} />
+            <PillarsStep
+              key={evidenceFocus?.seq ?? 0}
+              chart={chart}
+              isMock={isMock}
+              warnings={warnings}
+              focus={evidenceFocus?.ref ?? null}
+            />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}
@@ -500,7 +660,14 @@ export default function BaziWorkspace() {
         {/* ---------------------------------------------------------- */}
         {step === 3 && chart && (
           <>
-            <ElementsStep chart={chart} isMock={isMock} />
+            <ElementsStep
+              chart={chart}
+              isMock={isMock}
+              onShowEvidence={(ref) => {
+                setEvidenceFocus((prev) => ({ ref, seq: (prev?.seq ?? 0) + 1 }));
+                setStep(2);
+              }}
+            />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}

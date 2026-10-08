@@ -19,7 +19,7 @@ When the variable is absent, Bazi and divination endpoints return explicit mock 
 Request:
 
 ```json
-{"birth_date":"2000-01-01","birth_time":"12:30","birth_place":{"country_code":"SG","country":"新加坡","city":"新加坡","latitude":1.3521,"longitude":103.8198,"source":"dropdown"},"gender":"unspecified","calendar":"solar"}
+{"birth_date":"2000-01-01","birth_time":"12:30","birth_place":{"country_code":"SG","country":"新加坡","city":"新加坡","latitude":1.3521,"longitude":103.8198,"source":"dropdown"},"gender":"female","calendar":"solar"}
 ```
 
 `birth_place` is an object, not a string: `latitude` and `longitude` are required because they drive true-solar-time correction, and `source` is `dropdown` or `manual_coordinates`. `birth_date` must be a real calendar date and `birth_time` is 24-hour `HH:mm`. `calendar` defaults to `solar`; `is_leap_month` only applies to lunar input. `timezone` is normally omitted — the service resolves it from the coordinates. Unknown fields are rejected, and `app/api/bazi/chart/route.ts` validates the same rules as the Python models, so change both together.

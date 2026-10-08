@@ -16,6 +16,7 @@ import type {
   ElementKey,
   HeavenlyStem,
   PillarLabel,
+  SeasonalState,
   SolarTerm,
   SpecialPattern,
   TenGod,
@@ -99,6 +100,14 @@ export const TEN_GOD_GROUP_LABEL: Record<TenGodGroup, string> = {
   wealth: "财",
   officer: "官杀",
   resource: "印",
+};
+
+export const SEASONAL_STATE_LABEL: Record<SeasonalState, string> = {
+  peak: "旺",
+  supporting: "相",
+  resting: "休",
+  confined: "囚",
+  dead: "死",
 };
 
 export const FACTOR_LABEL: Record<string, string> = {

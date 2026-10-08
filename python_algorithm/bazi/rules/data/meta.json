@@ -1,0 +1,33 @@
+{
+ "version": "R0.3",
+ "sources": [
+  {
+   "source_id": "ziping-zhenquan",
+   "title": "子平真诠评注",
+   "edition": "沈孝瞻原著，徐乐吾评注"
+  },
+  {
+   "source_id": "sanming-tonghui",
+   "title": "三命通会",
+   "edition": "万民英"
+  },
+  {
+   "source_id": "yuanhai-ziping",
+   "title": "渊海子平"
+  },
+  {
+   "source_id": "qiongtong-baojian",
+   "title": "穷通宝鉴",
+   "edition": "徐乐吾评注"
+  },
+  {
+   "source_id": "ditiansui-chanwei",
+   "title": "滴天髓阐微",
+   "edition": "任铁樵增注"
+  },
+  {
+   "source_id": "meihua-yishu",
+   "title": "梅花易数"
+  }
+ ]
+}

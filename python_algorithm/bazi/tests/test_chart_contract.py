@@ -24,7 +24,7 @@ VALID_REQUEST = {
         "longitude": 103.8198,
         "source": "dropdown",
     },
-    "gender": "unspecified",
+    "gender": "female",
     "calendar": "solar",
 }
 

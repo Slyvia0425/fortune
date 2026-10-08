@@ -61,6 +61,14 @@ export type TenGod =
   | "indirect_resource" // 偏印
   | "direct_resource";  // 正印
 
+/** 旺相休囚死: how an element stands in the season set by the birth month. */
+export type SeasonalState =
+  | "peak"        // 旺
+  | "supporting"  // 相
+  | "resting"     // 休
+  | "confined"    // 囚
+  | "dead";       // 死
+
 /** Five-level day-master strength. */
 export type DayMasterStrength =
   | "very_strong"
@@ -139,7 +147,7 @@ export interface BaziChartRequest {
   /** "HH:mm", local civil time at the birth place. */
   birth_time: string;
   birth_place: BirthPlace;
-  gender: "female" | "male" | "unspecified";
+  gender: "female" | "male";
   /**
    * Input calendar. Lunar input is converted to solar server-side before any
    * calculation; solar terms and the sexagenary day count are solar concepts.
@@ -311,6 +319,41 @@ export interface CurrentPeriod {
 /* 1.2 Pattern diagnosis                                                */
 /* ------------------------------------------------------------------ */
 
+/** Where in the chart a piece of evidence sits. */
+export type EvidencePosition =
+  | "stem"    // a heavenly stem of a pillar
+  | "hidden"  // a stem hidden in a pillar's branch
+  | "branch"; // the earthly branch itself (e.g. 月令)
+
+/**
+ * A pointer to a place in the natal chart. The reader (and the UI) can go to
+ * the character itself instead of parsing a sentence.
+ *
+ * pillar + position + branch always locate the spot. `stem` is set for a stem
+ * or a hidden stem; `qi` only for a hidden stem. `description` is the one-line
+ * account of why the character matters — the only free text. Every reference
+ * must name a character the chart really has; the Python model rejects a result
+ * that does not.
+ */
+export interface EvidenceRef {
+  pillar: PillarLabel;
+  position: EvidencePosition;
+  /** The pillar's own branch; for a hidden stem, the branch that hides it. */
+  branch: EarthlyBranch;
+  stem: HeavenlyStem | null;
+  qi: HiddenStem["qi"] | null;
+  description: string;
+}
+
+/** The tiers a factor is scored on, best first, and the rule that fixed their values. */
+export interface FactorScale {
+  labels: string[];
+  scores: number[];
+  rule_id: string;
+  /** True: the spacing between tiers is this project's choice, not the text's. */
+  derived: boolean;
+}
+
 /** One evidence factor feeding the day-master strength arbitration. */
 export interface StrengthFactor {
   key: "seasonal_command" | "rootedness" | "revealed_support" | "assisting_support";
@@ -329,7 +372,21 @@ export interface StrengthFactor {
   /** score * weight. */
   weighted_score: number;
   /** Which pillars / stems produced this score. */
-  evidence: string[];
+  /** Places in the chart this score was computed from; empty when none applies. */
+  evidence: EvidenceRef[];
+  /** The tier ladder; null for a continuous factor (得助 is a ratio). */
+  scale: FactorScale | null;
+  /** Index into scale.labels where this chart sits (0 = best); null when continuous. */
+  level: number | null;
+  /** One-line account of how the score was reached. */
+  calculation: string;
+  /** Where the rule that produced the score is cited, and whether it is the
+   *  project's own formalisation rather than something the text states. */
+  chapter: string | null;
+  quotation: string | null;
+  /** The knowledge-base page the quotation comes from (its unique key; a URL for web sources). */
+  kb_url: string | null;
+  derived: boolean;
 }
 
 /**
@@ -534,6 +591,8 @@ export interface BaziChartResult {
   solar_term: SolarTermPosition;
   pillars: BaziPillar[];
   elements: Record<ElementKey, number>;
+  /** 1.2: each element's 旺相休囚死 in the birth month's season. */
+  element_states: Record<ElementKey, SeasonalState>;
   /** Display only — no interpretation attached. */
   luck_onset: LuckOnset;
   /**
@@ -574,6 +633,8 @@ export interface BaziChartResult {
     engine_version?: string;
     /** Identifier of the weight set used, for reproducing a given result. */
     weight_set?: string;
+    /** Version of the rule base used; with weight_set, enough to reproduce a result. */
+    rule_base?: string;
     warnings?: string[];
   };
 }

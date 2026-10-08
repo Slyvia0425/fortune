@@ -11,6 +11,8 @@ T8 real luck cycles. Until then meta.mock stays true.
 
 from __future__ import annotations
 
+from bazi.calc.evidence import branch_ref, hidden_ref, stem_ref
+from bazi.diagnosis.factors import seasonal
 from bazi.models.bazi import (
     AnnualPillar,
     AnnualStemBranch,
@@ -195,7 +197,7 @@ def _pillars() -> list[BaziPillar]:
     ]
 
 
-def _reasoning_trace() -> ReasoningTrace:
+def _reasoning_trace(pillars: list[BaziPillar]) -> ReasoningTrace:
     """Shape mirrors the two-layer arbitration: fusion, then override."""
     factors = [
         StrengthFactor(
@@ -205,7 +207,7 @@ def _reasoning_trace() -> ReasoningTrace:
             score=1.0,
             weight=0.40,
             weighted_score=0.40,
-            evidence=["month branch yin supports the wood day master"],
+            evidence=[branch_ref(pillars, PillarLabel.MONTH, "月令寅木，与日主甲木同气")],
         ),
         StrengthFactor(
             key=FactorKey.ROOTEDNESS,
@@ -214,7 +216,7 @@ def _reasoning_trace() -> ReasoningTrace:
             score=0.6,
             weight=0.30,
             weighted_score=0.18,
-            evidence=["jia rooted in the hour branch yin"],
+            evidence=[hidden_ref(pillars, PillarLabel.HOUR, QiTier.PRIMARY, "时支寅中藏甲木（本气），日主通根")],
         ),
         StrengthFactor(
             key=FactorKey.REVEALED_SUPPORT,
@@ -223,7 +225,11 @@ def _reasoning_trace() -> ReasoningTrace:
             score=0.2,
             weight=0.20,
             weighted_score=0.04,
-            evidence=["no supporting stem revealed on the heavenly stems"],
+            evidence=[
+                stem_ref(pillars, PillarLabel.YEAR, "年干庚金克日主，不计入印比"),
+                stem_ref(pillars, PillarLabel.MONTH, "月干戊土为财，不计入印比"),
+                stem_ref(pillars, PillarLabel.HOUR, "时干丙火为食神，不计入印比"),
+            ],
         ),
         StrengthFactor(
             key=FactorKey.ASSISTING_SUPPORT,
@@ -232,7 +238,7 @@ def _reasoning_trace() -> ReasoningTrace:
             score=0.5,
             weight=0.10,
             weighted_score=0.05,
-            evidence=["water in the day branch generates the day master"],
+            evidence=[hidden_ref(pillars, PillarLabel.DAY, QiTier.PRIMARY, "日支子中藏癸水（本气），生日主")],
         ),
     ]
     return ReasoningTrace(
@@ -372,6 +378,7 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
     The request is echoed only where it is safe to do so (civil time, the
     timezone if the caller supplied one). Nothing is computed from it.
     """
+    chart_pillars = _pillars()
     return BaziChartResult(
         resolved_time=ResolvedTime(
             solar_date=request.birth_date,
@@ -396,7 +403,7 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
             month_term=SolarTerm.BAILU,
             near_boundary=False,
         ),
-        pillars=_pillars(),
+        pillars=chart_pillars,
         elements={
             ElementKey.WOOD: 3.0,
             ElementKey.FIRE: 2.0,
@@ -406,6 +413,7 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
         },
         # Eight steps so the current one is visible for a typical adult;
         # display only, no judgement attached.
+        element_states=seasonal(chart_pillars).states,
         luck_onset=LuckOnset(
             years=3,
             months=4,
@@ -601,7 +609,7 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
                 rationale="日主属木而生于春季，不属「金水生于冬令、木火生于夏令」之调候为急，故以扶抑为主。",
             ),
         ),
-        reasoning_trace=_reasoning_trace(),
+        reasoning_trace=_reasoning_trace(chart_pillars),
         domain_tallies=_domain_tallies(),
         # Neutral placeholder — the warning above already says the data is fake.
         overview="命局概述将在计算引擎接入后生成。",
