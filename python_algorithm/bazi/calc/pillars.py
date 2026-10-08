@@ -12,10 +12,10 @@ correction yet; that arrives with T6).
 from datetime import datetime, timedelta
 from typing import NamedTuple
 
+from bazi.basics import sexagenary
+from bazi.basics.solar_terms import JIE_BRANCH
+from bazi.basics.stems_branches import BRANCHES, STEMS
 from bazi.calc import terms
-
-STEMS = "甲乙丙丁戊己庚辛壬癸"
-BRANCHES = "子丑寅卯辰巳午未申酉戌亥"
 
 
 class Pillars(NamedTuple):
@@ -28,42 +28,48 @@ class Pillars(NamedTuple):
         return " ".join(self)
 
 
-def _gz(stem: int, branch: int) -> str:
-    return STEMS[stem % 10] + BRANCHES[branch % 12]
+_gz = sexagenary.ganzhi
 
 
 def year_pillar(civil: datetime) -> tuple[int, str]:
     """Returns (stem index, pillar). Year starts at 立春, not 1 Jan or 正月初一."""
     y = civil.year if civil >= terms.lichun(civil.year) else civil.year - 1
-    n = (y - 1984) % 60  # 1984 = 甲子
+    n = sexagenary.year_index(y)
     return n % 10, _gz(n, n)
 
 
 def month_pillar(civil: datetime, year_stem: int) -> str:
     """Branch from the most recent 节; stem by 五虎遁 from the year stem."""
     name, _ = terms.previous_jie(civil)
-    branch = terms.JIE_BRANCH[name]
+    return month_pillar_of(year_stem, JIE_BRANCH[name])
+
+
+def month_pillar_of(year_stem: int, branch: int) -> str:
+    """The month pillar of a given month branch in a year: stem by 五虎遁 from the year stem."""
     k = (branch - 2) % 12                      # months since 寅
-    first = (year_stem % 5) * 2 + 2            # 甲/己 -> 丙寅 ...
-    return _gz(first + k, branch)
+    return _gz(sexagenary.month_first_stem(year_stem) + k, branch)
+
+
+def _jdn(y: int, m: int, d: int) -> int:
+    """Julian day number of a Gregorian date."""
+    a = (14 - m) // 12
+    yy = y + 4800 - a
+    mm = m + 12 * a - 3
+    return d + (153 * mm + 2) // 5 + 365 * yy + yy // 4 - yy // 100 + yy // 400 - 32045
 
 
 def day_index(solar: datetime) -> int:
     """Index 0-59 into the sexagenary cycle; the day changes at 23:00."""
-    d = solar + timedelta(hours=1) if solar.hour >= 23 else solar
-    m, y = d.month, d.year
-    a = (14 - m) // 12
-    yy = y + 4800 - a
-    mm = m + 12 * a - 3
-    jdn = (d.day + (153 * mm + 2) // 5 + 365 * yy + yy // 4
-           - yy // 100 + yy // 400 - 32045)
-    return (jdn + 49) % 60
+    d = solar + timedelta(hours=24 - sexagenary.DAY_CHANGE_HOUR) if solar.hour >= sexagenary.DAY_CHANGE_HOUR else solar
+    jdn = _jdn(d.year, d.month, d.day)
+    anchor = sexagenary.DAY_ANCHOR_DATE
+    return (sexagenary.DAY_ANCHOR_INDEX + jdn - _jdn(anchor.year, anchor.month, anchor.day)) % 60
 
 
 def hour_pillar(solar: datetime, day_stem: int) -> str:
     """Branch from true solar time (23:00-01:00 = 子); stem by 五鼠遁."""
     branch = ((solar.hour + 1) // 2) % 12
-    return _gz((day_stem % 5) * 2 + branch, branch)
+    return _gz(sexagenary.hour_first_stem(day_stem) + branch, branch)
 
 
 def compute_pillars(civil: datetime, solar: datetime | None = None) -> Pillars:

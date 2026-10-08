@@ -231,6 +231,39 @@
    "chapter": "淵海子平 · 第1部分",
    "quotation": "見癸:為印綬",
    "note": "典籍以甲、乙日主为例列出十干所见之十神；推广到其余日主按五行生克与阴阳同异，属形式化（见 test_rules_data 中与引擎十神表的逐项核对）"
+  },
+  {
+   "rule_id": "R-SHISHEN-GROUP",
+   "group": "ten_god_groups",
+   "condition": "十神按与日主的关系分五组",
+   "conclusion": "比劫（比肩、劫财）、食伤（食神、伤官）、财（偏财、正财）、官杀（七杀、正官）、印（偏印、正印）",
+   "when": {},
+   "then": {
+    "groups": {
+     "companion": [
+      "friend",
+      "rob_wealth"
+     ],
+     "output": [
+      "eating_god",
+      "hurting_officer"
+     ],
+     "wealth": [
+      "indirect_wealth",
+      "direct_wealth"
+     ],
+     "officer": [
+      "seven_killings",
+      "direct_officer"
+     ],
+     "resource": [
+      "indirect_resource",
+      "direct_resource"
+     ]
+    }
+   },
+   "derived": true,
+   "note": "扶抑规则（R-FUYI-02/03）以印、比劫与官杀、食伤成组立言；财为本项目补入。分五组与契约 TenGodGroup 一一对应"
   }
  ]
 }

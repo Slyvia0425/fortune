@@ -1,0 +1,115 @@
+{
+ "note": "天干地支的顺序、五行与阴阳。序即六十甲子的序；阴阳按序，奇数位（甲丙戊庚壬）为阳。key 与契约枚举一致。",
+ "stems": [
+  {
+   "zh": "甲",
+   "key": "jia",
+   "element": "wood",
+   "yang": true
+  },
+  {
+   "zh": "乙",
+   "key": "yi",
+   "element": "wood",
+   "yang": false
+  },
+  {
+   "zh": "丙",
+   "key": "bing",
+   "element": "fire",
+   "yang": true
+  },
+  {
+   "zh": "丁",
+   "key": "ding",
+   "element": "fire",
+   "yang": false
+  },
+  {
+   "zh": "戊",
+   "key": "wu",
+   "element": "earth",
+   "yang": true
+  },
+  {
+   "zh": "己",
+   "key": "ji",
+   "element": "earth",
+   "yang": false
+  },
+  {
+   "zh": "庚",
+   "key": "geng",
+   "element": "metal",
+   "yang": true
+  },
+  {
+   "zh": "辛",
+   "key": "xin",
+   "element": "metal",
+   "yang": false
+  },
+  {
+   "zh": "壬",
+   "key": "ren",
+   "element": "water",
+   "yang": true
+  },
+  {
+   "zh": "癸",
+   "key": "gui",
+   "element": "water",
+   "yang": false
+  }
+ ],
+ "branches": [
+  {
+   "zh": "子",
+   "key": "zi"
+  },
+  {
+   "zh": "丑",
+   "key": "chou"
+  },
+  {
+   "zh": "寅",
+   "key": "yin"
+  },
+  {
+   "zh": "卯",
+   "key": "mao"
+  },
+  {
+   "zh": "辰",
+   "key": "chen"
+  },
+  {
+   "zh": "巳",
+   "key": "si"
+  },
+  {
+   "zh": "午",
+   "key": "wu_branch"
+  },
+  {
+   "zh": "未",
+   "key": "wei"
+  },
+  {
+   "zh": "申",
+   "key": "shen"
+  },
+  {
+   "zh": "酉",
+   "key": "you"
+  },
+  {
+   "zh": "戌",
+   "key": "xu"
+  },
+  {
+   "zh": "亥",
+   "key": "hai"
+  }
+ ]
+}

@@ -10,9 +10,7 @@ from typing import List
 
 from bazi.models.bazi import StrengthFactor
 from bazi.models.enums import DayMasterStrength
-from bazi.rules import library
-
-NEAR = 0.03   # within this of a cut point counts as near the threshold
+from bazi.rules import inference
 
 
 @dataclass(frozen=True)
@@ -27,8 +25,8 @@ class Fusion:
 
 
 def fuse(factors: List[StrengthFactor]) -> Fusion:
-    lib = library.load()
-    wr, cr = lib.group("weights")[0], lib.group("cutpoints")[0]
+    run = inference.Inference()
+    wr, cr = run.parameters("weights"), run.parameters("cutpoints")
     weights = wr.then["weights"]
     out = []
     for f in factors:
@@ -41,5 +39,5 @@ def fuse(factors: List[StrengthFactor]) -> Fusion:
     edges = [0.0, *cuts, 1.0]
     lo, hi = edges[idx], edges[idx + 1]
     return Fusion(out, fused, levels[idx], f"{lo:.2f} - {hi:.2f} → {levels[idx].value}",
-                  any(abs(fused - c) <= NEAR for c in cuts), wr.then["weight_set"],
+                  any(abs(fused - c) <= cr.then["near"] for c in cuts), wr.then["weight_set"],
                   [wr.rule_id, cr.rule_id])

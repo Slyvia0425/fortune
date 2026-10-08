@@ -10,7 +10,9 @@ import itertools
 import pytest
 
 from bazi.calc import terms
-from bazi.calc.structure import CONTROLS, GENERATES, STEM_ELEMENT, STEM_YANG, ten_god
+from bazi.basics.elements import CONTROLS, GENERATES
+from bazi.basics.stems_branches import STEM_ELEMENT, STEM_YANG
+from bazi.basics.ten_gods import ten_god
 from bazi.models.enums import (
     ArbitrationOutcome, DISPLAY_STEM, EarthlyBranch, ElementKey, HeavenlyStem, SolarTerm, SpecialPattern, TenGod,
 )
@@ -108,9 +110,11 @@ def test_ten_god_rules_name_each_god_once():
 
 
 # ------------------------------------------------------------- A5 特殊格局
-def test_every_special_pattern_the_contract_knows_has_a_detection_rule():
+def test_every_supported_special_pattern_has_a_detection_rule_and_the_contract_still_knows_it():
+    """The contract keeps all four values (10-08: 从财 and 从官杀 are out of scope, not removed from the contract)."""
     named = {r.then["pattern"] for r in LIB.group("special_pattern") if "pattern" in r.then}
-    assert named == {p.value for p in SpecialPattern}
+    assert named == set(LIB.rule("R-SCOPE-01").when["supported"]) == {"dominant_element", "dual_qi_formation"}
+    assert named < {p.value for p in SpecialPattern}
 
 
 def test_pattern_thresholds_are_rule_settings_not_book_quotes():
@@ -180,5 +184,6 @@ def test_every_split_variants_own_quotation_holds_up():
 
 def test_the_scope_of_special_patterns_is_stated_and_matches_the_contract():
     r = LIB.rule("R-SCOPE-01")
-    assert set(r.when["supported"]) == {p.value for p in SpecialPattern}
+    assert set(r.when["supported"]) < {p.value for p in SpecialPattern}
     assert r.derived and r.note and r.when["deferred"]
+    assert any("从财" in d and "从官杀" in d for d in r.when["deferred"])

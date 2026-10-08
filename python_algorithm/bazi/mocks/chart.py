@@ -42,6 +42,10 @@ from bazi.models.bazi import (
     TenGodRelation,
     UsefulGodDerivation,
 )
+from bazi.basics.hidden_stems import HIDDEN_STEMS
+from bazi.basics.sexagenary import in_cycle, year_index
+from bazi.basics.stems_branches import BRANCH_ENUM, STEM_ELEMENT, STEM_ENUM
+from bazi.basics.ten_gods import ten_god
 from bazi.models.enums import (
     AdvisoryDomain,
     ArbitrationOutcome,
@@ -627,51 +631,22 @@ def build_mock_chart(request: BaziChartRequest) -> BaziChartResult:
 # computed properly, so the rows stand up to inspection during a demo; only the
 # chart they hang off is fictional.
 
-_STEMS = [HeavenlyStem.JIA, HeavenlyStem.YI, HeavenlyStem.BING, HeavenlyStem.DING,
-          HeavenlyStem.WU, HeavenlyStem.JI, HeavenlyStem.GENG, HeavenlyStem.XIN,
-          HeavenlyStem.REN, HeavenlyStem.GUI]
-_STEM_EL = [ElementKey.WOOD, ElementKey.WOOD, ElementKey.FIRE, ElementKey.FIRE,
-            ElementKey.EARTH, ElementKey.EARTH, ElementKey.METAL, ElementKey.METAL,
-            ElementKey.WATER, ElementKey.WATER]
-_BRANCHES = [EarthlyBranch.ZI, EarthlyBranch.CHOU, EarthlyBranch.YIN, EarthlyBranch.MAO,
-             EarthlyBranch.CHEN, EarthlyBranch.SI, EarthlyBranch.WU_BRANCH, EarthlyBranch.WEI,
-             EarthlyBranch.SHEN, EarthlyBranch.YOU, EarthlyBranch.XU, EarthlyBranch.HAI]
-_BR_EL = [ElementKey.WATER, ElementKey.EARTH, ElementKey.WOOD, ElementKey.WOOD,
-          ElementKey.EARTH, ElementKey.FIRE, ElementKey.FIRE, ElementKey.EARTH,
-          ElementKey.METAL, ElementKey.METAL, ElementKey.EARTH, ElementKey.WATER]
-_GEN = {ElementKey.WOOD: ElementKey.FIRE, ElementKey.FIRE: ElementKey.EARTH,
-        ElementKey.EARTH: ElementKey.METAL, ElementKey.METAL: ElementKey.WATER,
-        ElementKey.WATER: ElementKey.WOOD}
-_CTRL = {ElementKey.WOOD: ElementKey.EARTH, ElementKey.EARTH: ElementKey.WATER,
-         ElementKey.WATER: ElementKey.FIRE, ElementKey.FIRE: ElementKey.METAL,
-         ElementKey.METAL: ElementKey.WOOD}
-_DM_ELEMENT, _DM_YANG = ElementKey.WOOD, True   # 日主甲木
+_DAY_MASTER = "甲"      # the placeholder's fictional day master
 
-def _ten_god(element: ElementKey, yang: bool) -> TenGod:
-    same = yang == _DM_YANG
-    if element == _DM_ELEMENT:
-        return TenGod.FRIEND if same else TenGod.ROB_WEALTH
-    if _GEN[_DM_ELEMENT] == element:
-        return TenGod.EATING_GOD if same else TenGod.HURTING_OFFICER
-    if _CTRL[_DM_ELEMENT] == element:
-        return TenGod.INDIRECT_WEALTH if same else TenGod.DIRECT_WEALTH
-    if _CTRL[element] == _DM_ELEMENT:
-        return TenGod.SEVEN_KILLINGS if same else TenGod.DIRECT_OFFICER
-    return TenGod.INDIRECT_RESOURCE if same else TenGod.DIRECT_RESOURCE
 
 def _pillar_fields(index: int) -> dict:
-    """The index-th pair of the sexagenary cycle, with elements and ten gods."""
-    g, b = index % 10, index % 12
+    """The index-th pair of the sexagenary cycle, with elements and ten gods (read through bazi.basics)."""
+    stem, branch = in_cycle(index)[0], in_cycle(index)[1]
+    primary = HIDDEN_STEMS[branch][0]
     return dict(
-        stem=_STEMS[g], branch=_BRANCHES[b],
-        stem_element=_STEM_EL[g], branch_element=_BR_EL[b],
-        stem_ten_god=_ten_god(_STEM_EL[g], g % 2 == 0),
-        branch_ten_god=_ten_god(_BR_EL[b], b % 2 == 0),
+        stem=STEM_ENUM[stem], branch=BRANCH_ENUM[branch],
+        stem_element=STEM_ELEMENT[stem], branch_element=STEM_ELEMENT[primary],
+        stem_ten_god=ten_god(_DAY_MASTER, stem), branch_ten_god=ten_god(_DAY_MASTER, primary),
     )
 
-# 1984 is 甲子; the offset of any year in the cycle follows from that.
+
 def _year_index(year: int) -> int:
-    return (year - 1984) % 60
+    return year_index(year)
 
 
 def _annual_cycles(first_year: int, last_year: int) -> list[AnnualPillar]:

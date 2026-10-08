@@ -1,0 +1,17 @@
+{
+ "note": "五行相生相克。1.1 排盘独立于 1.2 规则库，故自带一份；test_rules_data 保证与规则库 R-SHENG-01、R-KE-01 逐项一致。",
+ "generates": {
+  "wood": "fire",
+  "fire": "earth",
+  "earth": "metal",
+  "metal": "water",
+  "water": "wood"
+ },
+ "controls": {
+  "wood": "earth",
+  "earth": "water",
+  "water": "fire",
+  "fire": "metal",
+  "metal": "wood"
+ }
+}

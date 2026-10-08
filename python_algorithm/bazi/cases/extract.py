@@ -18,10 +18,10 @@ from typing import Dict, List, Optional
 from bazi.rules import knowledge
 
 SHEET = Path(__file__).resolve().parents[1] / "data" / "cases" / "bazi_case_candidates.csv"
-STEMS, BRANCHES = "甲乙丙丁戊己庚辛壬癸", "子丑寅卯辰巳午未申酉戌亥"
+from bazi.basics.stems_branches import BRANCHES, STEMS
 BOOK_PREFIX = {"子平真诠评注": "ZP", "任铁樵·滴天髓阐微": "DT", "穷通宝鉴": "QT"}
 LIN_NOTE = re.compile(r"[（(]\s*林注")          # modern commentary mixed into the 评注; never an answer
-_P = r"[甲乙丙丁戊己庚辛壬癸][子丑寅卯辰巳午未申酉戌亥]"
+_P = f"[{STEMS}][{BRANCHES}]"
 HEADING = re.compile(r"## 现代白话译文|\n#{1,6} ")
 SEP = r"[ \t\u3000、,，]*"                              # between pillars on one line (never across a newline)
 RUN = re.compile(rf"(?:{_P}{SEP}){{4,}}")

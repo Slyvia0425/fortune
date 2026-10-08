@@ -104,3 +104,11 @@ def test_a_score_exactly_on_a_cut_belongs_to_the_upper_band():
     fu = fuse([fake(FactorKey.SEASONAL_COMMAND, 0.5), fake(FactorKey.ROOTEDNESS, 0.0),
                fake(FactorKey.REVEALED_SUPPORT, 0.0), fake(FactorKey.ASSISTING_SUPPORT, 0.0)])
     assert fu.fused == 0.2 and fu.strength is DayMasterStrength.SOMEWHAT_WEAK
+
+
+def test_the_rules_that_fire_are_collected_in_one_trace_in_order():
+    from bazi.rules.inference import Inference
+    run = Inference()
+    F.all_factors(P, DM, run)
+    assert [f.rule_id for f in run.trace] == ["R-DELING-05", "R-DEDI-01", "R-DESHI-03"]     # 得令, 得地, 得势; 得助 is a formula
+    assert [f.group for f in run.trace] == ["seasonal_state", "rootedness", "revealed"]

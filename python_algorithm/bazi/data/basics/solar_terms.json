@@ -1,0 +1,137 @@
+{
+ "note": "二十四节气，自立春起；节（jie）开启一个月柱，branch 为该月的地支。第 i 个节气的太阳黄经为 (315 + 15 i) mod 360 度。",
+ "terms": [
+  {
+   "key": "lichun",
+   "zh": "立春",
+   "jie": true,
+   "branch": "寅"
+  },
+  {
+   "key": "yushui",
+   "zh": "雨水",
+   "jie": false
+  },
+  {
+   "key": "jingzhe",
+   "zh": "惊蛰",
+   "jie": true,
+   "branch": "卯"
+  },
+  {
+   "key": "chunfen",
+   "zh": "春分",
+   "jie": false
+  },
+  {
+   "key": "qingming",
+   "zh": "清明",
+   "jie": true,
+   "branch": "辰"
+  },
+  {
+   "key": "guyu",
+   "zh": "谷雨",
+   "jie": false
+  },
+  {
+   "key": "lixia",
+   "zh": "立夏",
+   "jie": true,
+   "branch": "巳"
+  },
+  {
+   "key": "xiaoman",
+   "zh": "小满",
+   "jie": false
+  },
+  {
+   "key": "mangzhong",
+   "zh": "芒种",
+   "jie": true,
+   "branch": "午"
+  },
+  {
+   "key": "xiazhi",
+   "zh": "夏至",
+   "jie": false
+  },
+  {
+   "key": "xiaoshu",
+   "zh": "小暑",
+   "jie": true,
+   "branch": "未"
+  },
+  {
+   "key": "dashu",
+   "zh": "大暑",
+   "jie": false
+  },
+  {
+   "key": "liqiu",
+   "zh": "立秋",
+   "jie": true,
+   "branch": "申"
+  },
+  {
+   "key": "chushu",
+   "zh": "处暑",
+   "jie": false
+  },
+  {
+   "key": "bailu",
+   "zh": "白露",
+   "jie": true,
+   "branch": "酉"
+  },
+  {
+   "key": "qiufen",
+   "zh": "秋分",
+   "jie": false
+  },
+  {
+   "key": "hanlu",
+   "zh": "寒露",
+   "jie": true,
+   "branch": "戌"
+  },
+  {
+   "key": "shuangjiang",
+   "zh": "霜降",
+   "jie": false
+  },
+  {
+   "key": "lidong",
+   "zh": "立冬",
+   "jie": true,
+   "branch": "亥"
+  },
+  {
+   "key": "xiaoxue",
+   "zh": "小雪",
+   "jie": false
+  },
+  {
+   "key": "daxue",
+   "zh": "大雪",
+   "jie": true,
+   "branch": "子"
+  },
+  {
+   "key": "dongzhi",
+   "zh": "冬至",
+   "jie": false
+  },
+  {
+   "key": "xiaohan",
+   "zh": "小寒",
+   "jie": true,
+   "branch": "丑"
+  },
+  {
+   "key": "dahan",
+   "zh": "大寒",
+   "jie": false
+  }
+ ]
+}

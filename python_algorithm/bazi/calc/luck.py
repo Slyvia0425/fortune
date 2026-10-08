@@ -16,19 +16,17 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from bazi.calc import terms
-from bazi.calc.pillars import BRANCHES, STEMS, Pillars, compute_pillars, year_pillar
-from bazi.calc.structure import HIDDEN_STEMS, STEM_ELEMENT, ten_god
+from bazi.basics import sexagenary
+from bazi.basics.hidden_stems import HIDDEN_STEMS
+from bazi.basics.luck_rules import CYCLES, MINUTES_PER_MONTH, MINUTES_PER_YEAR, YEARS_PER_CYCLE
+from bazi.basics.stems_branches import BRANCH_ENUM, STEM_ELEMENT, STEM_ENUM, STEM_YANG
+from bazi.basics.ten_gods import ten_god
+from bazi.calc.pillars import Pillars, compute_pillars, year_pillar
 from bazi.models.bazi import (
     AnnualPillar, AnnualStemBranch, CurrentPeriod, LuckCycle, LuckOnset, StemBranch,
 )
-from bazi.models.enums import DISPLAY_BRANCH, DISPLAY_STEM, ElementKey, LuckDirection
+from bazi.models.enums import ElementKey, LuckDirection
 
-CYCLES = 8
-MINUTES_PER_YEAR = 4320   # three days
-MINUTES_PER_MONTH = 360
-
-_STEM_ENUM = {v: k for k, v in DISPLAY_STEM.items()}
-_BRANCH_ENUM = {v: k for k, v in DISPLAY_BRANCH.items()}
 
 
 @dataclass(frozen=True)
@@ -39,13 +37,8 @@ class Onset:
     rationale: str
 
 
-def _cycle_index(gz: str) -> int:
-    s, b = STEMS.index(gz[0]), BRANCHES.index(gz[1])
-    return next(n for n in range(60) if n % 10 == s and n % 12 == b)
-
-
-def _gz_at(n: int) -> str:
-    return STEMS[n % 10] + BRANCHES[n % 12]
+_cycle_index = sexagenary.cycle_index
+_gz_at = sexagenary.in_cycle
 
 
 def _add_months(d: datetime, months: int) -> datetime:
@@ -57,7 +50,7 @@ def _add_months(d: datetime, months: int) -> datetime:
 
 def onset(cst: datetime, year_stem: str, gender: str) -> Onset:
     """`cst`: the birth moment on the CST clock (the clock term instants use)."""
-    yang = STEMS.index(year_stem) % 2 == 0
+    yang = STEM_YANG[year_stem]
     male = gender == "male"
     forward = yang == male
 
@@ -100,7 +93,7 @@ def _gen_elements(gz: str) -> tuple[ElementKey, ElementKey]:
 
 def _stem_branch_fields(gz: str) -> dict:
     se, be = _gen_elements(gz)
-    return dict(stem=_STEM_ENUM[gz[0]], branch=_BRANCH_ENUM[gz[1]],
+    return dict(stem=STEM_ENUM[gz[0]], branch=BRANCH_ENUM[gz[1]],
                 stem_element=se, branch_element=be)
 
 
@@ -118,11 +111,11 @@ def luck_cycles(pillars: Pillars, cst: datetime, birth_year: int, on: Onset) -> 
     cycles = []
     for c in range(CYCLES):
         gz = _gz_at(month_n + step * (c + 1))
-        start_age = on.years + 10 * c
-        start_year = start_moment.year + 10 * c
+        start_age = on.years + YEARS_PER_CYCLE * c
+        start_year = start_moment.year + YEARS_PER_CYCLE * c
         cycles.append(LuckCycle(
-            start_age=start_age, end_age=start_age + 9,
-            start_year=start_year, end_year=start_year + 9,
+            start_age=start_age, end_age=start_age + YEARS_PER_CYCLE - 1,
+            start_year=start_year, end_year=start_year + YEARS_PER_CYCLE - 1,
             **_timeline_fields(gz, day_master),
         ))
     return cycles
@@ -131,8 +124,7 @@ def luck_cycles(pillars: Pillars, cst: datetime, birth_year: int, on: Onset) -> 
 def annual_cycles(day_master: str, first_year: int, last_year: int) -> list[AnnualPillar]:
     out = []
     for y in range(first_year, last_year + 1):
-        n = (y - 1984) % 60
-        out.append(AnnualPillar(year=y, **_timeline_fields(_gz_at(n), day_master)))
+        out.append(AnnualPillar(year=y, **_timeline_fields(_gz_at(sexagenary.year_index(y)), day_master)))
     return out
 
 

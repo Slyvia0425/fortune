@@ -351,7 +351,16 @@
    "condition": "三个因子按位置切分，互不重叠",
    "conclusion": "天干层面的印与比劫 → 得势；地支藏干中与日主同五行 → 得地；地支藏干中生日主 → 得助",
    "when": {},
-   "then": {},
+   "then": {
+    "revealed_groups": [
+     "companion",
+     "resource"
+    ],
+    "rooted": "same_element_as_day_master",
+    "assisting_groups": [
+     "resource"
+    ]
+   },
    "derived": true,
    "note": "比劫既属同我又能帮身，若得地与得助都计入，同一个字会被数两遍"
   },
@@ -392,7 +401,8 @@
      "balanced",
      "somewhat_strong",
      "very_strong"
-    ]
+    ],
+    "near": 0.03
    },
    "derived": true,
    "note": "方案 A；D2 比较 A/B/C 后取代"

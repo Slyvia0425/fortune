@@ -1,0 +1,55 @@
+{
+ "note": "十神 = 他干与日主的五行关系 × 阴阳同异。依据《渊海子平》「五干属阳／五干属阴」例；规则库有同样的表（R-SHISHEN-01..10），test_rules_data 保证一致。",
+ "table": [
+  {
+   "relation": "same_element",
+   "polarity": "same_polarity",
+   "ten_god": "friend"
+  },
+  {
+   "relation": "same_element",
+   "polarity": "diff_polarity",
+   "ten_god": "rob_wealth"
+  },
+  {
+   "relation": "dm_generates",
+   "polarity": "same_polarity",
+   "ten_god": "eating_god"
+  },
+  {
+   "relation": "dm_generates",
+   "polarity": "diff_polarity",
+   "ten_god": "hurting_officer"
+  },
+  {
+   "relation": "dm_controls",
+   "polarity": "same_polarity",
+   "ten_god": "indirect_wealth"
+  },
+  {
+   "relation": "dm_controls",
+   "polarity": "diff_polarity",
+   "ten_god": "direct_wealth"
+  },
+  {
+   "relation": "controls_dm",
+   "polarity": "same_polarity",
+   "ten_god": "seven_killings"
+  },
+  {
+   "relation": "controls_dm",
+   "polarity": "diff_polarity",
+   "ten_god": "direct_officer"
+  },
+  {
+   "relation": "generates_dm",
+   "polarity": "same_polarity",
+   "ten_god": "indirect_resource"
+  },
+  {
+   "relation": "generates_dm",
+   "polarity": "diff_polarity",
+   "ten_god": "direct_resource"
+  }
+ ]
+}

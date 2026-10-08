@@ -3,9 +3,10 @@
 import pytest
 
 from bazi.calc.pillars import Pillars
-from bazi.calc.structure import (
-    HIDDEN_STEMS, STEM_ELEMENT, build_pillars, element_distribution, ten_god,
-)
+from bazi.basics.hidden_stems import HIDDEN_STEMS
+from bazi.basics.stems_branches import STEM_ELEMENT
+from bazi.basics.ten_gods import ten_god
+from bazi.calc.structure import build_pillars, element_distribution
 from bazi.models.enums import DISPLAY_STEM, DISPLAY_TEN_GOD, ElementKey, QiTier, TenGod
 
 # 《渊海子平》「又地支藏遁歌」as printed in data/knowledge_sources_complete.

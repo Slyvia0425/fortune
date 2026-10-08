@@ -20,29 +20,9 @@ from functools import lru_cache
 
 import ephem
 
+from bazi.basics.solar_terms import JIE_BRANCH, TERMS  # noqa: F401  (re-exported: callers read them from here)
+
 CST = timedelta(hours=8)
-
-# (key matching the SolarTerm enum, Chinese name, is a 节 that opens a month)
-TERMS = [
-    ("lichun", "立春", True), ("yushui", "雨水", False),
-    ("jingzhe", "惊蛰", True), ("chunfen", "春分", False),
-    ("qingming", "清明", True), ("guyu", "谷雨", False),
-    ("lixia", "立夏", True), ("xiaoman", "小满", False),
-    ("mangzhong", "芒种", True), ("xiazhi", "夏至", False),
-    ("xiaoshu", "小暑", True), ("dashu", "大暑", False),
-    ("liqiu", "立秋", True), ("chushu", "处暑", False),
-    ("bailu", "白露", True), ("qiufen", "秋分", False),
-    ("hanlu", "寒露", True), ("shuangjiang", "霜降", False),
-    ("lidong", "立冬", True), ("xiaoxue", "小雪", False),
-    ("daxue", "大雪", True), ("dongzhi", "冬至", False),
-    ("xiaohan", "小寒", True), ("dahan", "大寒", False),
-]
-
-# 节 -> earthly branch index (子=0 ... 亥=11), by Chinese name
-JIE_BRANCH = {
-    "立春": 2, "惊蛰": 3, "清明": 4, "立夏": 5, "芒种": 6, "小暑": 7,
-    "立秋": 8, "白露": 9, "寒露": 10, "立冬": 11, "大雪": 0, "小寒": 1,
-}
 
 _MEAN_YEAR_DAYS = 365.2422
 _SUN_DEG_PER_DAY = 0.9856

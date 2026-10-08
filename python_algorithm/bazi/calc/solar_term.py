@@ -10,7 +10,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 from bazi.calc import terms
-from bazi.calc.pillars import _gz, year_pillar
+from bazi.calc.pillars import month_pillar_of, year_pillar
 
 DAY = timedelta(days=1)
 
@@ -40,8 +40,7 @@ def position(cst: datetime) -> TermPosition:
     branch = terms.JIE_BRANCH[next(zh for key, zh, _ in terms.TERMS if key == month_term)]
 
     year_stem, _ = year_pillar(cst)
-    first = (year_stem % 5) * 2 + 2
-    month = _gz(first + (branch - 2) % 12, branch)
+    month = month_pillar_of(year_stem, branch)
 
     since, until = cst - t0, t1 - cst
     return TermPosition(

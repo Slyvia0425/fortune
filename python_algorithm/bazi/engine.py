@@ -12,10 +12,12 @@ from zoneinfo import ZoneInfo
 from bazi.calc import luck, solar_term, structure
 from bazi.calc.calendar import InvalidLunarDate, lunar_to_solar
 from bazi.calc.resolve import ResolvedBirth, resolve_birth
+from bazi.diagnosis import features as feat, patterns
 from bazi.diagnosis.factors import all_factors, seasonal
 from bazi.diagnosis.strength import fuse
 from bazi.mocks.chart import build_mock_chart
 from bazi.rules import library
+from bazi.rules.inference import Inference
 from bazi.models.bazi import (
     BaziChartRequest, BaziChartResult, DayMaster, ReasoningTrace, ResolvedTime, ResultMeta,
     SolarTermPosition, SourceReference, TenGodRelation,
@@ -29,7 +31,7 @@ ENGINE_VERSION = "0.2.0-1.1"
 PARTIAL_WARNING = (
     "四柱、藏干、五行、十神、节气位置、大运与流年，以及日主强弱的四个因子分值与五行旺衰，已由规则库计算得出；"
     "加权所用的权重与强弱切点为临时值（provisional-0），尚未经案例标定；"
-    "特殊格局检测、用神忌神与倾向对照（1.2 余下部分、1.4）尚未实现，仍为占位示例，与本命盘无关。"
+    "特殊格局检测（从财、从官杀、专旺、两气成象）已由规则库计算；用神忌神与倾向对照（1.2 余下部分、1.4）尚未实现，仍为占位示例，与本命盘无关。"
 )
 
 
@@ -109,23 +111,29 @@ def build_chart(request: BaziChartRequest, now_utc: datetime | None = None) -> B
 
     base = build_mock_chart(request)            # supplies what 1.2 / 1.4 have not yet replaced
     dm = pillars[2]
-    fusion = fuse(all_factors(pillars, dm.element))
-    seasons = seasonal(pillars)
+    solar = _solar_term(r)
+    features = feat.extract(pillars, solar)                # C2: the chart is read once
+    run = Inference()                                      # C1: collects the rules that fire; C8 will present it
+    fusion = fuse(all_factors(pillars, dm.element, run, features))                    # C3
+    pattern = patterns.detect(features, run)                                            # C4
+    final_strength = pattern.final_strength or fusion.strength
+    seasons = seasonal(pillars, features)
     lib = library.load()
-    used = sorted({f.source_id for f in fusion.factors if f.source_id})
+    used = sorted({f.source_id for f in fusion.factors if f.source_id}
+                  | ({pattern.rule.source_id} if pattern.rule and pattern.rule.source_id else set()))
     sources = [SourceReference(source_id=i, title=lib.source(i).title, edition=lib.source(i).edition)
                for i in used]
     trace = ReasoningTrace(
         factors=fusion.factors, fused_score=fusion.fused, threshold_band=fusion.band,
         provisional_strength=fusion.strength,
-        override=None,                      # special-pattern detection is not implemented yet
-        final_strength=fusion.strength, near_threshold=fusion.near_threshold, sources=sources)
+        override=pattern.override(),
+        final_strength=final_strength, near_threshold=fusion.near_threshold, sources=sources)
     known = {s.source_id for s in sources}
     source_refs = sources + [s for s in base.source_refs if s.source_id not in known]
     warnings = [PARTIAL_WARNING, *r.warnings]
     return base.model_copy(update=dict(
         resolved_time=_resolved_time(request, r, birth_date),
-        solar_term=_solar_term(r),
+        solar_term=solar,
         pillars=pillars,
         elements=structure.element_distribution(r.pillars),
         luck_onset=luck_onset_model(on),
@@ -134,7 +142,7 @@ def build_chart(request: BaziChartRequest, now_utc: datetime | None = None) -> B
         current_period=luck.current_period(now_utc, now_offset),
         day_master=DayMaster(
             stem=pillars[2].stem, element=pillars[2].element,
-            strength=fusion.strength,
+            strength=final_strength,
         ),
         ten_gods=_ten_gods(pillars),
         reasoning_trace=trace,
