@@ -45,6 +45,7 @@ The reference implementation is in `python_algorithm/`. Its rules are: arrays ar
 | POST | `/api/bazi/chart` | `lib/bazi/service.ts` |
 | POST | `/api/divination/cast` | `lib/divination/service.ts` |
 | POST | `/api/divination/chat` | rule-based clarification and dispatch route |
+| POST | `/api/divination/interpret` | Module 3 evidence pack + constrained LLM paraphrase |
 | POST | `/api/guanyin-lot/draw` | `lib/guanyin/library.ts` |
 | GET | `/api/knowledge/search?q=` | `lib/knowledge/library.ts` |
 | GET | `/api/knowledge/graph?concept=` | graph placeholder route |
@@ -53,6 +54,37 @@ The reference implementation is in `python_algorithm/`. Its rules are: arrays ar
 | POST | `/api/user/notes` | `lib/session/store.ts` |
 
 Every browser-facing response follows `ApiEnvelope<T>` in `lib/contracts/api.ts`. Session events and notes currently use process memory and must be replaced with persistent storage before production deployment.
+
+## Exact Zhouyi evidence from Module 3
+
+Use the exact-evidence route for divination interpretation instead of keyword search:
+
+```http
+GET /api/knowledge/hexagram?number=49&line=3
+```
+
+The result is built only from Module 3's `data/knowledge_sources_complete/knowledge_sources_pages.json`. It returns the selected hexagram's `judgment` (卦辞), six `lines` (爻辞), optional `selected_line`, and `sources` with stable `source_id`, title, edition, chapter, and URL. For Qian and Kun, it also returns `special_line` containing the database-backed `用九` or `用六` text.
+
+When an interpretation needs to cite a traditional statement, retain its `source_id` from `result.sources`; do not let an LLM invent a book name, passage, or URL. If this endpoint returns a 404 or incomplete coverage, show the missing-evidence notice rather than generating replacement classical text.
+
+### Evidence-grounded modern interpretation
+
+After `/api/divination/cast`, send its unchanged result to:
+
+```http
+POST /api/divination/interpret
+Content-Type: application/json
+```
+
+```json
+{
+  "question": "未来三个月是否适合调整工作？",
+  "time_range": "未来三个月",
+  "cast_result": { "primary": {}, "moving_lines": [3], "mutual": {}, "transformed": {} }
+}
+```
+
+The server applies the versioned changing-line rule, retrieves only the selected original text, commentary, attached translation, and source whitelist from Module 3, then asks the LLM for JSON-only modern Chinese paraphrases. Every generated paragraph must cite an evidence ID present in that pack. When the LLM is missing, times out, or violates the output contract, the route still returns the Evidence Pack with `modern_interpretation: null`; it never generates replacement classical text.
 
 ## Divination chatbot
 

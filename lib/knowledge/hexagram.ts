@@ -1,6 +1,6 @@
 import pages from "../../data/knowledge_sources_complete/knowledge_sources_pages.json";
 import type { SourceReference } from "@/lib/contracts/api";
-import type { HexagramEvidenceResult, HexagramLineEvidence } from "@/lib/contracts/knowledge";
+import type { HexagramEvidenceResult, HexagramLineEvidence, HexagramSpecialLineEvidence } from "@/lib/contracts/knowledge";
 
 type ContentBlock = { type: string; heading: string; text: string };
 type KnowledgePage = {
@@ -89,6 +89,14 @@ function buildIndex() {
         commentary: entry.commentary,
         translation_en: translations[index + 1],
       }));
+      const special = originals.find((entry) => /^用[九六]:/.test(entry.text));
+      const specialLine: HexagramSpecialLineEvidence | undefined = special
+        ? {
+            label: special.text.startsWith("用九:") ? "用九" : "用六",
+            original: special.text,
+            commentary: special.commentary,
+          }
+        : undefined;
 
       const aliases = [name, wikiPage?.title ?? ""].map(normalizeName).filter(Boolean);
       return {
@@ -101,6 +109,7 @@ function buildIndex() {
           translation_en: translations[0],
         },
         lines,
+        special_line: specialLine,
         sources,
         coverage: {
           has_judgment: Boolean(originals[0]?.text),

@@ -12,6 +12,13 @@ export interface HexagramLineEvidence {
   translation_en?: string;
 }
 
+export interface HexagramSpecialLineEvidence {
+  label: "用九" | "用六";
+  original: string;
+  commentary: string[];
+  translation_en?: string;
+}
+
 export interface HexagramEvidenceResult {
   number: number;
   name: string;
@@ -23,6 +30,7 @@ export interface HexagramEvidenceResult {
   };
   lines: HexagramLineEvidence[];
   selected_line?: HexagramLineEvidence;
+  special_line?: HexagramSpecialLineEvidence;
   sources: SourceReference[];
   coverage: {
     has_judgment: boolean;

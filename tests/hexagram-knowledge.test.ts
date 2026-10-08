@@ -23,4 +23,16 @@ describe("周易卦爻知识索引", () => {
     expect(getHexagramEvidence({ number: 65 })).toBeNull();
     expect(getHexagramEvidence({ name: "不存在的卦" })).toBeNull();
   });
+
+  it("从 Module 3 数据库返回乾坤的用九与用六，不补写原文", () => {
+    expect(getHexagramEvidence({ number: 1 })?.special_line).toMatchObject({
+      label: "用九",
+      original: "用九:見群龍无首,吉。",
+    });
+    expect(getHexagramEvidence({ number: 2 })?.special_line).toMatchObject({
+      label: "用六",
+      original: "用六:利永貞。",
+    });
+    expect(getHexagramEvidence({ number: 3 })?.special_line).toBeUndefined();
+  });
 });
