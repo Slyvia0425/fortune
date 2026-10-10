@@ -1,9 +1,9 @@
 /**
  * Interim city list for the birth-place dropdown.
  *
- * Replaced in T4 by a GeoNames-backed lookup. Until then this covers the
- * cities most likely to come up in testing and demos; anything else goes
- * through the manual-coordinates path, which is why that path exists.
+ * Offline fallback only (T4): the form searches GeoNames through
+ * /api/bazi/cities. This short list is used by that route when the Python
+ * service is not configured, so local front-end work still has a few cities.
  *
  * Coordinates are city-centre approximations — good to well under the ~1° that
  * would shift true solar time by four minutes.

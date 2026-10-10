@@ -8,13 +8,19 @@
 
 import type {
   AdvisoryDomain,
+  ArbitrationOutcome,
+  DerivationMethod,
+  LuckDirection,
   DayMasterStrength,
   EarthlyBranch,
   ElementKey,
   HeavenlyStem,
   PillarLabel,
+  SeasonalState,
+  SolarTerm,
   SpecialPattern,
   TenGod,
+  TenGodGroup,
 } from "@/lib/contracts/bazi";
 
 export const STEM_LABEL: Record<HeavenlyStem, string> = {
@@ -88,10 +94,20 @@ export const PILLAR_LABEL: Record<PillarLabel, string> = {
   hour: "时柱",
 };
 
-export const DOMAIN_LABEL: Record<AdvisoryDomain, string> = {
-  career: "职业方向",
-  study: "学业方向",
-  wealth: "财运",
+export const TEN_GOD_GROUP_LABEL: Record<TenGodGroup, string> = {
+  companion: "比劫",
+  output: "食伤",
+  wealth: "财",
+  officer: "官杀",
+  resource: "印",
+};
+
+export const SEASONAL_STATE_LABEL: Record<SeasonalState, string> = {
+  peak: "旺",
+  supporting: "相",
+  resting: "休",
+  confined: "囚",
+  dead: "死",
 };
 
 export const FACTOR_LABEL: Record<string, string> = {
@@ -111,4 +127,55 @@ export const DISPOSITION_LABEL: Record<string, string> = {
   useful: "用神",
   unfavourable: "忌神",
   neutral: "中性",
+};
+
+export const SOLAR_TERM_LABEL: Record<SolarTerm, string> = {
+  lichun: "立春",
+  yushui: "雨水",
+  jingzhe: "惊蛰",
+  chunfen: "春分",
+  qingming: "清明",
+  guyu: "谷雨",
+  lixia: "立夏",
+  xiaoman: "小满",
+  mangzhong: "芒种",
+  xiazhi: "夏至",
+  xiaoshu: "小暑",
+  dashu: "大暑",
+  liqiu: "立秋",
+  chushu: "处暑",
+  bailu: "白露",
+  qiufen: "秋分",
+  hanlu: "寒露",
+  shuangjiang: "霜降",
+  lidong: "立冬",
+  xiaoxue: "小雪",
+  daxue: "大雪",
+  dongzhi: "冬至",
+  xiaohan: "小寒",
+  dahan: "大寒",
+};
+
+export const METHOD_LABEL: Record<DerivationMethod, string> = {
+  supporting: "扶抑",
+  climatic: "调候",
+};
+
+export const ARBITRATION_LABEL: Record<ArbitrationOutcome, string> = {
+  agree: "两法一致",
+  supporting: "采纳扶抑",
+  climatic: "采纳调候",
+  both: "两者兼用",
+  other: "其他",
+};
+
+export const LUCK_DIRECTION_LABEL: Record<LuckDirection, string> = {
+  forward: "顺排",
+  reverse: "逆排",
+};
+
+export const DOMAIN_LABEL: Record<AdvisoryDomain, string> = {
+  career: "职业方向",
+  study: "学业方向",
+  wealth: "财运",
 };

@@ -1,0 +1,164 @@
+{
+ "rules": [
+  {
+   "rule_id": "R-CONG-CAI-01",
+   "group": "special_pattern",
+   "condition": "日主无根，无印比透出，财星成势",
+   "conclusion": "从财格（following_wealth）",
+   "when": {
+    "pattern": "following_wealth",
+    "day_master_root": "none",
+    "revealed_support": 0,
+    "opposing_element": "wealth",
+    "opposing_share_min": 0.5
+   },
+   "then": {
+    "pattern": "following_wealth"
+   },
+   "derived": true,
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=901791",
+   "chapter": "淵海子平 · 第3部分",
+   "quotation": "棄命從財,須要會財",
+   "note": "典籍写明弃命从财须会财；「无根」「无印比透出」「财星占比不低于阈值」的量化阈值为本项目按规则设定，不参与调优"
+  },
+  {
+   "rule_id": "R-CONG-SHA-01",
+   "group": "special_pattern",
+   "condition": "日主无根，无印比透出，官杀成势",
+   "conclusion": "从官杀格（following_officer）",
+   "when": {
+    "pattern": "following_officer",
+    "day_master_root": "none",
+    "revealed_support": 0,
+    "opposing_element": "officer",
+    "opposing_share_min": 0.5
+   },
+   "then": {
+    "pattern": "following_officer"
+   },
+   "derived": true,
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=901791",
+   "chapter": "淵海子平 · 第3部分",
+   "quotation": "棄命從殺,須要會殺",
+   "note": "同 R-CONG-CAI-01：典籍定性，阈值为规则设定"
+  },
+  {
+   "rule_id": "R-CONG-JI-01",
+   "group": "special_pattern",
+   "condition": "从格见印则不作从论",
+   "conclusion": "日主有印（印透出或藏干中有印根）时，排除从财格、从官杀格",
+   "when": {
+    "excludes": [
+     "following_wealth",
+     "following_officer"
+    ],
+    "when_present": "resource"
+   },
+   "then": {
+    "ruled_out": true
+   },
+   "derived": false,
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-34-original",
+   "chapter": "穷通宝鉴 · 第34章 十月丙火 · 原文",
+   "quotation": "从格不能见印,有印则生机不决,不作从论"
+  },
+  {
+   "rule_id": "R-ZHUANWANG-01",
+   "group": "special_pattern",
+   "condition": "日主五行一方独旺，无克制之神",
+   "conclusion": "专旺格（dominant_element）",
+   "when": {
+    "pattern": "dominant_element",
+    "day_master_element_share_min": 0.75,
+    "opposing_absent": true
+   },
+   "then": {
+    "pattern": "dominant_element"
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "kb_url": "https://luckclub.cn/bazi/002/010/",
+   "chapter": "论用神",
+   "quotation": "四柱之气势,偏于一方其势不可逆,惟有顺其气势为用,或从或化,及一方专旺等格局皆是也",
+   "note": "典籍定性；「独旺占比」的阈值为规则设定。曲直、炎上、稼穑、从革、润下等名目均并入专旺格"
+  },
+  {
+   "rule_id": "R-ZHUANWANG-02",
+   "group": "special_pattern",
+   "condition": "五行一方秀气（如甲乙全亥卯未、寅卯辰又生春月）",
+   "conclusion": "专旺格取格依据之一",
+   "when": {
+    "pattern": "dominant_element",
+    "example": "曲直"
+   },
+   "then": {
+    "pattern": "dominant_element"
+   },
+   "derived": false,
+   "source_id": "ziping-zhenquan",
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "quotation": "有取五行一方秀气者,取甲乙全亥卯未、寅卯辰,又生春月之类"
+  },
+  {
+   "rule_id": "R-LIANGQI-01",
+   "group": "special_pattern",
+   "condition": "两种五行各半且相生，其余五行缺",
+   "conclusion": "两气成象（dual_qi_formation）",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "two_elements_share_min": 0.75,
+    "each_share_min": 0.25,
+    "generating": true
+   },
+   "then": {
+    "pattern": "dual_qi_formation"
+   },
+   "derived": true,
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "此造木火各半,兩氣成象",
+   "note": "典籍举例定名；两五行占比与各自下限的阈值为规则设定"
+  },
+  {
+   "rule_id": "R-OVERRIDE-01",
+   "group": "special_pattern",
+   "condition": "特殊格局成立时",
+   "conclusion": "推翻扶抑的常规强弱结论，改按格局取用神，并记录触发理由与被排除的候选格局",
+   "when": {
+    "nonmonotonic": true
+   },
+   "then": {
+    "override": true
+   },
+   "derived": true,
+   "note": "proposal v4 第二节：非单调推翻"
+  },
+  {
+   "rule_id": "R-SCOPE-01",
+   "group": "special_scope",
+   "condition": "本模块实现哪些特殊格局",
+   "conclusion": "只实现案例集中有足够实例的四种主流格局：从财格、从官杀格、专旺格（含曲直、炎上、稼穑、从革、润下）、两气成象；其余格局暂不实现",
+   "when": {
+    "supported": [
+     "following_wealth",
+     "following_officer",
+     "dominant_element",
+     "dual_qi_formation"
+    ],
+    "deferred": [
+     "化气格（合化真假的判定机制不同）",
+     "从儿格（契约暂无此项）",
+     "倒冲、朝阳、井栏叉、遥合、合禄等杂格（实例零星，徐乐吾本人亦称其中多数无理）"
+    ]
+   },
+   "then": {},
+   "derived": true,
+   "note": "按案例关键词粗略统计：检验组疑似特殊格局 53 例中，专旺类约 16、从财约 12、从官杀约 11、两气成象约 6；调优组读到的从财 2、专旺类约 8。化气约 22 例、从儿约 12 例数量不少，但机制不同或契约暂未包含，留待以后。评估时这些未支持的格局单独列出，不计入召回分母"
+  }
+ ]
+}

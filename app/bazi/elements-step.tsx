@@ -1,9 +1,12 @@
 import { useState } from "react";
-import type { BaziChartResult, DayMasterStrength, ElementKey } from "@/lib/contracts/bazi";
+import type { BaziChartResult, DayMasterStrength, ElementKey, EvidenceRef } from "@/lib/contracts/bazi";
 import {
+  ARBITRATION_LABEL,
   ELEMENT_LABEL,
   FACTOR_LABEL,
+  METHOD_LABEL,
   PATTERN_LABEL,
+  SEASONAL_STATE_LABEL,
   STEM_LABEL,
   STRENGTH_LABEL,
 } from "@/lib/bazi/display";
@@ -42,12 +45,19 @@ function onRing(angleDeg: number) {
   return { x: CX + RING * Math.cos(a), y: CY + RING * Math.sin(a) };
 }
 
-function formatValue(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1);
-}
-
-export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock: boolean }) {
+export function ElementsStep({
+  chart,
+  isMock,
+  onShowEvidence,
+}: {
+  chart: BaziChartResult;
+  isMock: boolean;
+  /** Jump to the pillars page with this reference highlighted. */
+  onShowEvidence?: (ref: EvidenceRef) => void;
+}) {
   const dayMasterElement = chart.day_master.element;
+  // Which factor row is expanded; null when all are collapsed.
+  const [openFactor, setOpenFactor] = useState<string | null>(null);
   const positions = tenGodPositions(chart.pillars);
 
   // Relation diagram: day master's element at the top, the rest clockwise in
@@ -82,6 +92,8 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
   }));
 
   const trace = chart.reasoning_trace;
+  const derivation = chart.derivation;
+  const arbitration = derivation.arbitration;
   const override = trace.override;
   const checks = [
     ...(override && (override.triggered || !override.ruled_out.some((item) => item.pattern === override.pattern))
@@ -93,7 +105,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
   return (
     <>
       <h2>五行十神</h2>
-      <p className="kicker">命局结构</p>
+      <p className="kicker">{isMock ? "模拟数据" : "命局结构"}</p>
       <p className={styles.subline}>
         日主 {STEM_LABEL[chart.day_master.stem]}
         {ELEMENT_LABEL[dayMasterElement]} · 以下十神均相对日主而论
@@ -103,7 +115,7 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
       <section className={`${styles.section} ${styles.rise}`}>
         <div className={styles.sectionHead}>
           <h3>五行分布</h3>
-          <span>各五行在命局中的力量占比</span>
+          <span>按天干、地支与藏干加权计算后，各五行占全局的比例</span>
         </div>
         <div className={styles.donutRow}>
           <div className={styles.donut}>
@@ -143,7 +155,14 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
               return (
                 <div key={segment.element} className={`${styles.legendRow} ${styles.el}`} data-element={segment.element}>
                   <ElementIcon element={segment.element} size={17} />
-                  <strong>{ELEMENT_LABEL[segment.element]}</strong>
+                  <strong>
+                    {ELEMENT_LABEL[segment.element]}
+                    {chart.element_states?.[segment.element] && (
+                      <i className={styles.stateTag} title={`在出生月份的季节：${ELEMENT_LABEL[segment.element]}${SEASONAL_STATE_LABEL[chart.element_states[segment.element]]}`}>
+                        {SEASONAL_STATE_LABEL[chart.element_states[segment.element]]}
+                      </i>
+                    )}
+                  </strong>
                   <span className={styles.groupText}>
                     {info.label} · {info.relation}
                   </span>
@@ -155,7 +174,6 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
                       />
                     )}
                   </div>
-                  <span className={styles.num}>{formatValue(segment.value)}</span>
                   <span className={styles.pct}>
                     {total > 0 ? `${((segment.value / total) * 100).toFixed(1)}%` : "—"}
                   </span>
@@ -163,6 +181,9 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
               );
             })}
           </div>
+          <p className={styles.sectionNote} style={{ gridColumn: "1 / -1" }}>
+            五行名称后的小字为该五行在出生月份的旺衰（旺、相、休、囚、死），以月令为准。
+          </p>
         </div>
       </section>
 
@@ -302,22 +323,129 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
           {trace.sources.length > 0 && <span>依据 {trace.sources.map((source) => `《${source.title}》`).join("")}</span>}
         </div>
 
+        <p className={styles.sectionNote}>
+          每行为「因子满足程度（0–1）× 权重 = 贡献值」，四项贡献相加即为加权合计；权重由标注案例调优得出。点击任一行可查看其依据的规则与出处。
+        </p>
+
         <div className={styles.factorList}>
-          {trace.factors.map((factor) => (
-            <div key={factor.key} className={styles.factorRow}>
-              <b>{FACTOR_LABEL[factor.key] ?? factor.key}</b>
-              <span className={styles.evidence}>{factor.evidence.join("；")}</span>
-              <div className={styles.factorTrack}>
-                <div
-                  className={`${styles.factorFill} ${styles.grow}`}
-                  style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }}
-                />
+          {trace.factors.map((factor) => {
+            const open = openFactor === factor.key;
+            const source = factor.source_id
+              ? chart.source_refs.find((ref) => ref.source_id === factor.source_id)
+              : undefined;
+            const hasDetail = true;
+            return (
+              <div key={factor.key}>
+                {/* The row itself is the control: clicking an item of evidence to
+                    see where it came from needs no separate affordance. */}
+                <button
+                  type="button"
+                  className={styles.factorRow}
+                  aria-expanded={open}
+                  disabled={!hasDetail}
+                  onClick={() => setOpenFactor(open ? null : factor.key)}
+                >
+                  <b>{FACTOR_LABEL[factor.key] ?? factor.key}</b>
+                  <span className={styles.evidence}>{factor.evidence.map((ref) => ref.description).join("；")}</span>
+                  <div className={styles.factorTrack}>
+                    <div
+                      className={`${styles.factorFill} ${styles.grow}`}
+                      style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }}
+                    />
+                  </div>
+                  <span className={styles.value}>
+                    {factor.score} × {factor.weight} = <b>{factor.weighted_score.toFixed(2)}</b>
+                    {hasDetail && <i className={styles.caret} aria-hidden="true" />}
+                  </span>
+                </button>
+                {open && (
+                  <dl className={`${styles.factorDetail} ${styles.fade}`}>
+                    <dt>满足程度</dt>
+                    <dd>
+                      {factor.scale && factor.level !== null ? (
+                        <>
+                          <div className={styles.ladder} role="img"
+                            aria-label={`共 ${factor.scale.labels.length} 档，满足第 ${factor.level + 1} 档：${factor.scale.labels[factor.level]}`}>
+                            {factor.scale.labels.map((label, index) => (
+                              <div key={label} className={`${styles.rung} ${index === factor.level ? styles.rungOn : ""}`}>
+                                <b>{label}</b>
+                                <span>{factor.scale!.scores[index]}</span>
+                              </div>
+                            ))}
+                          </div>
+                          <span className={styles.ladderNote}>
+                            共 {factor.scale.labels.length} 档（自优到劣），本盘为第 {factor.level + 1} 档「{factor.scale.labels[factor.level]}」，得 {factor.score}
+                            {factor.scale.derived && `。档位顺序取自典籍，分值间距为本项目设定（${factor.scale.rule_id}）`}
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <div className={styles.ratioTrack} role="img" aria-label={`比例 ${factor.score}`}>
+                            <div className={styles.ratioFill} style={{ width: `${Math.min(Math.max(factor.score, 0), 1) * 100}%` }} />
+                          </div>
+                          <span className={styles.ladderNote}>连续取值 0–1，不分档；本盘为 {factor.score}</span>
+                        </>
+                      )}
+                    </dd>
+                    {factor.calculation && (
+                      <>
+                        <dt>计算</dt>
+                        <dd>{factor.calculation}</dd>
+                      </>
+                    )}
+                    {factor.rule_id && (
+                      <>
+                        <dt>规则</dt>
+                        <dd>
+                          {factor.rule_id}
+                          {factor.derived && <span className={styles.derivedTag}>本项目形式化</span>}
+                        </dd>
+                      </>
+                    )}
+                    {(source || factor.chapter) && (
+                      <>
+                        <dt>依据</dt>
+                        <dd>
+                          {source && `《${source.title}》`}
+                          {[source?.edition, factor.chapter].filter(Boolean).join(" · ")}
+                          {factor.quotation && <q className={styles.quote}>{factor.quotation}</q>}
+                          {factor.kb_url?.startsWith("http") && (
+                            <a href={factor.kb_url} target="_blank" rel="noreferrer" className={styles.quote}>
+                              在原文页面核对 ↗
+                            </a>
+                          )}
+                        </dd>
+                      </>
+                    )}
+                    {factor.evidence.length > 0 && (
+                      <>
+                        <dt>命盘中的位置</dt>
+                        <dd style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                          {factor.evidence.map((ref, index) => (
+                            <button
+                              key={`${ref.pillar}-${ref.position}-${ref.stem ?? ref.branch}-${index}`}
+                              type="button"
+                              className={styles.evidenceChip}
+                              disabled={!onShowEvidence}
+                              onClick={() => onShowEvidence?.(ref)}
+                              title="在四柱排盘中查看"
+                            >
+                              {ref.description}
+                              {onShowEvidence && <span aria-hidden="true"> ↗</span>}
+                            </button>
+                          ))}
+                        </dd>
+                      </>
+                    )}
+                    <dt>合计贡献</dt>
+                    <dd>
+                      {factor.score} × 权重 {factor.weight} = {factor.weighted_score.toFixed(2)}
+                    </dd>
+                  </dl>
+                )}
               </div>
-              <span className={styles.value}>
-                {factor.score} × {factor.weight} = <b>{factor.weighted_score.toFixed(2)}</b>
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div>
@@ -368,11 +496,88 @@ export function ElementsStep({ chart, isMock }: { chart: BaziChartResult; isMock
             {override?.triggered
               ? `因${PATTERN_LABEL[override.pattern]}成立，改按格局判定`
               : "按常规多因子判定，未触发特殊格局"}
-            {chart.disposition.useful.length > 0 &&
-              `　用神 ${chart.disposition.useful.map((element) => ELEMENT_LABEL[element]).join("、")}`}
-            {chart.disposition.unfavourable.length > 0 &&
-              `　忌神 ${chart.disposition.unfavourable.map((element) => ELEMENT_LABEL[element]).join("、")}`}
           </span>
+        </div>
+      </section>
+
+      {/* ---- 用神推导：两条链并排，仲裁通栏 ---- */}
+      <section className={`${styles.section} ${styles.rise}`} style={{ animationDelay: "360ms" }}>
+        <div className={styles.sectionHead}>
+          <h3>
+            用神推导
+            {isMock && <span className={styles.tag}>示例数值</span>}
+          </h3>
+          <span>扶抑与调候并行推导，结论冲突时按优先规则裁决</span>
+        </div>
+
+        <div className={styles.derivationGrid}>
+          {derivation.methods.map((method) => {
+            const adopted =
+              arbitration.outcome === method.method || arbitration.outcome === "both" ||
+              arbitration.outcome === "agree";
+            const source = method.source_id
+              ? chart.source_refs.find((ref) => ref.source_id === method.source_id)
+              : undefined;
+            return (
+              <div
+                key={method.method}
+                className={`${styles.methodCard} ${adopted ? styles.methodCardAdopted : ""}`}
+              >
+                <div className={styles.methodHead}>
+                  <strong>{METHOD_LABEL[method.method]}</strong>
+                  {adopted && <span className={styles.adoptedTag}>已采纳</span>}
+                </div>
+                <p className={styles.methodBasis}>{method.basis}</p>
+                <div className={styles.chipRow}>
+                  <span className={styles.chipLabel}>用神</span>
+                  {method.useful.map((element) => (
+                    <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
+                      {ELEMENT_LABEL[element]}
+                    </span>
+                  ))}
+                </div>
+                {method.unfavourable && method.unfavourable.length > 0 && (
+                  <div className={styles.chipRow}>
+                    <span className={styles.chipLabel}>忌神</span>
+                    {method.unfavourable.map((element) => (
+                      <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
+                        {ELEMENT_LABEL[element]}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <p className={styles.methodSource}>
+                  {method.rule_id && <span>{method.rule_id}</span>}
+                  {source && <span>《{source.title}》{source.chapter ?? ""}</span>}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className={styles.arbitration}>
+          <div className={styles.arbitrationHead}>
+            <span className={styles.arbitrationTag}>
+              {arbitration.conflict ? "结论冲突" : "结论一致"}
+            </span>
+            <strong>{ARBITRATION_LABEL[arbitration.outcome]}</strong>
+            {arbitration.rule_id && <span className={styles.methodSource}>{arbitration.rule_id}</span>}
+          </div>
+          <p className={styles.methodBasis}>{arbitration.rationale}</p>
+          <div className={styles.chipRow}>
+            <span className={styles.chipLabel}>用神</span>
+            {chart.disposition.useful.map((element) => (
+              <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
+                {ELEMENT_LABEL[element]}
+              </span>
+            ))}
+            <span className={styles.chipLabel} style={{ marginLeft: 16 }}>忌神</span>
+            {chart.disposition.unfavourable.map((element) => (
+              <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
+                {ELEMENT_LABEL[element]}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
     </>

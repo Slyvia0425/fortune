@@ -1,3 +1,4 @@
 const baseUrl=process.env.PYTHON_ALGORITHM_BASE_URL?.replace(/\/$/,"");
 export function pythonServiceConfigured(){return Boolean(baseUrl)}
 export async function callPython<T>(path:string,payload:unknown):Promise<T>{if(!baseUrl)throw new Error("PYTHON_SERVICE_NOT_CONFIGURED");const response=await fetch(`${baseUrl}${path}`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload),signal:AbortSignal.timeout(15_000)});if(!response.ok)throw new Error(`PYTHON_SERVICE_${response.status}`);return response.json() as Promise<T>}
+export async function getPython<T>(path:string):Promise<T>{if(!baseUrl)throw new Error("PYTHON_SERVICE_NOT_CONFIGURED");const response=await fetch(`${baseUrl}${path}`,{signal:AbortSignal.timeout(15_000)});if(!response.ok)throw new Error(`PYTHON_SERVICE_${response.status}`);return response.json() as Promise<T>}

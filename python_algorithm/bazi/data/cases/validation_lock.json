@@ -1,0 +1,15 @@
+{
+ "files": {
+  "annotations_strength_validation.json": "8d49b11b2274fd3ab2c8d10e85cfaf9b013f388cb18866805a12ad6c41c37271",
+  "annotations_pattern_validation.json": "592ee8f28b4f37f738e3c9e7d921edaf40463807688ad3c0316cc26b932952b9",
+  "annotations_adoption_validation.json": "85ea098b0f56f6bd341a6842c7688e0b2932f3dbbf938ad5cc300ef6b23b5994"
+ },
+ "opened": [
+  {
+   "date": "2026-10-07",
+   "what": "aggregate count of provisional strength levels agreeing with the pooled labels (tuning and validation together) under three hidden-stem tables; four numbers read, per-case labels not inspected",
+   "used_for_decision": false,
+   "note": "done by mistake while comparing 藏干 conventions; result discarded, convention chosen on tradition and on how often the tables differ, not on that count"
+  }
+ ]
+}

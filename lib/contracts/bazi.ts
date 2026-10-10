@@ -61,6 +61,14 @@ export type TenGod =
   | "indirect_resource" // 偏印
   | "direct_resource";  // 正印
 
+/** 旺相休囚死: how an element stands in the season set by the birth month. */
+export type SeasonalState =
+  | "peak"        // 旺
+  | "supporting"  // 相
+  | "resting"     // 休
+  | "confined"    // 囚
+  | "dead";       // 死
+
 /** Five-level day-master strength. */
 export type DayMasterStrength =
   | "very_strong"
@@ -78,6 +86,41 @@ export type SpecialPattern =
   | "following_officer"    // 从官杀格
   | "dominant_element"     // 专旺格
   | "dual_qi_formation";   // 两气成象
+
+/**
+ * The twenty-four solar terms, in calendar order.
+ *
+ * Twelve of them are 节 (lichun, jingzhe, qingming, lixia, mangzhong, xiaoshu,
+ * liqiu, bailu, hanlu, lidong, daxue, xiaohan) and open a month pillar; the
+ * other twelve are 中气 and fall mid-month. The distinction matters because
+ * some rules split a month at its 中气 — Qiong Tong Bao Jian, for instance,
+ * treats a wood day master born before and after 秋分 differently.
+ */
+export type SolarTerm =
+  | "lichun"      // 立春 · 节
+  | "yushui"      // 雨水
+  | "jingzhe"     // 惊蛰 · 节
+  | "chunfen"     // 春分
+  | "qingming"    // 清明 · 节
+  | "guyu"        // 谷雨
+  | "lixia"       // 立夏 · 节
+  | "xiaoman"     // 小满
+  | "mangzhong"   // 芒种 · 节
+  | "xiazhi"      // 夏至
+  | "xiaoshu"     // 小暑 · 节
+  | "dashu"       // 大暑
+  | "liqiu"       // 立秋 · 节
+  | "chushu"      // 处暑
+  | "bailu"       // 白露 · 节
+  | "qiufen"      // 秋分
+  | "hanlu"       // 寒露 · 节
+  | "shuangjiang" // 霜降
+  | "lidong"      // 立冬 · 节
+  | "xiaoxue"     // 小雪
+  | "daxue"       // 大雪 · 节
+  | "dongzhi"     // 冬至
+  | "xiaohan"     // 小寒 · 节
+  | "dahan";      // 大寒
 
 export type PillarLabel = "year" | "month" | "day" | "hour";
 
@@ -104,7 +147,7 @@ export interface BaziChartRequest {
   /** "HH:mm", local civil time at the birth place. */
   birth_time: string;
   birth_place: BirthPlace;
-  gender: "female" | "male" | "unspecified";
+  gender: "female" | "male";
   /**
    * Input calendar. Lunar input is converted to solar server-side before any
    * calculation; solar terms and the sexagenary day count are solar concepts.
@@ -171,7 +214,69 @@ export interface ResolvedTime {
   crossed_pillar_boundary: boolean;
 }
 
-/** Display-only. Carries no interpretation. */
+/**
+ * Where the birth moment sits in the solar-term cycle.
+ *
+ * Consumed by 1.2: the climate branch of the useful-god derivation keys off the
+ * term, and some of its rules turn on which side of a 中气 the birth falls.
+ *
+ * TIME SCALE — do not "improve" this by feeding it the corrected time. A solar
+ * term is one astronomical instant worldwide (the sun reaching a given ecliptic
+ * longitude), so every field here compares the birth moment against the term in
+ * CIVIL time, uncorrected. True solar time shifts the hour pillar, never the
+ * month: applying the correction to both sides would shift them equally and
+ * cancel, and applying it to only the birth moment is simply wrong — a tool
+ * observed in our market survey did exactly that and pushed a birth 20 minutes
+ * before 立冬 into the following month pillar.
+ */
+export interface SolarTermPosition {
+  /** Most recent term passed, whether 节 or 中气. */
+  current_term: SolarTerm;
+  /** When that term began, ISO 8601 in the birth place's timezone. */
+  current_term_at: string;
+  /** Decimal days elapsed since it. */
+  days_since_term: number;
+  next_term: SolarTerm;
+  next_term_at: string;
+  days_to_next_term: number;
+  /**
+   * The 节 that opened this month pillar. Equals current_term when the birth
+   * falls before the month's 中气.
+   */
+  month_term: SolarTerm;
+  /**
+   * True within a day of a term boundary, where a small error in the computed
+   * birth moment could put the chart on the other side of the rule.
+   */
+  near_boundary: boolean;
+}
+
+/** Which way the luck cycles run from the month pillar. */
+export type LuckDirection = "forward" | "reverse";
+
+/**
+ * When the luck cycles begin, and which way they run.
+ *
+ * Display-only like the cycles themselves, but it is the part of 1.1 with real
+ * calculation in it: the onset is the distance from the birth moment to the
+ * neighbouring solar term converted at three days to the year, and the
+ * direction follows the year stem's polarity together with the gender.
+ */
+export interface LuckOnset {
+  years: number;
+  months: number;
+  direction: LuckDirection;
+  /** Plain-language account of how the two were derived. */
+  rationale: string;
+}
+
+/**
+ * Display-only. Carries no interpretation.
+ *
+ * Elements and ten gods travel with the cycle rather than being worked out in
+ * the browser: they are the same structural relations the engine already
+ * computes for the natal pillars, and the frontend does no inference of its own.
+ */
 export interface LuckCycle {
   start_age: number;
   end_age: number;
@@ -179,22 +284,87 @@ export interface LuckCycle {
   end_year: number;
   stem: HeavenlyStem;
   branch: EarthlyBranch;
+  stem_element: ElementKey;
+  branch_element: ElementKey;
+  stem_ten_god: TenGod;
+  /** Ten god of the branch's primary hidden stem. */
+  branch_ten_god: TenGod;
+}
+
+export interface PeriodPillar {
+  stem: HeavenlyStem;
+  branch: EarthlyBranch;
+  stem_element: ElementKey;
+  branch_element: ElementKey;
+}
+
+/** A pillar on one of the timelines, with the ten gods the engine derived. */
+export interface TimelinePillar extends PeriodPillar {
+  stem_ten_god: TenGod;
+  branch_ten_god: TenGod;
+}
+
+export interface AnnualPillar extends TimelinePillar {
+  year: number;
 }
 
 /** Display-only. Computed in the birth place's timezone. */
 export interface CurrentPeriod {
-  year: { year: number; stem: HeavenlyStem; branch: EarthlyBranch };
-  month: { stem: HeavenlyStem; branch: EarthlyBranch };
-  day: { stem: HeavenlyStem; branch: EarthlyBranch };
+  year: PeriodPillar & { year: number };
+  month: PeriodPillar;
+  day: PeriodPillar;
 }
 
 /* ------------------------------------------------------------------ */
 /* 1.2 Pattern diagnosis                                                */
 /* ------------------------------------------------------------------ */
 
+/** Where in the chart a piece of evidence sits. */
+export type EvidencePosition =
+  | "stem"    // a heavenly stem of a pillar
+  | "hidden"  // a stem hidden in a pillar's branch
+  | "branch"; // the earthly branch itself (e.g. 月令)
+
+/**
+ * A pointer to a place in the natal chart. The reader (and the UI) can go to
+ * the character itself instead of parsing a sentence.
+ *
+ * pillar + position + branch always locate the spot. `stem` is set for a stem
+ * or a hidden stem; `qi` only for a hidden stem. `description` is the one-line
+ * account of why the character matters — the only free text. Every reference
+ * must name a character the chart really has; the Python model rejects a result
+ * that does not.
+ */
+export interface EvidenceRef {
+  pillar: PillarLabel;
+  position: EvidencePosition;
+  /** The pillar's own branch; for a hidden stem, the branch that hides it. */
+  branch: EarthlyBranch;
+  stem: HeavenlyStem | null;
+  qi: HiddenStem["qi"] | null;
+  description: string;
+}
+
+/** The tiers a factor is scored on, best first, and the rule that fixed their values. */
+export interface FactorScale {
+  labels: string[];
+  scores: number[];
+  rule_id: string;
+  /** True: the spacing between tiers is this project's choice, not the text's. */
+  derived: boolean;
+}
+
 /** One evidence factor feeding the day-master strength arbitration. */
 export interface StrengthFactor {
   key: "seasonal_command" | "rootedness" | "revealed_support" | "assisting_support";
+  /**
+   * Identifier of the rule that produced this score, e.g. "R-DELING-05".
+   * What makes the trace auditable: a reader can look the rule up rather than
+   * take the number on trust.
+   */
+  rule_id?: string;
+  /** source_id of the entry in source_refs this rule was read from. */
+  source_id?: string;
   /** Raw factor score before weighting. */
   score: number;
   /** Weight applied, from the tuned weight set. */
@@ -202,7 +372,21 @@ export interface StrengthFactor {
   /** score * weight. */
   weighted_score: number;
   /** Which pillars / stems produced this score. */
-  evidence: string[];
+  /** Places in the chart this score was computed from; empty when none applies. */
+  evidence: EvidenceRef[];
+  /** The tier ladder; null for a continuous factor (得助 is a ratio). */
+  scale: FactorScale | null;
+  /** Index into scale.labels where this chart sits (0 = best); null when continuous. */
+  level: number | null;
+  /** One-line account of how the score was reached. */
+  calculation: string;
+  /** Where the rule that produced the score is cited, and whether it is the
+   *  project's own formalisation rather than something the text states. */
+  chapter: string | null;
+  quotation: string | null;
+  /** The knowledge-base page the quotation comes from (its unique key; a URL for web sources). */
+  kb_url: string | null;
+  derived: boolean;
 }
 
 /**
@@ -262,6 +446,51 @@ export interface ElementDisposition {
   rationale: string;
 }
 
+/** The two derivation methods this module runs in parallel. */
+export type DerivationMethod =
+  | "supporting"  // 扶抑：按日主强弱取生扶或克泄之神
+  | "climatic";   // 调候：按出生季节的寒暖燥湿取用
+
+export type ArbitrationOutcome =
+  | "agree"       // 两法结论一致，无需裁决
+  | "supporting"  // 采纳扶抑
+  | "climatic"    // 采纳调候
+  | "both"        // 两者兼用：一为主用神，另一为不可缺少之辅
+  | "other";      // 其余情形，须在 rationale 中说明
+
+/** What one method concluded, and what it keyed off. */
+export interface MethodConclusion {
+  method: DerivationMethod;
+  /** The input this method used, e.g. "日主偏旺" or "正月甲木，木嫩气寒". */
+  basis: string;
+  rule_id?: string;
+  source_id?: string;
+  useful: ElementKey[];
+  /** Only the supporting method yields unfavourable elements. */
+  unfavourable?: ElementKey[];
+}
+
+/**
+ * How the two conclusions were reconciled.
+ *
+ * The climatic chain does not depend on the strength judgement, so the two run
+ * in parallel and meet here; this record is what makes the choice auditable
+ * rather than silent, which is precisely what existing tools leave out.
+ */
+export interface Arbitration {
+  conflict: boolean;
+  outcome: ArbitrationOutcome;
+  /** The priority rule that decided it; absent when the two agree. */
+  rule_id?: string;
+  source_id?: string;
+  rationale: string;
+}
+
+export interface UsefulGodDerivation {
+  methods: MethodConclusion[];
+  arbitration: Arbitration;
+}
+
 export interface TenGodRelation {
   pillar: PillarLabel;
   /** "stem" for the visible stem, "hidden" for a hidden stem in the branch. */
@@ -269,54 +498,85 @@ export interface TenGodRelation {
   ten_god: TenGod;
   element: ElementKey;
   /** Whether this ten-god is currently useful or unfavourable. */
-  disposition: "useful" | "unfavourable" | "neutral";
+  disposition: Disposition;
 }
 
 /* ------------------------------------------------------------------ */
-/* 1.4 Advisory                                                         */
+/* 1.4 Domain tallies                                                   */
 /* ------------------------------------------------------------------ */
+
+/** Whether an element or ten god supports or burdens the chart, per 1.2. */
+export type Disposition = "useful" | "unfavourable" | "neutral";
+
+/** The five groups the ten gods fall into, relative to the day master. */
+export type TenGodGroup =
+  | "companion"  // 比劫：同我者
+  | "output"     // 食伤：我生者
+  | "wealth"     // 财：我克者
+  | "officer"    // 官杀：克我者
+  | "resource";  // 印：生我者
+
+/** Where a ten god actually sits in the chart. */
+export interface TenGodOccurrence {
+  pillar: PillarLabel;
+  position: "stem" | "hidden";
+  /** The character itself, e.g. the stem 癸. */
+  stem: HeavenlyStem;
+  element: ElementKey;
+  ten_god: TenGod;
+  /** Useful or unfavourable, as judged in 1.2 — not a fresh judgement. */
+  disposition: Disposition;
+}
 
 export type AdvisoryDomain = "career" | "study" | "wealth";
 
-/** Traceability record: which ten-god evidence produced a given claim. */
-export interface Citation {
-  ten_god: TenGod;
-  /** Whether it contributed as a useful or unfavourable god. */
-  disposition: "useful" | "unfavourable";
-  /** Points contributed to this category's score. */
-  points: number;
-  /** Where in the chart the evidence sits. */
-  evidence: string[];
-}
-
-export interface AdvisoryCategory {
-  /** Candidate category key, e.g. "management", "creative_expression". */
+/**
+ * One ten-god group as it relates to one domain.
+ *
+ * Nothing here is weighted or ranked. Earlier drafts scored the groups (core
+ * +3, secondary +2) and ordered the domains by the total, but the texts supply
+ * no such hierarchy and the scores were not comparable across domains — a 2 in
+ * 职业 and a 2 in 学业 measured different things while sharing one label. What
+ * is left is what can be checked: how many of the group appear, whether 1.2
+ * judged them useful or unfavourable, what the texts say the group concerns,
+ * and where each one sits in the chart.
+ */
+export interface DomainGroupTally {
+  group: TenGodGroup;
+  /**
+   * Thedomain-facing name of what this group is associated with, e.g. 管理 / 组织.
+   * A label for the association the texts state, not a new claim: the evidence
+   * for it is the gloss and quotation below.
+   */
   category: string;
-  display_name: string;
-  /** Rank within the domain, 1 = best structural fit. */
-  rank: number;
+  /** Occurrences in this chart, counting stems and hidden stems. */
+  count: number;
+  /** From 1.2; neutral when the group is absent or its occurrences differ. */
+  disposition: Disposition;
+  /** What the texts say this group concerns, in their own vocabulary. */
+  gloss: string;
+  /** The passage the gloss rests on; absent when the texts carry none. */
+  quotation?: string;
+  source_id?: string;
+  chapter?: string;
+  occurrences: TenGodOccurrence[];
   /**
-   * Structural fit score. Expresses alignment with the chart's composition —
-   * never a probability or a likelihood of real-world success.
+   * Plain-language restatement of this row: the count, the disposition, the
+   * gloss and where they sit. Classical quotations alone are hard to read, so
+   * the row is also said in modern Chinese — a restatement, never an addition.
    */
-  fit_score: number;
-  /** Strengths, derived from useful-god contributions. */
-  strengths: string[];
-  /**
-   * Points to note, derived from unfavourable-god contributions. Positively
-   * framed, but must remain traceable to the underlying signal — framing may
-   * not remove or dilute what the scoring found.
-   */
-  considerations: string[];
-  /** Every strength / consideration above traces back through these. */
-  citations: Citation[];
+  narrative: string;
 }
 
-export interface AdvisoryDomainResult {
+export interface DomainTally {
   domain: AdvisoryDomain;
-  /** Top-ranked categories, highest structural fit first. */
-  categories: AdvisoryCategory[];
-  /** Natural-language rendering of the above. Verbalisation only. */
+  /**
+   * The groups the texts associate with this domain, in fixed order and
+   * including those with a count of zero — absence is as informative as
+   * presence, and a variable order would read as a ranking.
+   */
+  groups: DomainGroupTally[];
+  /** Constrained verbalisation of the rows above; no new claims, no ordering. */
   narrative: string;
 }
 
@@ -327,8 +587,21 @@ export interface AdvisoryDomainResult {
 export interface BaziChartResult {
   /* --- 1.1 --- */
   resolved_time: ResolvedTime;
+  /** Consumed by 1.2's climate branch; see SolarTermPosition. */
+  solar_term: SolarTermPosition;
   pillars: BaziPillar[];
   elements: Record<ElementKey, number>;
+  /** 1.2: each element's 旺相休囚死 in the birth month's season. */
+  element_states: Record<ElementKey, SeasonalState>;
+  /** Display only — no interpretation attached. */
+  luck_onset: LuckOnset;
+  /**
+   * Annual pillars covering the span of luck_cycles, so the year row can follow
+   * whichever cycle the reader selects. Months and days are deliberately absent:
+   * expanding them across eighty years runs to tens of thousands of rows, and
+   * the page does not show them.
+   */
+  annual_cycles: AnnualPillar[];
   /** Display only — no interpretation attached. */
   luck_cycles: LuckCycle[];
   /** Display only — no interpretation attached. */
@@ -338,10 +611,13 @@ export interface BaziChartResult {
   day_master: DayMaster;
   ten_gods: TenGodRelation[];
   disposition: ElementDisposition;
+  /** The two parallel derivations and their reconciliation. */
+  derivation: UsefulGodDerivation;
   reasoning_trace: ReasoningTrace;
 
   /* --- 1.4 --- */
-  advisory: AdvisoryDomainResult[];
+  /** One tally per domain; counts and citations only, no score and no ranking. */
+  domain_tallies: DomainTally[];
 
   /** Plain-language summary of the chart's composition. */
   overview: string;
@@ -357,6 +633,8 @@ export interface BaziChartResult {
     engine_version?: string;
     /** Identifier of the weight set used, for reproducing a given result. */
     weight_set?: string;
+    /** Version of the rule base used; with weight_set, enough to reproduce a result. */
+    rule_base?: string;
     warnings?: string[];
   };
 }

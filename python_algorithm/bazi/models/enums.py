@@ -72,6 +72,65 @@ class SpecialPattern(str, Enum):
     DUAL_QI_FORMATION = "dual_qi_formation"
 
 
+class SolarTerm(str, Enum):
+    """The twenty-four solar terms, in calendar order.
+
+    JIE_TERMS below marks the twelve that open a month pillar; the rest are
+    中气 and fall mid-month.
+    """
+
+    LICHUN = "lichun"
+    YUSHUI = "yushui"
+    JINGZHE = "jingzhe"
+    CHUNFEN = "chunfen"
+    QINGMING = "qingming"
+    GUYU = "guyu"
+    LIXIA = "lixia"
+    XIAOMAN = "xiaoman"
+    MANGZHONG = "mangzhong"
+    XIAZHI = "xiazhi"
+    XIAOSHU = "xiaoshu"
+    DASHU = "dashu"
+    LIQIU = "liqiu"
+    CHUSHU = "chushu"
+    BAILU = "bailu"
+    QIUFEN = "qiufen"
+    HANLU = "hanlu"
+    SHUANGJIANG = "shuangjiang"
+    LIDONG = "lidong"
+    XIAOXUE = "xiaoxue"
+    DAXUE = "daxue"
+    DONGZHI = "dongzhi"
+    XIAOHAN = "xiaohan"
+    DAHAN = "dahan"
+
+
+class DerivationMethod(str, Enum):
+    """扶抑 / 调候：本模块并行运行的两种取用方法。"""
+
+    SUPPORTING = "supporting"
+    CLIMATIC = "climatic"
+
+
+class ArbitrationOutcome(str, Enum):
+    AGREE = "agree"
+    SUPPORTING = "supporting"
+    CLIMATIC = "climatic"
+    BOTH = "both"
+    OTHER = "other"
+
+
+class LuckDirection(str, Enum):
+    FORWARD = "forward"
+    REVERSE = "reverse"
+
+
+class AdvisoryDomain(str, Enum):
+    CAREER = "career"
+    STUDY = "study"
+    WEALTH = "wealth"
+
+
 class PillarLabel(str, Enum):
     YEAR = "year"
     MONTH = "month"
@@ -87,7 +146,6 @@ class LocationSource(str, Enum):
 class Gender(str, Enum):
     FEMALE = "female"
     MALE = "male"
-    UNSPECIFIED = "unspecified"
 
 
 class Calendar(str, Enum):
@@ -106,16 +164,38 @@ class StemPosition(str, Enum):
     HIDDEN = "hidden"
 
 
+class SeasonalState(str, Enum):
+    """旺相休囚死: how an element stands in the season set by the month branch."""
+
+    PEAK = "peak"              # 旺
+    SUPPORTING = "supporting"  # 相
+    RESTING = "resting"        # 休
+    CONFINED = "confined"      # 囚
+    DEAD = "dead"              # 死
+
+
+class EvidencePosition(str, Enum):
+    """Where in the chart a piece of evidence sits."""
+
+    STEM = "stem"      # a heavenly stem of a pillar
+    HIDDEN = "hidden"  # a stem hidden in a pillar's branch
+    BRANCH = "branch"  # the earthly branch itself (e.g. 月令)
+
+
 class Disposition(str, Enum):
     USEFUL = "useful"
     UNFAVOURABLE = "unfavourable"
     NEUTRAL = "neutral"
 
 
-class AdvisoryDomain(str, Enum):
-    CAREER = "career"
-    STUDY = "study"
+class TenGodGroup(str, Enum):
+    """十神按与日主的关系分五组。"""
+
+    COMPANION = "companion"
+    OUTPUT = "output"
     WEALTH = "wealth"
+    OFFICER = "officer"
+    RESOURCE = "resource"
 
 
 class FactorKey(str, Enum):
@@ -170,6 +250,14 @@ DISPLAY_TEN_GOD = {
     TenGod.DIRECT_RESOURCE: "正印",
 }
 
+DISPLAY_SEASONAL_STATE = {
+    SeasonalState.PEAK: "旺",
+    SeasonalState.SUPPORTING: "相",
+    SeasonalState.RESTING: "休",
+    SeasonalState.CONFINED: "囚",
+    SeasonalState.DEAD: "死",
+}
+
 DISPLAY_ELEMENT = {
     ElementKey.WOOD: "木",
     ElementKey.FIRE: "火",
@@ -191,4 +279,83 @@ DISPLAY_STRENGTH = {
     DayMasterStrength.BALANCED: "中和",
     DayMasterStrength.SOMEWHAT_WEAK: "偏弱",
     DayMasterStrength.VERY_WEAK: "太弱",
+}
+
+
+DISPLAY_SOLAR_TERM = {
+    SolarTerm.LICHUN: "立春",
+    SolarTerm.YUSHUI: "雨水",
+    SolarTerm.JINGZHE: "惊蛰",
+    SolarTerm.CHUNFEN: "春分",
+    SolarTerm.QINGMING: "清明",
+    SolarTerm.GUYU: "谷雨",
+    SolarTerm.LIXIA: "立夏",
+    SolarTerm.XIAOMAN: "小满",
+    SolarTerm.MANGZHONG: "芒种",
+    SolarTerm.XIAZHI: "夏至",
+    SolarTerm.XIAOSHU: "小暑",
+    SolarTerm.DASHU: "大暑",
+    SolarTerm.LIQIU: "立秋",
+    SolarTerm.CHUSHU: "处暑",
+    SolarTerm.BAILU: "白露",
+    SolarTerm.QIUFEN: "秋分",
+    SolarTerm.HANLU: "寒露",
+    SolarTerm.SHUANGJIANG: "霜降",
+    SolarTerm.LIDONG: "立冬",
+    SolarTerm.XIAOXUE: "小雪",
+    SolarTerm.DAXUE: "大雪",
+    SolarTerm.DONGZHI: "冬至",
+    SolarTerm.XIAOHAN: "小寒",
+    SolarTerm.DAHAN: "大寒",
+}
+
+# The twelve 节: each opens a month pillar. The others are 中气.
+JIE_TERMS = frozenset({
+    SolarTerm.LICHUN, SolarTerm.JINGZHE, SolarTerm.QINGMING, SolarTerm.LIXIA,
+    SolarTerm.MANGZHONG, SolarTerm.XIAOSHU, SolarTerm.LIQIU, SolarTerm.BAILU,
+    SolarTerm.HANLU, SolarTerm.LIDONG, SolarTerm.DAXUE, SolarTerm.XIAOHAN,
+})
+
+
+DISPLAY_METHOD = {
+    DerivationMethod.SUPPORTING: "扶抑",
+    DerivationMethod.CLIMATIC: "调候",
+}
+
+DISPLAY_ARBITRATION = {
+    ArbitrationOutcome.AGREE: "两法一致",
+    ArbitrationOutcome.SUPPORTING: "采纳扶抑",
+    ArbitrationOutcome.CLIMATIC: "采纳调候",
+    ArbitrationOutcome.BOTH: "两者兼用",
+    ArbitrationOutcome.OTHER: "其他",
+}
+
+
+DISPLAY_LUCK_DIRECTION = {
+    LuckDirection.FORWARD: "顺排",
+    LuckDirection.REVERSE: "逆排",
+}
+
+
+DISPLAY_TEN_GOD_GROUP = {
+    TenGodGroup.COMPANION: "比劫",
+    TenGodGroup.OUTPUT: "食伤",
+    TenGodGroup.WEALTH: "财",
+    TenGodGroup.OFFICER: "官杀",
+    TenGodGroup.RESOURCE: "印",
+}
+
+
+DISPLAY_ADVISORY_DOMAIN = {
+    AdvisoryDomain.CAREER: "职业方向",
+    AdvisoryDomain.STUDY: "学业方向",
+    AdvisoryDomain.WEALTH: "财运",
+}
+
+
+DISPLAY_PILLAR = {
+    PillarLabel.YEAR: "年柱",
+    PillarLabel.MONTH: "月柱",
+    PillarLabel.DAY: "日柱",
+    PillarLabel.HOUR: "时柱",
 }
