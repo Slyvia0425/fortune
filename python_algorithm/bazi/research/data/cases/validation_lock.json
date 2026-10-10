@@ -1,0 +1,196 @@
+{
+ "files": {
+  "annotations_strength_validation.json": "0e69c78b0b9be2c44f4c01a58879098f0f99c6a0b66cf66da26be3b1e6b986ce",
+  "annotations_pattern_validation.json": "af3dd9b5fbdd03c66ddc4afad08406ca8f1b7c785a12c711ae15b27d6f805e74"
+ },
+ "opened": [
+  {
+   "date": "2026-10-07",
+   "what": "aggregate count of provisional strength levels agreeing with the pooled labels (tuning and validation together) under three hidden-stem tables; four numbers read, per-case labels not inspected",
+   "used_for_decision": false,
+   "note": "done by mistake while comparing 藏干 conventions; result discarded, convention chosen on tradition and on how often the tables differ, not on that count"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-08",
+   "what": "E1, E2, E4: strength, pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R0.5",
+   "weight_set": "calibrated-2",
+   "rule_files_sha256": "075c643b1455d4ced65a647ede3a4e175160fae94a19dd58ec9300b4db65f514"
+  },
+  {
+   "kind": "merged_into_development",
+   "date": "2026-10-09",
+   "what": "after the one evaluation (E1/E2/E4, engine R0.5 / calibrated-2) the validation labels are no longer held out: they join the tuning labels as one development set for the engine redesign, assessed by cross-validation. The first held-out result stays in the report as the result of the first design.",
+   "used_for_decision": true
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2, E4: strength, pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R0.6",
+   "weight_set": "calibrated-3",
+   "rule_files_sha256": "771f58d8c30c9f49e1f2aa969673a5a27ac08425d5adb4475ce4dd97a8d39f11"
+  },
+  {
+   "kind": "case_set_cleaned",
+   "date": "2026-10-09",
+   "used_for_decision": false,
+   "what": "contradictions inside the case set removed, by label logic only, without looking at any engine output: DT-222 kept as 两气成象 (not also 专旺); pattern records DT-063, DT-211, DT-368 (only 'described', 专旺) withdrawn because the same chart is labelled 偏旺 / 身强扶抑 by a better-grounded record. Validation pattern file re-hashed; tuning files untouched."
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2, E4: strength, pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R0.6",
+   "weight_set": "calibrated-3",
+   "rule_files_sha256": "771f58d8c30c9f49e1f2aa969673a5a27ac08425d5adb4475ce4dd97a8d39f11",
+   "labels_sha256": "b64904d328499638fd013053bfd26558753ebed2da0f85a51e7df6bc1dcf0f00"
+  },
+  {
+   "kind": "holdout_created",
+   "date": "2026-10-09",
+   "used_for_decision": false,
+   "what": "B5: 52 strength labels from the 穷通宝鉴 commentary (徐乐吾), confirmed by the reviewer from the B5 sheet; locked by hash; not read by any calibration or evaluation yet. It is the one test set no design decision has seen."
+  },
+  {
+   "kind": "merged_into_development",
+   "date": "2026-10-09",
+   "used_for_decision": true,
+   "what": "the validation strength labels join the tuning labels (155 in all) as the training set for choosing the factor set and the weights, by cross-validation; the first and second evaluations on the validation group stay on record. The holdout group (B5) is the test."
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E2, E4: pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R0.7",
+   "weight_set": "calibrated-4",
+   "rule_files_sha256": "8e362ee9c919db57b5f606bbb032adf54bf6cc44bdaca68c0f270564b63412f1",
+   "labels_sha256": "6d4e74ea07f84ce5fbb1422c2f1ab2876feb5fd4667b79b0c776b3d3c3d8e371"
+  },
+  {
+   "kind": "holdout_evaluation",
+   "date": "2026-10-09",
+   "what": "E1: strength test of the frozen engine on the holdout group (B5)",
+   "used_for_decision": false,
+   "rule_base": "R0.7",
+   "weight_set": "calibrated-4",
+   "rule_files_sha256": "8e362ee9c919db57b5f606bbb032adf54bf6cc44bdaca68c0f270564b63412f1",
+   "labels_sha256": "6d4e74ea07f84ce5fbb1422c2f1ab2876feb5fd4667b79b0c776b3d3c3d8e371"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E2, E4: pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R0.9",
+   "weight_set": "calibrated-6",
+   "rule_files_sha256": "eb4085527d07c0cd7559b203e7e7cc601a16749440722ea88d4d19232dd0eab1",
+   "labels_sha256": "6d4e74ea07f84ce5fbb1422c2f1ab2876feb5fd4667b79b0c776b3d3c3d8e371"
+  },
+  {
+   "kind": "holdout_evaluation",
+   "date": "2026-10-09",
+   "what": "E1: strength test of the frozen engine on the holdout group (B5)",
+   "used_for_decision": false,
+   "rule_base": "R0.9",
+   "weight_set": "calibrated-6",
+   "rule_files_sha256": "eb4085527d07c0cd7559b203e7e7cc601a16749440722ea88d4d19232dd0eab1",
+   "labels_sha256": "6d4e74ea07f84ce5fbb1422c2f1ab2876feb5fd4667b79b0c776b3d3c3d8e371"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E2, E4: pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.0",
+   "weight_set": "calibrated-7",
+   "rule_files_sha256": "c4d6f700300a7feb5ee05c8e7f17ebcfe881a119a02a26604be93bd2647ce1cc",
+   "labels_sha256": "269c408fd513a72b50c95a03e9724c107f12e727be3ce8ff0ab0aa89a49a547e"
+  },
+  {
+   "kind": "holdout_evaluation",
+   "date": "2026-10-09",
+   "what": "E1: strength test of the frozen engine on the holdout group (B5)",
+   "used_for_decision": false,
+   "rule_base": "R1.0",
+   "weight_set": "calibrated-7",
+   "rule_files_sha256": "c4d6f700300a7feb5ee05c8e7f17ebcfe881a119a02a26604be93bd2647ce1cc",
+   "labels_sha256": "269c408fd513a72b50c95a03e9724c107f12e727be3ce8ff0ab0aa89a49a547e"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E2, E4: pattern and arbitration evaluation of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.1",
+   "weight_set": "calibrated-8",
+   "rule_files_sha256": "fbbaa0b9b1ee5b4e27f9775924ac7ce961ca5e3155ae1200954819563f8f14ad",
+   "labels_sha256": "269c408fd513a72b50c95a03e9724c107f12e727be3ce8ff0ab0aa89a49a547e"
+  },
+  {
+   "kind": "holdout_evaluation",
+   "date": "2026-10-09",
+   "what": "E1: strength test of the frozen engine on the holdout group (B5)",
+   "used_for_decision": false,
+   "rule_base": "R1.1",
+   "weight_set": "calibrated-8",
+   "rule_files_sha256": "fbbaa0b9b1ee5b4e27f9775924ac7ce961ca5e3155ae1200954819563f8f14ad",
+   "labels_sha256": "269c408fd513a72b50c95a03e9724c107f12e727be3ce8ff0ab0aa89a49a547e"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2, E4: strength, pattern and arbitration test of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.2",
+   "weight_set": "calibrated-9",
+   "rule_files_sha256": "9d018bd75bd69ee62c88746875828ef233984dd3321f5e201f437d2332fc46dd",
+   "labels_sha256": "269c408fd513a72b50c95a03e9724c107f12e727be3ce8ff0ab0aa89a49a547e"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2, E4: strength, pattern and arbitration test of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.3",
+   "weight_set": "calibrated-10",
+   "rule_files_sha256": "886759b592064251f45312cdd44488fcd19a5e1ddf0d0fb48319d261aeed3aef",
+   "labels_sha256": "91b552707d0736849698dcf2d143f5b9d26687147eae561d144a55a6c2ec53e9"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2: strength and pattern test of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.2",
+   "weight_set": "calibrated-2",
+   "rule_files_sha256": "a7c9c43aeedfe30f569245a33dea9c05ef3e74e4691e25caef9d88d8cffed86e",
+   "labels_sha256": "06bcb3be9c43a32cde4543dcb16ca6232aa92c4cf582777be8368459b99d636f"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2: strength and pattern test of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.3",
+   "weight_set": "calibrated-3",
+   "rule_files_sha256": "c326aeaadf024d70231b4aa67543445b811840d9611eefba5334da4d98e48269",
+   "labels_sha256": "06bcb3be9c43a32cde4543dcb16ca6232aa92c4cf582777be8368459b99d636f"
+  },
+  {
+   "kind": "evaluation",
+   "date": "2026-10-09",
+   "what": "E1, E2: strength and pattern test of the frozen engine",
+   "used_for_decision": false,
+   "rule_base": "R1.1",
+   "weight_set": "calibrated-1",
+   "rule_files_sha256": "2f76cb1e97d94f2db572c64d5e11663f788b97aa42b412b34aab834b0d4f925a",
+   "labels_sha256": "06bcb3be9c43a32cde4543dcb16ca6232aa92c4cf582777be8368459b99d636f"
+  }
+ ]
+}

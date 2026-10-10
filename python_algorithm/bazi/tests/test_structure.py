@@ -1,6 +1,7 @@
 """T7: hidden stems, elements, ten gods."""
 
-import pytest
+
+from bazi.tests._each import all_of
 
 from bazi.calc.pillars import Pillars
 from bazi.basics.hidden_stems import HIDDEN_STEMS
@@ -42,7 +43,7 @@ YUANHAI = {
 }
 
 
-@pytest.mark.parametrize("dm", ["甲", "乙"])
+@all_of("dm", ["甲", "乙"])
 def test_ten_gods_match_the_classical_examples(dm):
     for other, name in YUANHAI[dm].items():
         assert DISPLAY_TEN_GOD[ten_god(dm, other)] == name, (dm, other)

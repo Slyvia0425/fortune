@@ -1,306 +1,379 @@
 {
  "rules": [
   {
-   "rule_id": "R-GEJU-00",
-   "group": "pattern",
-   "condition": "格局由日干配月令地支而定",
-   "conclusion": "普通格局以月令为本",
+   "rule_id": "R-ZHUANWANG-01",
+   "group": "special_pattern",
+   "condition": "日主五行的三合局或三会方在四支中齐全（土：辰戌丑未至少三个），且日主五行占比不低于 5/8",
+   "conclusion": "专旺格（dominant_element）：顺其气势取用，不再用扶抑",
+   "when": {
+    "pattern": "dominant_element",
+    "day_master_complete_set": true,
+    "day_master_element_share_min": 0.625
+   },
+   "then": {
+    "pattern": "dominant_element",
+    "final_strength": "very_strong"
+   },
+   "derived": true,
+   "source_id": "ziping-zhenquan",
+   "kb_url": "https://luckclub.cn/bazi/002/010/",
+   "chapter": "论用神",
+   "quotation": "四柱之气势,偏于一方其势不可逆,惟有顺其气势为用,或从或化,及一方专旺等格局皆是也",
+   "note": "成格的结构条件取自《渊海子平》的格局歌诀（见 R-BRANCHSET-*）；「占比不低于 5/8」把评注所说「方局不全者,只要气势专一」一并收紧为『占大半』，是本项目形式化，依调优组案例（8 个标注中 4 个符合、7/310 个盘被检出）取定，检验组未参与。已知不足：方局不全的专旺案例（如 DT-326 炎上缺戌）检不出。；与两气成象不会同时成立（专旺要求日主五行至少 5/8，两气成象要求两种五行各 4/8），所以不设先后"
+  },
+  {
+   "rule_id": "R-LIANGQI-01",
+   "group": "special_pattern",
+   "condition": "两种五行各占一半，其余五行缺",
+   "conclusion": "两气成象（dual_qi_formation）：日主去生，取食伤秀气；情形见 R-LIANGQI-YS-*",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "two_elements_share_min": 1.0,
+    "each_share_min": 0.5
+   },
+   "then": {
+    "pattern": "dual_qi_formation",
+    "final_strength": null
+   },
+   "derived": true,
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "此造木火各半,兩氣成象",
+   "note": "《滴天髓》举例皆为「X Y 各半」且其余五行不见；不要求两五行相生，因为「土水相克,两氣成象」「水土各半,兩氣成象」同样是两气成象。各占 4/8 取自例子，是本项目形式化（调优组 3 个标注全部符合）。"
+  },
+  {
+   "rule_id": "R-BRANCHSET-WOOD-HE",
+   "group": "branch_set",
+   "condition": "亥卯未三合局（wood）",
+   "conclusion": "四支齐全 亥卯未，该五行成局／成方",
    "when": {},
-   "then": {},
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/010/",
-   "chapter": "论用神",
-   "quotation": "八字用神,专求月令,以日干配月令地支,而生克不同,格局分焉"
-  },
-  {
-   "rule_id": "R-GEJU-01",
-   "group": "pattern",
-   "condition": "月令地支所藏之神透于天干",
-   "conclusion": "取该透出之神定格",
-   "when": {
-    "step": "revealed_stem_of_month_branch"
-   },
    "then": {
-    "pick": "revealed"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/018/",
-   "chapter": "论杂气如何取用",
-   "quotation": "何谓透干?如甲生辰月,透戊则用偏财,透癸则用正印,透乙则用月劫是也"
-  },
-  {
-   "rule_id": "R-GEJU-02",
-   "group": "pattern",
-   "condition": "月令所藏之神兼透",
-   "conclusion": "兼透则兼用",
-   "when": {
-    "step": "several_revealed"
-   },
-   "then": {
-    "pick": "all_revealed"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/018/",
-   "chapter": "论杂气如何取用",
-   "quotation": "一透则一用,兼透则兼用,透而又会,则透与会并用"
-  },
-  {
-   "rule_id": "R-GEJU-03",
-   "group": "pattern",
-   "condition": "兼透而需只标一个格局名",
-   "conclusion": "按本气、中气、余气的次序取最先透出者为主格，其余并列为兼格",
-   "when": {
-    "step": "tie_break",
-    "order": [
-     "primary",
-     "middle",
-     "residual"
+    "element": "wood",
+    "kind": "sanhe",
+    "branches": [
+     "hai",
+     "mao",
+     "wei"
     ]
    },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "亥卯未逢於甲乙,富貴無疑",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-WOOD-FANG",
+   "group": "branch_set",
+   "condition": "寅卯辰三会方（wood）",
+   "conclusion": "四支齐全 寅卯辰，该五行成局／成方",
+   "when": {},
    "then": {
-    "pick": "deepest_revealed"
+    "element": "wood",
+    "kind": "sanhui",
+    "branches": [
+     "yin",
+     "mao",
+     "chen"
+    ]
    },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "木全寅卯辰之方,功名自有",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-FIRE-HE",
+   "group": "branch_set",
+   "condition": "寅午戌三合局（fire）",
+   "conclusion": "四支齐全 寅午戌，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "fire",
+    "kind": "sanhe",
+    "branches": [
+     "yin",
+     "wu_branch",
+     "xu"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "寅午戌遇於丙丁,榮華有准",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-FIRE-FANG",
+   "group": "branch_set",
+   "condition": "巳午未三会方（fire）",
+   "conclusion": "四支齐全 巳午未，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "fire",
+    "kind": "sanhui",
+    "branches": [
+     "si",
+     "wu_branch",
+     "wei"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "火臨巳午未之域,顯達之人",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-METAL-HE",
+   "group": "branch_set",
+   "condition": "巳酉丑三合局（metal）",
+   "conclusion": "四支齐全 巳酉丑，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "metal",
+    "kind": "sanhe",
+    "branches": [
+     "si",
+     "you",
+     "chou"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "庚辛局全巳酉丑,位重權高",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-METAL-FANG",
+   "group": "branch_set",
+   "condition": "申酉戌三会方（metal）",
+   "conclusion": "四支齐全 申酉戌，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "metal",
+    "kind": "sanhui",
+    "branches": [
+     "shen",
+     "you",
+     "xu"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "金備申酉戌之地,富貴無虧",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-WATER-HE",
+   "group": "branch_set",
+   "condition": "申子辰三合局（water）",
+   "conclusion": "四支齐全 申子辰，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "water",
+    "kind": "sanhe",
+    "branches": [
+     "shen",
+     "zi",
+     "chen"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "壬癸格得申子辰,學優才足",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-WATER-FANG",
+   "group": "branch_set",
+   "condition": "亥子丑三会方（water）",
+   "conclusion": "四支齐全 亥子丑，该五行成局／成方",
+   "when": {},
+   "then": {
+    "element": "water",
+    "kind": "sanhui",
+    "branches": [
+     "hai",
+     "zi",
+     "chou"
+    ]
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "水歸亥子丑之源,榮華之客",
+   "derived": false
+  },
+  {
+   "rule_id": "R-BRANCHSET-EARTH",
+   "group": "branch_set",
+   "condition": "土：辰戌丑未四库齐全或近全",
+   "conclusion": "辰戌丑未至少三个，土成局（稼穑）",
+   "when": {},
+   "then": {
+    "element": "earth",
+    "kind": "siku",
+    "branches": [
+     "chen",
+     "xu",
+     "chou",
+     "wei"
+    ],
+    "min": 3
+   },
+   "source_id": "yuanhai-ziping",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=524726",
+   "chapter": "淵海子平 · 第2部分",
+   "quotation": "戊己局全四季,榮冠諸曹",
    "derived": true,
-   "note": "典籍只说兼透兼用，未定先后；标签取主格的次序属形式化，其余透出者仍在依据中列出"
+   "note": "原文「局全四季」；取「至少三个」是形式化，因为调优组案例 ZP-013（戌未戌辰）被徐乐吾直称稼穑格，只有三库"
   },
   {
-   "rule_id": "R-GEJU-04",
-   "group": "pattern",
-   "condition": "月令所藏之神均不透干",
-   "conclusion": "取月令本气之神定格",
+   "rule_id": "R-ZW-YS-01",
+   "group": "pattern_yongshen",
+   "condition": "专旺格取用神之一",
+   "conclusion": "顺其气势：取印、比劫",
    "when": {
-    "step": "none_revealed"
+    "pattern": "dominant_element"
    },
    "then": {
-    "pick": "primary"
-   },
-   "derived": true,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/010/",
-   "chapter": "论用神",
-   "quotation": "取用神之法,先求之于月令之神,月令者当旺之气也",
-   "note": "典籍言取用先求月令当旺之气；「不透则取本气」为本项目对取格步骤的形式化。（杂气辰戌丑未不透不会者，徐注言「仅以土论」，同样落到本气）"
-  },
-  {
-   "rule_id": "R-GEJU-ZG",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为direct_officer",
-   "conclusion": "正官格",
-   "when": {
-    "ten_god_in": [
-     "direct_officer"
-    ]
-   },
-   "then": {
-    "label": "正官格",
-    "key": "zg"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/033/",
-   "chapter": "论正官",
-   "quotation": "正官者分所当尊,如在国有君,在家有亲"
-  },
-  {
-   "rule_id": "R-GEJU-QS",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为seven_killings",
-   "conclusion": "七杀格（偏官格）",
-   "when": {
-    "ten_god_in": [
-     "seven_killings"
-    ]
-   },
-   "then": {
-    "label": "七杀格（偏官格）",
-    "key": "qs"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/041/",
-   "chapter": "论偏官",
-   "quotation": "煞以攻身,似非美物,而大贵之格,多存七煞"
-  },
-  {
-   "rule_id": "R-GEJU-CA",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为direct_wealth、indirect_wealth",
-   "conclusion": "财格",
-   "when": {
-    "ten_god_in": [
-     "direct_wealth",
-     "indirect_wealth"
-    ]
-   },
-   "then": {
-    "label": "财格",
-    "key": "ca"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/035/",
-   "chapter": "论财",
-   "quotation": "财为我克,使用之物也,以能生官,所以为美"
-  },
-  {
-   "rule_id": "R-GEJU-YS",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为direct_resource、indirect_resource",
-   "conclusion": "印绶格",
-   "when": {
-    "ten_god_in": [
-     "direct_resource",
-     "indirect_resource"
-    ]
-   },
-   "then": {
-    "label": "印绶格",
-    "key": "ys"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/037/",
-   "chapter": "论印绶",
-   "quotation": "印绶喜其生身,正偏同为美格"
-  },
-  {
-   "rule_id": "R-GEJU-SS",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为eating_god",
-   "conclusion": "食神格",
-   "when": {
-    "ten_god_in": [
-     "eating_god"
-    ]
-   },
-   "then": {
-    "label": "食神格",
-    "key": "ss"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/039/",
-   "chapter": "论食神",
-   "quotation": "食神本属泄气,以其能生正财,所以喜之"
-  },
-  {
-   "rule_id": "R-GEJU-SG",
-   "group": "pattern_label",
-   "condition": "取格之神的十神为hurting_officer",
-   "conclusion": "伤官格",
-   "when": {
-    "ten_god_in": [
-     "hurting_officer"
-    ]
-   },
-   "then": {
-    "label": "伤官格",
-    "key": "sg"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/043/",
-   "chapter": "论伤官",
-   "quotation": "伤官虽非吉神,实为秀气"
-  },
-  {
-   "rule_id": "R-GEJU-CA-02",
-   "group": "pattern",
-   "condition": "财与印不分偏正",
-   "conclusion": "正财、偏财同为财格；正印、偏印同为印绶格",
-   "when": {
-    "merge": [
-     "wealth",
+    "useful_groups": [
+     "companion",
      "resource"
     ]
    },
-   "then": {},
-   "derived": false,
    "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/037/",
-   "chapter": "论印绶",
-   "quotation": "财与印不分偏正,同为一格而论之"
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "quotation": "只可顺其气势,引其性情以取用,若强制之,反激而成患",
+   "derived": false
   },
   {
-   "rule_id": "R-GEJU-YR",
-   "group": "pattern_label",
-   "condition": "取格之神为日主的比劫，且月令本气为日主禄前一位（五阳）",
-   "conclusion": "阳刃格",
+   "rule_id": "R-ZW-YS-02",
+   "group": "pattern_yongshen",
+   "condition": "专旺格取用神之二",
+   "conclusion": "旺极宜泄：取食伤泄秀",
    "when": {
-    "ten_god_in": [
-     "friend",
-     "rob_wealth"
-    ],
-    "month_primary_is": "yangren"
+    "pattern": "dominant_element"
    },
    "then": {
-    "label": "阳刃格",
-    "key": "yr"
+    "useful_groups": [
+     "output"
+    ]
    },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/045/",
-   "chapter": "论阳刃",
-   "quotation": "禄前一位,惟五阳有之,故为阳刃"
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "大凡旺之極者,宜洩而不宜克,宜順其氣勢,弗悖其性也",
+   "derived": false
   },
   {
-   "rule_id": "R-GEJU-JL",
-   "group": "pattern_label",
-   "condition": "取格之神为日主的比劫，且月令本气为日主之禄，或阴干月令逢劫",
-   "conclusion": "建禄月劫格",
+   "rule_id": "R-ZW-YS-03",
+   "group": "pattern_yongshen",
+   "condition": "专旺格之忌",
+   "conclusion": "忌官杀克之",
    "when": {
-    "ten_god_in": [
-     "friend",
-     "rob_wealth"
-    ],
-    "month_primary_is": "lu_or_jie"
+    "pattern": "dominant_element"
    },
    "then": {
-    "label": "建禄月劫格",
-    "key": "jl"
+    "unfavourable_groups": [
+     "officer"
+    ]
    },
-   "derived": false,
    "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/047/",
-   "chapter": "论建禄月劫",
-   "quotation": "故建禄与月劫,可同一格,不必加分"
+   "kb_url": "https://luckclub.cn/bazi/002/049/",
+   "chapter": "论杂格",
+   "quotation": "官煞为犯其旺神,火更伤食神秀气",
+   "derived": false,
+   "note": "财不入忌也不入用：原籍未说，本项目不置可否"
   },
   {
-   "rule_id": "R-GEJU-LU",
-   "group": "pattern",
-   "condition": "十干之禄所在的地支，及五阳之刃（禄前一位）",
-   "conclusion": "甲禄寅、乙禄卯、丙戊禄巳、丁己禄午、庚禄申、辛禄酉、壬禄亥、癸禄子；甲刃卯、丙戊刃午、庚刃酉、壬刃子",
-   "when": {},
-   "then": {
-    "lu": {
-     "jia": "yin",
-     "yi": "mao",
-     "bing": "si",
-     "wu": "si",
-     "ding": "wu_branch",
-     "ji": "wu_branch",
-     "geng": "shen",
-     "xin": "you",
-     "ren": "hai",
-     "gui": "zi"
-    },
-    "yangren": {
-     "jia": "mao",
-     "bing": "wu_branch",
-     "wu": "wu_branch",
-     "geng": "you",
-     "ren": "zi"
-    }
+   "rule_id": "R-LIANGQI-YS-01",
+   "group": "pattern_yongshen",
+   "condition": "另一气为日主所生（生局）",
+   "conclusion": "取食伤秀气为用",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "other_element_relation": "dm_generates"
    },
+   "then": {
+    "useful_groups": [
+     "output"
+    ]
+   },
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "凡兩氣成象者,要日主去生,或食或傷",
+   "derived": false
+  },
+  {
+   "rule_id": "R-LIANGQI-YS-02",
+   "group": "pattern_yongshen",
+   "condition": "另一气生日主（印局）",
+   "conclusion": "无秀气可取，不为佳格",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "other_element_relation": "generates_dm"
+   },
+   "then": {
+    "useful_groups": [],
+    "quality": "poor"
+   },
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "印局無秀氣,不足為佳",
    "derived": true,
-   "source_id": "sanming-tonghui",
-   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=726272",
-   "chapter": "論陽刃 前論羊刃煞與此參看",
-   "quotation": "惟甲丙戊庚壬五陽乾有刃,乙丁己辛癸五陰乾無刃,故曰陽刃",
-   "note": "阳刃（禄前一位，仅五阳有）见引文；十干之禄所在取通行的十干禄表（语料中仅有「甲禄在寅」一例），故标为形式化"
+   "note": "原籍只说不佳，没有给用神；留空，由扶抑兜底"
+  },
+  {
+   "rule_id": "R-LIANGQI-YS-03",
+   "group": "pattern_yongshen",
+   "condition": "另一气为日主所克（财局）",
+   "conclusion": "身财均敌，日主不伤，要运程安顿",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "other_element_relation": "dm_controls"
+   },
+   "then": {
+    "useful_groups": [],
+    "quality": "balanced"
+   },
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "財局身財均敵,日主本氣無傷,然又要運程安頓得好",
+   "derived": true,
+   "note": "原籍没有给用神，只说运程；留空，由扶抑兜底"
+  },
+  {
+   "rule_id": "R-LIANGQI-YS-04",
+   "group": "pattern_yongshen",
+   "condition": "另一气克日主（杀局）",
+   "conclusion": "纯杀无制则日主受伤，宜制杀化权",
+   "when": {
+    "pattern": "dual_qi_formation",
+    "other_element_relation": "controls_dm"
+   },
+   "then": {
+    "useful_groups": [
+     "output"
+    ],
+    "quality": "needs_control"
+   },
+   "source_id": "ditiansui-chanwei",
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492",
+   "chapter": "滴天髓闡微 · 第1部分",
+   "quotation": "純殺無制,日主受傷",
+   "derived": true,
+   "note": "以所举例「运转东方，制杀化权」取食伤制杀为用"
   }
  ]
 }

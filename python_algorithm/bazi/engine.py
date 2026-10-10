@@ -1,9 +1,6 @@
-"""Assembles the chart response from the 1.1 calculation modules.
-
-1.1 (time, pillars, hidden stems, elements, ten gods, solar term, luck and
-annual cycles) is real. 1.2 and 1.4 are not written yet, so those parts of the
-response still come from the placeholder in bazi.mocks.chart and the response
-says so in `meta` instead of pretending: `meta.mock` stays true until 1.2 lands.
+"""Assembles the chart response: 1.1 (time, pillars, hidden stems, elements, luck and annual cycles), 1.2 (the diagnosis in
+bazi.diagnosis) and 1.4 (the advisory content in bazi.advisory) are all computed from the rule base. The narrative text in
+the 1.4 part is template text.
 """
 
 from datetime import datetime, timedelta, timezone
@@ -12,27 +9,20 @@ from zoneinfo import ZoneInfo
 from bazi.calc import luck, solar_term, structure
 from bazi.calc.calendar import InvalidLunarDate, lunar_to_solar
 from bazi.calc.resolve import ResolvedBirth, resolve_birth
-from bazi.diagnosis import features as feat, patterns
-from bazi.diagnosis.factors import all_factors, seasonal
-from bazi.diagnosis.strength import fuse
-from bazi.mocks.chart import build_mock_chart
+from bazi.diagnosis.output import derivation, disposition_of, source_ids
+from bazi.diagnosis.pipeline import Diagnosis, diagnose
+from bazi.advisory.tally import advise
+from bazi.trace import build as build_trace
 from bazi.rules import library
-from bazi.rules.inference import Inference
 from bazi.models.bazi import (
-    BaziChartRequest, BaziChartResult, DayMaster, ReasoningTrace, ResolvedTime, ResultMeta,
+    BaziChartRequest, BaziChartResult, DayMaster, LuckOnset, ReasoningTrace, ResolvedTime, ResultMeta,
     SolarTermPosition, SourceReference, TenGodRelation,
 )
 from bazi.models.enums import (
-    Calendar, Disposition, ElementKey, SolarTerm, StemPosition,
+    Calendar, SolarTerm, StemPosition,
 )
 
-ENGINE_VERSION = "0.2.0-1.1"
-
-PARTIAL_WARNING = (
-    "四柱、藏干、五行、十神、节气位置、大运与流年，以及日主强弱的四个因子分值与五行旺衰，已由规则库计算得出；"
-    "加权所用的权重与强弱切点为临时值（provisional-0），尚未经案例标定；"
-    "特殊格局检测（从财、从官杀、专旺、两气成象）已由规则库计算；用神忌神与倾向对照（1.2 余下部分、1.4）尚未实现，仍为占位示例，与本命盘无关。"
-)
+ENGINE_VERSION = "0.5.0"
 
 
 class UnsupportedInput(ValueError):
@@ -73,18 +63,16 @@ def _solar_term(r: ResolvedBirth) -> SolarTermPosition:
     )
 
 
-def _ten_gods(pillars) -> list[TenGodRelation]:
-    """Where each ten god sits. Disposition is 1.2's call, so it is neutral here."""
+def _ten_gods(pillars, d: Diagnosis) -> list[TenGodRelation]:
+    """Where each ten god sits, and whether its element is useful or unfavourable for this chart."""
     out = []
     for p in pillars:
         if p.ten_god is not None:
-            out.append(TenGodRelation(pillar=p.label, position=StemPosition.STEM,
-                                      ten_god=p.ten_god, element=p.element,
-                                      disposition=Disposition.NEUTRAL))
+            out.append(TenGodRelation(pillar=p.label, position=StemPosition.STEM, ten_god=p.ten_god, element=p.element,
+                                      disposition=disposition_of(d, p.element)))
         for h in p.hidden_stems:
-            out.append(TenGodRelation(pillar=p.label, position=StemPosition.HIDDEN,
-                                      ten_god=h.ten_god, element=h.element,
-                                      disposition=Disposition.NEUTRAL))
+            out.append(TenGodRelation(pillar=p.label, position=StemPosition.HIDDEN, ten_god=h.ten_god, element=h.element,
+                                      disposition=disposition_of(d, h.element)))
     return out
 
 
@@ -109,51 +97,49 @@ def build_chart(request: BaziChartRequest, now_utc: datetime | None = None) -> B
     now_utc = now_utc or datetime.now(timezone.utc)
     now_offset = ZoneInfo(r.timezone).utcoffset(now_utc.astimezone(ZoneInfo(r.timezone)))
 
-    base = build_mock_chart(request)            # supplies what 1.2 / 1.4 have not yet replaced
-    dm = pillars[2]
     solar = _solar_term(r)
-    features = feat.extract(pillars, solar)                # C2: the chart is read once
-    run = Inference()                                      # C1: collects the rules that fire; C8 will present it
-    fusion = fuse(all_factors(pillars, dm.element, run, features))                    # C3
-    pattern = patterns.detect(features, run)                                            # C4
-    final_strength = pattern.final_strength or fusion.strength
-    seasons = seasonal(pillars, features)
+    d = diagnose(pillars, solar)                           # C2-C5; see diagnosis/pipeline.py
+    fusion, pattern = d.fusion, d.pattern
     lib = library.load()
-    used = sorted({f.source_id for f in fusion.factors if f.source_id}
-                  | ({pattern.rule.source_id} if pattern.rule and pattern.rule.source_id else set()))
     sources = [SourceReference(source_id=i, title=lib.source(i).title, edition=lib.source(i).edition)
-               for i in used]
+               for i in source_ids(d)]
     trace = ReasoningTrace(
-        factors=fusion.factors, fused_score=fusion.fused, threshold_band=fusion.band,
+        factors=fusion.factors, fused_score=fusion.fused, baseline=fusion.baseline, threshold_band=fusion.band,
         provisional_strength=fusion.strength,
         override=pattern.override(),
-        final_strength=final_strength, near_threshold=fusion.near_threshold, sources=sources)
+        final_strength=d.strength, near_balance=fusion.near_balance, sources=sources)
     known = {s.source_id for s in sources}
-    source_refs = sources + [s for s in base.source_refs if s.source_id not in known]
-    warnings = [PARTIAL_WARNING, *r.warnings]
-    return base.model_copy(update=dict(
+    tallies = advise(pillars, d)
+    advisory_sources = [SourceReference(source_id=i, title=lib.source(i).title, edition=lib.source(i).edition)
+                        for i in dict.fromkeys(g.source_id for t in tallies for g in t.groups if g.source_id)]
+    source_refs = sources + [s for s in advisory_sources if s.source_id not in known]
+    elements = structure.element_distribution(r.pillars)
+    onset = luck_onset_model(on)
+    return BaziChartResult(
         resolved_time=_resolved_time(request, r, birth_date),
         solar_term=solar,
         pillars=pillars,
-        elements=structure.element_distribution(r.pillars),
-        luck_onset=luck_onset_model(on),
+        elements=elements,
+        luck_onset=onset,
         luck_cycles=cycles,
         annual_cycles=luck.annual_cycles(day_master, cycles[0].start_year, cycles[-1].end_year),
         current_period=luck.current_period(now_utc, now_offset),
         day_master=DayMaster(
             stem=pillars[2].stem, element=pillars[2].element,
-            strength=final_strength,
+            strength=d.strength,
         ),
-        ten_gods=_ten_gods(pillars),
+        ten_gods=_ten_gods(pillars, d),
+        disposition=d.verdict.disposition(),
+        derivation=derivation(d),
         reasoning_trace=trace,
-        element_states=seasons.states,
         source_refs=source_refs,
-        meta=ResultMeta(mock=True, engine_version=ENGINE_VERSION, weight_set=fusion.weight_set,
-                        rule_base=lib.version, warnings=warnings),
-    ))
+        domain_tallies=tallies,
+        calculation_trace=build_trace(request, birth_date, r, solar, pillars, elements, onset, d, tallies),
+        meta=ResultMeta(mock=False, engine_version=ENGINE_VERSION, weight_set=fusion.weight_set,
+                        rule_base=lib.version, warnings=list(r.warnings)),
+    )
 
 
-def luck_onset_model(on: luck.Onset):
-    from bazi.models.bazi import LuckOnset
+def luck_onset_model(on: luck.Onset) -> LuckOnset:
     return LuckOnset(years=on.years, months=on.months, direction=on.direction,
                      rationale=on.rationale)

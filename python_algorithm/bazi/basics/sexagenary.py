@@ -6,6 +6,7 @@ from bazi.basics.loader import read
 from bazi.basics.stems_branches import BRANCHES, STEMS
 
 _DATA = read("pillar_rules")
+_CONV = read("conventions")                    # what the knowledge base does not hold (see research/build_basics.py)
 
 
 def ganzhi(stem: int, branch: int) -> str:
@@ -22,11 +23,11 @@ def in_cycle(n: int) -> str:
     return ganzhi(n, n)
 
 
-YEAR_ANCHOR_YEAR: int = _DATA["year_anchor"]["year"]
-YEAR_ANCHOR_INDEX: int = cycle_index(_DATA["year_anchor"]["ganzhi"])
-DAY_ANCHOR_DATE: date = date.fromisoformat(_DATA["day_anchor"]["date"])
-DAY_ANCHOR_INDEX: int = cycle_index(_DATA["day_anchor"]["ganzhi"])
-DAY_CHANGE_HOUR: int = _DATA["day_change_hour"]
+YEAR_ANCHOR_YEAR: int = _CONV["year_anchor"]["year"]
+YEAR_ANCHOR_INDEX: int = cycle_index(_CONV["year_anchor"]["ganzhi"])
+DAY_ANCHOR_DATE: date = date.fromisoformat(_CONV["day_anchor"]["date"])
+DAY_ANCHOR_INDEX: int = cycle_index(_CONV["day_anchor"]["ganzhi"])
+DAY_CHANGE_HOUR: int = _CONV["day_change_hour"]
 
 
 def year_index(year: int) -> int:

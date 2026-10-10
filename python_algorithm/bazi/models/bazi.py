@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 from datetime import date
-from typing import Dict, List, Optional
+from typing import Dict, List, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -29,7 +29,6 @@ from bazi.models.enums import (
     LuckDirection,
     PillarLabel,
     QiTier,
-    SeasonalState,
     SolarTerm,
     SpecialPattern,
     StemPosition,
@@ -272,6 +271,8 @@ class StrengthFactor(StrictModel):
     scale: Optional[FactorScale] = None
     level: Optional[int] = None
     calculation: str = ""
+    # The rule in everyday words, shown beside the quotation it formalises.
+    rule_text: str = ""
     # The rule's citation and whether it is the project's own formalisation.
     chapter: Optional[str] = None
     quotation: Optional[str] = None
@@ -295,11 +296,13 @@ class PatternOverride(StrictModel):
 class ReasoningTrace(StrictModel):
     factors: List[StrengthFactor]
     fused_score: float
+    # fused_score = the sum of the factors' weighted_score + baseline (resistances carry negative weights)
+    baseline: float = 0
     threshold_band: str
     provisional_strength: DayMasterStrength
     override: Optional[PatternOverride] = None
     final_strength: DayMasterStrength
-    near_threshold: bool
+    near_balance: bool       # the fused score is close to the weak/strong line: the side is not clear
     sources: List[SourceReference]
 
 
@@ -375,6 +378,8 @@ class DomainGroupTally(StrictModel):
     disposition: Disposition
     gloss: str
     quotation: Optional[str] = None
+    # 引文的大白话译文，页面以它为主、原文附后。
+    quotation_plain: Optional[str] = None
     source_id: Optional[str] = None
     chapter: Optional[str] = None
     occurrences: List[TenGodOccurrence]
@@ -407,14 +412,56 @@ class ResultMeta(StrictModel):
     warnings: Optional[List[str]] = None
 
 
+class TraceSource(StrictModel):
+    """Where a rule or table comes from in the books: the book, the chapter and one verbatim stretch of it."""
+
+    book: str
+    chapter: Optional[str] = None
+    quotation: Optional[str] = None
+    kb_url: Optional[str] = None
+
+
+class TraceUse(StrictModel):
+    """One thing a calculation step relied on.
+
+    rule        an entry of the rule base (R-*), applied to this chart
+    table       a table of basic knowledge read out of the books (hidden stems, ten gods, the 五虎遁 song ...)
+    convention  a choice this project made where the books are silent (the hour the day changes ...), with the reason
+    method      a way of computing that is not classical knowledge (time-zone database, astronomy)
+    """
+
+    kind: Literal["rule", "table", "convention", "method"]
+    id: Optional[str] = None
+    title: str
+    detail: Optional[str] = None
+    derived: bool = False         # formalised by this project rather than stated in the text
+    source: Optional[TraceSource] = None
+
+
+class TraceFact(StrictModel):
+    label: str
+    value: str
+
+
+class TraceStep(StrictModel):
+    """One calculation in the chain from the input to the conclusions: what it took (`inputs`: the steps it read from), what it found
+    (`summary`, `facts`) and what it relied on (`uses`). The steps come in calculation order, so every input is an earlier step."""
+
+    id: str
+    title: str
+    stage: Literal["input", "chart", "structure", "strength", "derivation", "advisory"]
+    inputs: List[str]
+    summary: str
+    facts: List[TraceFact]
+    uses: List[TraceUse]
+
+
 class BaziChartResult(StrictModel):
     # 1.1
     resolved_time: ResolvedTime
     solar_term: SolarTermPosition
     pillars: List[BaziPillar]
     elements: Dict[ElementKey, float]
-    # 1.2: each element's 旺相休囚死 in the birth month's season
-    element_states: Dict[ElementKey, SeasonalState]
     luck_onset: LuckOnset
     luck_cycles: List[LuckCycle]
     annual_cycles: List[AnnualPillar]
@@ -427,8 +474,9 @@ class BaziChartResult(StrictModel):
     reasoning_trace: ReasoningTrace
     # 1.4
     domain_tallies: List[DomainTally]
+    # How each result above was reached, step by step, with the rules and knowledge each step used
+    calculation_trace: List[TraceStep]
 
-    overview: str
     # Forwarded into ApiEnvelope.source_refs by the Next.js route.
     source_refs: List[SourceReference]
     meta: Optional[ResultMeta] = None

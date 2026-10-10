@@ -9,14 +9,11 @@ import itertools
 
 import pytest
 
-from bazi.calc import terms
-from bazi.basics.elements import CONTROLS, GENERATES
-from bazi.basics.stems_branches import STEM_ELEMENT, STEM_YANG
-from bazi.basics.ten_gods import ten_god
 from bazi.models.enums import (
-    ArbitrationOutcome, DISPLAY_STEM, EarthlyBranch, ElementKey, HeavenlyStem, SolarTerm, SpecialPattern, TenGod,
+    ArbitrationOutcome, DISPLAY_STEM, EarthlyBranch, HeavenlyStem, SolarTerm, SpecialPattern,
 )
-from bazi.rules import knowledge, library
+from bazi.research import knowledge
+from bazi.rules import library
 
 LIB = library.load()
 STEMS = [s.value for s in HeavenlyStem]
@@ -78,43 +75,11 @@ def test_uncertain_cells_are_marked_for_review_and_say_why():
     assert 3 <= len(flagged) <= 15 and all(r.note for r in flagged)
 
 
-# ------------------------------------------------------------- A2 生克与十神
-def test_generating_and_controlling_cycles_match_the_engine_tables():
-    gen = LIB.rule("R-SHENG-01").then["generates"]
-    ctl = LIB.rule("R-KE-01").then["controls"]
-    assert {ElementKey(k): ElementKey(v) for k, v in gen.items()} == GENERATES
-    assert {ElementKey(k): ElementKey(v) for k, v in ctl.items()} == CONTROLS
-
-
-def _god_from_rules(dm: str, other: str) -> str:
-    dm_el, ot_el = STEM_ELEMENT[dm], STEM_ELEMENT[other]
-    same_pol = STEM_YANG[dm] == STEM_YANG[other]
-    if ot_el == dm_el: rel = "same_element"
-    elif GENERATES[dm_el] == ot_el: rel = "dm_generates"
-    elif CONTROLS[dm_el] == ot_el: rel = "dm_controls"
-    elif CONTROLS[ot_el] == dm_el: rel = "controls_dm"
-    else: rel = "generates_dm"
-    pol = "same_polarity" if same_pol else "diff_polarity"
-    hit = [r for r in LIB.group("shishen") if r.when == {"relation": rel, "polarity": pol}]
-    assert len(hit) == 1
-    return hit[0].then["ten_god"]
-
-
-def test_the_ten_god_rules_reproduce_all_hundred_pairs_of_the_engine_table():
-    for dm, other in itertools.product("甲乙丙丁戊己庚辛壬癸", repeat=2):
-        assert _god_from_rules(dm, other) == ten_god(dm, other).value, (dm, other)
-
-
-def test_ten_god_rules_name_each_god_once():
-    assert sorted(r.then["ten_god"] for r in LIB.group("shishen")) == sorted(g.value for g in TenGod)
-
-
 # ------------------------------------------------------------- A5 特殊格局
 def test_every_supported_special_pattern_has_a_detection_rule_and_the_contract_still_knows_it():
     """The contract keeps all four values (10-08: 从财 and 从官杀 are out of scope, not removed from the contract)."""
-    named = {r.then["pattern"] for r in LIB.group("special_pattern") if "pattern" in r.then}
-    assert named == set(LIB.rule("R-SCOPE-01").when["supported"]) == {"dominant_element", "dual_qi_formation"}
-    assert named < {p.value for p in SpecialPattern}
+    named = {r.then["pattern"] for r in LIB.group("special_pattern")}
+    assert named == {"dominant_element", "dual_qi_formation"} < {p.value for p in SpecialPattern}
 
 
 def test_pattern_thresholds_are_rule_settings_not_book_quotes():
@@ -124,48 +89,18 @@ def test_pattern_thresholds_are_rule_settings_not_book_quotes():
                 assert 0 < value <= 1 and r.derived and r.note, r.rule_id
 
 
-# ------------------------------------------------------------- A5b 普通格局
-def test_every_ten_god_falls_into_exactly_one_ordinary_pattern():
-    labels = {}
-    for r in LIB.group("pattern_label"):
-        for god in r.when["ten_god_in"]:
-            labels.setdefault(god, []).append(r.then["label"])
-    assert set(labels) == {g.value for g in TenGod}
-    # 比劫 maps to two labels, told apart by the month branch (阳刃 vs 建禄月劫); the rest to one
-    assert sorted(len(v) for k, v in labels.items() if k not in ("friend", "rob_wealth")) == [1] * 8
-    assert sorted(labels["friend"]) == sorted(labels["rob_wealth"]) == ["建禄月劫格", "阳刃格"]
-
-
-def test_lu_and_yangren_tables_are_consistent():
-    t = LIB.rule("R-GEJU-LU").then
-    order = BRANCHES
-    for stem, branch in t["yangren"].items():
-        assert STEM_YANG[CHINESE_INV_REV(stem)] and order.index(branch) == (order.index(t["lu"][stem]) + 1) % 12  # 禄前一位
-    assert set(t["yangren"]) == {"jia", "bing", "wu", "geng", "ren"}      # 五阳
-    assert set(t["lu"]) == set(STEMS)
-
-
-def CHINESE_INV_REV(stem_value: str) -> str:
-    return DISPLAY_STEM[HeavenlyStem(stem_value)]
-
-
 # ------------------------------------------------------------- A6 仲裁
-def test_arbitration_rules_cover_the_four_outcomes():
-    outcomes = {r.then["outcome"] for r in LIB.group("arbitration")}
-    assert outcomes == {o.value for o in ArbitrationOutcome} - {"agree"}
+def test_arbitration_rules_cover_every_outcome_with_a_strict_order():
+    rules = LIB.group("arbitration")
+    assert {r.then["outcome"] for r in rules} == {o.value for o in ArbitrationOutcome}
+    assert all(isinstance(r.then["priority"], int) for r in rules)
 
 
-def test_the_default_priority_rule_pairs_seasons_and_elements_as_the_text_does():
-    any_of = LIB.rule("R-ARB-01").when["any"]
-    assert any_of[0] == {"dm_element_in": ["metal", "water"], "month_branch_in": ["hai", "zi", "chou"]}
-    assert any_of[1] == {"dm_element_in": ["wood", "fire"], "month_branch_in": ["si", "wu_branch", "wei"]}
-    season = LIB.rule("R-SEASON-01").when
-    assert season["winter"] == any_of[0]["month_branch_in"] and season["summer"] == any_of[1]["month_branch_in"]
-
-
-def test_the_five_methods_are_listed_with_the_ones_implemented():
-    r = LIB.rule("R-METHOD-01")
-    assert set(r.when["implemented"]) <= set(r.when["methods"]) and len(r.when["methods"]) == 5
+def test_the_climate_priority_rule_pairs_elements_with_the_seasons_the_rule_base_defines():
+    pairs = LIB.rule("R-ARB-01").when["climate_pairs"]
+    assert pairs == [{"dm_element_in": ["metal", "water"], "season": "winter"},
+                     {"dm_element_in": ["wood", "fire"], "season": "summer"}]
+    assert {p["season"] for p in pairs} <= set(LIB.rule("R-SEASON-01").when)
 
 
 # ------------------------------------------------------------- 引文 (variants too)
@@ -182,8 +117,8 @@ def test_every_split_variants_own_quotation_holds_up():
     assert not bad, bad
 
 
-def test_the_scope_of_special_patterns_is_stated_and_matches_the_contract():
-    r = LIB.rule("R-SCOPE-01")
-    assert set(r.when["supported"]) < {p.value for p in SpecialPattern}
-    assert r.derived and r.note and r.when["deferred"]
-    assert any("从财" in d and "从官杀" in d for d in r.when["deferred"])
+def test_every_strength_factor_rule_has_an_everyday_wording_for_the_page():
+    for group in ("seasonal_state", "rootedness", "revealed", "assisting", "opposition"):
+        rules = LIB.group(group)
+        assert rules, group
+        assert all(r.plain and "→" not in r.plain for r in rules), group

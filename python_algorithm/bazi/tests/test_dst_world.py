@@ -9,7 +9,8 @@ generic sweep: for sample zones, find every UTC-offset change between 1900 and
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
-import pytest
+
+from bazi.tests._each import all_of
 
 from bazi.calc.timezone import offset_at
 
@@ -33,7 +34,7 @@ FACTS = [
 ]
 
 
-@pytest.mark.parametrize("tz,when,minutes,label", FACTS, ids=[f[3] for f in FACTS])
+@all_of("tz,when,minutes,label", FACTS, ids=[f[3] for f in FACTS])
 def test_known_offsets(tz, when, minutes, label):
     assert offset_at(when, tz).utc_offset_minutes == minutes
 
@@ -70,7 +71,7 @@ def _transitions(name: str, y0: int, y1: int):
         prev, t = cur, nxt
 
 
-@pytest.mark.parametrize("name", SWEEP_ZONES)
+@all_of("name", SWEEP_ZONES)
 def test_every_gap_and_repeat_is_flagged(name):
     checked = 0
     for at, before, after in _transitions(name, 1900, 2031):

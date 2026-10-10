@@ -4,10 +4,12 @@ from datetime import datetime, timedelta
 
 import pytest
 
+from bazi.tests._each import all_of
+
 from bazi.calc.timezone import UnknownTimezone, offset_at, resolve_timezone, to_cst
 
 
-@pytest.mark.parametrize("lat,lng,tz", [
+@all_of("lat,lng,tz", [
     (31.2304, 121.4737, "Asia/Shanghai"),
     (43.8256, 87.6168, "Asia/Urumqi"),       # Xinjiang: UTC+6 in tz database
     (1.3521, 103.8198, "Asia/Singapore"),

@@ -1,9 +1,8 @@
 """Forward inference over the rule base (C1).
 
 The rule base is data (`rules/data/*.json`); this module is the one place that decides which of its rules apply
-to a chart. A caller asserts FACTS about the chart (each may carry the evidence that supports it), asks for the
-rules of a group that hold, and gets back FIRINGS: the rule, the facts it was matched on, what it concludes and
-the evidence behind it. The firings are the reasoning chain that C8 turns into the output.
+to a chart. A caller asserts FACTS about the chart, asks for the rules of a group that hold, and gets back FIRINGS: the rule, the
+facts it was matched on and what it concludes. The firings are the reasoning chain that C8 turns into the output.
 
 Groups come in two kinds:
   - conditional groups: each rule has a `when` the facts must satisfy (the season table, the 十神 table, the
@@ -22,21 +21,18 @@ Nothing here is specific to 八字 beyond the rule base itself: no rule's conten
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional
 
 from bazi.rules import library
 from bazi.rules.models import Rule
 
 # groups whose rules are read as parameters, not matched against facts
 PARAMETER_GROUPS = frozenset({
-    "method", "season", "tiaohou_principle", "seasonal_principle", "seasonal_scale", "rootedness_scale",
-    "revealed_scale", "assisting", "partition", "weights", "cutpoints", "special_scope", "wuxing_cycle",
-    "share_definition", "ten_god_groups", "branch_set",
+    "season", "seasonal_scale", "rootedness_scale", "revealed_scale", "assisting", "partition", "weights",
+    "cutpoints", "share_definition", "ten_god_groups", "branch_set", "opposition",
 })
-# keys of `when` that document a rule but are not conditions
-DOCUMENTATION_KEYS = frozenset({"example", "note"})
 
 
 class InferenceError(LookupError):
@@ -56,16 +52,9 @@ class AmbiguousRules(InferenceError):
 
 
 @dataclass(frozen=True)
-class Fact:
-    value: Any
-    evidence: Tuple[Any, ...] = ()      # EvidenceRef objects (kept opaque here)
-
-
-@dataclass(frozen=True)
 class Firing:
     rule: Rule
     matched: Dict[str, Any]             # the facts the rule's `when` was checked against
-    evidence: Tuple[Any, ...] = ()
 
     @property
     def rule_id(self) -> str:
@@ -93,20 +82,23 @@ def _plain(value: Any) -> Any:
     return value.value if isinstance(value, Enum) else value
 
 
+_MISSING = object()
+
+
 class Facts:
     """Facts about one chart, kept per scope (usually the name of the group they are meant for)."""
 
     def __init__(self) -> None:
-        self._facts: Dict[Tuple[str, str], Fact] = {}
+        self._facts: Dict[Tuple[str, str], Any] = {}
 
-    def assert_(self, scope: str, key: str, value: Any, evidence: Iterable[Any] = ()) -> None:
-        self._facts[(scope, key)] = Fact(_plain(value), tuple(evidence))
+    def assert_(self, scope: str, key: str, value: Any) -> None:
+        self._facts[(scope, key)] = _plain(value)
 
-    def get(self, scope: str, key: str) -> Optional[Fact]:
-        return self._facts.get((scope, key))
+    def get(self, scope: str, key: str) -> Any:
+        return self._facts.get((scope, key), _MISSING)
 
-    def scope(self, scope: str) -> Dict[str, Fact]:
-        return {k: f for (s, k), f in self._facts.items() if s == scope}
+    def scope(self, scope: str) -> Dict[str, Any]:
+        return {k: v for (s, k), v in self._facts.items() if s == scope}
 
 
 def _split(key: str) -> Tuple[str, str]:
@@ -119,16 +111,13 @@ def _split(key: str) -> Tuple[str, str]:
 def _default_match(rule: Rule, facts: Facts) -> bool:
     """True if every condition in `rule.when` holds. A fact that was not asserted makes its condition fail."""
     for key, wanted in rule.when.items():
-        if key in DOCUMENTATION_KEYS:
-            continue
         name, kind = _split(key)
         if not kind and isinstance(wanted, (list, dict)):
             raise NoMatcher(f"{rule.rule_id}: condition {key!r} is not in the default vocabulary and group "
                             f"{rule.group!r} has no matcher")
-        fact = facts.get(rule.group, name)
-        if fact is None:
+        have = facts.get(rule.group, name)
+        if have is _MISSING:
             return False
-        have = fact.value
         ok = (have in wanted if kind == "_in" else have >= wanted if kind == "_min"
               else have <= wanted if kind == "_max" else have == wanted)
         if not ok:
@@ -136,18 +125,9 @@ def _default_match(rule: Rule, facts: Facts) -> bool:
     return True
 
 
-def _used(rule: Rule, facts: Facts) -> Tuple[Dict[str, Any], Tuple[Any, ...]]:
-    matched: Dict[str, Any] = {}
-    evidence: List[Any] = []
-    for key in rule.when:
-        if key in DOCUMENTATION_KEYS:
-            continue
-        name, _ = _split(key)
-        fact = facts.get(rule.group, name)
-        if fact is not None:
-            matched[name] = fact.value
-            evidence.extend(e for e in fact.evidence if e not in evidence)
-    return matched, tuple(evidence)
+def _matched(rule: Rule, facts: Facts) -> Dict[str, Any]:
+    names = (_split(key)[0] for key in rule.when)
+    return {n: v for n in names if (v := facts.get(rule.group, n)) is not _MISSING}
 
 
 class Inference:
@@ -158,8 +138,8 @@ class Inference:
         self.facts = Facts()
         self.trace: List[Firing] = []
 
-    def assert_(self, scope: str, key: str, value: Any, evidence: Iterable[Any] = ()) -> None:
-        self.facts.assert_(scope, key, value, evidence)
+    def assert_(self, scope: str, key: str, value: Any) -> None:
+        self.facts.assert_(scope, key, value)
 
     def parameters(self, group: str) -> Rule:
         """The single rule that holds a parameter group's table."""
@@ -168,20 +148,13 @@ class Inference:
             raise InferenceError(f"{group!r} should hold exactly one parameter rule, has {len(rules)}")
         return rules[0]
 
-    def rule(self, rule_id: str) -> Rule:
-        """One named rule, for parameter groups that hold several (the generating and controlling cycles)."""
-        return self.lib.rule(rule_id)
-
     def match(self, group: str) -> List[Firing]:
         """Every rule of the group that holds for the current facts; each is recorded in the trace."""
         if group in PARAMETER_GROUPS:
             raise InferenceError(f"{group!r} is a parameter group; read it with parameters()")
         matcher = _MATCHERS.get(group, _default_match)
-        firings = []
-        for rule in self.lib.group(group):
-            if matcher(rule, self.facts):
-                matched, evidence = _used(rule, self.facts)
-                firings.append(Firing(rule, matched, evidence))
+        firings = [Firing(rule, _matched(rule, self.facts)) for rule in self.lib.group(group)
+                   if matcher(rule, self.facts)]
         self.trace.extend(firings)
         return firings
 
@@ -189,17 +162,8 @@ class Inference:
         """For groups that are a lookup table: exactly one rule must hold."""
         firings = self.match(group)
         if not firings:
-            offered = {k: f.value for k, f in self.facts.scope(group).items()}
-            raise NoRuleFires(f"no rule of group {group!r} holds for the facts {offered}")
+            raise NoRuleFires(f"no rule of group {group!r} holds for the facts {self.facts.scope(group)}")
         if len(firings) > 1:
             del self.trace[-len(firings):]
             raise AmbiguousRules(f"more than one rule of group {group!r} holds: {[f.rule_id for f in firings]}")
         return firings[0]
-
-
-def lookup(group: str, evidence: Iterable[Any] = (), **facts: Any) -> Firing:
-    """One-shot table lookup: the single rule of `group` that holds for these facts."""
-    run = Inference()
-    for key, value in facts.items():
-        run.assert_(group, key, value, evidence)
-    return run.select_one(group)

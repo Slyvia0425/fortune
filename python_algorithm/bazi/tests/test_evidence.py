@@ -1,12 +1,14 @@
 """F2: evidence is a structured reference to a place in the chart."""
 
 import pytest
+
+from bazi.tests._each import all_of
 from pydantic import ValidationError
 
 from bazi.calc.evidence import branch_ref, hidden_ref, stem_ref
 from bazi.calc.pillars import Pillars
 from bazi.calc.structure import build_pillars
-from bazi.mocks.chart import build_mock_chart
+from bazi.engine import build_chart
 from bazi.models.bazi import BaziChartRequest, BaziChartResult, EvidenceRef, dangling_evidence
 from bazi.models.enums import (
     EarthlyBranch, EvidencePosition, HeavenlyStem, PillarLabel, QiTier,
@@ -33,7 +35,7 @@ def test_a_hidden_ref_to_a_tier_the_branch_lacks_fails_at_build_time():
         hidden_ref(PILLARS, PillarLabel.HOUR, QiTier.MIDDLE, "子 has only a primary qi")
 
 
-@pytest.mark.parametrize("kwargs", [
+@all_of("kwargs", [
     dict(position=EvidencePosition.STEM),                                           # no stem
     dict(position=EvidencePosition.STEM, stem=HeavenlyStem.JIA, qi=QiTier.PRIMARY),  # stem with qi
     dict(position=EvidencePosition.HIDDEN, stem=HeavenlyStem.JIA),                   # hidden, no qi
@@ -63,7 +65,7 @@ def test_dangling_references_are_found():
 
 
 def test_a_result_that_cites_the_wrong_place_cannot_be_built():
-    chart = build_mock_chart(REQUEST)
+    chart = build_chart(REQUEST)
     data = chart.model_dump()
     data["reasoning_trace"]["factors"][0]["evidence"] = [dict(
         pillar="year", position="stem", branch="chen", stem="ren", qi=None, description="wrong")]
@@ -71,17 +73,10 @@ def test_a_result_that_cites_the_wrong_place_cannot_be_built():
         BaziChartResult.model_validate(data)
 
 
-def test_the_placeholder_chart_cites_real_places_in_itself():
-    chart = build_mock_chart(REQUEST)
-    refs = [r for f in chart.reasoning_trace.factors for r in f.evidence]
-    assert refs and dangling_evidence(chart.pillars, chart.reasoning_trace.factors) == []
-
-
 def test_computed_charts_cite_their_own_characters():
-    from bazi.engine import build_chart
     chart = build_chart(REQUEST)
     refs = [r for f in chart.reasoning_trace.factors for r in f.evidence]
-    assert refs                                         # real evidence, not the placeholder's
+    assert refs
     assert dangling_evidence(chart.pillars, chart.reasoning_trace.factors) == []
     seasonal = chart.reasoning_trace.factors[0]
     assert seasonal.evidence[0].position is EvidencePosition.BRANCH and seasonal.evidence[0].pillar is PillarLabel.MONTH

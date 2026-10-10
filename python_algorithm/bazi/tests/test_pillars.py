@@ -1,21 +1,24 @@
 """T3: the engine against the lunar-python oracle (exact match, per chart)."""
 
+import pytest
 from datetime import datetime, timedelta
 
-import pytest
+
+from bazi.tests._each import all_of
 
 from bazi.calc.pillars import compute_pillars
 from bazi.calc import terms
-from bazi.validation.harness import evaluate
+from bazi.research.validation.harness import evaluate
 
 # Convert between the two Pillars NamedTuples by value.
-from bazi.validation.reference import Pillars as RefPillars, reference_pillars
+from bazi.research.validation.reference import Pillars as RefPillars
 
 
 def engine(when):
     return RefPillars(*compute_pillars(when))
 
 
+@pytest.mark.slow
 def test_random_charts_exact_match():
     report = evaluate(engine, n=5000)
     assert report.accuracy == 1.0, report.summary()
@@ -58,7 +61,7 @@ def test_term_boundaries_a_few_minutes_either_side():
     assert report.accuracy == 1.0, report.summary()
 
 
-@pytest.mark.parametrize("when,expect", [
+@all_of("when,expect", [
     (datetime(1992, 11, 7, 11, 37), "庚戌"),
     (datetime(1992, 11, 7, 12, 17), "辛亥"),
 ])

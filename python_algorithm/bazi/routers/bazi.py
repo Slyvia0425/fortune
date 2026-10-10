@@ -22,8 +22,8 @@ router = APIRouter(prefix="/bazi", tags=["bazi"])
 async def compute_chart(request: BaziChartRequest) -> BaziChartResult:
     """Compute a chart from birth data.
 
-    1.1 is computed; 1.2 and 1.4 are still placeholders (see bazi.engine), and
-    meta.mock stays true until they are real.
+    Everything in the response is computed from the rule base (1.1 chart, 1.2 diagnosis, 1.4 advisory content; see
+    bazi.engine), so meta.mock is always false. An input the engine cannot resolve is a 422.
     """
     try:
         return build_chart(request)

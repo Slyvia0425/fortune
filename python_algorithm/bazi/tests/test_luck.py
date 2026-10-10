@@ -3,7 +3,6 @@
 import random
 from datetime import datetime, timedelta, timezone
 
-import pytest
 from lunar_python import Solar
 
 from bazi.calc import luck

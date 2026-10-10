@@ -1,5 +1,5 @@
 {
- "version": "R0.3",
+ "version": "R1.2",
  "sources": [
   {
    "source_id": "ziping-zhenquan",
@@ -24,10 +24,6 @@
    "source_id": "ditiansui-chanwei",
    "title": "滴天髓阐微",
    "edition": "任铁樵增注"
-  },
-  {
-   "source_id": "meihua-yishu",
-   "title": "梅花易数"
   }
  ]
 }

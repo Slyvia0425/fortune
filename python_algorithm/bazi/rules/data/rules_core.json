@@ -1,25 +1,11 @@
 {
  "rules": [
   {
-   "rule_id": "R-DELING-00",
-   "group": "seasonal_principle",
-   "condition": "取月令为强弱判断之首",
-   "conclusion": "得令因子以月令（月支本气五行）为参照",
-   "when": {},
-   "then": {
-    "reference": "month_branch_primary_element"
-   },
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "chapter": "论用神",
-   "quotation": "八字用神,专求月令",
-   "kb_url": "https://luckclub.cn/bazi/002/010/"
-  },
-  {
    "rule_id": "R-DELING-01",
    "group": "seasonal_state",
    "condition": "五行与月令五行相同",
    "conclusion": "旺",
+   "plain": "出生月份的五行和日主相同，日主在这个月最有力量。",
    "when": {
     "relation": "same"
    },
@@ -39,6 +25,7 @@
    "group": "seasonal_state",
    "condition": "月令五行生该五行",
    "conclusion": "相",
+   "plain": "出生月份的五行生日主，日主在这个月得到帮助。",
    "when": {
     "relation": "month_generates"
    },
@@ -58,6 +45,7 @@
    "group": "seasonal_state",
    "condition": "该五行生月令五行",
    "conclusion": "休",
+   "plain": "日主去生出生月份的五行，力量有所外泄。",
    "when": {
     "relation": "generates_month"
    },
@@ -77,6 +65,7 @@
    "group": "seasonal_state",
    "condition": "该五行克月令五行",
    "conclusion": "囚",
+   "plain": "日主去克出生月份的五行，力量被牵制。",
    "when": {
     "relation": "controls_month"
    },
@@ -96,6 +85,7 @@
    "group": "seasonal_state",
    "condition": "月令五行克该五行",
    "conclusion": "死",
+   "plain": "出生月份的五行克日主，日主在这个月最受压制。",
    "when": {
     "relation": "month_controls"
    },
@@ -138,8 +128,9 @@
   {
    "rule_id": "R-DEDI-01",
    "group": "rootedness",
-   "condition": "日主五行在地支藏干中为本气",
+   "condition": "日主五行在月支以外的地支藏干中为本气",
    "conclusion": "本气通根",
+   "plain": "月支以外的地支里，有与日主同五行的藏干，而且是该支最主要的一层，日主扎根最深。",
    "when": {
     "qi": "primary"
    },
@@ -156,8 +147,9 @@
   {
    "rule_id": "R-DEDI-02",
    "group": "rootedness",
-   "condition": "日主五行在地支藏干中为中气（本气无）",
+   "condition": "日主五行在月支以外的地支藏干中为中气（本气无）",
    "conclusion": "中气通根",
+   "plain": "月支以外的地支里，有与日主同五行的藏干，是次要的一层，日主扎根一般。",
    "when": {
     "qi": "middle"
    },
@@ -171,8 +163,9 @@
   {
    "rule_id": "R-DEDI-03",
    "group": "rootedness",
-   "condition": "日主五行在地支藏干中仅为余气",
+   "condition": "日主五行在月支以外的地支藏干中仅为余气",
    "conclusion": "余气通根",
+   "plain": "月支以外的地支里，只有最弱的一层藏干与日主同五行，日主扎根较浅。",
    "when": {
     "qi": "residual"
    },
@@ -189,8 +182,9 @@
   {
    "rule_id": "R-DEDI-04",
    "group": "rootedness",
-   "condition": "地支藏干中没有与日主同五行者",
+   "condition": "月支以外的地支藏干中没有与日主同五行者",
    "conclusion": "无根",
+   "plain": "月支以外的地支里，没有与日主同五行的藏干，日主没有根。",
    "when": {
     "qi": "none"
    },
@@ -233,6 +227,7 @@
    "group": "revealed",
    "condition": "日主之外的三个天干中，透出印或比劫的有 3 个",
    "conclusion": "透出 3 个",
+   "plain": "其余三个天干里，有 3 个是帮扶日主的（印或比劫），帮手很多。",
    "when": {
     "count": 3
    },
@@ -252,6 +247,7 @@
    "group": "revealed",
    "condition": "日主之外的三个天干中，透出印或比劫的有 2 个",
    "conclusion": "透出 2 个",
+   "plain": "其余三个天干里，有 2 个是帮扶日主的（印或比劫）。",
    "when": {
     "count": 2
    },
@@ -271,6 +267,7 @@
    "group": "revealed",
    "condition": "日主之外的三个天干中，透出印或比劫的有 1 个",
    "conclusion": "透出 1 个",
+   "plain": "其余三个天干里，有 1 个是帮扶日主的（印或比劫）。",
    "when": {
     "count": 1
    },
@@ -290,6 +287,7 @@
    "group": "revealed",
    "condition": "日主之外的三个天干中，透出印或比劫的有 0 个",
    "conclusion": "透出 0 个",
+   "plain": "其余三个天干里，没有帮扶日主的（印或比劫）。",
    "when": {
     "count": 0
    },
@@ -332,6 +330,7 @@
    "group": "assisting",
    "condition": "地支藏干中生日主者（印）所占比例",
    "conclusion": "得助 = 生日主的藏干数 ÷ 藏干总数",
+   "plain": "看地支藏干里生日主的（印）占多少，占的比例越高，日主得到的助力越多。",
    "when": {
     "formula": "resource_hidden_over_hidden_total"
    },
@@ -346,66 +345,136 @@
    "kb_url": "https://luckclub.cn/bazi/002/037/"
   },
   {
+   "rule_id": "R-KEXIE-01",
+   "group": "opposition",
+   "condition": "八字中克泄耗日主者（官杀、财、食伤）所占比例",
+   "conclusion": "克泄耗 = 官杀、财、食伤的字数 ÷ 8；越大说明日主受克泄耗越重，对日主不利，权重取负",
+   "plain": "看八个字里克日主、消耗日主的（官杀、财、食伤）占多少，占的比例越高，日主被消耗得越多。",
+   "when": {
+    "formula": "opposing_share"
+   },
+   "then": {
+    "continuous": true
+   },
+   "derived": true,
+   "source_id": "yuanhai-ziping",
+   "chapter": "渊海子平 · 玄机赋",
+   "quotation": "身旺者,则宜泄、宜伤。身衰者,则喜扶、喜助",
+   "note": "典籍只说强弱要看泄克与扶助两面，未给量化办法；字数口径与 R-SHARE-01 一致（四天干、四地支本气共八个字），取比值本身，连续，无分档，属本项目形式化。其余因子越高越助日主，克泄耗是阻力，进入融合时权重为负",
+   "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-55"
+  },
+  {
    "rule_id": "R-PART-01",
    "group": "partition",
-   "condition": "三个因子按位置切分，互不重叠",
-   "conclusion": "天干层面的印与比劫 → 得势；地支藏干中与日主同五行 → 得地；地支藏干中生日主 → 得助",
+   "condition": "四个因子按位置切分，互不重叠",
+   "conclusion": "天干层面的印与比劫 → 得势；月支以外的地支藏干中与日主同五行 → 得地；地支藏干中生日主 → 得助；八字（天干与地支本气）中的官杀、财、食伤 → 克泄耗；月支归得令",
    "when": {},
    "then": {
     "revealed_groups": [
      "companion",
      "resource"
     ],
-    "rooted": "same_element_as_day_master",
+    "rooted": "same_element_as_day_master_outside_the_month_branch",
     "assisting_groups": [
      "resource"
+    ],
+    "opposing_groups": [
+     "officer",
+     "wealth",
+     "output"
     ]
    },
    "derived": true,
-   "note": "比劫既属同我又能帮身，若得地与得助都计入，同一个字会被数两遍"
+   "note": "比劫既属同我又能帮身，若得地与得助都计入，同一个字会被数两遍；月支的本气已由得令计入，得地不再数月支，否则日主在旺月时得令与得地必同时满分；克泄耗数的是官杀、财、食伤，这些字不会是印或比劫，因而与另三个因子互不重叠"
   },
   {
-   "rule_id": "R-WEIGHT-PROV",
+   "rule_id": "R-WEIGHT-01",
    "group": "weights",
-   "condition": "标定完成前使用的临时权重",
-   "conclusion": "得令 0.4 / 得地 0.3 / 得势 0.2 / 得助 0.1",
+   "condition": "五个因子的权重",
+   "conclusion": "得令 0.5 / 得地 0.2 / 得势 0.1 / 得助 0.05 / 克泄耗 -0.15",
    "when": {},
    "then": {
-    "weight_set": "provisional-0",
+    "weight_set": "calibrated-1",
     "weights": {
-     "seasonal_command": 0.4,
-     "rootedness": 0.3,
-     "revealed_support": 0.2,
-     "assisting_support": 0.1
+     "seasonal_command": 0.5,
+     "rootedness": 0.2,
+     "revealed_support": 0.1,
+     "assisting_support": 0.05,
+     "opposition": -0.15
     }
    },
    "derived": true,
-   "note": "未经案例标定，仅满足四权重之和为 1 与「月令权重最大」；D3 冻结后由标定值取代"
+   "note": "调优组 69 个强弱标注上网格搜索（步长 0.05，月令最大，共 870 组），切点固定 0.25/0.5/0.75；四折交叉验证宏平均准确率 0.6466±0.0725（见 bazi/research/data/calibration/report.json）"
   },
   {
-   "rule_id": "R-CUT-PROV",
+   "rule_id": "R-CUT-01",
    "group": "cutpoints",
-   "condition": "标定完成前使用的临时切点（方案 A）",
-   "conclusion": "0.2 / 0.4 / 0.6 / 0.8 等距切分五档",
+   "condition": "强弱的四档切点",
+   "conclusion": "0.25 / 0.5 / 0.75 切分四档，强弱分界在 0.5",
    "when": {},
    "then": {
     "cuts": [
-     0.2,
-     0.4,
-     0.6,
-     0.8
+     0.25,
+     0.5,
+     0.75
     ],
     "levels": [
      "very_weak",
      "somewhat_weak",
-     "balanced",
      "somewhat_strong",
      "very_strong"
     ],
-    "near": 0.03
+    "line": 0.5,
+    "near": 0.05
    },
    "derived": true,
-   "note": "方案 A；D2 比较 A/B/C 后取代"
+   "note": "方案 A：切点固定 0.25/0.5/0.75，只调权重；比较见 bazi/research/data/calibration/report.json"
+  },
+  {
+   "rule_id": "R-SHISHEN-GROUP",
+   "group": "ten_god_groups",
+   "condition": "十神按与日主的关系分五组",
+   "conclusion": "比劫（比肩、劫财）、食伤（食神、伤官）、财（偏财、正财）、官杀（七杀、正官）、印（偏印、正印）",
+   "when": {},
+   "then": {
+    "groups": {
+     "companion": [
+      "friend",
+      "rob_wealth"
+     ],
+     "output": [
+      "eating_god",
+      "hurting_officer"
+     ],
+     "wealth": [
+      "indirect_wealth",
+      "direct_wealth"
+     ],
+     "officer": [
+      "seven_killings",
+      "direct_officer"
+     ],
+     "resource": [
+      "indirect_resource",
+      "direct_resource"
+     ]
+    }
+   },
+   "derived": true,
+   "note": "扶抑规则（R-FUYI-02/03）以印、比劫与官杀、食伤成组立言；财为本项目补入。分五组与契约 TenGodGroup 一一对应"
+  },
+  {
+   "rule_id": "R-SHARE-01",
+   "group": "share_definition",
+   "condition": "五行在命盘中的占比",
+   "conclusion": "占比 = 八个字（四天干，四地支各按本气）中属该五行的个数 ÷ 8",
+   "when": {},
+   "then": {
+    "slots": 8,
+    "branch": "primary"
+   },
+   "derived": true,
+   "note": "特殊格局的各个占比阈值（0.5、0.75、0.25）都是这个占比的分数，取值与 1.1 的 element_distribution（八字计数）一致；典籍未给量化办法，属本项目形式化，不参与调优"
   }
  ]
 }

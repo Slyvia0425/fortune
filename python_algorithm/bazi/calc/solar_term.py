@@ -9,6 +9,7 @@ job of resolve.resolve_birth; `resolve` below takes the CST moment directly.
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
+from bazi.basics.solar_terms import JIE_BRANCH, TERMS
 from bazi.calc import terms
 from bazi.calc.pillars import month_pillar_of, year_pillar
 
@@ -34,19 +35,19 @@ def position(cst: datetime) -> TermPosition:
     k, t_jie = (i, t0) if i % 2 == 0 else (i - 1, None)
     if t_jie is None:
         name, t_jie = terms.previous_jie(cst)
-        month_term = next(key for key, zh, _ in terms.TERMS if zh == name)
+        month_term = next(key for key, zh, _ in TERMS if zh == name)
     else:
-        month_term = terms.TERMS[k][0]
-    branch = terms.JIE_BRANCH[next(zh for key, zh, _ in terms.TERMS if key == month_term)]
+        month_term = TERMS[k][0]
+    branch = JIE_BRANCH[next(zh for key, zh, _ in TERMS if key == month_term)]
 
     year_stem, _ = year_pillar(cst)
     month = month_pillar_of(year_stem, branch)
 
     since, until = cst - t0, t1 - cst
     return TermPosition(
-        current_term=terms.TERMS[i][0], current_term_at=t0,
+        current_term=TERMS[i][0], current_term_at=t0,
         days_since_term=since / DAY,
-        next_term=terms.TERMS[j][0], next_term_at=t1,
+        next_term=TERMS[j][0], next_term_at=t1,
         days_to_next_term=until / DAY,
         month_term=month_term,
         near_boundary=min(since, until) < DAY,

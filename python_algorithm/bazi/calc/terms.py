@@ -20,7 +20,7 @@ from functools import lru_cache
 
 import ephem
 
-from bazi.basics.solar_terms import JIE_BRANCH, TERMS  # noqa: F401  (re-exported: callers read them from here)
+from bazi.basics.solar_terms import TERMS
 
 CST = timedelta(hours=8)
 

@@ -61,14 +61,6 @@ export type TenGod =
   | "indirect_resource" // 偏印
   | "direct_resource";  // 正印
 
-/** 旺相休囚死: how an element stands in the season set by the birth month. */
-export type SeasonalState =
-  | "peak"        // 旺
-  | "supporting"  // 相
-  | "resting"     // 休
-  | "confined"    // 囚
-  | "dead";       // 死
-
 /** Five-level day-master strength. */
 export type DayMasterStrength =
   | "very_strong"
@@ -356,7 +348,7 @@ export interface FactorScale {
 
 /** One evidence factor feeding the day-master strength arbitration. */
 export interface StrengthFactor {
-  key: "seasonal_command" | "rootedness" | "revealed_support" | "assisting_support";
+  key: "seasonal_command" | "rootedness" | "revealed_support" | "assisting_support" | "opposition";
   /**
    * Identifier of the rule that produced this score, e.g. "R-DELING-05".
    * What makes the trace auditable: a reader can look the rule up rather than
@@ -380,6 +372,8 @@ export interface StrengthFactor {
   level: number | null;
   /** One-line account of how the score was reached. */
   calculation: string;
+  /** The rule in everyday words, shown beside the quotation it formalises. */
+  rule_text: string;
   /** Where the rule that produced the score is cited, and whether it is the
    *  project's own formalisation rather than something the text states. */
   chapter: string | null;
@@ -410,6 +404,8 @@ export interface ReasoningTrace {
   /** Layer 1 — weighted fusion of conflicting factors. */
   factors: StrengthFactor[];
   fused_score: number;
+  /** fused_score = the sum of the factors' weighted_score + baseline (resistances carry negative weights). */
+  baseline: number;
   /** Threshold band the fused score fell into. */
   threshold_band: string;
   /** Strength implied by layer 1 alone, before any override. */
@@ -419,10 +415,11 @@ export interface ReasoningTrace {
   /** Final judgement after arbitration. */
   final_strength: DayMasterStrength;
   /**
-   * True when the fused score sat near a boundary. Callers may choose to
-   * present the result as inconclusive rather than assert a category.
+   * True when the fused score sat close to the weak/strong line, so the side
+   * is not clear (the engine never answers "balanced"; it answers a side and
+   * says when that side is a close call).
    */
-  near_threshold: boolean;
+  near_balance: boolean;
   /**
    * Classical rules the arbitration relied on. Uses the shared SourceReference
    * shape so a citation can point at an edition, chapter and page rather than
@@ -557,6 +554,8 @@ export interface DomainGroupTally {
   gloss: string;
   /** The passage the gloss rests on; absent when the texts carry none. */
   quotation?: string;
+  /** The passage in everyday words; the page shows it first and the quotation after it. */
+  quotation_plain?: string;
   source_id?: string;
   chapter?: string;
   occurrences: TenGodOccurrence[];
@@ -584,6 +583,58 @@ export interface DomainTally {
 /* Result                                                               */
 /* ------------------------------------------------------------------ */
 
+/* ------------------------------------------------------------------ */
+/* Calculation trace                                                    */
+/* ------------------------------------------------------------------ */
+
+/** Where a rule or table comes from in the books: the book, the chapter and one verbatim stretch of it. */
+export interface TraceSource {
+  book: string;
+  chapter?: string | null;
+  quotation?: string | null;
+  kb_url?: string | null;
+}
+
+/**
+ * One thing a calculation step relied on.
+ *  rule        an entry of the rule base (R-*), applied to this chart
+ *  table       a table of basic knowledge read out of the books (hidden stems, ten gods, the 五虎遁 song ...)
+ *  convention  a choice this project made where the books are silent, with the reason
+ *  method      a way of computing that is not classical knowledge (time-zone database, astronomy)
+ */
+export type TraceUseKind = "rule" | "table" | "convention" | "method";
+
+export interface TraceUse {
+  kind: TraceUseKind;
+  id?: string | null;
+  title: string;
+  detail?: string | null;
+  /** Formalised by this project rather than stated in the text. */
+  derived: boolean;
+  source?: TraceSource | null;
+}
+
+export interface TraceFact {
+  label: string;
+  value: string;
+}
+
+export type TraceStage = "input" | "chart" | "structure" | "strength" | "derivation" | "advisory";
+
+/**
+ * One calculation in the chain from the input to the conclusions: what it took (`inputs`: the steps it read from), what it found
+ * (`summary`, `facts`) and what it relied on (`uses`). The steps come in calculation order, so every input is an earlier step.
+ */
+export interface TraceStep {
+  id: string;
+  title: string;
+  stage: TraceStage;
+  inputs: string[];
+  summary: string;
+  facts: TraceFact[];
+  uses: TraceUse[];
+}
+
 export interface BaziChartResult {
   /* --- 1.1 --- */
   resolved_time: ResolvedTime;
@@ -591,8 +642,6 @@ export interface BaziChartResult {
   solar_term: SolarTermPosition;
   pillars: BaziPillar[];
   elements: Record<ElementKey, number>;
-  /** 1.2: each element's 旺相休囚死 in the birth month's season. */
-  element_states: Record<ElementKey, SeasonalState>;
   /** Display only — no interpretation attached. */
   luck_onset: LuckOnset;
   /**
@@ -619,8 +668,8 @@ export interface BaziChartResult {
   /** One tally per domain; counts and citations only, no score and no ranking. */
   domain_tallies: DomainTally[];
 
-  /** Plain-language summary of the chart's composition. */
-  overview: string;
+  /** How each result above was reached, step by step, with the rules and knowledge each step used. */
+  calculation_trace: TraceStep[];
 
   /**
    * Every classical source cited anywhere in this result, de-duplicated.
@@ -637,15 +686,4 @@ export interface BaziChartResult {
     rule_base?: string;
     warnings?: string[];
   };
-}
-
-/**
- * Legacy shape retained only to ease migration of existing mock data and
- * frontend code. New code should target BaziChartResult.
- * @deprecated
- */
-export interface LegacyBaziReferences {
-  career: string;
-  study: string;
-  wealth: string;
 }

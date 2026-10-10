@@ -1,0 +1,51 @@
+{
+ "what": "同一份命局事实包，让不同大小的 Claude 模型各写一遍倾向对照的说明；另做一组不给事实包的零样本对照。",
+ "how": "模型由子代理扮演（haiku、sonnet、opus 三档；fable 因账户需要额度未能运行）。3 张盘（偏弱、偏旺且未见官杀、太弱），每盘 12 个段落。受约束组用真实提示词与校验器；零样本组只给四柱和问题。",
+ "caveats": [
+  "只有 Claude 家族，没有其他厂商的模型",
+  "每个模型每张盘只跑一遍（偏弱盘跑两遍看重复性），样本很小",
+  "零样本的数量与位置检查用简单规则从文本里抽取，引文「在知识库中找不到」不等于一定是编造，也可能是转述或知识库之外的典籍"
+ ],
+ "constrained": {
+  "haiku": {
+   "files_parsed": "3/4",
+   "slots_accepted": "18/48",
+   "failures": "1 份 JSON 不合法（正文里有未转义的引号）；1 份把 cites 写成字符串而不是数组；1 份把引文改写后又用「」引出，被判为引文不在依据里；另有 1 段点了不在该条目里的十神名"
+  },
+  "sonnet": {
+   "files_parsed": "4/4",
+   "slots_accepted": "48/48"
+  },
+  "opus": {
+   "files_parsed": "4/4",
+   "slots_accepted": "48/48"
+  },
+  "repeat_identity_weak_chart": {
+   "sonnet": "2/12 段文字完全相同",
+   "opus": "0/12 段文字完全相同",
+   "note": "两遍都通过校验，但措辞不同；结构化内容（定义、引文、位置、次数）每次都一样"
+  }
+ },
+ "zero_shot_no_evidence_pack": {
+  "haiku": {
+   "count_claims": 32,
+   "count_wrong": 14,
+   "quotes_not_found_in_kb": "18/19",
+   "advice_or_judging_words": 6
+  },
+  "sonnet": {
+   "count_claims": 40,
+   "count_wrong": 0,
+   "quotes_not_found_in_kb": "10/18",
+   "advice_or_judging_words": 24
+  },
+  "opus": {
+   "count_claims": 41,
+   "count_wrong": 0,
+   "quotes_not_found_in_kb": "30/47",
+   "advice_or_judging_words": 15
+  },
+  "example": "haiku 对偏弱盘把十神认错（如把时干甲写成七杀 2 处、偏财 3 处等），并写出「七杀有制，反成栋梁」这样在知识库里找不到的「古语」，还给出了职业建议。"
+ },
+ "reading": "本模块的结构化部分（十神、位置、次数、引文）由规则库和引擎给出，不依赖模型，所以这几项的错误率为 0 且可重复；模型只负责措辞。较强的模型在受约束时稳定通过校验，较弱的模型会出格式错误或改写引文，校验层把这些拦在页面之外。不受约束时，较弱的模型会认错十神、编造引文，较强的模型数量更准但仍会引出知识库里找不到的古文，并且会给出建议和判断。"
+}

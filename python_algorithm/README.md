@@ -26,6 +26,6 @@ PYTHON_ALGORITHM_BASE_URL=http://127.0.0.1:8000
 .venv/bin/pytest -q
 ```
 
-当前状态：接口与请求校验已完成，返回带 `meta.mock: true` 标记的占位结果；排盘、诊断与建议算法将逐步替换占位数据。
+八字模块在服务内完成排盘、命局诊断与倾向对照的计算，返回结构见 `lib/contracts/bazi.ts`。
 
-约定：返回中的天干、地支、十神等均为罗马化键名（如 `jia`、`zi`、`direct_wealth`），中文显示名由前端 `lib/bazi/display.ts` 映射，其中 `wu` 为天干「戊」、`wu_branch` 为地支「午」。`bazi/models/` 中的枚举须与 `lib/contracts/bazi.ts` 保持一致，由 `bazi/tests/test_contract_consistency.py` 校验。大运、流年仅作展示，不含吉凶判断；建议中的契合度表示与命局结构的契合程度，不表示概率。
+约定：返回中的天干、地支、十神等均为罗马化键名（如 `jia`、`zi`、`direct_wealth`），中文显示名由前端 `lib/bazi/display.ts` 映射，其中 `wu` 为天干「戊」、`wu_branch` 为地支「午」。`bazi/models/` 中的枚举须与 `lib/contracts/bazi.ts` 保持一致，由 `bazi/tests/test_contract_consistency.py` 校验。大运、流年仅作展示，不含吉凶判断；倾向对照只列出命局里相关的十神与典籍说法。

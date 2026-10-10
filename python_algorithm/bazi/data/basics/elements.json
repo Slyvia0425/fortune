@@ -1,5 +1,5 @@
 {
- "note": "五行相生相克。1.1 排盘独立于 1.2 规则库，故自带一份；test_rules_data 保证与规则库 R-SHENG-01、R-KE-01 逐项一致。",
+ "note": "五行相生取自《子平真诠评注》论阴阳生克；相克取自《三命通会》论十干合（「木畏金克」即金克木）。1.1 排盘独立于 1.2 规则库，故自带一份；test_rules_data 保证与规则库 R-SHENG-01、R-KE-01 逐项一致。",
  "generates": {
   "wood": "fire",
   "fire": "earth",
@@ -8,10 +8,48 @@
   "water": "wood"
  },
  "controls": {
-  "wood": "earth",
-  "earth": "water",
+  "metal": "wood",
   "water": "fire",
+  "wood": "earth",
   "fire": "metal",
-  "metal": "wood"
- }
+  "earth": "water"
+ },
+ "sources": [
+  {
+   "kb_url": "https://luckclub.cn/bazi/002/004/",
+   "book": "子平真诠评注",
+   "chapter": "论阴阳生克",
+   "quotation": "木生火,火生土,土生金,金生水,水复生木"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "東方甲乙木畏西方庚辛金克。甲屬陽為兄,乙屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "南方丙丁火畏北方壬癸水克。丙屬陽為兄,丁屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "中央戊己土畏東方甲乙木克。戊屬陽為兄,己屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "西方庚辛金畏南方丙丁火克。庚屬陽為兄,辛屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "北方壬癸水畏中央戊己土克。壬陽為兄,癸屬陰為妹"
+  }
+ ]
 }

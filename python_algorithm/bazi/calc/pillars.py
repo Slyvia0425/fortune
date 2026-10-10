@@ -14,7 +14,6 @@ from typing import NamedTuple
 
 from bazi.basics import sexagenary
 from bazi.basics.solar_terms import JIE_BRANCH
-from bazi.basics.stems_branches import BRANCHES, STEMS
 from bazi.calc import terms
 
 

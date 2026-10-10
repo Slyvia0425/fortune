@@ -18,12 +18,12 @@ from datetime import datetime, timedelta
 from bazi.calc import terms
 from bazi.basics import sexagenary
 from bazi.basics.hidden_stems import HIDDEN_STEMS
-from bazi.basics.luck_rules import CYCLES, MINUTES_PER_MONTH, MINUTES_PER_YEAR, YEARS_PER_CYCLE
+from bazi.basics.luck_rules import CYCLES, FORWARD_WHEN, MINUTES_PER_MONTH, REVERSE_WHEN, YEARS_PER_CYCLE
 from bazi.basics.stems_branches import BRANCH_ENUM, STEM_ELEMENT, STEM_ENUM, STEM_YANG
 from bazi.basics.ten_gods import ten_god
 from bazi.calc.pillars import Pillars, compute_pillars, year_pillar
 from bazi.models.bazi import (
-    AnnualPillar, AnnualStemBranch, CurrentPeriod, LuckCycle, LuckOnset, StemBranch,
+    AnnualPillar, AnnualStemBranch, CurrentPeriod, LuckCycle, StemBranch,
 )
 from bazi.models.enums import ElementKey, LuckDirection
 
@@ -50,9 +50,9 @@ def _add_months(d: datetime, months: int) -> datetime:
 
 def onset(cst: datetime, year_stem: str, gender: str) -> Onset:
     """`cst`: the birth moment on the CST clock (the clock term instants use)."""
-    yang = STEM_YANG[year_stem]
-    male = gender == "male"
-    forward = yang == male
+    case = ("yang" if STEM_YANG[year_stem] else "yin", gender)
+    forward = case in FORWARD_WHEN
+    assert forward or case in REVERSE_WHEN, case
 
     (_, i, before), (_, j, after) = terms.terms_around(cst)
     if forward:
@@ -68,7 +68,7 @@ def onset(cst: datetime, year_stem: str, gender: str) -> Onset:
     years, months = divmod(total_months, 12)
     days = minutes / 1440
     rationale = (
-        f"{'阳' if yang else '阴'}年{'男' if male else '女'}命，大运{'顺' if forward else '逆'}排；"
+        f"{'阳' if case[0] == 'yang' else '阴'}年{'男' if case[1] == 'male' else '女'}命，大运{'顺' if forward else '逆'}排；"
         f"出生距{which}{days:.1f} 天，按三日折一年计，起运 {years} 岁 {months} 个月。"
     )
     return Onset(years, months,

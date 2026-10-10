@@ -28,6 +28,7 @@ class Rule(BaseModel):
     group: str                       # which part of the engine reads it
     condition: str                   # human-readable
     conclusion: str                  # human-readable
+    plain: Optional[str] = None      # the rule in everyday words, for the page (no background knowledge assumed)
     when: Dict[str, Any] = {}        # machine-readable
     then: Dict[str, Any] = {}
     source_id: Optional[str] = None  # points at a Source; the source is stored once

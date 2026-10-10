@@ -55,15 +55,13 @@ def test_returns_every_contract_section():
         "derivation",
         "reasoning_trace",
         "domain_tallies",
-        "overview",
     ):
         assert key in body, f"missing contract field: {key}"
 
 
-def test_flagged_as_mock():
+def test_the_whole_response_is_computed_so_it_is_not_flagged_as_mock():
     meta = post().json()["meta"]
-    assert meta["mock"] is True
-    assert meta["warnings"], "mock responses must carry a warning"
+    assert meta["mock"] is False and meta["rule_base"] and meta["weight_set"]
 
 
 def test_four_pillars_in_order():
@@ -93,21 +91,17 @@ def test_elements_cover_all_five():
     assert set(elements) == {"wood", "fire", "earth", "metal", "water"}
 
 
-def test_reasoning_trace_has_all_four_factors():
+def test_reasoning_trace_has_the_factors_the_weight_rule_names():
     trace = post().json()["reasoning_trace"]
-    assert {f["key"] for f in trace["factors"]} == {
-        "seasonal_command",
-        "rootedness",
-        "revealed_support",
-        "assisting_support",
-    }
+    from bazi.rules.inference import Inference
+    assert [f["key"] for f in trace["factors"]] == list(Inference().parameters("weights").then["weights"])
 
 
 def test_fused_score_matches_weighted_sum():
     """Guards against a trace that displays numbers which don't add up."""
     trace = post().json()["reasoning_trace"]
     total = sum(f["weighted_score"] for f in trace["factors"])
-    assert abs(total - trace["fused_score"]) < 1e-6
+    assert abs(total + trace["baseline"] - trace["fused_score"]) < 1e-6      # resistances carry negative weights; the baseline gives their worst case back
 
 
 
@@ -239,7 +233,7 @@ def test_derivation_runs_both_methods():
     assert {m["method"] for m in methods} == {"supporting", "climatic"}
     for method in methods:
         assert method["basis"].strip(), "每种方法都要说明它依据了什么"
-        assert method["useful"], "每种方法都要给出用神"
+        assert method["useful"] or "中和" in method["basis"], "每种方法都要给出用神（日主中和时扶抑无用神，并说明）"
 
 
 def test_arbitration_is_recorded():
@@ -340,7 +334,7 @@ def test_zero_count_groups_are_kept():
 
 
 def test_domain_group_narrative_restates_only_what_the_row_holds():
-    """白话说明是转述，不是新论断：出现次数与用忌状态都必须与本行一致。"""
+    """白话说明是转述，不是新论断：出现次数必须与本行一致，也不判断、不建议（不提用神、忌神）。"""
     for tally in post().json()["domain_tallies"]:
         for group in tally["groups"]:
             text = group["narrative"]
@@ -349,7 +343,4 @@ def test_domain_group_narrative_restates_only_what_the_row_holds():
                 assert "未见" in text
             else:
                 assert str(group["count"]) in text
-                if group["disposition"] == "useful":
-                    assert "用神" in text and "忌神" not in text
-                elif group["disposition"] == "unfavourable":
-                    assert "忌神" in text
+            assert "用神" not in text and "忌神" not in text

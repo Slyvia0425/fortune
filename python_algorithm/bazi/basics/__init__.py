@@ -1,5 +1,9 @@
 """Basic BaZi knowledge, read from data files (bazi/data/basics/*.json).
 
+The data files are generated, not written: `python -m bazi.research.build_basics` parses them out of the original texts in the
+project knowledge base (data/knowledge_sources_complete) and records, for every fact, the page, chapter and the
+verbatim stretch it came from. The few things the books do not hold are in `conventions.json`, by hand, with reasons.
+
 One reader per kind of knowledge; the code that does the calculating (calc/, diagnosis/) imports from here and holds
 no table of its own:
 

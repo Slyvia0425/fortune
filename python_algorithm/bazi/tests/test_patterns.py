@@ -60,16 +60,15 @@ def test_the_firing_is_in_the_trace():
 
 
 def test_follow_patterns_are_out_of_scope_and_not_detected():
-    assert detect("丙午 丙午 壬午 丙午").chosen is None     # 从财 pattern of the old rule set
-    assert LIB.rule("R-SCOPE-01").when["supported"] == ["dominant_element", "dual_qi_formation"]
-    assert {r.rule_id for r in LIB.group("special_pattern")} == {"R-ZHUANWANG-01", "R-ZHUANWANG-02", "R-LIANGQI-01", "R-OVERRIDE-01"}
+    assert detect("丙午 丙午 壬午 丙午").chosen is None     # a 从财 pattern of the old rule set
+    assert {r.rule_id for r in LIB.group("special_pattern")} == {"R-ZHUANWANG-01", "R-LIANGQI-01"}
 
 
 def test_overlapping_patterns_are_refused_not_chosen():
     f = feat.extract(build_pillars(Pillars("甲午", "丁卯", "甲午", "丁卯")))
     run = inference.Inference()
     old = pt._holds
-    pt._holds = lambda rule, feats: "pattern" in rule.when                 # pretend both detectors hold
+    pt._holds = lambda rule, feats: True                                    # pretend both detectors hold
     try:
         with pytest.raises(inference.AmbiguousRules):
             pt.detect(f, run)
@@ -93,8 +92,8 @@ def test_a_condition_the_matcher_does_not_know_is_refused():
 
 
 def test_each_detector_states_an_outcome_and_the_two_cannot_hold_together():
-    detectors = [r for r in LIB.group("special_pattern") if "pattern" in r.when and r.when.keys() - {"pattern", "example"}]
-    assert {r.then["pattern"] for r in detectors} == set(LIB.rule("R-SCOPE-01").when["supported"])
+    detectors = LIB.group("special_pattern")
+    assert {r.then["pattern"] for r in detectors} == {"dominant_element", "dual_qi_formation"}
     for r in detectors:
         if r.then["final_strength"] is not None:
             DayMasterStrength(r.then["final_strength"])

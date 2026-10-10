@@ -2,7 +2,8 @@
 
 from datetime import datetime
 
-import pytest
+
+from bazi.tests._each import all_of
 from lunar_python import Solar
 
 from bazi.calc import solar_term, terms
@@ -18,7 +19,7 @@ def _theirs(year):
                             s.getHour(), s.getMinute(), s.getSecond())
 
 
-@pytest.mark.parametrize("years,limit", [(range(1900, 2026, 3), 30), (range(2026, 2101, 3), 90)])
+@all_of("years,limit", [(range(1900, 2026, 3), 30), (range(2026, 2101, 3), 90)])
 def test_instants_agree_with_lunar_python(years, limit):
     # Seconds of difference: ephem and lunar-python extrapolate delta-T differently.
     # Up to 2025 the observed worst case is ~17 s; by 2100 it is ~54 s.

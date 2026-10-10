@@ -81,7 +81,7 @@ def test_no_calculating_code_holds_a_table_of_basic_knowledge():
     offenders = []
     for path in root.rglob("*.py"):
         rel = path.relative_to(root).parts
-        if rel[0] in ("basics", "tests"):
+        if rel[0] in ("basics", "tests") or rel[:2] == ("research", "tests") or rel == ("research", "build_basics.py"):       # the reader, the tests, and the builder that writes the tables
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"))
         docstrings = {id(n.body[0].value) for n in ast.walk(tree)
@@ -91,3 +91,86 @@ def test_no_calculating_code_holds_a_table_of_basic_knowledge():
             if isinstance(node, ast.Constant) and isinstance(node.value, str) and id(node) not in docstrings:
                 offenders += [f"{'/'.join(rel)}:{node.lineno}: {n}" for n in needles if n in node.value]
     assert not offenders, offenders
+
+
+# ------------------------------------------------------------------ the files come from the knowledge base
+import json
+
+import pytest
+
+from bazi.research import build_basics as build
+from bazi.research import knowledge
+
+needs_kb = pytest.mark.skipif(not knowledge.available(), reason="knowledge base not present")
+GENERATED = list(build.BUILDERS)
+
+
+@needs_kb
+def test_the_committed_files_are_exactly_what_the_knowledge_base_yields():
+    for name, obj in build.build_all().items():
+        assert (build.DATA / f"{name}.json").read_text(encoding="utf-8") == build.render(obj), \
+            f"{name}.json is stale or hand-edited; run python -m bazi.research.build_basics"
+
+
+@needs_kb
+def test_every_generated_file_says_where_each_fact_came_from_and_the_quotations_are_on_those_pages():
+    problems = {}
+    for name in GENERATED:
+        sources = read(name)["sources"]
+        assert sources, name
+        for s in sources:
+            found = knowledge.check(s["kb_url"], s["chapter"], s["quotation"])
+            if found:
+                problems[(name, s["quotation"][:20])] = found
+    assert not problems, problems
+
+
+def test_what_the_books_do_not_hold_is_in_conventions_with_a_reason_each():
+    conv = read("conventions")
+    for key in ("year_anchor", "day_anchor", "hidden_stem_order_override"):
+        assert conv[key] if key != "hidden_stem_order_override" else all(v["why"] for v in conv[key].values())
+    assert conv["year_anchor"]["why"] and conv["day_anchor"]["why"] and conv["day_change_why"] and conv["luck_cycles_why"]
+    assert set(conv["hidden_stem_order_override"]) == {"申"}                  # the only branch whose order is not read from the 分野表
+
+
+def test_the_only_place_the_hidden_stems_differ_from_the_day_counts_is_the_declared_override():
+    table = read("hidden_stems")
+    assert set(table["overrides"]) == set(read("conventions")["hidden_stem_order_override"])
+    for branch, o in table["overrides"].items():
+        assert table["table"][branch] == o["order"]
+
+
+def test_the_luck_direction_covers_every_case_once():
+    r = read("luck_rules")
+    cases = {(p, g) for p in ("yang", "yin") for g in ("male", "female")}
+    assert {tuple(x) for x in r["forward_when"]} | {tuple(x) for x in r["reverse_when"]} == cases
+    assert not {tuple(x) for x in r["forward_when"]} & {tuple(x) for x in r["reverse_when"]}
+
+
+@needs_kb
+def test_the_generator_reads_only_the_classical_text_not_the_modern_translation():
+    page = knowledge.page(build.SHENGKE)
+    assert {kind for kind, _ in page.blocks} >= {"original", "translation"}          # the page is cut by kind of text
+    assert len(page.text()) < len(page.content)                                       # the translation is left out
+    assert "木生火,火生土,土生金,金生水,水复生木" in page.text()
+
+
+@needs_kb
+def test_a_knowledge_base_without_block_types_gives_the_same_files(monkeypatch):
+    """The knowledge base's own README no longer lists content_blocks; the generator must not depend on them."""
+    from dataclasses import replace
+    stripped = {u: replace(p, blocks=()) for u, p in knowledge._pages().items()}
+    monkeypatch.setattr(knowledge, "_pages", lambda: stripped)
+    for name, obj in build.build_all().items():
+        assert (build.DATA / f"{name}.json").read_text(encoding="utf-8") == build.render(obj), name
+
+
+def test_the_table_test_helper_reports_every_failing_case():
+    from bazi.tests._each import all_of
+
+    @all_of("x,y", [(1, 1), (2, 3), (4, 5)])
+    def check(x, y):
+        assert x == y
+
+    with pytest.raises(AssertionError, match=r"2 of 3 cases failed"):
+        check()

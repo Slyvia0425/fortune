@@ -1,9 +1,11 @@
 """Completeness (proposal section 3): every legal input yields a full chart, and
 the manual-coordinates fallback is the route when the city search finds nothing."""
 
+import pytest
 import random
 
-import pytest
+
+from bazi.tests._each import all_of
 from fastapi.testclient import TestClient
 
 from app import app
@@ -22,8 +24,7 @@ def _manual(lat, lon, **over):
                 birth_place=dict(latitude=lat, longitude=lon, source="manual_coordinates")) | over
 
 
-@pytest.mark.parametrize("lat", LATS)
-@pytest.mark.parametrize("lon", LONS)
+@all_of("lat,lon", [(la, lo) for la in LATS for lo in LONS])
 def test_any_legal_coordinate_gives_a_full_chart(lat, lon):
     chart = build_chart(BaziChartRequest.model_validate(_manual(lat, lon)))
     assert len(chart.pillars) == 4 and len(chart.luck_cycles) == 8
@@ -45,6 +46,7 @@ def test_coordinates_out_of_range_are_rejected_not_guessed():
 
 
 # -------- when to fall back: search must find the city or find nothing
+@pytest.mark.slow
 def test_exact_city_names_find_that_city_first():
     all_cities, _ = cities._load()
     wrong = []
@@ -56,6 +58,7 @@ def test_exact_city_names_find_that_city_first():
     assert not wrong, wrong[:5]
 
 
+@pytest.mark.slow
 def test_places_that_are_not_in_the_list_return_nothing_so_the_form_offers_coordinates():
     rng = random.Random(4)
     all_cities, _ = cities._load()
