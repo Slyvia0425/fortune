@@ -5,12 +5,21 @@ type KnowledgePage={url:string;title:string;source:string;source_name?:string;so
 const records=pages as KnowledgePage[];
 const clean=(value:string)=>value.replace(/[#*`>|_\[\]]+/g," ").replace(/\s+/g," ").trim();
 const stableId=(page:KnowledgePage,index:number)=>`${page.source.toLowerCase().replace(/\W+/g,"-")}-${index}`;
+const genericTitle=/^(?:序|正文|原文|目[录錄]|卷[一二三四五六七八九十百上下中首末]+)$/;
+const displayTitle=(page:KnowledgePage)=>{
+  const title=page.title.replace(/[*_`#]+/g,"").replace(/\s*·\s*原文\s*$/,"").trim();
+  if(!genericTitle.test(title))return title;
+  const trail=page.catalog.split(" -> ").map(value=>value.trim()).filter(Boolean);
+  const position=trail.lastIndexOf(page.title.trim());
+  const book=position>0?trail[position-1]:trail.at(-2);
+  return book&&book!==title?`${book} · ${title}`:title;
+};
 
 export function getKnowledgePageById(id:string){
   const index=records.findIndex((page,pageIndex)=>stableId(page,pageIndex)===id);
   if(index<0)return null;
   const page=records[index];
-  return{id:stableId(page,index),...page};
+  return{id:stableId(page,index),...page,title:displayTitle(page)};
 }
 
 export function searchKnowledge(query:string,limit=18,category?:KnowledgeCategory,source?:string){
@@ -21,7 +30,7 @@ export function searchKnowledge(query:string,limit=18,category?:KnowledgeCategor
     const title=page.title.toLowerCase(),catalog=page.catalog.toLowerCase(),content=page.content.toLowerCase();
     const score=terms.length?terms.reduce((sum,t)=>sum+(title.includes(t)?24:0)+(catalog.includes(t)?10:0)+(content.split(t).length-1),0):1;
     if(score<=0)return null;
-    return{id:stableId(page,index),title:page.title,source:page.source,catalog:page.catalog,category:page.category,excerpt:clean(page.content).slice(0,220)+(page.content.length>220?"…":""),content:page.content,content_en:page.content_en,url:page.url,score};
+    return{id:stableId(page,index),title:displayTitle(page),source:page.source,catalog:page.catalog,category:page.category,excerpt:clean(page.content).slice(0,220)+(page.content.length>220?"…":""),content:page.content,content_en:page.content_en,url:page.url,score};
   }).filter((x):x is NonNullable<typeof x>=>Boolean(x)).sort((a,b)=>b.score-a.score).slice(0,limit);
 }
 
@@ -77,6 +86,6 @@ const topicViews:Record<string,{overview:string;differences:string;periods:Knowl
   "五行":{overview:"“五行”不是五种静止物质，而是木、火、土、金、水五类作用与变化方式。不同文献的差别主要在使用范围。",differences:"早期文献用于说明政事与自然秩序；汉代以后形成更完整的对应系统；命理文献则把它用于分析干支之间的生克与时令。",periods:[{period:"先秦至两汉",meaning:"用于归纳自然材料、季节变化和治理秩序。",focus:"分类与秩序"},{period:"汉唐系统化阶段",meaning:"与阴阳、方位、颜色、音律等建立成套对应。",focus:"宇宙对应体系"},{period:"宋元明清命理文献",meaning:"重点讨论五行在月份、干支与命局中的强弱和生克。",focus:"时令、旺衰与关系判断"}]},
   "阴阳":{overview:"“阴阳”用于描述相对而互相依存的两类状态。它不是简单的好坏对立，而是强调位置、变化和转化。",differences:"早期重视自然现象与变化规律；《易传》用阴阳解释卦爻变化；后世术数则把阴阳用于干支、五行和卦象分类。",periods:[{period:"早期思想",meaning:"从明暗、寒热、动静等现象概括相对关系。",focus:"自然变化"},{period:"《易传》体系",meaning:"以阴爻和阳爻的互动解释卦象变化。",focus:"象与变"},{period:"后世术数",meaning:"成为天干地支、五行和命理分类的共同属性。",focus:"规则化应用"}]},
 };
-export function summarizeComparison(query:string){const key=Object.keys(topicViews).find(k=>query.includes(k));if(key)return topicViews[key];return{overview:`“${query}”在不同资料中可能承担定义、解释和应用三种功能。以下先按文献时代和资料性质整理，再保留各自出处。`,differences:"原典通常提供概念最早的语境，古代注释负责解释字义和结构，现代译注更重视可读性。它们属于不同层次，不宜合并成唯一结论。",periods:[{period:"原典语境",meaning:"查看该词在经典原文中的具体位置和上下文。",focus:"原文含义"},{period:"古代注释",meaning:"查看历代注家如何解释原句、象义或规则。",focus:"传统解释"},{period:"现代整理",meaning:"通过校注、译文和研究说明理解版本差异。",focus:"现代阅读"}]}}
+export function summarizeComparison(query:string){const key=Object.keys(topicViews).find(k=>query.includes(k));if(key)return topicViews[key];return{overview:"",differences:"",periods:[]}}
 
 export const knowledgeStats={pages:records.length,sources:[...new Set(records.map(x=>x.source))],books:[...new Set(records.map(x=>x.catalog.split(" -> ")[0]||x.title))],categories:{original:records.filter(x=>x.category.includes("original")).length,commentary:records.filter(x=>x.category.includes("commentary")).length,translation:records.filter(x=>x.category.includes("translation")).length,modern_commentary:records.filter(x=>x.category.includes("modern_commentary")).length}};
