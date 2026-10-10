@@ -1,0 +1,24 @@
+{
+  "builder_version": "liuyao-corpus-v1",
+  "dataset_sha256": "7b4bff1bebd0c89ffbf5e249711a5a124a2e8a43b840f63bccf6532b62b3eab6",
+  "release_status": "review_only",
+  "offset_unit": "unicode_codepoint",
+  "counts": {
+    "sources": 6,
+    "chapters": 135,
+    "passages": 3541,
+    "cases": 253,
+    "chunks": 401,
+    "issues": 6
+  },
+  "cleaning_policy": "newline_and_trailing_space_only",
+  "production_retrieval_enabled": false,
+  "files": {
+    "sources.jsonl": "8d10338147d7dc1dc3f6394dbee527bb78db598d86b708418a64ebc667349efb",
+    "chapters.jsonl": "a8a0d2c1af441a4e98f51dd07e0b102771329753b042013743c72180c961faca",
+    "passages.jsonl": "29047d507f2c1e5183303fd6b426220dbd4740f997aca0179342d1cc10d4d045",
+    "cases.jsonl": "5ed704002b45aa1fe172733395a4e90ff1d146dae2f1dcb58966aa6c0bc65d86",
+    "chunks.jsonl": "2fcc3130f68433c20d54414a1c744dda2e4e65001978d932ed9790481ca35f91",
+    "issues.jsonl": "8f0a7e3d17ae8f5d18af278551166811cc11e2726548557aa3e71159b4c5e647"
+  }
+}

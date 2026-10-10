@@ -1,0 +1,7 @@
+{
+  "batches": 25,
+  "document_embedding_tokens_reported": 9177,
+  "token_usage_scope": "document batches only; excludes probes and query tests",
+  "max_batch_reported_tokens": 576,
+  "database_bytes": 23158784
+}

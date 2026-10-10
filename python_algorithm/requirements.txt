@@ -6,3 +6,5 @@ pydantic>=2.9
 # Testing
 pytest>=8.0
 httpx2>=2.13          # required by starlette's TestClient
+
+lunar-python==1.4.8
