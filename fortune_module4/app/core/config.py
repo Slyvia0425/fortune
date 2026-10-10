@@ -28,23 +28,6 @@ class Settings(BaseSettings):
     embedding_provider: str = "hash"
     embedding_model: str = "BAAI/bge-m3"
     embedding_dim: int = Field(default=1024, ge=1)
-    openai_embedding_model: str = Field(
-        default="qwen3.7-text-embedding", validation_alias="OPENAI_EMBEDDING_MODEL"
-    )
-    openai_embedding_base_url: str | None = Field(
-        default=None, validation_alias="OPENAI_EMBEDDING_BASE_URL"
-    )
-    openai_embedding_api_key: SecretStr | None = Field(
-        default=None, validation_alias="OPENAI_EMBEDDING_API_KEY"
-    )
-    openai_embedding_batch_size: int = Field(
-        default=20, ge=1, le=100, validation_alias="OPENAI_EMBEDDING_BATCH_SIZE"
-    )
-    dashscope_api_key: SecretStr | None = Field(default=None, validation_alias="DASHSCOPE_API_KEY")
-    dashscope_workspace_id: str | None = Field(
-        default=None, validation_alias="DASHSCOPE_WORKSPACE_ID"
-    )
-    dashscope_region: str = Field(default="cn-beijing", validation_alias="DASHSCOPE_REGION")
 
     llm_provider: str = "template"
     llm_model: str = "qwen3.8:27b"
@@ -54,7 +37,8 @@ class Settings(BaseSettings):
     llm_reasoning_effort: str | None = "none"
 
     cors_origins: str = (
-        "http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173"
+        "http://localhost:3000,http://127.0.0.1:3000,"
+        "http://localhost:5173,http://127.0.0.1:5173"
     )
 
     recommendation_weights_json: str | None = None

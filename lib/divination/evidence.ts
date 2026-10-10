@@ -8,21 +8,6 @@ import type { SourceReference } from "@/lib/contracts/api";
 import type { HexagramEvidenceResult, HexagramLineEvidence } from "@/lib/contracts/knowledge";
 import { getHexagramEvidence } from "../knowledge/hexagram";
 
-const TRIGRAM_ELEMENTS: Record<string, string> = { 乾: "金", 兑: "金", 离: "火", 震: "木", 巽: "木", 坎: "水", 艮: "土", 坤: "土" };
-
-function fiveElementRelation(upper: string, lower: string) {
-  const upperElement = TRIGRAM_ELEMENTS[upper];
-  const lowerElement = TRIGRAM_ELEMENTS[lower];
-  if (!upperElement || !lowerElement) return "关系未标注";
-  if (upperElement === lowerElement) return `${upperElement}气相承`;
-  const generates: Record<string, string> = { 木: "火", 火: "土", 土: "金", 金: "水", 水: "木" };
-  const controls: Record<string, string> = { 木: "土", 土: "水", 水: "火", 火: "金", 金: "木" };
-  if (generates[upperElement] === lowerElement) return `${upperElement}生${lowerElement}`;
-  if (generates[lowerElement] === upperElement) return `${lowerElement}生${upperElement}`;
-  if (controls[upperElement] === lowerElement) return `${upperElement}克${lowerElement}`;
-  return `${lowerElement}克${upperElement}`;
-}
-
 function sourceIds(evidence: HexagramEvidenceResult) {
   return evidence.sources.map((source) => source.source_id);
 }
@@ -142,19 +127,8 @@ export function buildDivinationEvidencePack(input: {
     selection_rule: selectionRule,
     question: input.question.trim().slice(0, 500),
     time_range: input.time_range?.trim().slice(0, 80) || undefined,
-    primary: {
-      number: cast.primary.number,
-      name: cast.primary.name,
-      upper_trigram: cast.primary.upper_trigram,
-      lower_trigram: cast.primary.lower_trigram,
-      five_element_relation: fiveElementRelation(cast.primary.upper_trigram, cast.primary.lower_trigram),
-    },
-    transformed: {
-      number: cast.transformed.number,
-      name: cast.transformed.name,
-      upper_trigram: cast.transformed.upper_trigram,
-      lower_trigram: cast.transformed.lower_trigram,
-    },
+    primary: { number: cast.primary.number, name: cast.primary.name },
+    transformed: { number: cast.transformed.number, name: cast.transformed.name },
     moving_lines: moving,
     evidence: items,
     sources: uniqueSources([primary.sources, transformed.sources]).filter((source) => selectedSourceIds.has(source.source_id)),

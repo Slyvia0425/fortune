@@ -34,5 +34,3 @@ exports/
 *.pdf
 
 module4.egg-info/
-
-.runtime/

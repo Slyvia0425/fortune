@@ -1,6 +1,6 @@
 import unittest
 
-from hexagram_engine import calculate, cast_from_coins, cast_from_numbers, cast_from_three_numbers
+from hexagram_engine import calculate, cast_from_coins, cast_from_numbers
 
 
 class HexagramEngineTests(unittest.TestCase):
@@ -22,13 +22,6 @@ class HexagramEngineTests(unittest.TestCase):
             cast_from_numbers([1])
         with self.assertRaises(ValueError):
             cast_from_numbers([1, 0])
-
-    def test_three_number_adapter_requires_exactly_three_positive_numbers(self):
-        self.assertEqual(cast_from_three_numbers([1, 1, 2]), cast_from_numbers([1, 1, 2]))
-        with self.assertRaises(ValueError):
-            cast_from_three_numbers([1, 1])
-        with self.assertRaises(ValueError):
-            cast_from_three_numbers([1, 1, 0])
 
 
 if __name__ == "__main__":

@@ -10,5 +10,3 @@ timezonefinder>=6.5   # coordinates -> IANA timezone (T5)
 ephem>=4.1            # solar longitude for solar terms (T8)
 numpy>=1.26         # fusion arithmetic (shared with the calibration)
 httpx2>=2.13          # required by starlette's TestClient
-
-lunar-python==1.4.8

@@ -1,6 +1,0 @@
-{"code": "NO_CHAPTER_BOUNDARIES", "source_id": "source:7ba9bc5710540543b0a96c4e602b8631"}
-{"code": "REPEATED_CHAPTER_NUMBER", "count": 4, "printed_number": "又二十六", "source_id": "source:fb855e4701896fdd77022e252e917101"}
-{"code": "REPEATED_CHAPTER_NUMBER", "count": 2, "printed_number": "五十五", "source_id": "source:ef33d771bc302c19e4fdc74c21704140"}
-{"code": "REPEATED_CHAPTER_NUMBER", "count": 2, "printed_number": "八十二", "source_id": "source:d1d0e1557dcce281f44062dcd977bb97"}
-{"code": "MIXED_TABLE_SOURCE", "message": "多列混排，整条隔离，未重建卦盘。", "source_id": "source:b13abc7b7fbdafa85e1290dccbad0e2a"}
-{"code": "NO_CHAPTER_BOUNDARIES", "source_id": "source:b13abc7b7fbdafa85e1290dccbad0e2a"}
