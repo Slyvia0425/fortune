@@ -1,0 +1,390 @@
+{
+ "note": "标定只用调优组的强弱标注（不含注家明说中和的案例）；检验组未被读取。度量为宏平均准确率（四档各自的正确率取平均）。",
+ "seed": 20261008,
+ "folds": 4,
+ "data": {
+  "n": 69,
+  "levels": {
+   "very_weak": 11,
+   "somewhat_weak": 16,
+   "somewhat_strong": 29,
+   "very_strong": 13
+  },
+  "basis": {
+   "element_or_root": 22,
+   "explicit": 42,
+   "generic": 5
+  },
+  "excluded_overridden_by_a_pattern": [],
+  "factor_order": [
+   "seasonal_command",
+   "rootedness",
+   "revealed_support",
+   "assisting_support",
+   "opposition"
+  ],
+  "weight_sets": 870
+ },
+ "chance_macro_accuracy": 0.25,
+ "provisional": {
+  "weights": [
+   0.4,
+   0.3,
+   0.2,
+   0.1,
+   -0.1
+  ],
+  "cuts": [
+   0.25,
+   0.5,
+   0.75
+  ],
+  "in_sample": {
+   "macro_accuracy": 0.6107,
+   "accuracy": 0.5942,
+   "within_one_level": 0.9565,
+   "confusion": [
+    [
+     5,
+     3,
+     3,
+     0
+    ],
+    [
+     2,
+     10,
+     4,
+     0
+    ],
+    [
+     0,
+     8,
+     15,
+     6
+    ],
+    [
+     0,
+     0,
+     2,
+     11
+    ]
+   ]
+  },
+  "cv_mean": 0.6127
+ },
+ "cv": {
+  "folds": [
+   18,
+   17,
+   17,
+   17
+  ],
+  "held_out": [
+   0.4583,
+   0.8095,
+   0.6786,
+   0.6399
+  ],
+  "mean": 0.6466,
+  "se": 0.0725,
+  "chosen": [
+   {
+    "weights": [
+     0.55,
+     0.15,
+     0.1,
+     0.05,
+     -0.15
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.7295
+   },
+   {
+    "weights": [
+     0.5,
+     0.2,
+     0.1,
+     0.05,
+     -0.15
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6095
+   },
+   {
+    "weights": [
+     0.5,
+     0.2,
+     0.1,
+     0.05,
+     -0.15
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6578
+   },
+   {
+    "weights": [
+     0.5,
+     0.2,
+     0.1,
+     0.05,
+     -0.15
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6644
+   }
+  ]
+ },
+ "cv_reference_without_resistance": {
+  "folds": [
+   18,
+   17,
+   17,
+   17
+  ],
+  "held_out": [
+   0.4583,
+   0.7738,
+   0.5804,
+   0.5565
+  ],
+  "mean": 0.5923,
+  "se": 0.066,
+  "chosen": [
+   {
+    "weights": [
+     0.55,
+     0.2,
+     0.15,
+     0.1
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.7176
+   },
+   {
+    "weights": [
+     0.55,
+     0.2,
+     0.15,
+     0.1
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6076
+   },
+   {
+    "weights": [
+     0.6,
+     0.15,
+     0.2,
+     0.05
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6559
+   },
+   {
+    "weights": [
+     0.5,
+     0.25,
+     0.2,
+     0.05
+    ],
+    "cuts": [
+     0.25,
+     0.5,
+     0.75
+    ],
+    "train_score": 0.6417
+   }
+  ]
+ },
+ "final": {
+  "weights": {
+   "seasonal_command": 0.5,
+   "rootedness": 0.2,
+   "revealed_support": 0.1,
+   "assisting_support": 0.05,
+   "opposition": -0.15
+  },
+  "cuts": [
+   0.25,
+   0.5,
+   0.75
+  ],
+  "in_sample": {
+   "macro_accuracy": 0.6597,
+   "accuracy": 0.6232,
+   "within_one_level": 0.942,
+   "confusion": [
+    [
+     6,
+     2,
+     3,
+     0
+    ],
+    [
+     1,
+     11,
+     4,
+     0
+    ],
+    [
+     1,
+     11,
+     14,
+     3
+    ],
+    [
+     0,
+     0,
+     1,
+     12
+    ]
+   ]
+  },
+  "by_basis": {
+   "element_or_root": {
+    "macro_accuracy": 0.7667,
+    "accuracy": 0.7727,
+    "within_one_level": 0.9545,
+    "confusion": [
+     [
+      2,
+      2,
+      1,
+      0
+     ],
+     [
+      0,
+      3,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      4,
+      2
+     ],
+     [
+      0,
+      0,
+      0,
+      8
+     ]
+    ],
+    "n": 22
+   },
+   "explicit": {
+    "macro_accuracy": 0.6386,
+    "accuracy": 0.5714,
+    "within_one_level": 0.9286,
+    "confusion": [
+     [
+      4,
+      0,
+      2,
+      0
+     ],
+     [
+      0,
+      8,
+      4,
+      0
+     ],
+     [
+      1,
+      9,
+      8,
+      1
+     ],
+     [
+      0,
+      0,
+      1,
+      4
+     ]
+    ],
+    "n": 42
+   },
+   "generic": {
+    "macro_accuracy": 0.25,
+    "accuracy": 0.4,
+    "within_one_level": 1.0,
+    "confusion": [
+     [
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      2,
+      2,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "n": 5
+   }
+  },
+  "balance_flag": {
+   "line": 0.5,
+   "near": 0.05,
+   "flagged": 13,
+   "of": 69,
+   "side_right_when_flagged": [
+    7,
+    13
+   ],
+   "side_right_when_not_flagged": [
+    43,
+    56
+   ],
+   "stated_balanced_cases_flagged": [
+    0,
+    5
+   ]
+  },
+  "weight_sets_within_0.02_of_best_at_these_cuts": 9,
+  "agrees_with_every_case": false
+ }
+}

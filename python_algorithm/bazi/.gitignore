@@ -1,1 +1,5 @@
 /bazi_README.md
+
+# generated review sheets (rebuild with: python -m bazi.research.cases.review|pattern_review export)
+# the returned B1 sheets (B1_result_*) are NOT ignored: a test reads them
+research/data/cases/review/*_pending_*.csv

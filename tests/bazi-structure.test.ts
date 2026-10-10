@@ -106,6 +106,17 @@ describe("命盘八字", () => {
     expect(cellNote(dayBranch, dayMaster).body).toContain("日主在地支中的根");
   });
 
+  it("地支注释只写本支的作用和藏干，不重复通用说明，也不再单列一行藏干关系", () => {
+    for (const id of ["year-branch", "month-branch", "day-branch", "hour-branch"]) {
+      const note = cellNote(cells.find((cell) => cell.id === id)!, dayMaster);
+      expect(note.relation, id).toBe("");
+      expect(note.body, id).not.toContain("称为藏干");
+      expect(note.body, id).toMatch(/中藏/);
+    }
+    expect(cellNote(cells.find((cell) => cell.id === "year-branch")!, dayMaster).body).toContain("得地");
+    expect(cellNote(cells.find((cell) => cell.id === "hour-branch")!, dayMaster).body).toContain("时辰");
+  });
+
   it("月支注释提到月令", () => {
     const monthBranch = cells.find((cell) => cell.id === "month-branch")!;
     const note = cellNote(monthBranch, dayMaster);

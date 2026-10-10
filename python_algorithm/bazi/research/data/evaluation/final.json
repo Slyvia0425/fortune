@@ -1,0 +1,221 @@
+{
+ "E1_strength": {
+  "n": 67,
+  "side_accuracy": {
+   "k": 53,
+   "n": 67,
+   "rate": 0.791,
+   "ci95": [
+    0.679,
+    0.871
+   ]
+  },
+  "four_level_macro_accuracy": 0.623,
+  "four_level_accuracy": {
+   "k": 39,
+   "n": 67,
+   "rate": 0.582,
+   "ci95": [
+    0.463,
+    0.693
+   ]
+  },
+  "within_one_level": {
+   "k": 67,
+   "n": 67,
+   "rate": 1.0,
+   "ci95": [
+    0.946,
+    1.0
+   ]
+  },
+  "recall_by_label": {
+   "very_weak": {
+    "k": 6,
+    "n": 10,
+    "rate": 0.6,
+    "ci95": [
+     0.313,
+     0.832
+    ]
+   },
+   "somewhat_weak": {
+    "k": 7,
+    "n": 14,
+    "rate": 0.5,
+    "ci95": [
+     0.268,
+     0.732
+    ]
+   },
+   "somewhat_strong": {
+    "k": 14,
+    "n": 30,
+    "rate": 0.467,
+    "ci95": [
+     0.302,
+     0.639
+    ]
+   },
+   "very_strong": {
+    "k": 12,
+    "n": 13,
+    "rate": 0.923,
+    "ci95": [
+     0.667,
+     0.986
+    ]
+   }
+  },
+  "confusion_rows_label_cols_engine": {
+   "very_weak": [
+    6,
+    4,
+    0,
+    0
+   ],
+   "somewhat_weak": [
+    2,
+    7,
+    5,
+    0
+   ],
+   "somewhat_strong": [
+    0,
+    9,
+    14,
+    7
+   ],
+   "very_strong": [
+    0,
+    0,
+    1,
+    12
+   ]
+  },
+  "balance_flag": {
+   "flagged": {
+    "k": 8,
+    "n": 67,
+    "rate": 0.119,
+    "ci95": [
+     0.062,
+     0.218
+    ]
+   },
+   "side_right_when_flagged": {
+    "k": 5,
+    "n": 8,
+    "rate": 0.625,
+    "ci95": [
+     0.306,
+     0.863
+    ]
+   },
+   "side_right_when_not_flagged": {
+    "k": 48,
+    "n": 59,
+    "rate": 0.814,
+    "ci95": [
+     0.696,
+     0.893
+    ]
+   },
+   "stated_balanced_cases_flagged": {
+    "k": 0,
+    "n": 0,
+    "rate": null,
+    "ci95": null
+   }
+  },
+  "by_basis": {
+   "element_or_root": {
+    "k": 18,
+    "n": 28,
+    "rate": 0.643,
+    "ci95": [
+     0.458,
+     0.793
+    ]
+   },
+   "explicit": {
+    "k": 17,
+    "n": 34,
+    "rate": 0.5,
+    "ci95": [
+     0.341,
+     0.659
+    ]
+   },
+   "generic": {
+    "k": 4,
+    "n": 5,
+    "rate": 0.8,
+    "ci95": [
+     0.376,
+     0.964
+    ]
+   }
+  }
+ },
+ "E2_patterns": {
+  "zhuanwang": {
+   "annotated_positive": 8,
+   "found": 1,
+   "recall": {
+    "k": 1,
+    "n": 8,
+    "rate": 0.125,
+    "ci95": [
+     0.022,
+     0.471
+    ]
+   },
+   "precision": {
+    "k": 1,
+    "n": 1,
+    "rate": 1.0,
+    "ci95": [
+     0.207,
+     1.0
+    ]
+   },
+   "missed": [
+    "DT-224",
+    "DT-225",
+    "DT-322",
+    "DT-325",
+    "DT-381",
+    "DT-406",
+    "DT-419"
+   ],
+   "false_positive": [],
+   "found_without_a_record": []
+  },
+  "liangqi": {
+   "annotated_positive": 3,
+   "found": 3,
+   "recall": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.438,
+     1.0
+    ]
+   },
+   "precision": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.438,
+     1.0
+    ]
+   },
+   "missed": [],
+   "false_positive": [],
+   "found_without_a_record": []
+  }
+ }
+}

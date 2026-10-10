@@ -5,4 +5,8 @@ uvicorn[standard]>=0.30,<1
 pydantic>=2.9
 # Testing
 pytest>=8.0
+lunar-python>=1.4     # lunar<->solar dates (T9) and the cross-validation oracle in bazi/validation
+timezonefinder>=6.5   # coordinates -> IANA timezone (T5)
+ephem>=4.1            # solar longitude for solar terms (T8)
+numpy>=1.26         # fusion arithmetic (shared with the calibration)
 httpx2>=2.13          # required by starlette's TestClient

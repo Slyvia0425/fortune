@@ -1,0 +1,159 @@
+{
+ "note": "天干地支的顺序取自《渊海子平》（见甲、见乙…的次序；又地支藏遁歌的次序），五行与阴阳取自《三命通会》论十干合。key 与契约枚举按位置对应。",
+ "stems": [
+  {
+   "zh": "甲",
+   "key": "jia",
+   "element": "wood",
+   "yang": true
+  },
+  {
+   "zh": "乙",
+   "key": "yi",
+   "element": "wood",
+   "yang": false
+  },
+  {
+   "zh": "丙",
+   "key": "bing",
+   "element": "fire",
+   "yang": true
+  },
+  {
+   "zh": "丁",
+   "key": "ding",
+   "element": "fire",
+   "yang": false
+  },
+  {
+   "zh": "戊",
+   "key": "wu",
+   "element": "earth",
+   "yang": true
+  },
+  {
+   "zh": "己",
+   "key": "ji",
+   "element": "earth",
+   "yang": false
+  },
+  {
+   "zh": "庚",
+   "key": "geng",
+   "element": "metal",
+   "yang": true
+  },
+  {
+   "zh": "辛",
+   "key": "xin",
+   "element": "metal",
+   "yang": false
+  },
+  {
+   "zh": "壬",
+   "key": "ren",
+   "element": "water",
+   "yang": true
+  },
+  {
+   "zh": "癸",
+   "key": "gui",
+   "element": "water",
+   "yang": false
+  }
+ ],
+ "branches": [
+  {
+   "zh": "子",
+   "key": "zi"
+  },
+  {
+   "zh": "丑",
+   "key": "chou"
+  },
+  {
+   "zh": "寅",
+   "key": "yin"
+  },
+  {
+   "zh": "卯",
+   "key": "mao"
+  },
+  {
+   "zh": "辰",
+   "key": "chen"
+  },
+  {
+   "zh": "巳",
+   "key": "si"
+  },
+  {
+   "zh": "午",
+   "key": "wu_branch"
+  },
+  {
+   "zh": "未",
+   "key": "wei"
+  },
+  {
+   "zh": "申",
+   "key": "shen"
+  },
+  {
+   "zh": "酉",
+   "key": "you"
+  },
+  {
+   "zh": "戌",
+   "key": "xu"
+  },
+  {
+   "zh": "亥",
+   "key": "hai"
+  }
+ ],
+ "sources": [
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "東方甲乙木畏西方庚辛金克。甲屬陽為兄,乙屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "南方丙丁火畏北方壬癸水克。丙屬陽為兄,丁屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "中央戊己土畏東方甲乙木克。戊屬陽為兄,己屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "西方庚辛金畏南方丙丁火克。庚屬陽為兄,辛屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "北方壬癸水畏中央戊己土克。壬陽為兄,癸屬陰為妹"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=296619",
+   "book": "渊海子平",
+   "chapter": "淵海子平 · 第1部分",
+   "quotation": "五干屬陽,喜合。\n\n以甲為例★見甲:為比肩、兄弟。\n\n見乙:為劫財、敗財,克父及妻。\n\n見丙:為"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=296619",
+   "book": "渊海子平",
+   "chapter": "淵海子平 · 第1部分",
+   "quotation": "子宮癸水在其中,丑癸辛金己土同;寅宮甲木兼丙戊,卯宮乙木獨相逢。辰藏乙戊三分癸,巳中庚金丙戊叢;午宮丁火並己土,未宮乙己丁共宗。申位庚金壬水戊,酉宮辛金獨豐隆;戌宮辛金及丁戊,亥藏壬甲是真蹤。"
+  }
+ ]
+}
