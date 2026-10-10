@@ -12,7 +12,6 @@ from app.schemas.recommendation import (
     RecommendationResult,
 )
 from app.services.embeddings import cosine_similarity, get_embedding_provider
-from app.services.cases import CASE_EVENT_TYPES
 from app.services.feedback import feedback_signals_for_candidates
 from app.services.llm import get_explanation_provider
 from app.services.scoring import (
@@ -138,7 +137,7 @@ def recommend_next_actions(
     event_count = db.scalar(
         select(func.count(EventRecord.id)).where(
             EventRecord.session_id == payload.session_id,
-            EventRecord.event_type.in_(CASE_EVENT_TYPES),
+            EventRecord.inference_eligible.is_(True),
         )
     )
     cold_start = int(event_count or 0) <= 1 and not feedback_signals

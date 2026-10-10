@@ -11,6 +11,7 @@ it must never alter a chart, hexagram, sign number, original source text, or ran
 
 - Session creation/resume and ordered event history.
 - Idempotent event ingestion through `X-Idempotency-Key`.
+- Complete conversation archiving with an explicit inference whitelist.
 - Next-action recommendation with the documented weighted formula.
 - Similar anonymous case matching with missing-feature renormalization.
 - Explicit and implicit user feedback.
@@ -111,8 +112,9 @@ production embedding dimension is 1024 for BGE-M3. If the dimension changes, cre
 
 ```text
 POST   /api/v1/sessions
+GET    /api/v1/sessions
 POST   /api/v1/events/ingest
-GET    /api/v1/sessions/{session_id}/events
+GET    /api/v1/sessions/{session_id}/events[?inference_only=true]
 POST   /api/v1/recommendations/next
 POST   /api/v1/cases/similar
 POST   /api/v1/feedback
@@ -127,6 +129,14 @@ PUT    /api/v1/me/privacy
 ```
 
 `POST /api/session/event` is retained as a compatibility alias for the cross-module event contract.
+
+Every message in a chat transcript can be stored as `conversation.message`. These events preserve
+the complete conversation, but are marked `inference_eligible=false`. Recommendation and
+similar-case logic only read the structured whitelist described in
+`docs/cross_module_contract.md`. In particular, Module 2 should emit one
+`module2a.divination.completed` event when a divination is complete and send feedback separately.
+`GET /api/v1/sessions` returns the user's session list with event counts and the latest message
+preview for the session-history panel.
 
 ## Upstream Compatibility API
 

@@ -10,6 +10,7 @@ from app.models.base import utc_now
 from app.models.entities import EventRecord
 from app.schemas.event import EventIngestRequest, EventOut
 from app.services.cases import maybe_create_case_profile
+from app.services.event_policy import participates_in_inference
 from app.services.sessions import get_or_create_session_for_event
 
 
@@ -48,6 +49,7 @@ def ingest_event(
         user_id=user_id,
         source_module=payload.source_module,
         event_type=payload.event_type,
+        inference_eligible=participates_in_inference(payload.event_type),
         sequence_no=sequence_no,
         occurred_at=occurred_at,
         system=payload.system,
@@ -79,11 +81,19 @@ def ingest_event(
     return event, False, candidate_key
 
 
-def list_session_events(db: Session, session_id: str) -> list[EventRecord]:
+def list_session_events(
+    db: Session,
+    session_id: str,
+    *,
+    inference_only: bool = False,
+) -> list[EventRecord]:
+    conditions = [EventRecord.session_id == session_id]
+    if inference_only:
+        conditions.append(EventRecord.inference_eligible.is_(True))
     return list(
         db.scalars(
             select(EventRecord)
-            .where(EventRecord.session_id == session_id)
+            .where(*conditions)
             .order_by(
                 EventRecord.sequence_no.asc(),
                 EventRecord.occurred_at.asc(),
@@ -100,6 +110,7 @@ def event_to_schema(record: EventRecord) -> EventOut:
         user_id=record.user_id,
         source_module=record.source_module,
         event_type=record.event_type,
+        inference_eligible=record.inference_eligible,
         sequence_no=record.sequence_no,
         occurred_at=record.occurred_at,
         system=record.system,

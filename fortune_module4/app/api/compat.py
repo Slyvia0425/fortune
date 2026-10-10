@@ -158,6 +158,7 @@ def compatibility_ingest_event(
             event_id=record.id,
             duplicate=duplicate,
             idempotency_key=effective_key,
+            inference_eligible=record.inference_eligible,
         )
         return _json_response(
             compat_success(

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import CollectionButton from "@/app/components/collection-button";
 import type { BaziChartResult } from "@/lib/contracts/bazi";
-import { ELEMENT_LABEL, PILLAR_LABEL, QI_LABEL, STEM_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
+import { BRANCH_LABEL, ELEMENT_LABEL, PILLAR_LABEL, QI_LABEL, STEM_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
 import { cellNote, chartCells, GENERATING_ORDER, type ChartCell } from "@/lib/bazi/structure";
 import { ElementIcon } from "./element-icon";
 import styles from "./bazi-chart.module.css";
@@ -19,10 +20,16 @@ export function PillarsStep({
   chart,
   isMock,
   warnings,
+  profileActivity,
+  personName,
+  sessionId,
 }: {
   chart: BaziChartResult;
   isMock: boolean;
   warnings: string[];
+  profileActivity: { profileId?: string; personName?: string; personRelation: string };
+  personName: string;
+  sessionId?: string | null;
 }) {
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
@@ -186,6 +193,24 @@ export function PillarsStep({
       <p className="panel-intro" style={{ marginTop: 20 }}>
         {chart.overview}
       </p>
+
+      <CollectionButton
+        {...profileActivity}
+        action="calculation"
+        autoRecord
+        evidence={chart.source_refs.map((ref) =>
+          [ref.title, ref.edition, ref.chapter].filter(Boolean).join(" · "),
+        )}
+        itemType="bazi_record"
+        label="收藏命盘"
+        module="bazi"
+        sourceId={`bazi-chart:${sessionId ?? "local"}`}
+        step="pillars"
+        summary={`${personName.trim() || "未命名人物"} · ${chart.pillars.map((pillar) => `${STEM_LABEL[pillar.stem]}${BRANCH_LABEL[pillar.branch]}`).join(" ")}。${chart.overview}`}
+        tags={["八字", "四柱"]}
+        title={`${personName.trim() || "未命名人物"} · 四柱命盘`}
+        snapshot={{ pillars: chart.pillars, resolved_time: chart.resolved_time, source_refs: chart.source_refs }}
+      />
     </>
   );
 }

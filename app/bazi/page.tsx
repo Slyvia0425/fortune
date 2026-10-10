@@ -10,7 +10,7 @@ export default function Page() {
       <PageHeading
         eyebrow="八字命盘"
         title="以四时，观五行"
-        description="输入出生时间与地点，建立结构化命盘。当前版本提供完整交互框架与演示结果位，正式算法接入后将由规则引擎替换。"
+        description="输入出生时间与地点，按真太阳时、节气边界与干支规则建立结构化命盘，并为每一步保留可追溯的典籍依据。"
       />
       {/* The step rail and the panel share state, so both live in the client component. */}
       <BaziWorkspace />

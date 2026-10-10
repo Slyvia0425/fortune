@@ -1,7 +1,8 @@
 import pages from "../../data/knowledge_sources_complete/knowledge_sources_pages.json";
 import type {KnowledgeCategory,KnowledgeGraphEdge,KnowledgeGraphNode,KnowledgePeriodView} from "../contracts/knowledge";
 
-type KnowledgePage={url:string;title:string;source:string;source_name?:string;source_type?:string;catalog:string;category:KnowledgeCategory[];content:string;content_en?:string|null;content_blocks?:Array<{type:KnowledgeCategory;heading:string;text:string}>};
+export type KnowledgeContentBlock={type:KnowledgeCategory;heading:string;text:string};
+export type KnowledgePage={url:string;title:string;source:string;source_name?:string;source_type?:string;catalog:string;category:KnowledgeCategory[];content:string;content_en?:string|null;content_blocks?:KnowledgeContentBlock[]};
 const records=pages as KnowledgePage[];
 const clean=(value:string)=>value.replace(/[#*`>|_\[\]]+/g," ").replace(/\s+/g," ").trim();
 const stableId=(page:KnowledgePage,index:number)=>`${page.source.toLowerCase().replace(/\W+/g,"-")}-${index}`;
@@ -78,5 +79,18 @@ const topicViews:Record<string,{overview:string;differences:string;periods:Knowl
   "阴阳":{overview:"“阴阳”用于描述相对而互相依存的两类状态。它不是简单的好坏对立，而是强调位置、变化和转化。",differences:"早期重视自然现象与变化规律；《易传》用阴阳解释卦爻变化；后世术数则把阴阳用于干支、五行和卦象分类。",periods:[{period:"早期思想",meaning:"从明暗、寒热、动静等现象概括相对关系。",focus:"自然变化"},{period:"《易传》体系",meaning:"以阴爻和阳爻的互动解释卦象变化。",focus:"象与变"},{period:"后世术数",meaning:"成为天干地支、五行和命理分类的共同属性。",focus:"规则化应用"}]},
 };
 export function summarizeComparison(query:string){const key=Object.keys(topicViews).find(k=>query.includes(k));if(key)return topicViews[key];return{overview:`“${query}”在不同资料中可能承担定义、解释和应用三种功能。以下先按文献时代和资料性质整理，再保留各自出处。`,differences:"原典通常提供概念最早的语境，古代注释负责解释字义和结构，现代译注更重视可读性。它们属于不同层次，不宜合并成唯一结论。",periods:[{period:"原典语境",meaning:"查看该词在经典原文中的具体位置和上下文。",focus:"原文含义"},{period:"古代注释",meaning:"查看历代注家如何解释原句、象义或规则。",focus:"传统解释"},{period:"现代整理",meaning:"通过校注、译文和研究说明理解版本差异。",focus:"现代阅读"}]}}
+
+const HEXAGRAM_TITLES=["","乾","坤","屯","蒙","需","讼","师","比","小畜","履","泰","否","同人","大有","谦","豫","随","蛊","临","观","噬嗑","贲","剥","复","无妄","大畜","颐","大过","坎","离","咸","恒","遁","大壮","晋","明夷","家人","睽","蹇","解","损","益","夬","姤","萃","升","困","井","革","鼎","震","艮","渐","归妹","丰","旅","巽","兑","涣","节","中孚","小过","既济","未济"] as const;
+const TRADITIONAL_HEXAGRAM_TITLES:Record<string,string>={贲:"賁",讼:"訟",师:"師",谦:"謙",随:"隨",蛊:"蠱",临:"臨",观:"觀",剥:"剝",复:"復",颐:"頤",恒:"恆",大壮:"大壯",遁:"遯",晋:"晉",损:"損",渐:"漸",丰:"豐",涣:"渙",节:"節",小过:"小過",既济:"既濟",未济:"未濟",离:"離",兑:"兌",归妹:"歸妹",大过:"大過"};
+const normalizedTitle=(value:string)=>value.replace(/[\u{1F000}-\u{1FAFF}\u{4DC0}-\u{4DFF}]/gu,"").replace(/[《》〈〉\s]/g,"").trim();
+
+export function findHexagramKnowledgePage(number:number){
+  if(!Number.isInteger(number)||number<1||number>64)return undefined;
+  const expected=HEXAGRAM_TITLES[number];
+  const aliases=new Set([expected,TRADITIONAL_HEXAGRAM_TITLES[expected]??expected]);
+  const match=records.map((page,index)=>({page,index})).filter(({page})=>page.catalog.includes("周易")&&page.catalog.includes("易经")&&aliases.has(normalizedTitle(page.title))).sort((left,right)=>(right.page.content_blocks?.length??0)-(left.page.content_blocks?.length??0)||left.index-right.index)[0];
+  if(!match)return undefined;
+  return{id:stableId(match.page,match.index),title:match.page.title,source:match.page.source,catalog:match.page.catalog,category:match.page.category,excerpt:clean(match.page.content).slice(0,220)+(match.page.content.length>220?"…":""),content:match.page.content,content_en:match.page.content_en,url:match.page.url,score:1};
+}
 
 export const knowledgeStats={pages:records.length,sources:[...new Set(records.map(x=>x.source))],books:[...new Set(records.map(x=>x.catalog.split(" -> ")[0]||x.title))],categories:{original:records.filter(x=>x.category.includes("original")).length,commentary:records.filter(x=>x.category.includes("commentary")).length,translation:records.filter(x=>x.category.includes("translation")).length,modern_commentary:records.filter(x=>x.category.includes("modern_commentary")).length}};

@@ -6,8 +6,8 @@ per docs/API_INTEGRATION.md.
 
 from fastapi import APIRouter
 
-from bazi.mocks.chart import build_mock_chart
-from bazi.models.bazi import BaziChartRequest, BaziChartResult
+from ..engine.chart import build_chart
+from ..models.bazi import BaziChartRequest, BaziChartResult
 
 router = APIRouter(prefix="/bazi", tags=["bazi"])
 
@@ -17,9 +17,5 @@ router = APIRouter(prefix="/bazi", tags=["bazi"])
 # explicit nulls rather than dropped.
 @router.post("/chart", response_model=BaziChartResult)
 async def compute_chart(request: BaziChartRequest) -> BaziChartResult:
-    """Compute a chart from birth data.
-
-    T1: validates the request and returns a contract-shaped placeholder.
-    The calculation engine lands in T3 onward; until then meta.mock is true.
-    """
-    return build_mock_chart(request)
+    """Compute a chart from solar or lunar birth data."""
+    return build_chart(request)

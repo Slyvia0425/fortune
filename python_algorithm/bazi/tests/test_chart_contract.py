@@ -57,10 +57,35 @@ def test_returns_every_contract_section():
         assert key in body, f"missing contract field: {key}"
 
 
-def test_flagged_as_mock():
+def test_uses_real_engine_instead_of_mock():
     meta = post().json()["meta"]
-    assert meta["mock"] is True
-    assert meta["warnings"], "mock responses must carry a warning"
+    assert meta["mock"] is False
+    assert meta["engine_version"], "real responses must identify the engine version"
+
+
+def test_solar_and_lunar_inputs_agree():
+    """2000-01-01 is lunar 1999-11-25; both routes must build the same pillars."""
+    solar = post()
+    lunar = post({"birth_date": "1999-11-25", "calendar": "lunar", "is_leap_month": False})
+    assert solar.status_code == 200
+    assert lunar.status_code == 200
+
+    def stem_branches(body):
+        return [(pillar["stem"], pillar["branch"]) for pillar in body["pillars"]]
+
+    assert stem_branches(solar.json()) == stem_branches(lunar.json())
+
+
+def test_known_chart_matches_classical_pillars():
+    """Regression for the reported conversion bug: 2000-01-01 12:30 Singapore."""
+    body = post().json()
+    stem_branches = [(pillar["stem"], pillar["branch"]) for pillar in body["pillars"]]
+    assert stem_branches == [
+        ("ji", "mao"),
+        ("bing", "zi"),
+        ("wu", "wu_branch"),
+        ("wu", "wu_branch"),
+    ]
 
 
 def test_four_pillars_in_order():

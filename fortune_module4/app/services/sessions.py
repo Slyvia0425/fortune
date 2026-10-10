@@ -4,8 +4,9 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.core.errors import ConflictError, NotFoundError
-from app.models.entities import SessionRecord
-from app.schemas.session import SessionCreateRequest, SessionOut
+from app.models.entities import EventRecord, SessionRecord
+from app.schemas.session import SessionCreateRequest, SessionListItem, SessionOut
+from app.services.event_policy import is_conversation_message
 
 
 def create_or_resume_session(
@@ -45,6 +46,55 @@ def get_session_or_404(db: Session, user_id: str, session_id: str) -> SessionRec
     if record is None:
         raise NotFoundError("Session not found", {"session_id": session_id})
     return record
+
+
+def list_sessions_with_activity(
+    db: Session,
+    user_id: str,
+    *,
+    limit: int = 50,
+) -> list[SessionListItem]:
+    records = list(
+        db.scalars(
+            select(SessionRecord)
+            .where(SessionRecord.user_id == user_id)
+            .order_by(SessionRecord.started_at.desc(), SessionRecord.id.desc())
+            .limit(limit)
+        ).all()
+    )
+
+    items: list[SessionListItem] = []
+    for record in records:
+        events = list(
+            db.scalars(
+                select(EventRecord)
+                .where(EventRecord.session_id == record.id)
+                .order_by(
+                    EventRecord.sequence_no.asc(),
+                    EventRecord.occurred_at.asc(),
+                    EventRecord.created_at.asc(),
+                )
+            ).all()
+        )
+        conversation_messages = [
+            event for event in events if is_conversation_message(event.event_type)
+        ]
+        preview: str | None = None
+        if conversation_messages:
+            content = conversation_messages[-1].payload.get("content")
+            if isinstance(content, str) and content.strip():
+                preview = content.strip()[:160]
+
+        items.append(
+            SessionListItem(
+                **session_to_schema(record).model_dump(),
+                event_count=len(events),
+                conversation_count=len(conversation_messages),
+                last_event_at=events[-1].occurred_at if events else None,
+                last_message_preview=preview,
+            )
+        )
+    return items
 
 
 def get_or_create_session_for_event(

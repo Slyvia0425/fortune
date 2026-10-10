@@ -9,6 +9,7 @@ from app.core.config import get_settings
 from app.models.entities import CaseProfileRecord, EventRecord
 from app.schemas.case import CaseFeatures, SimilarCaseItem, SimilarCaseResult
 from app.services.embeddings import get_embedding_provider
+from app.services.event_policy import CASE_EVENT_TYPES
 from app.services.llm import get_explanation_provider
 from app.services.privacy import get_or_create_privacy
 from app.services.scoring import (
@@ -18,11 +19,9 @@ from app.services.scoring import (
     weighted_score,
 )
 
-CASE_EVENT_TYPES = {"module1.chart.completed", "module2a.divination.completed"}
-
 
 def maybe_create_case_profile(db: Session, user_id: str, event: EventRecord) -> None:
-    if event.event_type not in CASE_EVENT_TYPES:
+    if not event.inference_eligible or event.event_type not in CASE_EVENT_TYPES:
         return
 
     privacy = get_or_create_privacy(db, user_id)
