@@ -17,6 +17,7 @@ const eventTypes = new Set([
   "module2a.chat.user_message",
   "module2a.chat.assistant_message",
   "module2a.divination.completed",
+  "conversation.message",
 ]);
 
 export async function POST(request: Request) {

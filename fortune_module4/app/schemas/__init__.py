@@ -8,12 +8,18 @@ from app.schemas.common import Envelope, ErrorDetail
 from app.schemas.event import EventIngestRequest, EventIngestResult, EventOut
 from app.schemas.feedback import FeedbackCreate, FeedbackOut
 from app.schemas.personal import (
+    AgentAnalysisOut,
+    AgentAnalysisRequest,
+    AgentUsedRecordOut,
     CollectionCreate,
     CollectionOut,
     DeleteDataResult,
     ExportJobOut,
     NoteCreate,
     NoteOut,
+    PersonProfileOut,
+    PersonProfileUpdate,
+    PersonProfileUpsert,
     PrivacyOut,
     PrivacyUpdate,
     TagCreate,
@@ -25,9 +31,17 @@ from app.schemas.recommendation import (
     RecommendationItem,
     RecommendationResult,
 )
-from app.schemas.session import SessionCreateRequest, SessionCreateResult, SessionOut
+from app.schemas.session import (
+    SessionCreateRequest,
+    SessionCreateResult,
+    SessionListItem,
+    SessionOut,
+)
 
 __all__ = [
+    "AgentAnalysisOut",
+    "AgentAnalysisRequest",
+    "AgentUsedRecordOut",
     "CaseFeatures",
     "CollectionCreate",
     "CollectionOut",
@@ -43,6 +57,9 @@ __all__ = [
     "NextActionRequest",
     "NoteCreate",
     "NoteOut",
+    "PersonProfileOut",
+    "PersonProfileUpdate",
+    "PersonProfileUpsert",
     "PrivacyOut",
     "PrivacyUpdate",
     "RecommendationFeatures",
@@ -50,6 +67,7 @@ __all__ = [
     "RecommendationResult",
     "SessionCreateRequest",
     "SessionCreateResult",
+    "SessionListItem",
     "SessionOut",
     "SimilarCaseItem",
     "SimilarCaseRequest",

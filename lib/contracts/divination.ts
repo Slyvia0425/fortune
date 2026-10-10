@@ -1,7 +1,26 @@
 export type CastingMethod="numbers"|"random"|"coins";
 export interface DivinationCastRequest { question:string; method:CastingMethod; numbers?:number[]; coins?:number[][]; time_range?:string }
 export interface HexagramView { number:number; name:string; upper_trigram:string; lower_trigram:string; lines:Array<6|7|8|9> }
-export interface DivinationCastResult { primary:HexagramView; moving_lines:number[]; mutual:HexagramView; transformed:HexagramView; traditional_meaning:string; contextual_interpretation:string }
+export interface MovingLineReading { line:number; text:string; commentary:string }
+export interface HexagramReading {
+  number:number;
+  name:string;
+  source_id:string;
+  source_title:string;
+  source_url:string;
+  judgment:string;
+  commentary:string;
+  image:string;
+  moving_lines:MovingLineReading[];
+}
+export interface DivinationReading {
+  primary:HexagramReading;
+  mutual:HexagramReading;
+  transformed:HexagramReading;
+  method_note:string;
+  source_refs:Array<{source_id:string;title:string;url?:string}>;
+}
+export interface DivinationCastResult { primary:HexagramView; moving_lines:number[]; mutual:HexagramView; transformed:HexagramView; traditional_meaning:string; contextual_interpretation:string; reading?:DivinationReading }
 export type DivinationEvidenceRole="primary_judgment"|"primary_moving_line"|"transformed_judgment"|"transformed_static_line"|"special_line";
 export interface DivinationEvidenceItem { evidence_id:string; role:DivinationEvidenceRole; hexagram_number:number; hexagram_name:string; line_position?:number; priority:number; original:string; commentary:string[]; translation_en?:string; source_ids:string[] }
 export interface DivinationEvidencePack { rule_version:"changing-lines-v1"; selection_rule:string; question:string; time_range?:string; primary:{number:number;name:string}; transformed:{number:number;name:string}; moving_lines:number[]; evidence:DivinationEvidenceItem[]; sources:import("./api").SourceReference[] }

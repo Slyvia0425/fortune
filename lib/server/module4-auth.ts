@@ -6,7 +6,7 @@ import type { AuthUser } from "@/lib/auth/types";
 export const AUTH_COOKIE = "fortune_session";
 
 export function module4BaseUrl() {
-  return (process.env.MODULE4_API_BASE_URL ?? process.env.NEXT_PUBLIC_MODULE4_API_BASE_URL ?? "http://127.0.0.1:8000").replace(/\/+$/, "");
+  return (process.env.MODULE4_API_BASE_URL ?? "http://127.0.0.1:8003").replace(/\/+$/, "");
 }
 
 export async function sessionToken() {

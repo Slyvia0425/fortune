@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added an explicit inference-eligibility boundary for archived session events.
+- Added full conversation-history storage through `conversation.message` events.
+- Restricted recommendation and similar-case inputs to structured whitelist events.
+- Added automatic `feedback.submitted` event creation alongside feedback records.
+- Added per-user session listing with conversation counts and latest-message previews.
+
 ## 0.2.0
 
 - Added explicit Windows-local, Linux-local, and remote-macOS-Qwen deployment modes.

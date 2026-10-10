@@ -12,6 +12,7 @@ from app.models.entities import (
     ExportJobRecord,
     FeedbackRecord,
     NoteRecord,
+    PersonProfileRecord,
     PrivacySettingsRecord,
     RecommendationRecord,
     SessionRecord,
@@ -34,6 +35,9 @@ def export_user_data(db: Session, user_id: str) -> ExportJobOut:
         "collections": model_list_to_dict(_all_for_user(db, CollectionRecord, user_id)),
         "notes": model_list_to_dict(_all_for_user(db, NoteRecord, user_id)),
         "tags": model_list_to_dict(_all_for_user(db, TagRecord, user_id)),
+        "person_profiles": model_list_to_dict(
+            _all_for_user(db, PersonProfileRecord, user_id)
+        ),
     }
     source_manifest = sorted(_collect_source_refs(payload))
     payload["source_manifest"] = source_manifest
@@ -66,6 +70,7 @@ def delete_user_data(db: Session, user_id: str) -> DeleteDataResult:
         FeedbackRecord,
         CaseProfileRecord,
         NoteRecord,
+        PersonProfileRecord,
         CollectionRecord,
         TagRecord,
         ExportJobRecord,

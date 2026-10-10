@@ -1,6 +1,6 @@
 # 卦象解释系统：从典籍证据到现代中文转述
 
-> PPT 内容提纲  
+> PPT 内容提纲
 > 适用模块：Module 2A 起卦计算、Module 2B 交互解释、Module 3 典籍知识库
 
 ---
@@ -310,4 +310,3 @@ Evidence Pack 是一次解释允许使用的完整证据白名单。
 | 页面展示 | `app/divination/interpretation-panel.tsx` |
 | 规则测试 | `tests/divination-evidence.test.ts` |
 | 数据完整性测试 | `tests/hexagram-knowledge.test.ts` |
-

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import CollectionButton from "@/app/components/collection-button";
 import { getGuanyinStick } from "@/lib/guanyin/library";
 import { type DrawRecord, type QuestionDomain } from "@/lib/guanyin/types";
 
@@ -90,6 +91,21 @@ export default function DrawPanel() {
             <fieldset><legend>请选择领域</legend><div className="domain-grid">{domainOptions.map((option) => <label className="domain-option" key={option.value}>
               <input type="radio" name="domain" value={option.value} checked={domain === option.value} onChange={() => setDomain(option.value)} /><span>{option.label}</span>
             </label>)}</div></fieldset>
+            {question.trim() && domain ? (
+              <CollectionButton
+                action="question"
+                compact
+                itemType="sign_question"
+                label="收藏所问"
+                module="guanyin"
+                sourceId={`guanyin-question:${domain}:${question.trim().slice(0, 80)}`}
+                step="question"
+                summary={`观音灵签问事（${domainOptions.find((option) => option.value === domain)?.label}）：${question.trim()}`}
+                tags={["观音灵签", domain]}
+                title="观音灵签问事记录"
+                snapshot={{ question: question.trim(), domain }}
+              />
+            ) : null}
             {notice && <p className="notice" role="alert">{notice}</p>}
             <button className="primary-button" type="button" onClick={startDraw}>开始抽签</button>
           </>}
@@ -104,9 +120,29 @@ function Result({ record, onReset }: { record: DrawRecord; onReset: () => void }
   const stick = getGuanyinStick(record.stickNumber);
   const domainLabel = domainOptions.find((option) => option.value === record.domain)?.label;
   return <div className="result-card" aria-live="polite">
-    <p className="eyebrow">所问：{record.question}</p><div className="result-heading"><p>第 {stick.id} 签</p><span>{stick.level}</span></div><h2 id="oracle-dialog-title">{stick.title}</h2>
+    <div className="question-echo">
+      <span>所问之事</span>
+      <p>{record.question}</p>
+      <small>{domainLabel}</small>
+    </div>
+    <div className="result-heading"><p>第 {stick.id} 签</p><span>{stick.level}</span></div><h2 id="oracle-dialog-title">{stick.title}</h2>
     <div className="poem" aria-label="签诗">{stick.poem.map((line) => <p key={line}>{line}</p>)}</div>
     <dl className="interpretations"><div><dt>传统解曰</dt><dd>{stick.traditional.jieyue}</dd></div><div><dt>传统仙机</dt><dd>{stick.traditional.xianji}</dd></div><div><dt>{domainLabel}事项</dt><dd>{stick.traditional.topics[record.domain]}</dd></div><div><dt>传统典故</dt><dd>{stick.traditional.diangu}</dd></div></dl>
+    <CollectionButton
+      action="interpretation"
+      autoRecord
+      evidence={[stick.traditional.jieyue, stick.traditional.xianji, stick.traditional.topics[record.domain], stick.traditional.diangu]}
+      itemType="sign_record"
+      key={record.drawId}
+      label="收藏签文"
+      module="guanyin"
+      sourceId={`guanyin-record:${record.drawId}`}
+      step="reading"
+      summary={`问：${record.question}；第 ${stick.id} 签「${stick.title}」${stick.level}。${stick.traditional.jieyue}`}
+      tags={["观音灵签", record.domain, `第${stick.id}签`]}
+      title={`观音灵签 · 第${stick.id}签 ${stick.title}`}
+      snapshot={{ record, stick }}
+    />
     <button className="secondary-button" type="button" onClick={onReset}>重新问事</button>
   </div>;
 }

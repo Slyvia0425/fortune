@@ -63,6 +63,69 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "sessions"
+        ],
+        "summary": "List Sessions",
+        "operationId": "list_sessions_api_v1_sessions_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "name": "X-User-Id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_SessionListItem__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/sessions/{session_id}/events": {
@@ -80,6 +143,16 @@
             "schema": {
               "type": "string",
               "title": "Session Id"
+            }
+          },
+          {
+            "name": "inference_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Inference Only"
             }
           },
           {
@@ -1549,6 +1622,10 @@
               }
             ],
             "title": "Idempotency Key"
+          },
+          "inference_eligible": {
+            "type": "boolean",
+            "title": "Inference Eligible"
           }
         },
         "type": "object",
@@ -1557,7 +1634,8 @@
           "event_count",
           "event_id",
           "duplicate",
-          "idempotency_key"
+          "idempotency_key",
+          "inference_eligible"
         ],
         "title": "CompatEventData"
       },
@@ -2775,6 +2853,10 @@
             "type": "string",
             "title": "Event Type"
           },
+          "inference_eligible": {
+            "type": "boolean",
+            "title": "Inference Eligible"
+          },
           "sequence_no": {
             "type": "integer",
             "title": "Sequence No"
@@ -2817,6 +2899,7 @@
           "user_id",
           "source_module",
           "event_type",
+          "inference_eligible",
           "sequence_no",
           "occurred_at",
           "system",
@@ -4240,6 +4323,167 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "SessionListItem": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "system": {
+            "type": "string",
+            "title": "System"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metadata"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Started At"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          },
+          "event_count": {
+            "type": "integer",
+            "title": "Event Count"
+          },
+          "conversation_count": {
+            "type": "integer",
+            "title": "Conversation Count"
+          },
+          "last_event_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Event At"
+          },
+          "last_message_preview": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Message Preview"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "user_id",
+          "system",
+          "status",
+          "title",
+          "metadata",
+          "started_at",
+          "ended_at",
+          "event_count",
+          "conversation_count",
+          "last_event_at",
+          "last_message_preview"
+        ],
+        "title": "SessionListItem"
+      },
+      "Envelope_list_SessionListItem__": {
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SessionListItem"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "source_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Refs"
+          },
+          "system": {
+            "type": "string",
+            "title": "System",
+            "default": "unknown"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Envelope[list[SessionListItem]]"
       }
     }
   }
