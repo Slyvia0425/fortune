@@ -1,32 +1,32 @@
 import type { DivinationInterpretationResult } from "@/lib/contracts/divination";
+import HybridEvidencePanel from "./hybrid-evidence-panel";
 import styles from "./interpretation-panel.module.css";
-
-const ROLE_LABEL = {
-  primary_judgment: "本卦卦辞",
-  primary_moving_line: "本卦动爻",
-  transformed_judgment: "变卦卦辞",
-  transformed_static_line: "变卦静爻",
-  special_line: "乾坤用爻",
-} as const;
 
 export default function InterpretationPanel({ result }: { result: DivinationInterpretationResult }) {
   const modern = result.modern_interpretation;
-  const sourceById = new Map(result.evidence_pack.sources.map((source) => [source.source_id, source]));
+  const { primary, transformed, moving_lines: movingLines } = result.evidence_pack;
+  const movingLabel = movingLines.length ? `第 ${movingLines.join("、")} 爻` : "无动爻";
+
   return <section className={styles.panel} aria-labelledby="interpretation-title">
-    <header><p>GROUNDED INTERPRETATION</p><h3 id="interpretation-title">典籍依据与现代转述</h3><span>{result.evidence_pack.selection_rule}</span></header>
-    <div className={styles.evidenceList}>{result.evidence_pack.evidence.map((item) => {
-      const reading = modern?.readings.find((entry) => entry.evidence_id === item.evidence_id);
-      return <article className={styles.evidenceCard} key={item.evidence_id}>
-        <div className={styles.evidenceMeta}><strong>{ROLE_LABEL[item.role]}</strong><span>{item.hexagram_name}{item.line_position ? ` · 第 ${item.line_position} 爻` : ""}</span><small>证据 {item.evidence_id}</small></div>
-        <section><h4>原文</h4><blockquote>{item.original}</blockquote></section>
-        <section><h4>传统注释</h4>{item.commentary.length ? item.commentary.map((text, index) => <p key={index}>{text}</p>) : <p className={styles.muted}>本地资料未附可核验注释。</p>}</section>
-        {item.translation_en ? <details><summary>资料所附英文译文</summary><p lang="en">{item.translation_en}</p></details> : null}
-        <section className={styles.modern}><h4>现代中文转述</h4><p>{reading?.modern_chinese ?? "LLM 暂不可用；为避免无依据扩写，本次只展示典籍证据。"}</p></section>
-        <ul className={styles.sources}>{item.source_ids.map((id) => {const source=sourceById.get(id);return source ? <li key={id}>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">{source.title}</a> : source.title}<small>{[source.edition, source.chapter, id].filter(Boolean).join(" · ")}</small></li> : null;})}</ul>
-      </article>;
-    })}</div>
-    {modern?.contextual_reflections.length ? <section className={styles.reflections}><h4>结合问题的反思</h4>{modern.contextual_reflections.map((item, index) => <div key={index}><p>{item.text}</p><small>依据：{item.evidence_ids.join("、")}</small></div>)}</section> : null}
-    {modern?.uncertainties.length ? <section className={styles.uncertainties}><h4>资料边界</h4><ul>{modern.uncertainties.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
-    <footer>{modern?.disclaimer ?? "本解释仅用于传统文化学习与文本理解，不构成现实决策建议。"}</footer>
+    <header>
+      <p>OVERALL INTERPRETATION</p>
+      <h3 id="interpretation-title">总体解读</h3>
+      <span>同一次冻结卦盘的规则依据与卦爻辞文本解读。</span>
+    </header>
+    <dl className={styles.structure}>
+      <div><dt>本卦</dt><dd>{primary.name}</dd></div>
+      <div><dt>上下卦</dt><dd>{primary.upper_trigram}上 · {primary.lower_trigram}下</dd></div>
+      <div><dt>五行关系</dt><dd>{primary.five_element_relation}</dd></div>
+      <div><dt>动爻</dt><dd>{movingLabel}</dd></div>
+      <div><dt>变卦</dt><dd>{transformed.name}</dd></div>
+    </dl>
+    <HybridEvidencePanel result={result} />
+    <section className={styles.overall}>
+      <h4>卦爻辞文本解读</h4><p>以下为经典文本的现代转述，不替代六爻取用规则判断。</p>
+      <p>{modern?.overall_interpretation ?? "现代中文总体解读暂不可用；系统保留了本次卦象结构，稍后可重新请求解释。"}</p>
+    </section>
+    {modern?.uncertainties.length ? <section className={styles.uncertainties}><h4>解读边界</h4><ul>{modern.uncertainties.map((item) => <li key={item}>{item}</li>)}</ul></section> : null}
+    <details><summary>卦爻辞原文与出处</summary>{result.evidence_pack.evidence.map(item => <article key={item.evidence_id}><h4>{item.hexagram_name}{item.line_position ? ` · 第 ${item.line_position} 爻` : " · 卦辞"}</h4><blockquote>{item.original}</blockquote><p>{item.source_ids.map(id => result.evidence_pack.sources.find(source => source.source_id === id)?.title ?? id).join("、")}</p></article>)}</details>
+    <footer>{modern?.disclaimer ?? "本解释仅用于传统文化学习与文本理解，不构成医疗、法律、投资或其他现实决策建议。"}</footer>
   </section>;
 }

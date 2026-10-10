@@ -1,0 +1,10 @@
+{
+  "probe_distances": [
+    1.0202906923773014e-06,
+    1.0335372347958227e-06,
+    1.0019136982286625e-06
+  ],
+  "baseline_created_at": "2026-10-10T11:37:30.128940+00:00",
+  "verified_operational_profile": true,
+  "fixed_weight_revision_available": false
+}

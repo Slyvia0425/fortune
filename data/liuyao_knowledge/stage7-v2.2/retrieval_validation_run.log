@@ -1,0 +1,57 @@
+{"lane": "rule", "query": "我替父亲问事情，父母长辈属于什么类别？", "expected_any": ["YS-OC-01", "YS-SR-02"], "retrieved_ids": ["YS-OC-01", "YS-SR-02", "YS-OC-02", "YS-SR-05", "YS-TO-01", "YS-SP-05", "YS-TO-05", "YS-OC-08"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "合同、文书和房屋取什么类别？", "expected_any": ["YS-OC-02"], "retrieved_ids": ["YS-OC-02", "YS-MS-01", "YS-MS-05", "YS-MS-06", "YS-MS-02", "YS-SR-01", "YS-SR-05", "YS-OC-05"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "为亲兄弟问事，目标应该按什么亲属关系确定？", "expected_any": ["YS-OC-04", "YS-SR-02"], "retrieved_ids": ["YS-SR-02", "YS-OC-04", "YS-SR-04", "YS-SP-05", "YS-OC-08", "YS-OC-06", "YS-TO-06", "YS-OC-01"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "自己占自己的病，世爻应爻如何区分？", "expected_any": ["YS-SR-03", "YS-SR-01"], "retrieved_ids": ["YS-SR-01", "YS-SR-03", "YS-TO-07", "YS-TO-02", "YS-OC-03", "YS-SP-05", "YS-SR-05", "YS-SR-02"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "同一种用神出现两个爻，不能确定选哪一个。", "expected_any": ["YS-MC-04", "YS-MC-01"], "retrieved_ids": ["YS-SP-01", "YS-MC-01", "YS-MC-04", "YS-MC-03", "YS-MC-02", "YS-SP-03", "YS-SP-02", "YS-SR-01"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "用神在本卦中没有出现，变出来的爻能当伏神吗？", "expected_any": ["YS-MS-05", "YS-MS-01"], "retrieved_ids": ["YS-MS-05", "YS-MS-01", "YS-MS-02", "YS-MS-06", "YS-MS-03", "YS-SP-02", "YS-MS-04", "YS-SP-01"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "元神和忌神怎样按用神五行确定？", "expected_any": ["YS-SP-01", "YS-SP-02"], "retrieved_ids": ["YS-SP-01", "YS-SP-03", "YS-SP-02", "YS-SP-04", "YS-MS-02", "YS-MS-05", "YS-MS-01", "YS-MS-06"], "expected_found": true, "vector_channel_used": true}
+{"lane": "rule", "query": "行人在外，我问归期和我问平安有什么区别？", "expected_any": ["YS-TO-04"], "retrieved_ids": ["YS-TO-04", "YS-SR-04", "YS-SR-05", "YS-TO-03", "YS-OC-03", "YS-SR-02", "YS-OC-07", "YS-TO-01"], "expected_found": true, "vector_channel_used": true}
+{"lane": "case", "query": "哥哥犯了官司被定重罪，弟弟想问能不能救他。", "expected_any": ["final-case:005-1"], "retrieved_ids": ["final-case:059-1", "final-case:005-1", "final-case:006-1", "final-case:151-1"], "expected_found": true, "vector_channel_used": true}
+{"lane": "case", "query": "开一家金银首饰店做生意。", "expected_any": ["final-case:056-1"], "retrieved_ids": ["final-case:056-1", "final-case:080-1", "final-case:013-1", "final-case:009-1"], "expected_found": true, "vector_channel_used": true}
+{"lane": "case", "query": "我的孩子出门很久没有回来，想问生死。", "expected_any": ["final-case:024-1"], "retrieved_ids": ["final-case:024-1", "final-case:026-1", "final-case:196-1", "final-case:055-1"], "expected_found": true, "vector_channel_used": true}
+{"lane": "case", "query": "为父亲问是否可以服用人参。", "expected_any": ["final-case:202-1"], "retrieved_ids": ["final-case:206-1", "final-case:202-1", "final-case:201-2", "final-case:176-1"], "expected_found": true, "vector_channel_used": true}
+{
+  "release_id": "release:fd13162bc7d8651f66e7a3de406442b2a369fa41dfcd5838c09d54e727e5d4ea",
+  "profile_id": "profile:39e6412a5b13c729c2d33c257f0459dca4e4cd91cfae98fea25696fe5a80965b",
+  "test_scope": "engineering_smoke_only_not_independent_quality_benchmark",
+  "query_set_origin": "agent_authored_from_reviewed_sources_no_teaching_import",
+  "model_verification": {
+    "probe_distances": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "baseline_created_at": "2026-10-10T11:37:30.128940+00:00",
+    "verified_operational_profile": true,
+    "fixed_weight_revision_available": false
+  },
+  "integrity": "ok",
+  "foreign_key_errors": [],
+  "source_quote_count": 3867,
+  "verified_vectors": 243,
+  "job_counts": {
+    "completed": 243
+  },
+  "entity_counts": {
+    "case": 216,
+    "diverted": 50,
+    "passage": 3541,
+    "rule": 36
+  },
+  "smoke_queries": 12,
+  "smoke_expected_found": 12,
+  "smoke_vector_used": 12,
+  "keyword_fallback_visible": true,
+  "all_sources_excluded_returns_zero": true,
+  "production_evidence_count": 0,
+  "production_fixture_notice": "Synthetic chart tests publication gate only, not live core.",
+  "old_database_unchanged": true,
+  "resume_cache_check": {
+    "completed": 0,
+    "cached": 243,
+    "failed": 0,
+    "blocked": 0,
+    "total_jobs": 243,
+    "accounting_closed": true
+  }
+}
