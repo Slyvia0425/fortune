@@ -80,17 +80,6 @@ def cast_from_numbers(numbers: list[int]) -> list[int]:
     return lines
 
 
-def cast_from_three_numbers(numbers: list[int]) -> list[int]:
-    """The production adapter: exactly three ordered positive integers.
-
-    This preserves the established numeric method while removing the legacy
-    two-number fallback from the user-facing Core contract.
-    """
-    if len(numbers) != 3 or any(not isinstance(number, int) or number <= 0 for number in numbers):
-        raise ValueError("three_numbers casting requires exactly three positive integers")
-    return cast_from_numbers(numbers)
-
-
 def cast_from_coins(coins: list[list[int]]) -> list[int]:
     if len(coins) != 6 or any(len(toss) != 3 or any(value not in (2, 3) for value in toss) for toss in coins):
         raise ValueError("coins casting requires six groups of three values (2 or 3)")
@@ -102,9 +91,7 @@ def cast_random() -> list[int]:
 
 
 def calculate(method: str, numbers: list[int] | None = None, coins: list[list[int]] | None = None) -> dict[str, object]:
-    if method == "three_numbers":
-        lines = cast_from_three_numbers(numbers or [])
-    elif method == "numbers":
+    if method == "numbers":
         lines = cast_from_numbers(numbers or [])
     elif method == "coins":
         lines = cast_from_coins(coins or [])
@@ -114,14 +101,11 @@ def calculate(method: str, numbers: list[int] | None = None, coins: list[list[in
         raise ValueError("method must be numbers, coins, or random")
     primary = _hexagram(lines)
     moving_lines = [index + 1 for index, line in enumerate(lines) if line in (6, 9)]
-    static_lines = [7 if line % 2 else 8 for line in lines]
-    mutual_lines = static_lines[1:4] + static_lines[2:5]
+    mutual_lines = lines[1:4] + lines[2:5]
     transformed_lines = [(7 if line == 6 else 8 if line == 9 else line) for line in lines]
     transformed = _hexagram(transformed_lines)
     return {
         "primary": primary.as_dict(), "moving_lines": moving_lines, "mutual": _hexagram(mutual_lines).as_dict(), "transformed": transformed.as_dict(),
-        "opposite": _hexagram([8 if line % 2 else 7 for line in lines]).as_dict(),
-        "reversed": _hexagram(list(reversed(static_lines))).as_dict(),
         "traditional_meaning": "卦象、动爻、互卦与变卦均由固定规则计算；传统释义与出处由知识检索层补充。",
         "contextual_interpretation": "此结果用于传统文化学习与交互演示，不构成现实决策建议。",
     }
