@@ -1,5 +1,5 @@
 import pages from "../../data/knowledge_sources_complete/knowledge_sources_pages.json";
-import type {KnowledgeCategory,KnowledgeGraphEdge,KnowledgeGraphNode,KnowledgePeriodView} from "../contracts/knowledge";
+import type {KnowledgeBook,KnowledgeBookGroup,KnowledgeCategory,KnowledgeGraphEdge,KnowledgeGraphNode,KnowledgeLibraryResult,KnowledgePeriodView} from "../contracts/knowledge";
 
 type KnowledgePage={url:string;title:string;source:string;source_name?:string;source_type?:string;catalog:string;category:KnowledgeCategory[];content:string;content_en?:string|null;content_blocks?:Array<{type:KnowledgeCategory;heading:string;text:string}>};
 const records=pages as KnowledgePage[];
@@ -32,6 +32,37 @@ export function searchKnowledge(query:string,limit=18,category?:KnowledgeCategor
     if(score<=0)return null;
     return{id:stableId(page,index),title:displayTitle(page),source:page.source,catalog:page.catalog,category:page.category,excerpt:clean(page.content).slice(0,220)+(page.content.length>220?"…":""),content:page.content,content_en:page.content_en,url:page.url,score};
   }).filter((x):x is NonNullable<typeof x>=>Boolean(x)).sort((a,b)=>b.score-a.score).slice(0,limit);
+}
+
+const bookDescriptions:Record<string,string>={
+  "周易":"收录六十四卦经文及相关传文，是理解卦象、爻辞与易学概念的基础典籍。",
+  "五行大义":"系统整理阴阳五行、干支、方位与四时等对应关系，适合查阅基础概念。",
+  "穷通宝鉴":"从月份、气候与五行关系讨论命理取用，资料按章节保存原文及整理内容。",
+  "渊海子平":"子平命理的重要汇编，涵盖格局、十神、五行生克与相关赋文。",
+  "子平真诠评注":"围绕月令、格局与用神展开，并收录后世评注，便于对照阅读。",
+  "三命通会":"汇集干支、五行、神煞与命例等内容，是明代命理综合性文献。",
+  "滴天髓及滴天髓阐微":"以精炼原文讨论命理结构，并配合注释说明气势、旺衰与取用。",
+  "李虚中命书":"保存早期命理理论与论命方法，可用于理解子平法形成前后的脉络。",
+  "梅花易数":"以象、数与卦理组织占筮方法，收录起卦和断卦相关资料。",
+  "纳甲六爻":"整理六爻纳甲中的干支、六亲与卦爻关系，供规则与术语查阅。",
+  "关圣帝君灵签":"按签号整理签诗、解曰与典故，作为签文资料的结构化来源。",
+};
+const libraryGroups:Array<Omit<KnowledgeBookGroup,"books">>=[
+  {id:"foundation",label:"基础理论",label_en:"Foundations",description:"理解阴阳、五行、干支与传统分类体系的基础资料。"},
+  {id:"bazi",label:"八字命理",label_en:"BaZi Classics",description:"集中阅读命盘结构、旺衰、格局、十神与取用相关典籍。"},
+  {id:"yijing",label:"易学经典",label_en:"I Ching",description:"收录《周易》经传及卦象、卦辞、爻辞等核心文献。"},
+  {id:"divination",label:"占卜方法",label_en:"Divination",description:"查阅梅花易数、纳甲六爻等起卦与解释方法。"},
+  {id:"lots",label:"签文资料",label_en:"Fortune Sticks",description:"按签号阅读签诗、解曰、典故及其出处。"},
+  {id:"modern",label:"现代整理",label_en:"Modern Studies",description:"收录现代校注、译注和研究成果，辅助理解版本与文义。"},
+];
+function bookGroup(domain:string){if(domain==="基础理论")return"foundation";if(domain==="八字命理")return"bazi";if(domain==="经典文献")return"yijing";if(domain==="占卜文献")return"divination";if(domain==="关圣帝君灵签")return"lots";return domain.includes("现代")?"modern":"foundation"}
+function bookEra(title:string,group:string){if(group==="modern")return"现代整理";if(title==="周易")return"先秦经典";if(title==="五行大义")return"隋唐文献";if(["三命通会","梅花易数"].includes(title))return"明代文献";if(["子平真诠评注","滴天髓及滴天髓阐微","穷通宝鉴"].includes(title))return"命理典籍";return"传统文献"}
+function canonicalBook(page:KnowledgePage){const parts=page.catalog.split(" -> ").map(value=>value.trim()).filter(Boolean);const domain=parts[1]??"基础理论";return{domain,title:domain==="关圣帝君灵签"?"关圣帝君灵签":parts[2]??parts[0]??page.title}}
+export function listKnowledgeBooks():KnowledgeLibraryResult{
+  const collected=new Map<string,{title:string;group:string;pages:Array<{page:KnowledgePage;index:number}>}>();
+  records.forEach((page,index)=>{const{domain,title}=canonicalBook(page),group=bookGroup(domain),key=`${group}:${title}`;const current=collected.get(key)??{title,group,pages:[]};current.pages.push({page,index});collected.set(key,current)});
+  const groups=libraryGroups.map(group=>({...group,books:[...collected.values()].filter(item=>item.group===group.id).map(item=>{const layers=[...new Set(item.pages.flatMap(entry=>entry.page.category))] as KnowledgeCategory[];const book:KnowledgeBook={id:`${item.group}-${item.title}`,title:item.title,category:group.label,era:bookEra(item.title,item.group),description:bookDescriptions[item.title]??`收录《${item.title}》相关资料，可按章节查看原文、注释、译文或研究内容。`,page_count:item.pages.length,content_layers:layers,representative_source_id:stableId(item.pages[0].page,item.pages[0].index)};return book}).sort((a,b)=>b.page_count-a.page_count||a.title.localeCompare(b.title,"zh-CN"))})).filter(group=>group.books.length);
+  return{total_books:groups.reduce((sum,group)=>sum+group.books.length,0),total_pages:records.length,groups};
 }
 
 const n=(id:string,label:string,type:KnowledgeGraphNode["type"],summary:string,sourceQuery=label):KnowledgeGraphNode=>({id,label,type,summary,sourceQuery});

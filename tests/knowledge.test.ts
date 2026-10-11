@@ -1,5 +1,5 @@
 import {describe,expect,it} from "vitest";
-import {compareKnowledge,explainKnowledge,getKnowledgeGraph,knowledgeStats,searchKnowledge,summarizeComparison} from "../lib/knowledge/library";
+import {compareKnowledge,explainKnowledge,getKnowledgeGraph,knowledgeStats,listKnowledgeBooks,searchKnowledge,summarizeComparison} from "../lib/knowledge/library";
 
 describe("Module 3 knowledge service",()=>{
   it("loads the cleaned, section-level corpus",()=>{expect(knowledgeStats.pages).toBe(764);expect(knowledgeStats.sources.length).toBeGreaterThan(1)});
@@ -11,4 +11,5 @@ describe("Module 3 knowledge service",()=>{
   it("marks unknown terms for an AI-labelled fallback",()=>{const result=explainKnowledge("完全不存在的测试词");expect(result.evidence_status).toBe("unsupported");expect(result.needs_llm).toBe(true)});
   it("adds the book name to generic volume titles",()=>{const result=searchKnowledge("三命通会",30).find(item=>item.catalog.endsWith("三命通会 -> 卷一"));expect(result?.title).toBe("三命通会 · 卷一")});
   it("does not invent a viewpoint timeline for uncurated terms",()=>{const result=summarizeComparison("八卦");expect(result.periods).toHaveLength(0);expect(result.differences).toBe("")});
+  it("groups sections into a browsable book library",()=>{const result=listKnowledgeBooks();expect(result.total_pages).toBe(764);expect(result.groups.flatMap(group=>group.books).some(book=>book.title==="周易")).toBe(true);expect(result.groups.find(group=>group.id==="lots")?.books).toHaveLength(1)});
 });
