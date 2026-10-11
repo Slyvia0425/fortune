@@ -5,7 +5,8 @@ import json
 import pytest
 from pydantic import ValidationError
 
-from bazi.rules import knowledge, library
+from bazi.research import knowledge
+from bazi.rules import library
 from bazi.rules.library import Library, RuleBaseError
 from bazi.rules.models import Rule, RuleBase
 
@@ -102,10 +103,10 @@ def test_scales_are_ordered_best_to_worst_and_match_the_tier_rules():
         assert [t.then["label"] for t in tiers] == scale["labels"]
 
 
-def test_provisional_parameters_satisfy_the_stated_constraints():
+def test_weights_and_cut_points_satisfy_the_stated_constraints():
     lib = library.load()
     w = lib.group("weights")[0].then["weights"]
-    assert sum(w.values()) == pytest.approx(1.0)
-    assert w["seasonal_command"] == max(w.values())          # 月令权重最大
+    assert sum(abs(v) for v in w.values()) == pytest.approx(1.0)                  # a resistance has a negative weight
+    assert abs(w["seasonal_command"]) == max(abs(v) for v in w.values())          # 月令权重最大
     cuts = lib.group("cutpoints")[0].then["cuts"]
     assert cuts == sorted(set(cuts)) and 0 < cuts[0] and cuts[-1] < 1

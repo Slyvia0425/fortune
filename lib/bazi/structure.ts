@@ -183,7 +183,7 @@ export function chartCells(pillars: BaziPillar[]): ChartCell[] {
   });
 }
 
-export function placeLabel(cell: ChartCell): string {
+function placeLabel(cell: ChartCell): string {
   const base = `${PILLAR_PREFIX[cell.pillar]}${cell.position === "stem" ? "干" : "支"}`;
   if (cell.isDayMaster) return `${base}（日主）`;
   if (cell.isMonthBranch) return `${base}（月令）`;
@@ -196,6 +196,14 @@ export interface CellNote {
   relation: string;
   body: string;
 }
+
+/** What each branch is used for in the reading, in the page's own terms (the month branch is the 月令; the others are where the day master's root is looked for). */
+const BRANCH_ROLE: Record<PillarLabel, string> = {
+  year: "年支的藏干与日支、时支一起，用来看日主有没有根（得地）。",
+  month: "月支又称月令，是判断日主强弱时最先考察的一项。",
+  day: "日支是日主所坐之地，藏干里有没有与日主同五行者，是看日主有没有根（得地）的依据之一。",
+  hour: "时支由出生时辰定出，藏干与年支、日支一起，用来看日主有没有根（得地）。",
+};
 
 /** The annotation shown when a character is selected. */
 export function cellNote(cell: ChartCell, dayMaster: ChartCell): CellNote {
@@ -232,9 +240,7 @@ export function cellNote(cell: ChartCell, dayMaster: ChartCell): CellNote {
     .map((hidden) => `${STEM_LABEL[hidden.stem]}${ELEMENT_LABEL[hidden.element]}（${QI_LABEL[hidden.qi]}）`)
     .join("、");
   const parts = [
-    cell.isMonthBranch
-      ? "月支又称月令，是判断日主强弱时最先考察的一项。"
-      : "地支中所藏的天干称为藏干，按本气、中气、余气分主次。",
+    BRANCH_ROLE[cell.pillar],
     hiddenList ? `${cell.char}中藏${hiddenList}。` : "",
   ];
   if (primary && primary.element === dayMaster.element) {
@@ -243,10 +249,7 @@ export function cellNote(cell: ChartCell, dayMaster: ChartCell): CellNote {
   return {
     title: `${cell.char} · ${elementLabel}`,
     place,
-    relation:
-      primary && cell.tenGod
-        ? `藏干 ${STEM_LABEL[primary.stem]}（本气）→ ${TEN_GOD_LABEL[cell.tenGod]}`
-        : "",
+    relation: "",
     body: parts.join(""),
   };
 }

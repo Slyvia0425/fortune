@@ -15,6 +15,8 @@ The test skips until the solar-term module exists, then guards it.
 
 import pytest
 
+from bazi.tests._each import all_of
+
 solar_term = pytest.importorskip(
     "bazi.calc.solar_term",
     reason="solar-term calculation (task T8) is not implemented yet",
@@ -30,7 +32,7 @@ BEFORE = dict(when="1992-11-07T11:37", expect_month="庚戌", expect_term="hanlu
 AFTER = dict(when="1992-11-07T12:17", expect_month="辛亥", expect_term="lidong")
 
 
-@pytest.mark.parametrize("case", [BEFORE, AFTER], ids=["立冬前20分钟", "立冬后20分钟"])
+@all_of("case", [BEFORE, AFTER], ids=["立冬前20分钟", "立冬后20分钟"])
 def test_month_pillar_uses_civil_time(case):
     result = solar_term.resolve(case["when"], *SHANGHAI)
     assert result.month_pillar == case["expect_month"], (

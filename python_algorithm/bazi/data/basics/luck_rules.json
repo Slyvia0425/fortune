@@ -1,0 +1,40 @@
+{
+ "note": "大运：阳男阴女顺行（数至生日后的下一节），阴男阳女逆行（数至生日前的上一节）；一月三百六十时（时辰）折十岁，即每岁三十六时辰＝三日＝4320 分钟，每月 360 分钟（月向下取整）；每步大运十岁。取自《三命通会》。",
+ "forward_when": [
+  [
+   "yang",
+   "male"
+  ],
+  [
+   "yin",
+   "female"
+  ]
+ ],
+ "reverse_when": [
+  [
+   "yin",
+   "male"
+  ],
+  [
+   "yang",
+   "female"
+  ]
+ ],
+ "minutes_per_year": 4320,
+ "minutes_per_month": 360,
+ "years_per_cycle": 10,
+ "sources": [
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "陽男陰女,大運以生日後未來節氣日時為數,順而行之;陰男陽女,大運以生日前過去節氣日時為數,逆而行之"
+  },
+  {
+   "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+   "book": "三命通会",
+   "chapter": "卷二",
+   "quotation": "一月之中有三百六十時,折除節氣,算計三千六百日為一辰之十歲"
+  }
+ ]
+}

@@ -164,16 +164,6 @@ class StemPosition(str, Enum):
     HIDDEN = "hidden"
 
 
-class SeasonalState(str, Enum):
-    """旺相休囚死: how an element stands in the season set by the month branch."""
-
-    PEAK = "peak"              # 旺
-    SUPPORTING = "supporting"  # 相
-    RESTING = "resting"        # 休
-    CONFINED = "confined"      # 囚
-    DEAD = "dead"              # 死
-
-
 class EvidencePosition(str, Enum):
     """Where in the chart a piece of evidence sits."""
 
@@ -203,6 +193,7 @@ class FactorKey(str, Enum):
     ROOTEDNESS = "rootedness"
     REVEALED_SUPPORT = "revealed_support"
     ASSISTING_SUPPORT = "assisting_support"
+    OPPOSITION = "opposition"
 
 
 # --------------------------------------------------------------------- #
@@ -248,14 +239,6 @@ DISPLAY_TEN_GOD = {
     TenGod.DIRECT_OFFICER: "正官",
     TenGod.INDIRECT_RESOURCE: "偏印",
     TenGod.DIRECT_RESOURCE: "正印",
-}
-
-DISPLAY_SEASONAL_STATE = {
-    SeasonalState.PEAK: "旺",
-    SeasonalState.SUPPORTING: "相",
-    SeasonalState.RESTING: "休",
-    SeasonalState.CONFINED: "囚",
-    SeasonalState.DEAD: "死",
 }
 
 DISPLAY_ELEMENT = {
@@ -327,7 +310,7 @@ DISPLAY_ARBITRATION = {
     ArbitrationOutcome.SUPPORTING: "采纳扶抑",
     ArbitrationOutcome.CLIMATIC: "采纳调候",
     ArbitrationOutcome.BOTH: "两者兼用",
-    ArbitrationOutcome.OTHER: "其他",
+    ArbitrationOutcome.OTHER: "特殊格局优先",
 }
 
 
@@ -352,6 +335,14 @@ DISPLAY_ADVISORY_DOMAIN = {
     AdvisoryDomain.WEALTH: "财运",
 }
 
+
+DISPLAY_FACTOR = {
+    FactorKey.SEASONAL_COMMAND: "得令",
+    FactorKey.ROOTEDNESS: "得地",
+    FactorKey.REVEALED_SUPPORT: "得势",
+    FactorKey.ASSISTING_SUPPORT: "得助",
+    FactorKey.OPPOSITION: "克泄耗",
+}
 
 DISPLAY_PILLAR = {
     PillarLabel.YEAR: "年柱",

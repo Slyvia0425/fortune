@@ -11,13 +11,15 @@ from datetime import datetime, timedelta
 
 import pytest
 
+from bazi.tests._each import all_of
+
 from bazi.calc import terms
 from bazi.calc.calendar import InvalidLunarDate, lunar_to_solar
 from bazi.calc.pillars import compute_pillars
 from bazi.calc.resolve import resolve_birth
 from bazi.calc.timezone import offset_at
 from bazi.geo import cities
-from bazi.validation.reference import reference_pillars
+from bazi.research.validation.reference import reference_pillars
 
 SH = (31.2304, 121.4737)
 
@@ -26,7 +28,7 @@ HOUR_EDGES = [(23, "子"), (1, "丑"), (3, "寅"), (5, "卯"), (7, "辰"), (9, "
               (11, "午"), (13, "未"), (15, "申"), (17, "酉"), (19, "戌"), (21, "亥")]
 
 
-@pytest.mark.parametrize("edge,branch", HOUR_EDGES)
+@all_of("edge,branch", HOUR_EDGES)
 def test_hour_branch_changes_exactly_on_the_odd_hour(edge, branch):
     prev = HOUR_EDGES[(HOUR_EDGES.index((edge, branch)) - 1) % 12][1]
     day = datetime(2010, 6, 15)
@@ -65,7 +67,7 @@ def test_only_true_solar_time_crosses_2300():
 SHANGHAI = "Asia/Shanghai"
 
 
-@pytest.mark.parametrize("when,offset,dst,ambiguous,gap", [
+@all_of("when,offset,dst,ambiguous,gap", [
     (datetime(1986, 5, 4, 1, 59), 480, False, False, False),   # spring forward 02:00 -> 03:00
     (datetime(1986, 5, 4, 2, 30), 480, False, False, True),    # the skipped hour
     (datetime(1986, 5, 4, 3, 0), 540, True, False, False),
@@ -111,7 +113,7 @@ def test_us_spring_forward_gap_and_fall_back_repeat():
 
 
 # ---------------------------------------------------------------- 4. leap months
-@pytest.mark.parametrize("y,m,solar", [
+@all_of("y,m,solar", [
     (2020, 4, "2020-05-23"), (2017, 6, "2017-07-23"),
     (2023, 2, "2023-03-22"), (1990, 5, "1990-06-23"),
 ])
@@ -120,7 +122,7 @@ def test_leap_month_first_day(y, m, solar):
     assert lunar_to_solar(y, m, 1, leap_month=False) < lunar_to_solar(y, m, 1, leap_month=True)
 
 
-@pytest.mark.parametrize("y,m", [(2021, 4), (2022, 6), (2024, 2)])
+@all_of("y,m", [(2021, 4), (2022, 6), (2024, 2)])
 def test_leap_month_that_the_year_lacks_is_rejected(y, m):
     with pytest.raises(InvalidLunarDate):
         lunar_to_solar(y, m, 1, leap_month=True)
@@ -151,8 +153,7 @@ ZONES = [_city("Shanghai", "CN"), _largest_in_zone("Asia/Urumqi"), _city("Tokyo"
          _city("Sydney", "AU"), _city("Mumbai", "IN"), _city("Kathmandu", "NP")]
 
 
-@pytest.mark.parametrize("city", ZONES, ids=lambda c: c.name)
-@pytest.mark.parametrize("year,index", [(1987, 6), (2001, 14), (2024, 18)])   # 立夏, 白露, 立冬
+@all_of("city,year,index", [(c, y, i) for c in ZONES for y, i in [(1987, 6), (2001, 14), (2024, 18)]])   # 立夏, 白露, 立冬
 def test_month_changes_at_the_term_in_every_zone(city, year, index):
     t = terms.term_instant(year, index)
     off = offset_at(t.replace(tzinfo=None), city.timezone)       # only to find the zone's offset roughly

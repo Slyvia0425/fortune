@@ -10,7 +10,7 @@ Set the environment variable before starting Next.js:
 PYTHON_ALGORITHM_BASE_URL=http://127.0.0.1:8000
 ```
 
-When the variable is absent, Bazi and divination endpoints return explicit mock data with `meta.mock: true` and a warning. The frontend requires no changes when the Python service is connected.
+When the variable is absent, divination endpoints return explicit mock data with `meta.mock: true` and a warning. The Bazi chart endpoint requires the service: without the variable, or when Python is down, it answers 503 `ALGORITHM_SERVICE_NOT_CONFIGURED` (or 502 `ALGORITHM_SERVICE_ERROR`).
 
 ## Python endpoints
 
@@ -24,7 +24,7 @@ Request:
 
 `birth_place` is an object, not a string: `latitude` and `longitude` are required because they drive true-solar-time correction, and `source` is `dropdown` or `manual_coordinates`. `birth_date` must be a real calendar date and `birth_time` is 24-hour `HH:mm`. `calendar` defaults to `solar`; `is_leap_month` only applies to lunar input. `timezone` is normally omitted — the service resolves it from the coordinates. Unknown fields are rejected, and `app/api/bazi/chart/route.ts` validates the same rules as the Python models, so change both together.
 
-Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle — module 1.2's climate rules key off `month_term` and off how far into the term the birth falls, so a month pillar alone is not enough. Its fields compare the birth moment against the term in **civil time, uncorrected**: a solar term is one astronomical instant worldwide, so true solar time shifts the hour pillar but never the month. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. While the engine is incomplete the service returns placeholders with `meta.mock: true`; treat `result.meta.mock` as authoritative, since the envelope only knows whether Python was reached.
+Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`, which also carries `calculation_trace`: the steps from the input to the conclusions, with the rules and book passages each one used. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle — module 1.2's climate rules key off `month_term` and off how far into the term the birth falls, so a month pillar alone is not enough. Its fields compare the birth moment against the term in **civil time, uncorrected**: a solar term is one astronomical instant worldwide, so true solar time shifts the hour pillar but never the month. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. The service computes 1.1 (chart) and 1.2 (strength, special patterns, 用神, arbitration, reasoning trace) from the rule base; only the 1.4 parts (`domain_tallies`, `overview`) are still placeholders, so `meta.mock` stays `true` until 1.4 exists. Treat `result.meta.mock` as authoritative (the envelope copies it from the chart).
 
 ### POST /divination/cast
 
@@ -43,6 +43,8 @@ The reference implementation is in `python_algorithm/`. Its rules are: arrays ar
 | Method | Route | Implementation entry |
 | --- | --- | --- |
 | POST | `/api/bazi/chart` | `lib/bazi/service.ts` |
+| GET | `/api/bazi/cities?q=` | Python `/bazi/cities` (GeoNames); 503 without the service, the form then offers coordinates |
+| GET | `/api/bazi/lunar?date=&leap=` | Python `/bazi/lunar-date`; without the service the date is let through unchecked, with a warning |
 | POST | `/api/divination/cast` | `lib/divination/service.ts` |
 | POST | `/api/divination/chat` | rule-based clarification and dispatch route |
 | POST | `/api/divination/interpret` | Module 3 evidence pack + constrained LLM paraphrase |

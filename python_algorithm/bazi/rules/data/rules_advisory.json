@@ -1,0 +1,205 @@
+{
+  "rules": [
+    {
+      "rule_id": "R-ADV-CAREER-OFFICER",
+      "group": "advisory_domain",
+      "condition": "职业方向：命局中出现官杀",
+      "conclusion": "官杀对应「管理 / 组织」：主管理、权威、约束",
+      "when": {
+        "domain": "career",
+        "group": "officer"
+      },
+      "then": {
+        "category": "管理 / 组织",
+        "gloss": "主管理、权威、约束",
+        "order": 1,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/033/",
+      "chapter": "论正官",
+      "quotation": "正官者分所当尊,如在国有君,在家有亲",
+      "plain": "正官是名分上该尊敬的，就像国家有君主、家里有长辈。"
+    },
+    {
+      "rule_id": "R-ADV-CAREER-WEALTH",
+      "group": "advisory_domain",
+      "condition": "职业方向：命局中出现财",
+      "conclusion": "财对应「经营 / 资源调配」：主经营、资源调配",
+      "when": {
+        "domain": "career",
+        "group": "wealth"
+      },
+      "then": {
+        "category": "经营 / 资源调配",
+        "gloss": "主经营、资源调配",
+        "order": 2,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/035/",
+      "chapter": "论财",
+      "quotation": "财为我克,使用之物也,以能生官,所以为美",
+      "plain": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。"
+    },
+    {
+      "rule_id": "R-ADV-CAREER-OUTPUT",
+      "group": "advisory_domain",
+      "condition": "职业方向：命局中出现食伤",
+      "conclusion": "食伤对应「表达 / 才艺」：主表达、才华外显",
+      "when": {
+        "domain": "career",
+        "group": "output"
+      },
+      "then": {
+        "category": "表达 / 才艺",
+        "gloss": "主表达、才华外显",
+        "order": 3,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/043/",
+      "chapter": "论伤官",
+      "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+      "plain": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。"
+    },
+    {
+      "rule_id": "R-ADV-CAREER-COMPANION",
+      "group": "advisory_domain",
+      "condition": "职业方向：命局中出现比劫",
+      "conclusion": "比劫对应「自主 / 竞争」：主自主、竞争",
+      "when": {
+        "domain": "career",
+        "group": "companion"
+      },
+      "then": {
+        "category": "自主 / 竞争",
+        "gloss": "主自主、竞争",
+        "order": 4,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "yuanhai-ziping",
+      "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-21",
+      "chapter": "渊海子平 · 论劫财",
+      "quotation": "财者,人之所欲,方令弟兄见之,多有争竞",
+      "plain": "财是人人想要的东西，兄弟（比劫）遇上它，常会起争夺。"
+    },
+    {
+      "rule_id": "R-ADV-STUDY-RESOURCE",
+      "group": "advisory_domain",
+      "condition": "学业方向：命局中出现印",
+      "conclusion": "印对应「学问 / 受教」：主学问、受教能力",
+      "when": {
+        "domain": "study",
+        "group": "resource"
+      },
+      "then": {
+        "category": "学问 / 受教",
+        "gloss": "主学问、受教能力",
+        "order": 1,
+        "modern_adaptation": true
+      },
+      "derived": false,
+      "source_id": "yuanhai-ziping",
+      "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-19",
+      "chapter": "渊海子平 · 论印绶",
+      "quotation": "故主人多智虑,兼丰厚",
+      "plain": "所以主人多有智谋、思虑，也比较丰足厚实。",
+      "note": "学业方向的对应是现代适配，不是典籍原文直接对应；典籍只有印为学问智虑、食伤为才华秀气的说法"
+    },
+    {
+      "rule_id": "R-ADV-STUDY-OUTPUT",
+      "group": "advisory_domain",
+      "condition": "学业方向：命局中出现食伤",
+      "conclusion": "食伤对应「才艺 / 创作」：主才华表达，偏艺术创造类倾向",
+      "when": {
+        "domain": "study",
+        "group": "output"
+      },
+      "then": {
+        "category": "才艺 / 创作",
+        "gloss": "主才华表达，偏艺术创造类倾向",
+        "order": 2,
+        "modern_adaptation": true
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/043/",
+      "chapter": "论伤官",
+      "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+      "plain": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。",
+      "note": "学业方向的对应是现代适配，不是典籍原文直接对应；典籍只有印为学问智虑、食伤为才华秀气的说法"
+    },
+    {
+      "rule_id": "R-ADV-WEALTH-WEALTH",
+      "group": "advisory_domain",
+      "condition": "财运：命局中出现财",
+      "conclusion": "财对应「财之本体」：财星即财运本体",
+      "when": {
+        "domain": "wealth",
+        "group": "wealth"
+      },
+      "then": {
+        "category": "财之本体",
+        "gloss": "财星即财运本体",
+        "order": 1,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/035/",
+      "chapter": "论财",
+      "quotation": "财为我克,使用之物也,以能生官,所以为美",
+      "plain": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。"
+    },
+    {
+      "rule_id": "R-ADV-WEALTH-OUTPUT",
+      "group": "advisory_domain",
+      "condition": "财运：命局中出现食伤",
+      "conclusion": "食伤对应「以才艺生财」：食伤生财，是财的来源通道",
+      "when": {
+        "domain": "wealth",
+        "group": "output"
+      },
+      "then": {
+        "category": "以才艺生财",
+        "gloss": "食伤生财，是财的来源通道",
+        "order": 2,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "ziping-zhenquan",
+      "kb_url": "https://luckclub.cn/bazi/002/039/",
+      "chapter": "论食神",
+      "quotation": "食神本属泄气,以其能生正财,所以喜之",
+      "plain": "食神本来是在消耗日主之气，但它能生出正财，所以被看重。"
+    },
+    {
+      "rule_id": "R-ADV-WEALTH-COMPANION",
+      "group": "advisory_domain",
+      "condition": "财运：命局中出现比劫",
+      "conclusion": "比劫对应「协作与分担」：比劫克财",
+      "when": {
+        "domain": "wealth",
+        "group": "companion"
+      },
+      "then": {
+        "category": "协作与分担",
+        "gloss": "比劫克财",
+        "order": 3,
+        "modern_adaptation": false
+      },
+      "derived": false,
+      "source_id": "yuanhai-ziping",
+      "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-21",
+      "chapter": "渊海子平 · 论劫财",
+      "quotation": "弟见兄,兄能劫弟之财",
+      "plain": "弟遇到兄，兄能把弟的财夺走（比劫夺财）。",
+      "note": "比劫夺财是典籍之说；对应的类别名「协作与分担」是本项目的归类"
+    }
+  ]
+}

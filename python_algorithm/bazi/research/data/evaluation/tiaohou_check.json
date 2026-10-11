@@ -1,0 +1,1052 @@
+{
+ "cells": 120,
+ "mechanical": {
+  "match": 103,
+  "elsewhere": 7,
+  "reordered": 10
+ },
+ "verdict": {
+  "plain match": 101,
+  "inferred": 2,
+  "agrees": 15,
+  "agrees_split_inferred": 2
+ },
+ "rows": [
+  {
+   "rule_id": "R-TIAOHOU-JIA-YIN",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-MAO",
+   "cell": "庚丁",
+   "book_paragraph": "庚癸",
+   "mechanical": "elsewhere",
+   "flagged_for_review": true,
+   "reading": {
+    "verdict": "inferred",
+    "basis": "原文只说庚金得所成阳刃架煞（庚）；丁来自徐注「二月木旺，无庚克之，则用火泄之」，次序为归纳",
+    "sentence": "或二月甲木,庚金得所者,名阳刃架煞"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-CHEN",
+   "cell": "庚壬",
+   "book_paragraph": "庚壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-SI",
+   "cell": "癸丁",
+   "book_paragraph": "丙癸丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-WU",
+   "cell": "癸丁庚",
+   "book_paragraph": "癸丁庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-WEI",
+   "cell": "丁庚癸",
+   "book_paragraph": "癸丁庚",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "六月：先丁后庚，无癸亦可（与五月「先癸后丁」同一段，所以段首次序不同）",
+    "sentence": "六月三伏生寒,丁火退气。先丁后庚,无癸亦可"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-SHEN",
+   "cell": "丁庚",
+   "book_paragraph": "丁庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-YOU",
+   "cell": "丁丙庚",
+   "book_paragraph": "丁丙庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-XU",
+   "cell": "丁壬癸",
+   "book_paragraph": "丁壬癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-HAI",
+   "cell": "庚丁丙戊",
+   "book_paragraph": "庚丁丙壬戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-ZI",
+   "cell": "丁庚丙",
+   "book_paragraph": "丁庚丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-CHOU",
+   "cell": "庚丁",
+   "book_paragraph": "庚丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-YIN",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-MAO",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-CHEN",
+   "cell": "癸丙",
+   "book_paragraph": "癸丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-SI",
+   "cell": "癸丙",
+   "book_paragraph": "丙戊癸庚辛",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "专用癸水，丙火酌用（段首先提巳宫有丙火，只是背景）",
+    "sentence": "四月乙木,专用癸水,丙火酌用"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-WU",
+   "cell": "癸丙",
+   "book_paragraph": "丁癸丙",
+   "mechanical": "match",
+   "flagged_for_review": true,
+   "reading": {
+    "verdict": "agrees_split_inferred",
+    "basis": "上半月先癸次丙、下半月丙癸齐用，均是原文；以夏至为界是徐注的说法",
+    "sentence": "上半月属阳,先癸次丙;下半月属阴,三伏生寒,丙癸齐用"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-WEI",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-SHEN",
+   "cell": "丙癸己",
+   "book_paragraph": "庚丙癸己甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-YOU",
+   "cell": "癸丙",
+   "book_paragraph": "癸丙甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-XU",
+   "cell": "癸",
+   "book_paragraph": "癸甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-HAI",
+   "cell": "丙戊",
+   "book_paragraph": "丙壬戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-ZI",
+   "cell": "丙",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-CHOU",
+   "cell": "丙",
+   "book_paragraph": "丙癸甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-YIN",
+   "cell": "壬庚",
+   "book_paragraph": "壬庚甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-MAO",
+   "cell": "壬",
+   "book_paragraph": "壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-CHEN",
+   "cell": "壬甲",
+   "book_paragraph": "壬甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-SI",
+   "cell": "壬庚",
+   "book_paragraph": "壬庚戊己甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-WU",
+   "cell": "壬庚",
+   "book_paragraph": "壬庚戊己丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-WEI",
+   "cell": "壬庚",
+   "book_paragraph": "己壬庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-SHEN",
+   "cell": "壬",
+   "book_paragraph": "壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-YOU",
+   "cell": "壬",
+   "book_paragraph": "壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-XU",
+   "cell": "甲壬",
+   "book_paragraph": "甲壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-HAI",
+   "cell": "甲戊庚",
+   "book_paragraph": "甲戊庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-ZI",
+   "cell": "壬戊",
+   "book_paragraph": "壬戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-CHOU",
+   "cell": "壬甲",
+   "book_paragraph": "壬己甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-YIN",
+   "cell": "庚壬",
+   "book_paragraph": "甲庚壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-MAO",
+   "cell": "庚甲",
+   "book_paragraph": "乙庚甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-CHEN",
+   "cell": "庚甲",
+   "book_paragraph": "戊甲庚",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "原文：先用甲木，次看庚金；谷雨前后之分见徐注「谷雨之前，与二月一理共推；谷雨之后……甲木破土为先」",
+    "sentence": "三月丁火,戊土司令,泄弱丁气,先用甲木引丁制土,次看庚金"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-SI",
+   "cell": "甲庚",
+   "book_paragraph": "甲庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-WU",
+   "cell": "壬癸庚",
+   "book_paragraph": "甲壬",
+   "mechanical": "elsewhere",
+   "flagged_for_review": true,
+   "reading": {
+    "verdict": "inferred",
+    "basis": "原文只取壬（隔位之壬）；癸、庚来自徐注「壬癸解炎」「必须庚金发水之源」，次序为归纳",
+    "sentence": "遇干透隔位之壬,不贪丁合"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-WEI",
+   "cell": "甲壬",
+   "book_paragraph": "甲壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-SHEN",
+   "cell": "甲庚丙",
+   "book_paragraph": "甲庚丙乙壬癸戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-YOU",
+   "cell": "甲丙庚",
+   "book_paragraph": "甲庚丙乙壬癸戊",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "三秋一段中的八月：甲丙庚皆用（段首是七月，所以先出现甲庚丙）",
+    "sentence": "八月甲丙庚皆用"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-XU",
+   "cell": "甲庚",
+   "book_paragraph": "甲庚丙乙壬癸戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-HAI",
+   "cell": "庚甲",
+   "book_paragraph": "庚甲己丙癸壬戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-ZI",
+   "cell": "甲庚",
+   "book_paragraph": "癸戊甲丙庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-CHOU",
+   "cell": "甲庚",
+   "book_paragraph": "癸戊甲丙庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-YIN",
+   "cell": "丙甲癸",
+   "book_paragraph": "丙甲癸辛",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-MAO",
+   "cell": "丙甲癸",
+   "book_paragraph": "丙甲癸辛",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-CHEN",
+   "cell": "甲癸丙",
+   "book_paragraph": "丙甲癸壬辛",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "甲木为先，取癸为佐；丙为佐",
+    "sentence": "三月戊土司令,甲木为先,取癸为佐"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-SI",
+   "cell": "甲丙癸",
+   "book_paragraph": "甲丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-WU",
+   "cell": "壬甲丙",
+   "book_paragraph": "壬甲丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-WEI",
+   "cell": "癸丙甲",
+   "book_paragraph": "癸丙甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-SHEN",
+   "cell": "丙癸甲",
+   "book_paragraph": "丙癸甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-YOU",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-XU",
+   "cell": "甲癸丙",
+   "book_paragraph": "丙甲癸",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "先看甲木，次取癸水；见金先用癸后取丙",
+    "sentence": "九月戊土当权……先看甲木,次取癸水"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-HAI",
+   "cell": "甲丙",
+   "book_paragraph": "甲丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-ZI",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-CHOU",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-YIN",
+   "cell": "丙",
+   "book_paragraph": "丙壬戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-MAO",
+   "cell": "甲癸",
+   "book_paragraph": "甲癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-CHEN",
+   "cell": "丙癸甲",
+   "book_paragraph": "丙癸甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-SI",
+   "cell": "癸丙",
+   "book_paragraph": "癸丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-WU",
+   "cell": "癸丙",
+   "book_paragraph": "癸丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-WEI",
+   "cell": "癸丙",
+   "book_paragraph": "癸丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-SHEN",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-YOU",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-XU",
+   "cell": "丙癸",
+   "book_paragraph": "丙癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-HAI",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲癸壬丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-ZI",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲癸壬丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-CHOU",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲癸壬丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-YIN",
+   "cell": "丙甲",
+   "book_paragraph": "丙甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-MAO",
+   "cell": "丁甲庚",
+   "book_paragraph": "庚乙",
+   "mechanical": "elsewhere",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "原文总论：专用丁火，次用甲木引丁，又须用庚劈甲（段首讲暗强之势，不列用神）",
+    "sentence": "总之,二月庚金,专用丁火以抑其强,次用甲木引丁,又须用庚劈甲"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-CHEN",
+   "cell": "甲丁",
+   "book_paragraph": "戊甲丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-SI",
+   "cell": "壬戊丙",
+   "book_paragraph": "丙戊壬",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "先用壬水；次取戊土，丙火佐之",
+    "sentence": "宜先用壬水,方得中和……次取戊土,丙火佐之"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-WU",
+   "cell": "壬癸",
+   "book_paragraph": "丁壬癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-WEI",
+   "cell": "丁甲",
+   "book_paragraph": "丁甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-SHEN",
+   "cell": "丁甲",
+   "book_paragraph": "丁壬癸",
+   "mechanical": "elsewhere",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "专用丁火煅炼，次取木引丁",
+    "sentence": "七月庚金,刚锐极矣。专用丁火煅炼,次取木引丁"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-YOU",
+   "cell": "丁甲丙",
+   "book_paragraph": "丁甲丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-XU",
+   "cell": "甲壬",
+   "book_paragraph": "戊甲壬己",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-HAI",
+   "cell": "丁丙",
+   "book_paragraph": "丁丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-ZI",
+   "cell": "丁甲丙",
+   "book_paragraph": "丁甲丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-CHOU",
+   "cell": "丙丁甲",
+   "book_paragraph": "丙丁甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-YIN",
+   "cell": "己壬",
+   "book_paragraph": "丙甲己壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-MAO",
+   "cell": "壬甲",
+   "book_paragraph": "壬戊己甲庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-CHEN",
+   "cell": "壬甲",
+   "book_paragraph": "戊",
+   "mechanical": "elsewhere",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "同一章后文：先壬后甲，壬甲两透（段首只讲戊土司令）",
+    "sentence": "三月辛金,先壬后甲,壬甲两透,富贵必然"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-SI",
+   "cell": "壬",
+   "book_paragraph": "丙壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-WU",
+   "cell": "己壬癸",
+   "book_paragraph": "丁己壬癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-WEI",
+   "cell": "壬庚",
+   "book_paragraph": "己壬庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-SHEN",
+   "cell": "壬甲戊",
+   "book_paragraph": "庚壬戊",
+   "mechanical": "elsewhere",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "同一章后文：壬水为尊，甲戊酌用，癸不可用（段首讲庚秉令）",
+    "sentence": "壬水为尊,甲戊酌用可也,癸水不可为用"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-YOU",
+   "cell": "壬",
+   "book_paragraph": "壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-XU",
+   "cell": "壬甲",
+   "book_paragraph": "戊甲壬",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "须甲疏土，壬泄旺金，先壬后甲",
+    "sentence": "九月辛金,戊土司令……先壬后甲"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-HAI",
+   "cell": "壬丙",
+   "book_paragraph": "壬丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-ZI",
+   "cell": "丙壬",
+   "book_paragraph": "癸丙",
+   "mechanical": "elsewhere",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "原文：得丙壬两透；总之冬月辛金须丙温暖方妙（段首只讲忌癸出干）",
+    "sentence": "得丙壬两透,不见戊癸"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-CHOU",
+   "cell": "丙壬",
+   "book_paragraph": "丙壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-YIN",
+   "cell": "庚丙戊",
+   "book_paragraph": "庚丙戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-MAO",
+   "cell": "戊辛庚",
+   "book_paragraph": "丙戊辛庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-CHEN",
+   "cell": "甲庚",
+   "book_paragraph": "戊甲庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-SI",
+   "cell": "壬辛庚",
+   "book_paragraph": "壬丙辛庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-WU",
+   "cell": "庚癸",
+   "book_paragraph": "丁庚癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-WEI",
+   "cell": "辛甲癸",
+   "book_paragraph": "己丁辛甲癸",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-SHEN",
+   "cell": "戊丁",
+   "book_paragraph": "庚戊丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-YOU",
+   "cell": "甲",
+   "book_paragraph": "辛戊己甲",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-XU",
+   "cell": "甲丙戊",
+   "book_paragraph": "甲戊丙",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "同一章：九月壬水，专用甲木，次看丙火，戊土须酌用（段首是一个特定格局）",
+    "sentence": "九月壬水,专用甲木,次看丙火,戊土须酌用之"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-HAI",
+   "cell": "戊",
+   "book_paragraph": "戊",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-ZI",
+   "cell": "戊丙",
+   "book_paragraph": "戊丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-CHOU",
+   "cell": "丙甲",
+   "book_paragraph": "癸辛丙己甲",
+   "mechanical": "match",
+   "flagged_for_review": true,
+   "reading": {
+    "verdict": "agrees_split_inferred",
+    "basis": "原文：上半月壬水稍旺专用丙火，下半月亦用丙火甲木佐之；以大寒为界是我们对上下半月的划分",
+    "sentence": "亦用丙火,甲木佐之"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-YIN",
+   "cell": "辛丙",
+   "book_paragraph": "辛丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-MAO",
+   "cell": "庚辛",
+   "book_paragraph": "乙庚辛",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-CHEN",
+   "cell": "丙辛庚",
+   "book_paragraph": "丙辛壬庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-SI",
+   "cell": "辛庚",
+   "book_paragraph": "辛庚",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-WU",
+   "cell": "庚辛",
+   "book_paragraph": "庚辛丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-WEI",
+   "cell": "庚辛",
+   "book_paragraph": "庚辛乙己甲丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-SHEN",
+   "cell": "丁",
+   "book_paragraph": "庚丁",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-YOU",
+   "cell": "辛丙",
+   "book_paragraph": "辛丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-XU",
+   "cell": "辛甲癸",
+   "book_paragraph": "癸戊辛甲",
+   "mechanical": "reordered",
+   "flagged_for_review": false,
+   "reading": {
+    "verdict": "agrees",
+    "basis": "专用辛金发癸水之源，次用癸甲；徐注以甲木为「不可缺之辅佐」，癸滋甲。原文「癸甲」连言，甲先于癸为按徐注的次序",
+    "sentence": "专用辛金发癸水之源,次用癸甲"
+   }
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-HAI",
+   "cell": "庚辛",
+   "book_paragraph": "庚辛",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-ZI",
+   "cell": "丙辛",
+   "book_paragraph": "丙辛壬",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-CHOU",
+   "cell": "丙",
+   "book_paragraph": "丙",
+   "mechanical": "match",
+   "flagged_for_review": false,
+   "reading": null
+  }
+ ]
+}

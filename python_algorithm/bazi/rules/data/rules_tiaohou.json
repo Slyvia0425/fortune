@@ -2585,14 +2585,14 @@
       ]
      }
     ],
-    "review": true
+    "review": false
    },
    "source_id": "qiongtong-baojian",
    "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-66-original",
    "chapter": "穷通宝鉴 · 第66章 二月庚金 · 原文",
    "quotation": "专用丁火以抑其强,次用甲木引丁",
    "derived": false,
-   "note": "总论结语归纳「专用丁火…次用甲木引丁，又须用庚劈甲，无丁用丙」，待人工核对"
+   "note": "原文总论「总之，二月庚金，专用丁火以抑其强，次用甲木引丁，又须用庚劈甲」直接写明；已逐句核对原文"
   },
   {
    "rule_id": "R-TIAOHOU-GENG-CHEN",
@@ -3295,14 +3295,14 @@
       ]
      }
     ],
-    "review": true
+    "review": false
    },
    "source_id": "qiongtong-baojian",
    "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-87-original",
    "chapter": "穷通宝鉴 · 第87章 十一月辛金 · 原文",
    "quotation": "总之,冬月辛金,须丙温暖方妙",
    "derived": false,
-   "note": "页首只言忌癸出干；用丙、壬据总结及「壬丙两透」归纳，待人工核对"
+   "note": "原文「得丙壬两透」与「总之，冬月辛金，须丙温暖方妙」写明用丙、壬；已逐句核对原文"
   },
   {
    "rule_id": "R-TIAOHOU-XIN-CHOU",
@@ -3642,14 +3642,14 @@
       ]
      }
     ],
-    "review": true
+    "review": false
    },
    "source_id": "qiongtong-baojian",
    "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-98-original",
    "chapter": "穷通宝鉴 · 第98章 九月壬水 · 原文",
-   "quotation": "斯用丙火,此格清贵极矣",
+   "quotation": "九月壬水,专用甲木,次看丙火,戊土须酌用之",
    "derived": false,
-   "note": "页首为「一甲制戌中之戊，一戊出干，斯用丙火」的特定格；次序按此归纳，待人工核对"
+   "note": "原文「九月壬水，专用甲木，次看丙火，戊土须酌用之」直接写明；已逐句核对原文"
   },
   {
    "rule_id": "R-TIAOHOU-REN-HAI",

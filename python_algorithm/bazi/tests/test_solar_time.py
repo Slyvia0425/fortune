@@ -5,10 +5,11 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
+from bazi.tests._each import all_of
+
 from bazi.calc.resolve import resolve_birth
 from bazi.calc.solar_time import equation_of_time_minutes
-from bazi.calc.timezone import offset_at
-from bazi.validation.reference import reference_pillars
+from bazi.research.validation.reference import reference_pillars
 
 SH = (31.2304, 121.4737)
 URUMQI = (43.8256, 87.6168)
@@ -19,7 +20,7 @@ def utc(y, m, d, h=12):
 
 
 # Published almanac values (minutes, +/- ~0.3 for the year and time of day).
-@pytest.mark.parametrize("when,expected", [
+@all_of("when,expected", [
     (utc(2000, 11, 3), 16.4),    # annual maximum
     (utc(2000, 2, 11), -14.2),   # annual minimum
     (utc(2000, 5, 14), 3.6),

@@ -1,6 +1,8 @@
 """T4: GeoNames city lookup and its endpoint."""
 
 import pytest
+
+from bazi.tests._each import all_of
 from fastapi.testclient import TestClient
 
 from app import app
@@ -46,7 +48,7 @@ def test_endpoint_returns_hits_and_respects_limit():
     assert set(body[0]) == {"id", "name", "country_code", "latitude", "longitude", "timezone", "alias"}
 
 
-@pytest.mark.parametrize("params", [{}, {"q": ""}, {"q": "x", "limit": 0}, {"q": "x", "limit": 99}])
+@all_of("params", [{}, {"q": ""}, {"q": "x", "limit": 0}, {"q": "x", "limit": 99}])
 def test_endpoint_rejects_bad_params(params):
     assert client.get("/bazi/cities", params=params).status_code == 422
 

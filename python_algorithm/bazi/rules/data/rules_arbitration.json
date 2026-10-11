@@ -1,31 +1,19 @@
 {
  "rules": [
   {
-   "rule_id": "R-METHOD-01",
-   "group": "method",
-   "condition": "取用神的方法",
-   "conclusion": "徐乐吾归纳五种：扶抑、病药、调候、专旺、通关；本模块并行实现扶抑与调候，专旺并入特殊格局",
+   "rule_id": "R-ARB-00",
+   "group": "arbitration",
+   "condition": "两法结论一致（调候用神都在扶抑用神之内）",
+   "conclusion": "无需取舍，取扶抑所得",
    "when": {
-    "methods": [
-     "fuyi",
-     "bingyao",
-     "tiaohou",
-     "zhuanwang",
-     "tongguan"
-    ],
-    "implemented": [
-     "fuyi",
-     "tiaohou",
-     "zhuanwang"
-    ]
+    "conflict_kind": "agree"
    },
-   "then": {},
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/010/",
-   "chapter": "论用神",
-   "quotation": "取用之法不一,约略归纳,可分为下列五种",
-   "note": "proposal 5.2：五法为徐乐吾的归纳，沈孝瞻原文并无这些名目；病药、通关本模块暂不实现，见 Future Work"
+   "then": {
+    "outcome": "agree",
+    "priority": 2
+   },
+   "derived": true,
+   "note": "本项目形式化：两法结论的关系分三类——一致（调候用神都在扶抑用神内）、相容（不一致，但调候用神没有一个被扶抑判为忌神）、相悖（调候用神中有被扶抑判为忌神者）。先后：特殊格局（1）先于其余（2），相悖时 R-ARB-01 先于 R-ARB-02（3）"
   },
   {
    "rule_id": "R-FUYI-01",
@@ -33,7 +21,7 @@
    "condition": "日主强弱决定扶或抑",
    "conclusion": "日主弱则扶，日主强则抑",
    "when": {
-    "strength": [
+    "strength_in": [
      "very_weak",
      "somewhat_weak",
      "balanced",
@@ -43,17 +31,25 @@
    },
    "then": {
     "weak": "support",
-    "strong": "suppress"
+    "strong": "suppress",
+    "side_of": {
+     "very_weak": "weak",
+     "somewhat_weak": "weak",
+     "balanced": null,
+     "somewhat_strong": "strong",
+     "very_strong": "strong"
+    }
    },
    "derived": false,
    "source_id": "ziping-zhenquan",
    "kb_url": "https://luckclub.cn/bazi/002/010/",
    "chapter": "论用神",
-   "quotation": "日元强者抑之,日元弱者扶之"
+   "quotation": "日元强者抑之,日元弱者扶之",
+   "note": "五档强弱划为强、弱两侧（偏、太同侧），中和不取扶抑：是本项目的形式化，典籍只说「强者抑之,弱者扶之」"
   },
   {
    "rule_id": "R-FUYI-02",
-   "group": "fuyi",
+   "group": "fuyi_groups",
    "condition": "日主偏弱，取扶",
    "conclusion": "取印与比劫（印以生之，劫以助之）",
    "when": {
@@ -63,17 +59,23 @@
     "useful_groups": [
      "resource",
      "companion"
+    ],
+    "unfavourable_groups": [
+     "officer",
+     "output",
+     "wealth"
     ]
    },
    "derived": false,
    "source_id": "ziping-zhenquan",
    "kb_url": "https://luckclub.cn/bazi/002/010/",
    "chapter": "论用神",
-   "quotation": "扶有二,印以生之,劫以助之是也"
+   "quotation": "扶有二,印以生之,劫以助之是也",
+   "note": "忌神取与用神相反的一侧（本项目形式化，典籍未逐类列出）"
   },
   {
    "rule_id": "R-FUYI-03",
-   "group": "fuyi",
+   "group": "fuyi_groups",
    "condition": "日主偏强，取抑",
    "conclusion": "取官杀与食伤（官煞以克之，食伤以泄之）",
    "when": {
@@ -83,17 +85,22 @@
     "useful_groups": [
      "officer",
      "output"
+    ],
+    "unfavourable_groups": [
+     "companion",
+     "resource"
     ]
    },
    "derived": false,
    "source_id": "ziping-zhenquan",
    "kb_url": "https://luckclub.cn/bazi/002/010/",
    "chapter": "论用神",
-   "quotation": "抑亦有二,官煞以克之,食伤以泄之是也"
+   "quotation": "抑亦有二,官煞以克之,食伤以泄之是也",
+   "note": "忌神取与用神相反的一侧（本项目形式化，典籍未逐类列出）"
   },
   {
    "rule_id": "R-FUYI-04",
-   "group": "fuyi",
+   "group": "fuyi_groups",
    "condition": "日主偏强，取抑（财）",
    "conclusion": "财亦可为克泄之神",
    "when": {
@@ -102,23 +109,11 @@
    "then": {
     "useful_groups": [
      "wealth"
-    ]
+    ],
+    "unfavourable_groups": []
    },
    "derived": true,
-   "note": "proposal v4 四、链一：身强取官杀食伤财克泄。典籍「抑」只列官煞、食伤两类，财为本项目补入，标为形式化"
-  },
-  {
-   "rule_id": "R-TIAOHOU-DEF",
-   "group": "tiaohou_principle",
-   "condition": "按出生季节的寒暖燥湿取用",
-   "conclusion": "金水生于冬令，木火生于夏令，气候太寒太燥，以调和气候为急",
-   "when": {},
-   "then": {},
-   "derived": false,
-   "source_id": "ziping-zhenquan",
-   "kb_url": "https://luckclub.cn/bazi/002/010/",
-   "chapter": "论用神",
-   "quotation": "金水生于冬令,木火生于夏令,气候太寒太燥,以调和气候为急"
+   "note": "proposal v4 四、链一：身强取官杀食伤财克泄。典籍「抑」只列官煞、食伤两类，财为本项目补入，标为形式化；财补入用神，不另列忌神"
   },
   {
    "rule_id": "R-SEASON-01",
@@ -148,54 +143,50 @@
   {
    "rule_id": "R-ARB-01",
    "group": "arbitration",
-   "condition": "日主为金水且生于冬月，或日主为木火且生于夏月",
+   "condition": "两法结论相悖，且日主为金水生于冬月、或日主为木火生于夏月",
    "conclusion": "调候优先",
    "when": {
-    "any": [
+    "conflict_kind": "contradictory",
+    "climate_pairs": [
      {
       "dm_element_in": [
        "metal",
        "water"
       ],
-      "month_branch_in": [
-       "hai",
-       "zi",
-       "chou"
-      ]
+      "season": "winter"
      },
      {
       "dm_element_in": [
        "wood",
        "fire"
       ],
-      "month_branch_in": [
-       "si",
-       "wu_branch",
-       "wei"
-      ]
+      "season": "summer"
      }
     ]
    },
    "then": {
-    "outcome": "climatic"
+    "outcome": "climatic",
+    "priority": 2
    },
    "derived": false,
    "source_id": "ziping-zhenquan",
    "kb_url": "https://luckclub.cn/bazi/002/010/",
    "chapter": "论用神",
    "quotation": "金水生于冬令,木火生于夏令,气候太寒太燥,以调和气候为急",
-   "note": "初始优先规则（proposal v4 第四节）；季节到月支的对应见 R-SEASON-01。B4 案例上可由归纳规则替换"
+   "note": "初始优先规则（proposal v4 第四节）；冬、夏的月支划分见 R-SEASON-01。只管金水冬、木火夏，所以木生冬月（寒木向阳）这类案例不在其内"
   },
   {
    "rule_id": "R-ARB-02",
    "group": "arbitration",
-   "condition": "两法结论冲突，且不属 R-ARB-01 的情形",
+   "condition": "两法结论相悖，且不属 R-ARB-01 的情形",
    "conclusion": "采纳扶抑",
    "when": {
+    "conflict_kind": "contradictory",
     "otherwise": true
    },
    "then": {
-    "outcome": "supporting"
+    "outcome": "supporting",
+    "priority": 3
    },
    "derived": true,
    "note": "proposal v4：其余情况以扶抑为主；典籍言用神「专求月令」，未给冲突时的明确公式"
@@ -210,7 +201,8 @@
     "climatic_not_in_supporting_unfavourable": true
    },
    "then": {
-    "outcome": "both"
+    "outcome": "both",
+    "priority": 2
    },
    "derived": true,
    "source_id": "ziping-zhenquan",
@@ -228,7 +220,8 @@
     "special_pattern_triggered": true
    },
    "then": {
-    "outcome": "other"
+    "outcome": "other",
+    "priority": 1
    },
    "derived": false,
    "source_id": "ziping-zhenquan",

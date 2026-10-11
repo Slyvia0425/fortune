@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { BaziChartResult, ElementKey, EvidenceRef, TenGod } from "@/lib/contracts/bazi";
-import { focusTileId, isFocusedHidden } from "@/lib/bazi/evidence";
+import { useMemo, useState } from "react";
+import type { BaziChartResult, ElementKey, TenGod } from "@/lib/contracts/bazi";
 import {
   BRANCH_LABEL,
   ELEMENT_LABEL,
@@ -61,22 +60,13 @@ function TimelineRow({
   currentKey?: string;
   onSelect: (key: string) => void;
 }) {
-  const scroller = useRef<HTMLDivElement>(null);
-
-  // Bring the selection into view when the row first renders or its contents
-  // change — otherwise a row of eighty years opens on the wrong decade.
-  useEffect(() => {
-    const el = scroller.current?.querySelector<HTMLElement>('[data-selected="true"]');
-    el?.scrollIntoView({ block: "nearest", inline: "center" });
-  }, [selectedKey, items]);
-
   return (
     <div className={styles.timeline}>
       <div className={styles.timelineHead}>
         <span className={styles.timelineTitle}>{title}</span>
         {note && <span className={styles.timelineNote}>{note}</span>}
       </div>
-      <div className={styles.timelineRow} ref={scroller}>
+      <div className={styles.timelineRow}>
         {items.map((item) => {
           const selected = item.key === selectedKey;
           return (
@@ -107,22 +97,10 @@ function TimelineRow({
   );
 }
 
-export function PillarsStep({
-  chart,
-  isMock,
-  warnings,
-  focus = null,
-}: {
-  chart: BaziChartResult;
-  isMock: boolean;
-  warnings: string[];
-  /** Arrived from an evidence reference: select and highlight that character.
-   *  The parent re-mounts this step (changes its key) for each new reference. */
-  focus?: EvidenceRef | null;
-}) {
+export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warnings: string[] }) {
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
-  const [selectedId, setSelectedId] = useState(focus ? focusTileId(focus) : dayMaster.id);
+  const [selectedId, setSelectedId] = useState(dayMaster.id);
   const [showCalib, setShowCalib] = useState(false);
 
   const selected = cells.find((cell) => cell.id === selectedId) ?? dayMaster;
@@ -159,7 +137,6 @@ export function PillarsStep({
         type="button"
         className={`${styles.tile} ${styles.el}`}
         data-element={cell.element}
-        data-ref-focus={focus != null && focusTileId(focus) === cell.id && focus.position !== "hidden"}
         aria-pressed={cell.id === selected.id}
         aria-label={`${cell.position === "stem" ? "天干" : "地支"} ${cell.char}`}
         onClick={() => setSelectedId(cell.id)}
@@ -178,7 +155,7 @@ export function PillarsStep({
       <div className={styles.header}>
         <div>
           <h2>四柱排盘</h2>
-          <p className="kicker">{isMock ? "模拟命盘" : "规则引擎计算结果"}</p>
+          <p className="kicker">规则引擎计算结果</p>
           <p className={styles.subline}>
             日主 {STEM_LABEL[chart.day_master.stem]}
             {ELEMENT_LABEL[chart.day_master.element]}
@@ -265,7 +242,6 @@ export function PillarsStep({
                       key={`${hidden.stem}-${hidden.qi}`}
                       className={`${styles.hiddenRow} ${styles.el}`}
                       data-element={hidden.element}
-                      data-ref-focus={isFocusedHidden(focus, pillar.label, hidden)}
                     >
                       <div>
                         <span>
@@ -316,10 +292,6 @@ export function PillarsStep({
           藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。
         </p>
       </div>
-
-      <p className="panel-intro" style={{ marginTop: 20 }}>
-        {chart.overview}
-      </p>
 
       {/* 大运：与四柱同属 1.1 的确定性计算，故并入本页；仅展示，不含吉凶判断 */}
       <section className={`${styles.luckBlock} ${styles.rise}`} style={{ animationDelay: "480ms" }}>

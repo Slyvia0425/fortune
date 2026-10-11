@@ -16,7 +16,6 @@ import type {
   ElementKey,
   HeavenlyStem,
   PillarLabel,
-  SeasonalState,
   SolarTerm,
   SpecialPattern,
   TenGod,
@@ -102,31 +101,18 @@ export const TEN_GOD_GROUP_LABEL: Record<TenGodGroup, string> = {
   resource: "印",
 };
 
-export const SEASONAL_STATE_LABEL: Record<SeasonalState, string> = {
-  peak: "旺",
-  supporting: "相",
-  resting: "休",
-  confined: "囚",
-  dead: "死",
-};
-
 export const FACTOR_LABEL: Record<string, string> = {
   seasonal_command: "得令",
   rootedness: "得地",
   revealed_support: "得势",
   assisting_support: "得助",
+  opposition: "克泄耗",
 };
 
 export const QI_LABEL: Record<string, string> = {
   primary: "本气",
   middle: "中气",
   residual: "余气",
-};
-
-export const DISPOSITION_LABEL: Record<string, string> = {
-  useful: "用神",
-  unfavourable: "忌神",
-  neutral: "中性",
 };
 
 export const SOLAR_TERM_LABEL: Record<SolarTerm, string> = {
@@ -166,7 +152,7 @@ export const ARBITRATION_LABEL: Record<ArbitrationOutcome, string> = {
   supporting: "采纳扶抑",
   climatic: "采纳调候",
   both: "两者兼用",
-  other: "其他",
+  other: "特殊格局优先",
 };
 
 export const LUCK_DIRECTION_LABEL: Record<LuckDirection, string> = {

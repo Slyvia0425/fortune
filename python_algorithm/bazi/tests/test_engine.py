@@ -9,6 +9,7 @@ from app import app
 from bazi.calc.calendar import InvalidLunarDate, lunar_to_solar
 from bazi.models.bazi import BaziChartRequest, BaziChartResult
 from bazi.engine import build_chart
+from bazi.rules.inference import Inference
 
 client = TestClient(app)
 SHANGHAI = dict(latitude=31.2304, longitude=121.4737, source="manual_coordinates")
@@ -34,17 +35,9 @@ def test_survey_case_is_computed_not_mocked():
     assert d["annual_cycles"][0]["year"] == d["luck_cycles"][0]["start_year"]
 
 
-def test_meta_is_honest_about_what_is_still_a_placeholder():
-    d = client.post("/bazi/chart", json=body()).json()
-    assert d["meta"]["mock"] is True                      # 1.2 / 1.4 not implemented yet
-    assert d["meta"]["engine_version"].endswith("1.1")
-    assert any("1.2" in w for w in d["meta"]["warnings"])
-
-
-def test_day_pillar_ten_god_is_explicit_null_and_day_master_is_real():
+def test_the_day_master_is_the_day_pillars_stem_and_the_eight_characters_are_counted():
     d = client.post("/bazi/chart", json=body()).json()
     day = d["pillars"][2]
-    assert day["ten_god"] is None and "ten_god" in day
     assert d["day_master"]["stem"] == day["stem"]
     assert sum(d["elements"].values()) == 8
 
@@ -106,36 +99,26 @@ def test_strength_factors_are_computed_from_the_rule_base():
     d = client.post("/bazi/chart", json=body()).json()
     trace = d["reasoning_trace"]
     keys = [f["key"] for f in trace["factors"]]
-    assert keys == ["seasonal_command", "rootedness", "revealed_support", "assisting_support"]
+    assert keys == list(Inference().parameters("weights").then["weights"])
     f0 = trace["factors"][0]
     assert f0["rule_id"].startswith("R-DELING-") and f0["quotation"] and f0["chapter"]
+    assert all(f["rule_text"] and "→" not in f["rule_text"] for f in trace["factors"])      # each factor carries its rule in everyday words
     assert f0["scale"]["labels"] == ["旺", "相", "休", "囚", "死"] and 0 <= f0["level"] <= 4
     assert trace["factors"][3]["scale"] is None            # 得助 is continuous
-    assert trace["fused_score"] == round(sum(f["weighted_score"] for f in trace["factors"]), 4)
+    assert trace["fused_score"] == round(sum(f["weighted_score"] for f in trace["factors"]) + trace["baseline"], 4)
     assert d["day_master"]["strength"] == trace["final_strength"] == trace["provisional_strength"]
-    assert set(d["element_states"]) == {"wood", "fire", "earth", "metal", "water"}
     assert trace["override"] is None
 
 
 def test_result_carries_the_rule_base_and_weight_set_versions():
     from bazi.rules import library
     meta = client.post("/bazi/chart", json=body()).json()["meta"]
-    assert meta["rule_base"] == library.load().version and meta["weight_set"] == "provisional-0"
-    assert any("provisional-0" in w for w in meta["warnings"])
-
-
-def test_the_day_masters_own_season_state_matches_the_first_factor():
-    from bazi.models.enums import SeasonalState
-    d = client.post("/bazi/chart", json=body()).json()
-    dm_element = d["pillars"][2]["element"]
-    f0 = d["reasoning_trace"]["factors"][0]
-    labels = {"peak": "旺", "supporting": "相", "resting": "休", "confined": "囚", "dead": "死"}
-    assert labels[d["element_states"][dm_element]] == f0["scale"]["labels"][f0["level"]]
+    assert meta["rule_base"] == library.load().version and meta["weight_set"] == Inference().parameters("weights").then["weight_set"]
 
 
 def test_every_citation_in_the_response_can_be_checked_against_the_knowledge_base():
     import pytest
-    from bazi.rules import knowledge
+    from bazi.research import knowledge
     if not knowledge.available():
         pytest.skip("knowledge base not present")
     d = client.post("/bazi/chart", json=body()).json()
