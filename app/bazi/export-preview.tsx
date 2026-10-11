@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { downloadText } from "./download";
+import { copyText, downloadText } from "./download";
 import styles from "./bazi-chart.module.css";
 
 export interface ExportFile {
@@ -11,6 +11,16 @@ export interface ExportFile {
 
 /** What is about to be saved, shown first: the file's name and its content as it will be written, to save or to leave. */
 export function ExportPreview({ file, onClose }: { file: ExportFile; onClose: () => void }) {
+  const [copy, setCopy] = useState<"idle" | "done" | "failed">("idle");
+  const resetTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(resetTimer.current), []);
+
+  const onCopy = async () => {
+    setCopy((await copyText(file.text)) ? "done" : "failed");
+    window.clearTimeout(resetTimer.current);
+    resetTimer.current = window.setTimeout(() => setCopy("idle"), 2000);
+  };
+
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => event.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
@@ -34,7 +44,18 @@ export function ExportPreview({ file, onClose }: { file: ExportFile; onClose: ()
         <p className={styles.previewName}>
           {file.name}　<small>{file.text.length} 字</small>
         </p>
-        <pre className={styles.previewText}>{file.text}</pre>
+        <div className={styles.previewBox}>
+          <pre className={styles.previewText}>{file.text}</pre>
+          <button
+            type="button"
+            className={`${styles.previewCopy} ${copy === "done" ? styles.previewCopyDone : ""}`}
+            onClick={onCopy}
+            aria-label="复制内容"
+            title={copy === "done" ? "已复制" : copy === "failed" ? "复制失败，请手动选取" : "复制"}
+          >
+            {copy === "done" ? <CheckIcon /> : <CopyIcon />}
+          </button>
+        </div>
         <div className={styles.previewActions}>
           <button type="button" className={styles.exportButton} onClick={onClose}>
             取消
@@ -53,5 +74,24 @@ export function ExportPreview({ file, onClose }: { file: ExportFile; onClose: ()
       </div>
     </div>,
     document.body,
+  );
+}
+
+const iconProps = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
+
+function CopyIcon() {
+  return (
+    <svg {...iconProps}>
+      <rect x="9" y="9" width="12" height="12" rx="2" />
+      <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg {...iconProps}>
+      <path d="M5 12.5l4.5 4.5L19 7.5" />
+    </svg>
   );
 }
