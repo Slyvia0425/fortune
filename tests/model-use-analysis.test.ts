@@ -153,7 +153,7 @@ describe("案例辅助解释",()=>{
      expect(body.messages[0].content).toContain("不输出 known_facts");
      expect(input.case_evidence[0].usage).toBe("analogy_only");
      expect(body.messages[0].content).toContain("不得使用案例替代规则依据");
-     expect(input.allowed_rule_ids).toEqual(["r1"]);expect(input.allowed_case_ids).toEqual(["case1"]);
+     expect(input.allowed_rule_ids).toEqual(["R1"]);expect(input.allowed_case_ids).toEqual(["C1"]);
      expect(input.rule_evidence.every((u:{kind:string})=>u.kind==="rule")).toBe(true);
      expect(result.attempts?.map(a=>a.status)).toEqual(["accepted"]);
    } finally {vi.unstubAllEnvs();vi.unstubAllGlobals();vi.resetModules();}

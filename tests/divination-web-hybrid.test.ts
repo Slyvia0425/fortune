@@ -3,7 +3,10 @@ import type { HybridEvidencePack } from "../lib/contracts/divination";
 import { parseHybridReadings } from "../lib/divination/hybrid-interpretation";
 
 const services = vi.hoisted(() => ({ call: vi.fn(), classical: vi.fn(), hybrid: vi.fn() }));
-vi.mock("../lib/server/liuyao-hybrid", () => ({ callHybrid: services.call, HybridServiceError: class extends Error {} }));
+vi.mock("../lib/server/liuyao-hybrid", () => ({ DIVINATION_SESSION_COOKIE: "anonymous", callHybrid: services.call, HybridServiceError: class extends Error {} }));
+vi.mock("../lib/server/module4-auth", () => ({ AUTH_COOKIE: "auth" }));
+vi.mock("next/headers", () => ({ cookies: async () => ({ get: () => ({ value: "test-session" }) }) }));
+vi.mock("../lib/server/interpretation-cache", () => ({ cachedInterpretation: (_owner: string, _body: unknown, _retry: boolean, generate: () => Promise<Response>) => generate() }));
 vi.mock("../lib/server/divination-llm", () => ({ divinationLlmConfigured: () => true,
   interpretDivinationEvidence: services.classical, interpretHybridEvidence: services.hybrid }));
 import { POST as cast } from "../app/api/divination/cast/route";
@@ -38,6 +41,8 @@ describe("网页冻结盘接线", () => {
     expect(response.status).toBe(200);
     expect(services.call).toHaveBeenCalledWith("evidence", { chart_id: chartId });
     expect(services.classical.mock.calls[0][0].question).toBe("服务端原问题");
+    expect(services.classical.mock.calls[0][1]).toEqual({ core: undefined, evidence: pack, candidateAnalysis: { status: "insufficient", readings: [], message: "依据不足" } });
+    expect(services.hybrid.mock.invocationCallOrder[0]).toBeLessThan(services.classical.mock.invocationCallOrder[0]);
     expect(services.hybrid).toHaveBeenCalledWith(pack, undefined, "服务端原问题");
     expect((await response.json()).result.hybrid_evidence.chart_hash).toBe("frozen-hash");
   });
@@ -80,4 +85,18 @@ it("真实规则解释入口在缺证时不调用模型", async () => {
     expect(result.readings).toEqual([]);
     expect(fetchSpy).not.toHaveBeenCalled();
   } finally { vi.unstubAllGlobals(); }
+});
+
+
+it("向前端保留语义复核的阶段、原因与日志编号", async () => {
+  const { RecordedInterpretationFailure } = await import("../lib/server/interpretation-diagnostics");
+  services.call.mockResolvedValue({cast:frozen,question:"求职",hybrid_evidence:pack});
+  services.classical.mockRejectedValue(new RecordedInterpretationFailure({run_id:"test-diagnostic",stage:"semantic_review",code:"SEMANTIC_REVIEW_REJECTED",reasons:["原文不支持文书延迟"],log_saved:true}));
+  const response=await interpret(request({chart_id:chartId}));
+  const body=await response.json();
+  expect(body.result.interpretation_diagnostic.code).toBe("SEMANTIC_REVIEW_REJECTED");
+  expect(body.result.diagnostic_run_id).toBe("test-diagnostic");
+  expect(body.warnings.join(" ")).toContain("证据语义复核未通过");
+  expect(body.warnings.join(" ")).toContain("原文不支持文书延迟");
+  expect(body.warnings.join(" ")).not.toContain("格式或引用完整性校验");
 });

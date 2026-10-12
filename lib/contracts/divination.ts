@@ -44,7 +44,7 @@ export interface DivinationEvidencePack { rule_version:"changing-lines-v1"; sele
 export interface DivinationInterpretationReading { evidence_id:string; modern_chinese:string }
 export interface DivinationContextualReflection { text:string; evidence_ids:string[] }
 export interface DivinationModernInterpretation { overall_interpretation:string; readings:DivinationInterpretationReading[]; contextual_reflections:DivinationContextualReflection[]; uncertainties:string[]; disclaimer:string }
-export interface DivinationInterpretationResult { frozen_core?:LiuyaoCoreFacts; hybrid_evidence?:HybridEvidencePack; hybrid_interpretation?:HybridInterpretation; evidence_pack:DivinationEvidencePack; modern_interpretation:DivinationModernInterpretation|null; model_used?:string }
+export interface DivinationInterpretationResult { diagnostic_run_id?:string; interpretation_diagnostic?:{run_id:string;stage:string;code:string;reasons:string[];log_saved:boolean}; frozen_core?:LiuyaoCoreFacts; hybrid_evidence?:HybridEvidencePack; hybrid_interpretation?:HybridInterpretation; evidence_pack:DivinationEvidencePack; modern_interpretation:DivinationModernInterpretation|null; model_used?:string }
 export type ChatRole="user"|"assistant";
 export interface DivinationChatMessage { role:ChatRole; content:string }
 export interface DivinationChatRequest { messages:DivinationChatMessage[] }

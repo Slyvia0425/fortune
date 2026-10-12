@@ -1,3 +1,7 @@
+> 2026-10-12 integrated-v3：模型使用短引用别名，接口仍返回原始引用 ID。综合解释增加规则／案例覆盖检查及独立 LLM 证据复核，最多一次修正并复核；不通过时 `modern_interpretation` 仍为 null，不发布草稿。复核为模型判断，不代表规则引擎已证明正确。
+
+> 2026-10-12 行为更新：解释链路改为「候选用神分析 → 综合解释」。`modern_interpretation.overall_interpretation` 保持字段名，但内容现融合 core、允许使用的检索规则／案例、通过校验的候选分析与卦爻辞。`contextual_reflections.evidence_ids` 也可引用本次检索材料的 `entity_revision_id`。前端仅呈现综合解释；详见 `LIUYAO_INTEGRATION_CHANGELOG.md` 的 integrated-v1 记录。
+
 # 六爻系统前后端输入输出与合并契约 v1
 
 记录日期：2026-10-12。这是当前实现的集成基线，不表示回答质量已经验收。本轮只记录接口，保留已有行为；后续回答优化不得悄悄改变这些接口。代码类型以 `lib/contracts/divination.ts`、`lib/contracts/api.ts` 为准，Python内部请求以 `fortune_module4/app/api/v1/endpoints/liuyao_hybrid.py` 为准。
