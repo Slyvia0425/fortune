@@ -40,6 +40,7 @@ def search(
     review=False,
     excluded_ids=(),
     vector_cache=None,
+    purpose="execution",
 ):
     cache = vector_cache if vector_cache is not None else {}
     with engine.connect() as conn:
@@ -50,6 +51,7 @@ def search(
             method=method,
             excluded_ids=excluded_ids,
             preserve_views=True,
+            purpose=purpose,
         )
         rows = [
             r
@@ -233,6 +235,23 @@ def search(
                         "entity_revision_id": rid,
                         "entity_id": row["entity_id"],
                         "kind": lane,
+                        "usage": "analogy_only" if lane == "case" else "rule_reasoning",
+                        "case_context": {
+                            k: row["metadata_json"].get(k)
+                            for k in (
+                                "final_case_id",
+                                "case_group_id",
+                                "reading_id",
+                                "question_status",
+                                "chart_status",
+                                "judgment_status",
+                                "outcome_status",
+                                "remaining_issues",
+                                "method_profile_id",
+                            )
+                        }
+                        if lane == "case"
+                        else None,
                         "source_quotes": quoted[rid],
                         "summary": row["search_text"],
                         "condition_evaluation": condition["value"],
@@ -249,7 +268,18 @@ def search(
         return output, trace, rel["profile_id"]
 
 
-def _run(engine, release_id, question, core, *, provider=None, review=False, excluded_ids=()):
+def _run(
+    engine,
+    release_id,
+    question,
+    core,
+    *,
+    provider=None,
+    review=False,
+    excluded_ids=(),
+    purpose="execution",
+    question_context=None,
+):
     started = monotonic()
     if (
         not core.get("chart_hash")
@@ -257,7 +287,7 @@ def _run(engine, release_id, question, core, *, provider=None, review=False, exc
         or not core.get("method_profile_id")
     ):
         raise ValueError("CHART_FACTS_INCOMPLETE")
-    query_plan = plan(question)
+    query_plan = plan(question, question_context=question_context)
     context = query_plan["question_context"]
     core_facts = core.get("facts", {})
     facts = {"question": context, "core": core_facts, "candidates": {}}
@@ -278,6 +308,7 @@ def _run(engine, release_id, question, core, *, provider=None, review=False, exc
             review=review,
             excluded_ids=excluded_ids,
             vector_cache=cache,
+            purpose=purpose,
         )
         traces.extend({**item, "round": round_number} for item in trace)
         roles = derive(units, core_facts)
@@ -426,6 +457,47 @@ def _run(engine, release_id, question, core, *, provider=None, review=False, exc
             "strong_conclusion_allowed": not gaps and not review,
         },
     }
+    if purpose == "llm_source_reasoning":
+        parsed = question_context if isinstance(question_context, dict) else {}
+        parsed_goal = parsed.get("goal") if isinstance(parsed.get("goal"), dict) else {}
+        parser_gaps = [x for x in parsed.get("ambiguities", []) if isinstance(x, str) and x.strip()]
+        if parsed and not isinstance(parsed_goal.get("value"), str):
+            parser_gaps.append("问题目标未确认")
+        for gap in dict.fromkeys(parser_gaps):
+            exists = any(
+                item.get("field") == "question_context" and item.get("question") == gap
+                for item in pack["clarification"]
+            )
+            if not exists:
+                pack["clarification"].append({"field": "question_context", "question": gap})
+        eligible = [
+            u
+            for u in units
+            if not u["not_for_interpretation"]
+            and (
+                u["kind"] == "rule"
+                or (u["kind"] == "case" and u["condition_evaluation"] != "false")
+            )
+        ]
+        has_rules = any(u["kind"] == "rule" for u in eligible)
+        # Eligibility for model reading is not a claim of rule applicability.
+        pack["reasoning_evidence"] = eligible
+        pack["reasoning_mode"] = "llm_source_reasoning"
+        pack["interpretation_contract"]["model_reasoning_allowed"] = has_rules and complete_main(
+            core_facts
+        )
+        pack["interpretation_contract"]["model_selection_allowed"] = (
+            has_rules and complete_main(core_facts) and not clarification
+        )
+        pack["case_support_available"] = any(u["kind"] == "case" for u in eligible)
+        pack["interpretation_contract"]["strong_conclusion_allowed"] = False
+        pack["selected_use"] = []
+        pack["gaps"] = [
+            g for g in gaps if g not in ("NO_ELIGIBLE_EVIDENCE", "UNRESOLVED_CONDITION")
+        ]
+        if not has_rules:
+            pack["gaps"].append("NO_TEXT_REASONING_EVIDENCE")
+        pack["status"] = "evidence_insufficient"  # Never upgrade to engine-confirmed evidence.
     return pack
 
 
@@ -447,4 +519,30 @@ def run_review_local(engine, release_id, question, core, *, provider=None, exclu
         provider=provider,
         excluded_ids=excluded_ids,
         review=True,
+    )
+
+
+def run_text_reasoning(
+    engine,
+    release_id,
+    question,
+    *,
+    chart_id,
+    core_loader,
+    provider=None,
+    excluded_ids=(),
+    question_context=None,
+):
+    core = core_loader(chart_id)
+    if core.get("original_question") != question:
+        raise ValueError("Frozen question mismatch")
+    return _run(
+        engine,
+        release_id,
+        question,
+        core,
+        provider=provider,
+        excluded_ids=excluded_ids,
+        purpose="llm_source_reasoning",
+        question_context=question_context,
     )

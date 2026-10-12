@@ -392,7 +392,7 @@ def test_api_freezes_once_saves_plan_and_never_calls_provider_unpublished(
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
 
-    from app.api.deps import get_current_user_id
+    from app.api.deps import get_hybrid_user_id
     from app.api.v1.endpoints import liuyao_hybrid as api
 
     add(db, "role")
@@ -408,7 +408,7 @@ def test_api_freezes_once_saves_plan_and_never_calls_provider_unpublished(
     monkeypatch.setattr(api, "verified_provider", forbidden)
     app = FastAPI()
     app.include_router(api.router)
-    app.dependency_overrides[get_current_user_id] = lambda: "owner"
+    app.dependency_overrides[get_hybrid_user_id] = lambda: "owner"
     with TestClient(app) as client:
         payload = {
             "numbers": [3, 5, 8],
@@ -515,7 +515,7 @@ def test_web_cast_and_evidence_share_frozen_record(db, tmp_path, monkeypatch):
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
 
-    from app.api.deps import get_current_user_id
+    from app.api.deps import get_hybrid_user_id
     from app.api.v1.endpoints import liuyao_hybrid as api
 
     with db.begin() as conn:
@@ -525,7 +525,7 @@ def test_web_cast_and_evidence_share_frozen_record(db, tmp_path, monkeypatch):
     monkeypatch.setattr(api, "dependencies", lambda: (db, store))
     app = FastAPI()
     app.include_router(api.router)
-    app.dependency_overrides[get_current_user_id] = lambda: "web-user"
+    app.dependency_overrides[get_hybrid_user_id] = lambda: "web-user"
     with TestClient(app) as client:
         body = {
             "question": QUESTION,
@@ -554,7 +554,7 @@ def test_web_cast_and_evidence_share_frozen_record(db, tmp_path, monkeypatch):
             ).status_code
             == 422
         )
-        app.dependency_overrides[get_current_user_id] = lambda: "other-user"
+        app.dependency_overrides[get_hybrid_user_id] = lambda: "other-user"
         assert (
             client.post(
                 "/liuyao/hybrid/evidence", json={"chart_id": result["chart_id"]}

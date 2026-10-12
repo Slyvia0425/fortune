@@ -11,7 +11,13 @@ TOPICS = {
     "婚姻": ("婚姻", "结婚", "感情", "复合"),
     "工作": ("工作", "职位", "升职", "求职"),
 }
-ALIASES = {"考试": ["功名", "科举"], "工作": ["仕途"], "求财": ["财利"]}
+ALIASES = {
+    "考试": ["功名", "科举", "科舉", "鄉試"],
+    "工作": ["仕途", "求官"],
+    "求财": ["财利", "求財"],
+    "疾病": ["占病", "病症"],
+    "婚姻": ["占婚", "婚姻"],
+}
 RELATIONS = ("妹妹", "姐姐", "弟弟", "哥哥", "母亲", "父亲", "儿子", "女儿", "妻子", "丈夫", "朋友")
 RULE_TYPES = ["subject_relation", "object_classification", "topic_override"]
 
@@ -100,8 +106,54 @@ def make_query(text, lane, purpose, fields, *, rule_types=(), aliases=(), round_
     }
 
 
-def plan(question):
+def plan(question, question_context=None):
+    """Plan retrieval from a server-produced question context when supplied.
+
+    The context is search vocabulary only: it cannot alter the frozen chart or
+    make a rule condition true.  Keeping the raw question as the fallback
+    preserves the old deterministic path for API callers that have no parser.
+    """
     context = extract(question)
+    supplied = question_context if isinstance(question_context, dict) else {}
+    supplied_goal = supplied.get("goal") if isinstance(supplied.get("goal"), dict) else {}
+    raw_topics = supplied.get("topic_candidates")
+    raw_relationships = supplied.get("relationships")
+    supplied_topics = raw_topics if isinstance(raw_topics, list) else []
+    supplied_relationships = raw_relationships if isinstance(raw_relationships, list) else []
+    goal_value = supplied_goal.get("value") if isinstance(supplied_goal.get("value"), str) else None
+    if goal_value and len(goal_value.strip()) <= 160:
+        context["goal"] = goal_value.strip()
+        context["explicit_facts"]["parsed_goal"] = goal_value.strip()
+    topic = next(
+        (item.strip() for item in supplied_topics if isinstance(item, str) and item.strip()),
+        None,
+    )
+    if topic:
+        context["topic"] = topic[:80]
+        context["explicit_facts"]["parsed_topic"] = context["topic"]
+    relation = next(
+        (
+            item.get("relation")
+            for item in supplied_relationships
+            if isinstance(item, dict)
+            and isinstance(item.get("relation"), str)
+            and item["relation"].strip()
+        ),
+        None,
+    )
+    if relation:
+        context["subject_relation"] = relation.strip()[:80]
+        context["explicit_facts"]["parsed_relation"] = context["subject_relation"]
+    # The LLM parser is allowed to say that a field remains unknown.  Do not
+    # erase deterministic ambiguities unless a non-empty user-derived value is present.
+    context["ambiguities"] = [
+        item
+        for item in context["ambiguities"]
+        if not (
+            (item == "问题目标未明确" and context["goal"])
+            or (item == "问事对象关系未明确" and context["subject_relation"])
+        )
+    ]
     relation, topic, goal = (context[k] or "" for k in ("subject_relation", "topic", "goal"))
     aliases = ALIASES.get(topic, [])
     relation = " ".join(filter(None, [context["subject_mode"], relation]))
@@ -122,10 +174,11 @@ def plan(question):
             aliases=aliases,
         ),
         make_query(
-            " ".join(filter(None, [relation, topic, goal])) or question,
+            " ".join(filter(None, [relation, topic, goal, *aliases, question])),
             "case",
             "问事相似案例",
             ["subject_mode", "subject_relation", "topic", "goal"],
+            aliases=aliases,
         ),
     ]
     for i, query in enumerate(queries, 1):

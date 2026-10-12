@@ -102,7 +102,10 @@ class RuntimeStore:
             conn.close()
 
     def freeze_once(self, owner, request_id, numbers, question, cast=freeze):
-        digest = sha(canonical({"numbers": numbers, "question": question}))
+        # A request id identifies one casting act.  A later clarification may
+        # change its natural-language context, but never its three numbers or
+        # frozen time; therefore it must reuse rather than recast this chart.
+        digest = sha(canonical({"numbers": numbers}))
         with self.connect() as conn:
             conn.execute("BEGIN IMMEDIATE")
             row = conn.execute(

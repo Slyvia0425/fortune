@@ -1,4 +1,4 @@
-import type { DivinationCastResult, HybridEvidencePack, HybridInterpretation } from "@/lib/contracts/divination";
+import type { DivinationCastResult, HybridEvidencePack, HybridInterpretation, QuestionContext } from "@/lib/contracts/divination";
 import { failure, record, success, text } from "@/lib/contracts/api";
 import { buildDivinationEvidencePack } from "@/lib/divination/evidence";
 import { divinationLlmConfigured, interpretDivinationEvidence, interpretHybridEvidence } from "@/lib/server/divination-llm";
@@ -9,11 +9,12 @@ export async function POST(request: Request) {
   try { body = record(await request.json()); } catch {}
   const chartId = text(body?.chart_id, 36);
   if (!body || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(chartId)
-    || Object.keys(body).some(key => !["chart_id", "chart_hash"].includes(key))) {
+    || Object.keys(body).some(key => !["chart_id", "chart_hash", "question_context"].includes(key))) {
     return failure("divination-interpret-v2", "VALIDATION_ERROR", "解释必须引用服务端冻结卦盘，不接受客户端盘面或改写问题。", undefined, 422);
   }
   try {
-    const saved = await callHybrid<{cast: DivinationCastResult; question: string; hybrid_evidence: HybridEvidencePack}>("evidence", { chart_id: chartId });
+    const questionContext = body.question_context && typeof body.question_context === "object" ? body.question_context as QuestionContext : undefined;
+    const saved = await callHybrid<{cast: DivinationCastResult; question: string; hybrid_evidence: HybridEvidencePack}>("evidence", { chart_id: chartId, question_context: questionContext });
     if (body.chart_hash && body.chart_hash !== saved.cast.chart_hash) {
       return failure("divination-interpret-v2", "CHART_MISMATCH", "卦盘版本不一致，请重新读取原起卦记录。", undefined, 409);
     }

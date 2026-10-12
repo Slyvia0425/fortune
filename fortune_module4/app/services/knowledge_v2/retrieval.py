@@ -76,13 +76,27 @@ def quotes(conn, rid):
 
 
 def allowed_rows(
-    conn, release_id, *, review=False, excluded_ids=(), method=None, preserve_views=False
+    conn,
+    release_id,
+    *,
+    review=False,
+    excluded_ids=(),
+    method=None,
+    preserve_views=False,
+    purpose="execution",
 ):
     rel = (
         conn.execute(select(s.release).where(s.release.c.release_id == release_id)).mappings().one()
     )
-    if not review and rel["status"] != "published":
+    text_mode = purpose == "llm_source_reasoning"
+    if text_mode and (
+        review or rel["status"] != "text_published" or rel["validation"].get("purpose") != purpose
+    ):
         return rel, []
+    if not review and not text_mode and rel["status"] != "published":
+        return rel, []
+    if text_mode and sha(canonical(rel["validation"])) != rel["manifest_hash"]:
+        raise ValueError("Text policy manifest hash mismatch")
     revocations = conn.execute(select(s.revocation)).mappings().all()
     excluded = set(excluded_ids) | {
         r["entity_revision_id"] for r in revocations if r["entity_revision_id"]
@@ -120,16 +134,50 @@ def allowed_rows(
         rid = row["revision_id"]
         if rid in excluded or row["entity_id"] in excluded or (rid in seen and not preserve_views):
             continue
-        if not review and (
-            not row["production_eligible"] or row["review_status"] not in ("approved", "published")
+        if text_mode:
+            is_case = row["kind"] == "case"
+            policy = rel["validation"]
+            grant = policy.get("case_allowlist" if is_case else "text_allowlist", {}).get(rid, {})
+            if is_case and (
+                not policy.get("cases_enabled")
+                or grant.get("usage") != "analogy_only"
+                or grant.get("metadata_hash") != sha(canonical(row["metadata_json"]))
+                or row["summary_review_status"] != "verbatim_extraction_validated"
+            ):
+                continue
+            if (
+                row["kind"] not in ("rule", "case")
+                or row["review_status"]
+                not in (
+                    ("reviewed_manual_boundary",)
+                    if is_case
+                    else ("modified_pass", "pass", "approved")
+                )
+                or grant.get("review_status") != row["review_status"]
+                or grant.get("content_hash") != row["content_hash"]
+                or grant.get("view_id") != row["view_id"]
+                or grant.get("text_hash") != row["text_hash"]
+            ):
+                continue
+        if (
+            not review
+            and not text_mode
+            and (
+                not row["production_eligible"]
+                or row["review_status"] not in ("approved", "published")
+            )
         ):
             continue
-        if not review and row["summary_review_status"] not in ("approved", "published"):
+        if (
+            not review
+            and not text_mode
+            and row["summary_review_status"] not in ("approved", "published")
+        ):
             continue
         if row["kind"] == "case" and method:
             case_method = row["metadata_json"].get("method_profile_id")
             if (case_method is not None and case_method != method) or (
-                not review and case_method is None
+                not review and not text_mode and case_method is None
             ):
                 continue
         rule = rules.get(rid)

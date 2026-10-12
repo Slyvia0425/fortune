@@ -9,17 +9,17 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from sqlalchemy import create_engine, select
 
-from app.api.deps import CurrentUserId
+from app.api.deps import HybridUserId
 from app.schemas.common import success_envelope
 from app.services.embeddings import get_embedding_provider
 from app.services.knowledge_v2 import schema as s
-from app.services.knowledge_v2.hybrid import run_production
+from app.services.knowledge_v2.hybrid import run_production, run_text_reasoning
 from app.services.knowledge_v2.runtime import RuntimeStore
 from app.services.knowledge_v2.vectorize import verify_provider
 
 router = APIRouter(prefix="/liuyao/hybrid", tags=["liuyao-hybrid"])
 ROOT = Path(__file__).resolve().parents[5]
-DATA = ROOT / "data/liuyao_knowledge/stage7-v2.2"
+DATA = ROOT / "data/liuyao_knowledge/stage9-text-reasoning-v2"
 
 
 class HybridRequest(BaseModel):
@@ -46,7 +46,7 @@ def verified_provider():
 
 
 @router.post("/query")
-def query(payload: HybridRequest, user_id: CurrentUserId):
+def query(payload: HybridRequest, user_id: HybridUserId):
     try:
         engine, store = dependencies()
         # Only a published release can return production evidence.
@@ -98,6 +98,9 @@ class WebCastRequest(HybridRequest):
 class EvidenceRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     chart_id: UUID
+    # This is parser output used only to choose retrieval vocabulary. Core facts
+    # always come from the server-owned frozen chart loaded below.
+    question_context: dict | None = None
 
 
 def cast_view(chart, request_id=None):
@@ -134,7 +137,7 @@ def cast_view(chart, request_id=None):
 
 
 @router.post("/cast")
-def web_cast(payload: WebCastRequest, user_id: CurrentUserId):
+def web_cast(payload: WebCastRequest, user_id: HybridUserId):
     from app.services.knowledge_v2.runtime import freeze
 
     try:
@@ -156,7 +159,7 @@ def web_cast(payload: WebCastRequest, user_id: CurrentUserId):
 
 
 @router.post("/evidence")
-def web_evidence(payload: EvidenceRequest, user_id: CurrentUserId):
+def web_evidence(payload: EvidenceRequest, user_id: HybridUserId):
     try:
         engine, store = dependencies()
         # Ownership is checked before retrieval and before any model call.
@@ -167,8 +170,12 @@ def web_evidence(payload: EvidenceRequest, user_id: CurrentUserId):
         raise HTTPException(status_code=503, detail="Knowledge snapshot missing") from exc
     with engine.connect() as conn:
         release_id = conn.execute(
-            select(s.active.c.release_id).where(s.active.c.name == "production")
+            select(s.active.c.release_id).where(s.active.c.name == "text_reasoning")
         ).scalar()
+        if release_id is None:
+            release_id = conn.execute(
+                select(s.active.c.release_id).where(s.active.c.name == "production")
+            ).scalar()
         if release_id is None:
             release_id = json.loads((DATA / "preparation_report.json").read_text())["release_id"]
         status = conn.execute(
@@ -176,18 +183,19 @@ def web_evidence(payload: EvidenceRequest, user_id: CurrentUserId):
         ).scalar()
     provider = None
     provider_gap = False
-    if status == "published":
+    if status == "text_published":
         try:
             provider = verified_provider()
         except Exception:
             provider_gap = True
-    pack = run_production(
+    pack = run_text_reasoning(
         engine,
         release_id,
         chart["original_question"],
         chart_id=chart["chart_id"],
         core_loader=lambda cid: store.load(user_id, cid),
         provider=provider,
+        question_context=payload.question_context,
     )
     if provider_gap:
         pack["retrieval_trace"].append({"reason": "SEMANTIC_PROVIDER_UNAVAILABLE"})

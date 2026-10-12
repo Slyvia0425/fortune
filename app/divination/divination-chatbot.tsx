@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import chatStyles from "./divination-chatbot.module.css";
 import type { ApiEnvelope } from "@/lib/contracts/api";
-import type { DivinationCastResult, DivinationChatMessage, DivinationChatReply, DivinationInterpretationResult } from "@/lib/contracts/divination";
+import type { DivinationCastResult, DivinationChatMessage, DivinationChatReply, DivinationInterpretationResult, QuestionContext } from "@/lib/contracts/divination";
 import HexagramEvolution from "./hexagram-evolution";
 import InterpretationPanel from "./interpretation-panel";
 
@@ -16,6 +16,7 @@ export default function DivinationChatbot() {
   const [pending, setPending] = useState(false);
   const [reply, setReply] = useState<DivinationChatReply | null>(null);
   const [cast, setCast] = useState<DivinationCastResult | null>(null);
+  const [questionContext, setQuestionContext] = useState<QuestionContext | null>(null);
   const sessionId = useRef<string | null>(null);
   const sequence = useRef(0);
   const [interpretation, setInterpretation] = useState<DivinationInterpretationResult | null>(null);
@@ -27,13 +28,13 @@ export default function DivinationChatbot() {
         messages: DivinationChatMessage[];
         reply: DivinationChatReply | null;
         cast: DivinationCastResult | null;
-        interpretation: DivinationInterpretationResult | null;
+        interpretation: DivinationInterpretationResult | null; questionContext: QuestionContext | null;
       }> | null;
-      if (cached && Array.isArray(cached.messages) && cached.cast && cached.interpretation) {
+      if (cached && Array.isArray(cached.messages) && cached.cast) {
         setMessages(cached.messages);
         setReply(cached.reply ?? null);
         setCast(cached.cast);
-        setInterpretation(cached.interpretation);
+        setInterpretation(cached.interpretation ?? null); setQuestionContext(cached.questionContext ?? null);
       }
     } catch {
       window.sessionStorage.removeItem(resultCacheKey);
@@ -43,9 +44,9 @@ export default function DivinationChatbot() {
   }, []);
 
   useEffect(() => {
-    if (!restored || !cast || !interpretation) return;
-    window.sessionStorage.setItem(resultCacheKey, JSON.stringify({ messages, reply, cast, interpretation }));
-  }, [cast, interpretation, messages, reply, restored]);
+    if (!restored || !cast) return;
+    window.sessionStorage.setItem(resultCacheKey, JSON.stringify({ messages, reply, cast, interpretation, questionContext }));
+  }, [cast, interpretation, messages, reply, restored, questionContext]);
 
   function saveHistory(eventType: string, payload: Record<string, unknown>) {
     sessionId.current ??= crypto.randomUUID();
@@ -63,23 +64,23 @@ export default function DivinationChatbot() {
     const content = value.trim();
     if (!content || pending) return;
     const next = [...messages, { role: "user" as const, content }];
-    window.sessionStorage.removeItem(resultCacheKey);
-    setMessages(next); setInput(""); setPending(true); setReply(null); setCast(null); setInterpretation(null);
+    setMessages(next); setInput(""); setPending(true); setReply(null); setInterpretation(null);
     saveHistory("module2a.chat.user_message", { role: "user", content, message_index: next.length - 1, inference_eligible: false });
     try {
       const response = await fetch("/api/divination/chat", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ messages: next }) });
       const payload = await response.json() as ApiEnvelope<DivinationChatReply>;
       if (!response.ok || !payload.result) throw new Error(payload.error?.message ?? "聊天服务暂不可用。");
       const bot = payload.result;
-      setReply(bot);
+      setReply(bot); setQuestionContext(bot.question_context ?? null);
       setMessages(current => [...current, { role: "assistant", content: bot.message }]);
       saveHistory("module2a.chat.assistant_message", { role: "assistant", content: bot.message, status: bot.status, message_index: next.length, inference_eligible: false });
-      if (bot.cast_request) {
+      let activeCast=cast;
+      if (bot.cast_request && !activeCast) {
         const castResponse = await fetch("/api/divination/cast", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...bot.cast_request, request_id: crypto.randomUUID(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone }) });
         const castPayload = await castResponse.json() as ApiEnvelope<DivinationCastResult>;
         const result = castPayload.result;
         if (!castResponse.ok || !result) throw new Error(castPayload.error?.message ?? "起卦服务暂不可用。");
-        setCast(result);
+        setCast(result); activeCast=result;
         const completionMessage = `起卦完成：本卦「${result.primary.name}」，${result.moving_lines.length ? `动爻为第 ${result.moving_lines.join("、")} 爻` : "本次无动爻"}，变卦「${result.transformed.name}」。`;
         setMessages(current => [...current, { role: "assistant", content: completionMessage }]);
         saveHistory("module2a.chat.assistant_message", { role: "assistant", content: completionMessage, message_index: next.length + 1, inference_eligible: false });
@@ -93,7 +94,11 @@ export default function DivinationChatbot() {
           time_range: bot.extraction?.time_range,
           inference_eligible: true,
         });
-        const interpretationResponse = await fetch("/api/divination/interpret", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chart_id: result.chart_id, chart_hash: result.chart_hash }) });
+      }
+      if (bot.status === "ready" && activeCast?.chart_id) {
+        const loadingMessage = "问题已确认，正在基于本次冻结卦盘读取规则与典籍依据……";
+        setMessages(current => [...current, { role: "assistant", content: loadingMessage }]);
+        const interpretationResponse = await fetch("/api/divination/interpret", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chart_id: activeCast.chart_id, chart_hash: activeCast.chart_hash, question_context: bot.question_context }) });
         const interpretationPayload = await interpretationResponse.json() as ApiEnvelope<DivinationInterpretationResult>;
         if (!interpretationResponse.ok || !interpretationPayload.result) throw new Error(interpretationPayload.error?.message ?? "典籍证据请求失败。");
         setInterpretation(interpretationPayload.result);
@@ -107,5 +112,5 @@ export default function DivinationChatbot() {
   }
 
   const extraction=reply?.extraction;
-  return <section className={`panel ${chatStyles.chatPanel}`}><p className="kicker">对话式问卦</p><h2>先说事，再起卦</h2><p className="panel-intro">聊天助手会整理问题、时间范围和起卦数字；本卦、动爻、互卦与变卦均由规则引擎计算。</p><div className={chatStyles.chatHistory} aria-live="polite">{messages.map((message, index) => <p className={`${chatStyles.chatMessage} ${chatStyles[message.role]}`} key={`${message.role}-${index}`}>{message.content}</p>)}</div>{extraction && <details className={chatStyles.extraction}><summary>解析信息（{extraction.source === "llm" ? "LLM" : "规则兜底"}）</summary><dl><dt>问题</dt><dd>{extraction.question ?? "未识别"}</dd><dt>时间</dt><dd>{extraction.time_range ?? "未识别"}</dd><dt>方式</dt><dd>{extraction.method ?? "未选择"}</dd>{extraction.numbers?.length ? <><dt>数字</dt><dd>{extraction.numbers.join("、")}</dd></> : null}{extraction.fallback_reason ? <><dt>兜底原因</dt><dd>{extraction.fallback_reason}</dd></> : null}</dl></details>}{reply?.suggestions.length ? <div className={chatStyles.chatSuggestions}>{reply.suggestions.map(suggestion => <button type="button" key={suggestion} onClick={() => send(suggestion)}>{suggestion}</button>)}</div> : null}<div className={chatStyles.chatCompose}><input value={input} onChange={event => setInput(event.target.value)} onKeyDown={event => { if (event.key === "Enter") send(); }} placeholder="例如：我想问未来三个月的工作，数字 18、27、9" disabled={pending}/><button className="button button-primary" type="button" onClick={() => send()} disabled={pending}>{pending ? "处理中……" : "发送"}</button></div>{cast && <HexagramEvolution result={cast} />}{interpretation && <InterpretationPanel result={interpretation} />}</section>;
+  return <section className={`panel ${chatStyles.chatPanel}`}><p className="kicker">对话式问卦</p><h2>先说事，再起卦</h2><p className="panel-intro">聊天助手会整理问题、时间范围和起卦数字；本卦、动爻、互卦与变卦均由规则引擎计算。</p><div className={chatStyles.chatHistory} aria-live="polite">{messages.map((message, index) => <p className={`${chatStyles.chatMessage} ${chatStyles[message.role]}`} key={`${message.role}-${index}`}>{message.content}</p>)}</div>{extraction && <details className={chatStyles.extraction}><summary>解析信息（{extraction.source === "llm" ? "LLM" : extraction.source === "unavailable" ? "LLM 暂不可用" : "规则兜底"}）</summary><dl><dt>问题</dt><dd>{extraction.question ?? "未识别"}</dd><dt>时间</dt><dd>{extraction.time_range ?? "未识别"}</dd><dt>方式</dt><dd>{extraction.method ?? "未选择"}</dd>{extraction.numbers?.length ? <><dt>数字</dt><dd>{extraction.numbers.join("、")}</dd></> : null}{extraction.fallback_reason ? <><dt>原因</dt><dd>{extraction.fallback_reason}</dd></> : null}</dl></details>}{reply?.suggestions.length ? <div className={chatStyles.chatSuggestions}>{reply.suggestions.map(suggestion => <button type="button" key={suggestion} onClick={() => send(suggestion)}>{suggestion}</button>)}</div> : null}<div className={chatStyles.chatCompose}><input value={input} onChange={event => setInput(event.target.value)} onInput={event => setInput(event.currentTarget.value)} onKeyDown={event => { if (event.key === "Enter") send(); }} placeholder="例如：我想问未来三个月的工作，数字 18、27、9" disabled={pending}/><button className="button button-primary" type="button" onClick={() => send()} disabled={pending}>{pending ? "处理中……" : "发送"}</button></div>{cast && <HexagramEvolution result={cast} />}{interpretation && <InterpretationPanel result={interpretation} />}</section>;
 }
