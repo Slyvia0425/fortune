@@ -1,8 +1,18 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { BaziChartRequest, BaziChartResult, TraceStep, TraceUse } from "@/lib/contracts/bazi";
+import CollectionButton from "@/app/components/collection-button";
 import { booksOf, drawnEdges, layerSteps } from "@/lib/bazi/chain";
 import { chainJson, chartMarkdown, exportName } from "@/lib/bazi/export";
 import { ExportPreview, type ExportFile } from "./export-preview";
+import {
+  chartSourceId,
+  dayMasterText,
+  displayName,
+  personKey,
+  pillarText,
+  sourceEvidence,
+  type BaziProfileActivity,
+} from "./profile-activity";
 import styles from "./bazi-chart.module.css";
 
 /**
@@ -65,7 +75,17 @@ function UseBlock({ use }: { use: TraceUse }) {
   );
 }
 
-export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResult; request: BaziChartRequest; onNavigate: Navigate }) {
+export function ChainStep({
+  chart,
+  request,
+  onNavigate,
+  profileActivity,
+}: {
+  chart: BaziChartResult;
+  request: BaziChartRequest;
+  onNavigate: Navigate;
+  profileActivity?: BaziProfileActivity;
+}) {
   const steps = chart.calculation_trace;
   const rows = useMemo(() => layerSteps(steps), [steps]);
   const number = new Map(rows.flat().map((id, index) => [id, index + 1]));        // numbered as they are laid out, top to bottom
@@ -211,6 +231,47 @@ export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResu
           </div>
         ))}
       </div>
+
+      {profileActivity ? (
+        <div className={styles.collectRow}>
+          <CollectionButton
+            {...profileActivity}
+            action="interpretation"
+            evidence={[
+              ...chart.calculation_trace.map((step) => `${step.title}：${step.summary}`),
+              ...chart.calculation_trace.flatMap((step) =>
+                step.uses
+                  .filter((use) => use.id || use.source)
+                  .map((use) =>
+                    [
+                      use.id,
+                      use.title,
+                      use.source
+                        ? `《${use.source.book}》${use.source.chapter ?? ""}${use.source.quotation ? `　「${use.source.quotation}」` : ""}`
+                        : "",
+                    ]
+                      .filter(Boolean)
+                      .join("　"),
+                  ),
+              ),
+              ...sourceEvidence(chart),
+            ]}
+            itemType="bazi_reasoning"
+            label="收藏推导链路"
+            module="bazi"
+            sourceId={`${chartSourceId(chart, personKey(profileActivity))}:chain`}
+            step="chain"
+            summary={`${displayName(profileActivity)} · 四柱 ${pillarText(chart)}；日主 ${dayMasterText(chart)}；推导共 ${chart.calculation_trace.length} 步，引用典籍 ${chart.source_refs.length} 部。`}
+            tags={["八字", "推导链路", "依据"]}
+            title={`${displayName(profileActivity)} · 推导链路与出处`}
+            snapshot={{
+              request,
+              calculation_trace: chart.calculation_trace,
+              source_refs: chart.source_refs,
+            }}
+          />
+        </div>
+      ) : null}
     </>
   );
 }

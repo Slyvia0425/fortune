@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { AdvisoryDomain, BaziChartResult } from "@/lib/contracts/bazi";
+import CollectionButton from "@/app/components/collection-button";
 import {
   DOMAIN_LABEL,
   PILLAR_LABEL,
@@ -7,13 +8,28 @@ import {
   TEN_GOD_GROUP_LABEL,
   TEN_GOD_LABEL,
 } from "@/lib/bazi/display";
+import {
+  chartSourceId,
+  dayMasterText,
+  displayName,
+  personKey,
+  sourceEvidence,
+  tallyEvidence,
+  type BaziProfileActivity,
+} from "./profile-activity";
 import styles from "./bazi-chart.module.css";
 
 /**
  * 命局倾向对照: for each domain, which ten-god groups the chart holds and what the texts say of them,. Description only: no scores, no ranking, no advice. The
  * wording is the engine's own template text (the rule base's definitions and quotations, and the counts from the chart).
  */
-export function AdvisoryStep({ chart }: { chart: BaziChartResult }) {
+export function AdvisoryStep({
+  chart,
+  profileActivity,
+}: {
+  chart: BaziChartResult;
+  profileActivity?: BaziProfileActivity;
+}) {
   return (
     <>
       <h2>命局倾向对照</h2>
@@ -23,6 +39,33 @@ export function AdvisoryStep({ chart }: { chart: BaziChartResult }) {
       </p>
 
       <Tallies chart={chart} />
+
+      {profileActivity ? (
+        <div className={styles.collectRow}>
+          <CollectionButton
+            {...profileActivity}
+            action="interpretation"
+            evidence={[...tallyEvidence(chart), ...sourceEvidence(chart)]}
+            itemType="bazi_advisory"
+            label="收藏方向依据"
+            module="bazi"
+            sourceId={`${chartSourceId(chart, personKey(profileActivity))}:advisory`}
+            step="advisory"
+            summary={`${displayName(profileActivity)} · 日主 ${dayMasterText(chart)}；${chart.domain_tallies
+              .map(
+                (tally) =>
+                  `${DOMAIN_LABEL[tally.domain]}：${tally.groups
+                    .filter((group) => group.count > 0)
+                    .map((group) => `${TEN_GOD_GROUP_LABEL[group.group]} ${group.count} 处`)
+                    .join("、") || "相关十神未见"}`,
+              )
+              .join("；")}。`}
+            tags={["八字", "方向依据", "十神"]}
+            title={`${displayName(profileActivity)} · 命局倾向依据`}
+            snapshot={{ domain_tallies: chart.domain_tallies, source_refs: chart.source_refs }}
+          />
+        </div>
+      ) : null}
     </>
   );
 }
