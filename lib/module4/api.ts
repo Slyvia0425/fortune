@@ -81,9 +81,10 @@ export const module4Api = {
         item_type: draft.itemType,
         source_id: draft.sourceId.trim(),
         title: draft.title.trim() || null,
-        source_metadata: draft.sourceUrl.trim()
-          ? { url: draft.sourceUrl.trim() }
-          : {},
+        source_metadata: {
+          ...(draft.metadata ?? {}),
+          ...(draft.sourceUrl.trim() ? { url: draft.sourceUrl.trim() } : {}),
+        },
       }),
     }),
 

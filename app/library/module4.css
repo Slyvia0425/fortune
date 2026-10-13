@@ -1428,3 +1428,13 @@ nav a:hover,
 }
 
 }
+.source-update-badge {
+  display: inline-block;
+  margin: 7px 0 2px;
+  padding: 4px 8px;
+  border: 1px solid #d3ad68;
+  background: #fff3d9;
+  color: #7a551c;
+  font-size: 11px;
+  font-weight: 500;
+}

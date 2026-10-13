@@ -72,11 +72,28 @@ function sourceUrl(item: CollectionItem): string | null {
 function itemTypeLabel(value: string): string {
   const labels: Record<string, string> = {
     knowledge_item: "典籍",
+    knowledge_passage: "原文段落",
+    knowledge_concept: "图谱概念",
+    knowledge_term: "术语",
     divination: "卦象",
     sign: "签文",
     personal_note: "笔记",
   };
   return labels[value] || value;
+}
+
+function sourceNeedsReview(item: CollectionItem): boolean {
+  return item.source_metadata?.saved_from === "module3" &&
+    item.source_metadata?.source_version !== "knowledge-corpus-v2";
+}
+
+function announceCollectionChange(): void {
+  window.dispatchEvent(new Event("fortune:collections-changed"));
+  if ("BroadcastChannel" in window) {
+    const channel = new BroadcastChannel("fortune:collections-changed");
+    channel.postMessage("refresh");
+    channel.close();
+  }
 }
 
 function messageFrom(error: unknown): string {
@@ -201,6 +218,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     setError(null);
     try {
       await module4Api.createCollection(activeUser, collectionDraft);
+      announceCollectionChange();
       setCollectionDraft(emptyCollectionDraft);
       setShowCollectionForm(false);
       await refreshPersonalData("收藏已保存");
@@ -230,6 +248,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     setBusy(true);
     try {
       await module4Api.deleteCollection(activeUser, item.collection_id);
+      announceCollectionChange();
       await refreshPersonalData("收藏已删除");
     } catch (deleteError) {
       setError(messageFrom(deleteError));
@@ -463,6 +482,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                       <span>{itemTypeLabel(item.item_type)}</span>
                       <time>{formatDate(item.created_at)}</time>
                     </div>
+                    {sourceNeedsReview(item) ? <strong className="source-update-badge">来源可能已更新，请返回原文核对</strong> : null}
                     <h2>{item.title || item.source_id || "未命名收藏"}</h2>
                     <p>{item.source_id || item.snapshot_id}</p>
                     <div className="saved-actions">

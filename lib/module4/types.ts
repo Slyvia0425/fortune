@@ -74,6 +74,7 @@ export interface CollectionDraft {
   sourceId: string;
   title: string;
   sourceUrl: string;
+  metadata?: Record<string, unknown>;
 }
 
 export interface NoteDraft {
