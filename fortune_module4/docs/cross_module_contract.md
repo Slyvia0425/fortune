@@ -51,3 +51,59 @@ Recommended event types: `session.started`, `knowledge.item.opened`, `recommenda
 
 Do not send raw identity data. The authentication service provides the pseudonymous `user_id` used
 in `X-User-Id` or the event body.
+
+## Conversation Archive and Inference Whitelist
+
+Module 2 chat transcripts may be archived in full, but ordinary conversation messages must never
+be treated as recommendation or similar-case evidence. Send each message as a
+`conversation.message` event with the role and text:
+
+```json
+{
+  "session_id": "uuid",
+  "source_module": "module2a",
+  "event_type": "conversation.message",
+  "sequence_no": 1,
+  "system": "divination",
+  "payload": {
+    "role": "user",
+    "content": "我想问未来三个月的工作安排"
+  }
+}
+```
+
+The complete event history remains available from `GET /api/v1/sessions/{session_id}/events`.
+Use `?inference_only=true` to retrieve only events approved for recommendation and case matching.
+
+Only these structured event types participate in inference:
+
+- `module1.chart.completed`
+- `module2a.divination.completed`
+- `knowledge.item.opened`
+- `recommendation.impression`
+- `recommendation.click`
+- `collection.created`
+- `note.created`
+- `tag.assigned`
+- `feedback.submitted`
+
+When a divination finishes, send exactly one `module2a.divination.completed` event. Send feedback as
+a separate `feedback.submitted` event or through `POST /api/v1/feedback`; Module 4 will create the
+structured feedback event automatically when a session id is present.
+
+## Module 2 Integration Sequence
+
+Use one stable `session_id` for the full chat. For each visible chat turn, send
+`conversation.message` events in display order. After the rule engine returns a cast, send one
+`module2a.divination.completed` event with the computed hexagrams and moving lines.
+
+The resulting timeline is:
+
+1. `conversation.message` with `role=user`
+2. `conversation.message` with `role=assistant`
+3. `module2a.divination.completed` after the cast result is available
+4. `feedback.submitted` when the user rates, collects, corrects, or reports a result
+
+`GET /api/v1/sessions` lists each user's saved sessions with `conversation_count`, `event_count`,
+`last_event_at`, and `last_message_preview`. `GET /api/v1/sessions/{session_id}/events` returns the
+complete ordered timeline used by the Module 4 history panel.

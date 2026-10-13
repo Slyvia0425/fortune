@@ -1,0 +1,16 @@
+{
+  "schema_version": "liuyao-candidate-rules-v1",
+  "release_status": "review_only",
+  "production_rule_execution_enabled": false,
+  "source_stage2_dataset_sha256": "7b4bff1bebd0c89ffbf5e249711a5a124a2e8a43b840f63bccf6532b62b3eab6",
+  "source_stage2_manifest_sha256": "7b314c9e0537d61deb9b5b3a65d9ae8b28ff32a067263f1f4397e6281d366643",
+  "proposal_sha256": "5b85ef24d20caeb9b528204e6283cff498acdecd4e43c50476ee336725a8dc36",
+  "rule_count": 36,
+  "pending_rule_count": 36,
+  "executable_rule_count": 0,
+  "files": {
+    "rules.jsonl": "de64ccbc52bdb5b3655150004726051c8a7729c1f75a25192e84093f1577ac15",
+    "method_profiles.jsonl": "bfc70c746d4360dcbafe7864598f62e64bd94594fda4105f23e667598511b004",
+    "conflict_groups.jsonl": "165a59516f99e2db7073e0a1dbadfa91303717da90bdb17f72102cce07e25a12"
+  }
+}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import type { BaziChartResult, ElementKey, TenGod } from "@/lib/contracts/bazi";
+import CollectionButton from "@/app/components/collection-button";
 import {
   BRANCH_LABEL,
   ELEMENT_LABEL,
@@ -12,6 +13,15 @@ import {
 } from "@/lib/bazi/display";
 import { cellNote, chartCells, GENERATING_ORDER, type ChartCell } from "@/lib/bazi/structure";
 import { ElementIcon } from "./element-icon";
+import {
+  chartSourceId,
+  dayMasterText,
+  displayName,
+  personKey,
+  pillarText,
+  sourceEvidence,
+  type BaziProfileActivity,
+} from "./profile-activity";
 import styles from "./bazi-chart.module.css";
 
 // Bar lengths only illustrate the primary/middle/residual ordering; they are
@@ -97,7 +107,15 @@ function TimelineRow({
   );
 }
 
-export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warnings: string[] }) {
+export function PillarsStep({
+  chart,
+  warnings,
+  profileActivity,
+}: {
+  chart: BaziChartResult;
+  warnings: string[];
+  profileActivity?: BaziProfileActivity;
+}) {
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
   const [selectedId, setSelectedId] = useState(dayMaster.id);
@@ -293,6 +311,40 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
         </p>
       </div>
 
+      {profileActivity ? (
+        <div className={styles.collectRow}>
+          {/* The chart itself is recorded automatically: the personal agent
+              needs every chart a person has, not only the ones they remembered
+              to bookmark. */}
+          <CollectionButton
+            {...profileActivity}
+            action="calculation"
+            autoRecord
+            evidence={[
+              `公历 ${time.true_solar_time}（真太阳时）`,
+              `节气：${SOLAR_TERM_LABEL[term.current_term]}后 ${term.days_since_term.toFixed(1)} 天`,
+              `起运 ${onset.years} 岁${onset.months > 0 ? ` ${onset.months} 个月` : ""} · ${LUCK_DIRECTION_LABEL[onset.direction]}`,
+              ...sourceEvidence(chart),
+            ]}
+            itemType="bazi_record"
+            label="收藏四柱"
+            module="bazi"
+            sourceId={`${chartSourceId(chart, personKey(profileActivity))}:pillars`}
+            step="pillars"
+            summary={`${displayName(profileActivity)} · 四柱 ${pillarText(chart)}；日主 ${dayMasterText(chart)}。`}
+            tags={["八字", "四柱", "排盘"]}
+            title={`${displayName(profileActivity)} · 八字命盘`}
+            snapshot={{
+              pillars: chart.pillars,
+              resolved_time: chart.resolved_time,
+              solar_term: chart.solar_term,
+              luck_onset: chart.luck_onset,
+              day_master: chart.day_master,
+            }}
+          />
+        </div>
+      ) : null}
+
       {/* 大运：与四柱同属 1.1 的确定性计算，故并入本页；仅展示，不含吉凶判断 */}
       <section className={`${styles.luckBlock} ${styles.rise}`} style={{ animationDelay: "480ms" }}>
         <div className={styles.sectionHead}>
@@ -341,6 +393,41 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
           currentKey={String(thisYear)}
           onSelect={setYearKey}
         />
+
+        {profileActivity ? (
+          <div className={styles.collectRow}>
+            <CollectionButton
+              {...profileActivity}
+              action="calculation"
+              evidence={[
+                `起运 ${onset.years} 岁${onset.months > 0 ? ` ${onset.months} 个月` : ""}，${LUCK_DIRECTION_LABEL[onset.direction]}`,
+                ...chart.luck_cycles.map(
+                  (cycle) =>
+                    `${cycle.start_age}–${cycle.end_age} 岁（${cycle.start_year}–${cycle.end_year}）${STEM_LABEL[cycle.stem]}${BRANCH_LABEL[cycle.branch]}`,
+                ),
+              ]}
+              itemType="bazi_luck"
+              label="收藏大运流年"
+              module="bazi"
+              sourceId={`${chartSourceId(chart, personKey(profileActivity))}:luck`}
+              step="luck-cycles"
+              summary={`${displayName(profileActivity)} · 大运 ${chart.luck_cycles
+                .map(
+                  (cycle) =>
+                    `${cycle.start_age}-${cycle.end_age} 岁 ${STEM_LABEL[cycle.stem]}${BRANCH_LABEL[cycle.branch]}`,
+                )
+                .join("；")}；当前 ${chart.current_period.year.year} 年 ${STEM_LABEL[chart.current_period.year.stem]}${BRANCH_LABEL[chart.current_period.year.branch]}。`}
+              tags={["八字", "大运", "流年"]}
+              title={`${displayName(profileActivity)} · 大运与流年`}
+              snapshot={{
+                luck_onset: chart.luck_onset,
+                luck_cycles: chart.luck_cycles,
+                annual_cycles: chart.annual_cycles,
+                current_period: chart.current_period,
+              }}
+            />
+          </div>
+        ) : null}
 
       </section>
     </>

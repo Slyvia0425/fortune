@@ -1,0 +1,79 @@
+{
+  "source_import_manifest": {
+    "version": "liuyao-knowledge-v2.1",
+    "purpose": "review_staging_only",
+    "files": [
+      {
+        "path": "stage2-v1/sources.jsonl",
+        "sha256": "8d10338147d7dc1dc3f6394dbee527bb78db598d86b708418a64ebc667349efb",
+        "entity_type": "source",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage2-v1/passages.jsonl",
+        "sha256": "29047d507f2c1e5183303fd6b426220dbd4740f997aca0179342d1cc10d4d045",
+        "entity_type": "passage",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage2-v1/chapters.jsonl",
+        "sha256": "a8a0d2c1af441a4e98f51dd07e0b102771329753b042013743c72180c961faca",
+        "entity_type": "chapter_metadata",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage2-v1/chunks.jsonl",
+        "sha256": "2fcc3130f68433c20d54414a1c744dda2e4e65001978d932ed9790481ca35f91",
+        "entity_type": "legacy_reference_map",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage5-final-review-v1/final_cases.jsonl",
+        "sha256": "66ddcbe95f9f43e9b9bfcec1d9f473533bd566908d95eae17592cd0826a7efdc",
+        "entity_type": "case",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage5-final-review-v1/rules.jsonl",
+        "sha256": "a5637d4c273ae45cb9469eff176f3b588346ed52dc819dcdef828cac60e5e7b7",
+        "entity_type": "rule",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage5-final-review-v1/diverted_material.jsonl",
+        "sha256": "f490119e500a87eec0d65c0dcb69f296e8d86ab1be21d469b02baf7f7df98be4",
+        "entity_type": "diverted",
+        "review_policy": "preserve_upstream_never_promote"
+      },
+      {
+        "path": "stage5-final-review-v1/candidate_entity_mapping.jsonl",
+        "sha256": "a97c7ca8f19dcae1ba89cd48ea6ac017a958c5928f755eabf9242cfc17635c1c",
+        "entity_type": "legacy_case_map",
+        "review_policy": "preserve_upstream_never_promote"
+      }
+    ],
+    "frozen_legacy": [
+      {
+        "path": "stage4-v1/index.json",
+        "sha256": "e439af539a656befa3265291198c079f23b0e714bbdcf7dcce633ce7f1f95ff8"
+      },
+      {
+        "path": "stage4-v1/manifest.json",
+        "sha256": "99c6b3443425d25aa5328b8d227806e9912a6b9e5c3f409929ed2e0ba39b0a8e"
+      }
+    ],
+    "denied_path_components": [
+      "教学测评集",
+      "教学文本提取",
+      "参考答案",
+      "评分",
+      "审核讨论"
+    ],
+    "teaching_imported": false,
+    "production_retrieval_enabled": false
+  },
+  "source_database_sha256": "2cfc835c82e55b06938d097fde5a6caed0ed2c1101d7e652ca7623401528dba6",
+  "source_database": "/Users/chenxiaohe/Desktop/nus-iss/fortune/data/liuyao_knowledge/stage6-v2/knowledge.sqlite3",
+  "derived_view_policy": "rules_and_pre_cast_questions_only",
+  "teaching_imported": false
+}

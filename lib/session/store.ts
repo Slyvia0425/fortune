@@ -1,4 +1,0 @@
-import type {SessionEventRequest,UserNote,UserNoteRequest} from "@/lib/contracts/user";
-const events:Array<{user_id:string;event:SessionEventRequest}>=[];const notes=new Map<string,UserNote>();
-export function addEvent(userId:string,event:SessionEventRequest){events.push({user_id:userId,event});if(events.length>1000)events.shift();return{accepted:true,event_count:events.filter(item=>item.user_id===userId).length}}
-export function saveNote(userId:string,input:UserNoteRequest){const id=input.note_id??crypto.randomUUID(),key=`${userId}:${id}`;if(input.action==="delete"){notes.delete(key);return{deleted:true,note_id:id}}const note:UserNote={note_id:id,title:input.title,content:input.content,tags:input.tags??[],source_ref:input.source_ref,updated_at:new Date().toISOString()};notes.set(key,note);return note}

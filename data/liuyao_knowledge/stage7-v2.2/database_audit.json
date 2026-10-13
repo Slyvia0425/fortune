@@ -1,0 +1,53 @@
+{
+  "release_id": "release:fd13162bc7d8651f66e7a3de406442b2a369fa41dfcd5838c09d54e727e5d4ea",
+  "profile_id": "profile:39e6412a5b13c729c2d33c257f0459dca4e4cd91cfae98fea25696fe5a80965b",
+  "test_scope": "engineering_smoke_only_not_independent_quality_benchmark",
+  "query_set_origin": "agent_authored_from_reviewed_sources_no_teaching_import",
+  "model_verification": {
+    "probe_distances": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "baseline_created_at": "2026-10-10T11:37:30.128940+00:00",
+    "verified_operational_profile": true,
+    "fixed_weight_revision_available": false
+  },
+  "integrity": "ok",
+  "foreign_key_errors": [],
+  "source_quote_count": 3867,
+  "verified_vectors": 243,
+  "job_counts": {
+    "completed": 243
+  },
+  "source_revision_ids": [
+    "source-revision:1c55559e8b9d89deaec717f01abc6324",
+    "source-revision:5318fdeae22675770170feb5ed6abe6c",
+    "source-revision:586d3b96ace4d988567098cec722b40f",
+    "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+    "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+    "source-revision:e3eac845e75059ebdfb8788e0c59d62c"
+  ],
+  "entity_counts": {
+    "case": 216,
+    "diverted": 50,
+    "passage": 3541,
+    "rule": 36
+  },
+  "smoke_queries": 12,
+  "smoke_expected_found": 12,
+  "smoke_vector_used": 12,
+  "keyword_fallback_visible": true,
+  "all_sources_excluded_returns_zero": true,
+  "production_evidence_count": 0,
+  "production_fixture_notice": "Synthetic chart tests publication gate only, not live core.",
+  "old_database_unchanged": true,
+  "resume_cache_check": {
+    "completed": 0,
+    "cached": 243,
+    "failed": 0,
+    "blocked": 0,
+    "total_jobs": 243,
+    "accounting_closed": true
+  }
+}

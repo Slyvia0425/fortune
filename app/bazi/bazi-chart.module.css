@@ -793,3 +793,12 @@
 .previewActions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 .previewSave { padding: 5px 22px; font-size: 13px; letter-spacing: 0.1em; color: #fff; background: var(--jade); border: 1px solid var(--jade); cursor: pointer; }
 .previewSave:hover { background: var(--jade-2); }
+/* Where a step offers its own record to the personal knowledge base. */
+.collectRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.collectNote { font-size: 12px; color: #8d8b82; }
+/* Step 1's person archive: whose chart the records below belong to. */
+.archive { margin: 18px 0 22px; padding: 16px 18px; border: 1px solid var(--line); background: var(--white); }
+.archive .sectionHead h3 { display: flex; align-items: center; gap: 7px; }
+.archiveGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 14px; }
+.archiveRow { display: flex; gap: 8px; align-items: center; }
+.archiveRow select { flex: 1 1 auto; min-width: 0; }

@@ -1,0 +1,891 @@
+{
+  "knowledge_release_id": "release:fd13162bc7d8651f66e7a3de406442b2a369fa41dfcd5838c09d54e727e5d4ea",
+  "embedding_profile_id": "profile:39e6412a5b13c729c2d33c257f0459dca4e4cd91cfae98fea25696fe5a80965b",
+  "chart_id": "8dd916ca-e45d-4bf8-9bff-c2906126b152",
+  "chart_hash": "41e7d0e7447d14dd1ca42fb333e85e5e676984fb1aa5867a1d96e722b572505b",
+  "core_version": "liuyao-core-contract-v1",
+  "method_profile_id": "zengshan-single-cast-v1",
+  "method_profile_version": "1",
+  "facts": {
+    "question": {
+      "original_question": "我替妹妹问，她这次考试能不能过",
+      "topic": "考试",
+      "subtopic": null,
+      "subject_mode": "代占",
+      "subject_relation": "妹妹",
+      "asked_object": "妹妹",
+      "goal": "是否通过",
+      "exam_type": null,
+      "time_scope": {
+        "raw": "这次",
+        "normalized": null
+      },
+      "field_evidence": {
+        "topic": {
+          "quote": "考试",
+          "start": 9,
+          "end": 11,
+          "confirmed": true
+        },
+        "subject_relation": {
+          "quote": "妹妹",
+          "start": 2,
+          "end": 4,
+          "confirmed": true
+        },
+        "subject_mode": {
+          "quote": "替妹妹",
+          "start": 1,
+          "end": 4,
+          "confirmed": true
+        },
+        "goal": {
+          "quote": "能不能过",
+          "start": 11,
+          "end": 15,
+          "confirmed": true
+        },
+        "time_scope": {
+          "quote": "这次",
+          "start": 7,
+          "end": 9,
+          "confirmed": true
+        }
+      },
+      "explicit_facts": {
+        "topic": "考试",
+        "subject_relation": "妹妹",
+        "subject_mode": "替妹妹",
+        "goal": "能不能过",
+        "time_scope": "这次"
+      },
+      "ambiguities": [
+        "考试类型未提供"
+      ]
+    },
+    "core": {
+      "main_lines": [
+        {
+          "ref": "main:1",
+          "position": 1,
+          "yin_yang_value": 8,
+          "moving": false
+        },
+        {
+          "ref": "main:2",
+          "position": 2,
+          "yin_yang_value": 9,
+          "moving": true
+        },
+        {
+          "ref": "main:3",
+          "position": 3,
+          "yin_yang_value": 7,
+          "moving": false
+        },
+        {
+          "ref": "main:4",
+          "position": 4,
+          "yin_yang_value": 7,
+          "moving": false
+        },
+        {
+          "ref": "main:5",
+          "position": 5,
+          "yin_yang_value": 8,
+          "moving": false
+        },
+        {
+          "ref": "main:6",
+          "position": 6,
+          "yin_yang_value": 7,
+          "moving": false
+        }
+      ],
+      "main_lines_complete": false,
+      "transformed_lines": [
+        {
+          "ref": "transformed:1",
+          "position": 1,
+          "yin_yang_value": 8
+        },
+        {
+          "ref": "transformed:2",
+          "position": 2,
+          "yin_yang_value": 8
+        },
+        {
+          "ref": "transformed:3",
+          "position": 3,
+          "yin_yang_value": 7
+        },
+        {
+          "ref": "transformed:4",
+          "position": 4,
+          "yin_yang_value": 7
+        },
+        {
+          "ref": "transformed:5",
+          "position": 5,
+          "yin_yang_value": 8
+        },
+        {
+          "ref": "transformed:6",
+          "position": 6,
+          "yin_yang_value": 7
+        }
+      ],
+      "transformed_lines_complete": false,
+      "hidden_lines": [],
+      "hidden_lines_complete": false,
+      "capability_gaps": [
+        "najia",
+        "six_kin",
+        "position_roles",
+        "hidden_lines",
+        "strength",
+        "calendar"
+      ]
+    },
+    "candidates": {}
+  },
+  "query_plan": {
+    "original_question": "我替妹妹问，她这次考试能不能过",
+    "question_context": {
+      "original_question": "我替妹妹问，她这次考试能不能过",
+      "topic": "考试",
+      "subtopic": null,
+      "subject_mode": "代占",
+      "subject_relation": "妹妹",
+      "asked_object": "妹妹",
+      "goal": "是否通过",
+      "exam_type": null,
+      "time_scope": {
+        "raw": "这次",
+        "normalized": null
+      },
+      "field_evidence": {
+        "topic": {
+          "quote": "考试",
+          "start": 9,
+          "end": 11,
+          "confirmed": true
+        },
+        "subject_relation": {
+          "quote": "妹妹",
+          "start": 2,
+          "end": 4,
+          "confirmed": true
+        },
+        "subject_mode": {
+          "quote": "替妹妹",
+          "start": 1,
+          "end": 4,
+          "confirmed": true
+        },
+        "goal": {
+          "quote": "能不能过",
+          "start": 11,
+          "end": 15,
+          "confirmed": true
+        },
+        "time_scope": {
+          "quote": "这次",
+          "start": 7,
+          "end": 9,
+          "confirmed": true
+        }
+      },
+      "explicit_facts": {
+        "topic": "考试",
+        "subject_relation": "妹妹",
+        "subject_mode": "替妹妹",
+        "goal": "能不能过",
+        "time_scope": "这次"
+      },
+      "ambiguities": [
+        "考试类型未提供"
+      ]
+    },
+    "template_version": "question-template-v2.1",
+    "dictionary_version": "liuyao-search-terms-v1",
+    "queries": [
+      {
+        "text": "代占 妹妹 对象关系 条件 取用",
+        "lane": "rule",
+        "purpose": "关系与对象分类",
+        "rule_types": [
+          "subject_relation",
+          "object_classification"
+        ],
+        "round": 0,
+        "provenance": [
+          {
+            "field": "subject_mode"
+          },
+          {
+            "field": "subject_relation"
+          }
+        ],
+        "query_id": "q1"
+      },
+      {
+        "text": "考试 功名 科举 专题 取用条件 例外",
+        "lane": "rule",
+        "purpose": "专题条件与例外",
+        "rule_types": [
+          "topic_override"
+        ],
+        "round": 0,
+        "provenance": [
+          {
+            "field": "topic"
+          },
+          {
+            "historical_search_alias": "功名",
+            "dictionary_version": "liuyao-search-terms-v1"
+          },
+          {
+            "historical_search_alias": "科举",
+            "dictionary_version": "liuyao-search-terms-v1"
+          }
+        ],
+        "query_id": "q2"
+      },
+      {
+        "text": "代占 妹妹 考试 是否通过",
+        "lane": "case",
+        "purpose": "问事相似案例",
+        "rule_types": [],
+        "round": 0,
+        "provenance": [
+          {
+            "field": "subject_mode"
+          },
+          {
+            "field": "subject_relation"
+          },
+          {
+            "field": "topic"
+          },
+          {
+            "field": "goal"
+          }
+        ],
+        "query_id": "q3"
+      }
+    ],
+    "rejected_rewrites": [],
+    "rewrite_mode": "deterministic_templates",
+    "consumption": {
+      "unique_queries": 3,
+      "followup_rounds": 0,
+      "embedding_requests": 0,
+      "provider_usage": [],
+      "elapsed_ms": 65,
+      "token_count_source": "provider_usage_only",
+      "token_budget": null
+    }
+  },
+  "candidate_roles": [],
+  "selected_use": [],
+  "supporting_evidence": [],
+  "pending_conditions": [],
+  "counter_evidence": [],
+  "review_candidates": [
+    {
+      "entity_revision_id": "entity-revision:45f0bd47854ca8fdaaca027d1ba03ab8902b09384bd110d5f3728d3f736811b2",
+      "entity_id": "YS-OC-07",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+          "passage_id": "passage:988345fe1279e1b8d4f8bd0072605d1c",
+          "start": 10242,
+          "end": 10358,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+          "quote": "子孫爻;占子孫、占女、女婿、侄、甥、門生凡在我子孫輩中皆以子孫爻為用神。占忠臣、良將、醫藥、僧、道、兵卒皆以子孫爻為用神。占六畜、禽獸亦以子孫爻為用神。子孫福德之神。為制鬼之神、為解憂之神、為剝官之神,諸事見之為喜,獨占功名者忌之。",
+          "quote_hash": "447a2b964c4b459305f3ac05afe76ac1727c0356998557f5e40a3726dafbf401"
+        }
+      ],
+      "summary": "标题：子孙类：医药与动物\n条件：所问对象本身是医药、六畜禽兽等原文明列事项。\n动作：返回 category=子孙，供对象定位。\n限制与例外：问病人身体不等于问药；这里只取用，不自动执行原文疗效或生死结论。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:45f0bd47854ca8fdaaca027d1ba03ab8902b09384bd110d5f3728d3f736811b2",
+        "rule_type": "object_classification",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "object_classification",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 1
+      },
+      "rrf_score": 0.01639344262295082
+    },
+    {
+      "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+      "entity_id": "YS-TO-05",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+          "passage_id": "passage:ed177640ac6ce423a7b0596a7486d2eb",
+          "start": 16991,
+          "end": 17065,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+          "quote": "父爻旺相,就而正焉。父母爻旣為師長,又為詩書。延師受教,卽以此爻為用神,宜旺相或臨日月及動而化吉。如若休囚空破絕及動而化凶,有素食之譏,無師資之益。",
+          "quote_hash": "ee8a7526f6151e89df70850644ea01a0083a5553e1b5e34665cf2a5cc09f8efb"
+        },
+        {
+          "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+          "passage_id": "passage:be1cd7b86bf6c0202a9ab727270e939a",
+          "start": 17067,
+          "end": 17119,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+          "quote": "世位相生,博約善誘。父旺生合世爻,成人有德,若克世爻,而世爻得地者,有責成之功。世若休囚,必受師尊之累。",
+          "quote_hash": "4f89e676575a19c1275c0bc5cf63575a9b50c7961c0ee5ff43663a6fe84fc611"
+        }
+      ],
+      "summary": "标题：延师：父母为师长与诗书\n条件：问题明确为请老师或从师学习。\n动作：父母标记主候选；世爻标记求学者；原文支持师长和诗书含义。\n限制与例外：课程、学校、证书、考试录取不是同一目标，须另审映射；不自动用本规则覆盖考试。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+        "rule_type": "topic_override",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "topic_override",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 1
+      },
+      "rrf_score": 0.01639344262295082
+    },
+    {
+      "entity_revision_id": "entity-revision:55ec2dd5ec361d93985c70e00960a596bb9d9cc9b200005b6b831732398be603",
+      "entity_id": "YS-TO-08",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+          "passage_id": "passage:980b26f0fda2a6fca0832f82676dd5bc",
+          "start": 70,
+          "end": 343,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+          "quote": "諸書占身命,謂妻財子祿一卦,能包壽夭窮通,六爻兼斷。殊不知父子財官兄弟,各有相忌相傷,若以一卦而兼斷者,卽如父母旺相,變應之微,又曰父旺傷子,豈世之有父母者,皆無子嗣之人也?又曰見兄則財莫能得,又為克妻之神,又曰兄弟爻與紫荊並茂,倘值旺兄持世,克妻耶?耗財耶?手足外傷耶?易林補遺有曰兄動妻亡財相,故執此論者,世之貧人寒士,皆失偶之人耶?至于財官子孫皆同此論,不暇細辧。必兼而斷者,卽先醫猶在,執此問之,知亦無從置喙。覺子曰予今得其法,乃分占之法也,占父母占兄弟,另占—卦終身財福何如?占終身功名有無?占終身夫妻偕老否?占終身子嗣及幫元俱宜分占。",
+          "quote_hash": "08b2b2caa694b769f5ab0fe50f1d9e7c01f34dd7126ad56130bccbc01738977a"
+        },
+        {
+          "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+          "passage_id": "passage:c54ee270939a9a2f11bfb934672a3969",
+          "start": 17728,
+          "end": 17818,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+          "quote": "野鶴曰:凡占小考,當見占得吉卦,後竟道考無名,何也?動之應近而不應遠,已應府縣之有名也,必須先占縣者,再占府考,又占道考,但得吉卦者,許榜上有名。若有卦而不吉者,勿望道考而成名也。",
+          "quote_hash": "97196507baedfee3d6b5890b0ae164e97034a4e56e12339f632609c3657f0596"
+        }
+      ],
+      "summary": "标题：多目标与阶段性事项必须拆分\n条件：一次问题混合事业、钱财、家庭，或把多轮考试当一个结果。\n动作：生成独立 goal 或请求聚焦；不让单个候选同时承载互不等价的结果。\n限制与例外：这是将分占原则转为产品问题澄清；不自动为用户追加多次三数字起卦。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:55ec2dd5ec361d93985c70e00960a596bb9d9cc9b200005b6b831732398be603",
+        "rule_type": "topic_override",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "topic_override",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 2
+      },
+      "rrf_score": 0.016129032258064516
+    },
+    {
+      "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+      "entity_id": "YS-OC-06",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+          "passage_id": "passage:988345fe1279e1b8d4f8bd0072605d1c",
+          "start": 10242,
+          "end": 10358,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+          "quote": "子孫爻;占子孫、占女、女婿、侄、甥、門生凡在我子孫輩中皆以子孫爻為用神。占忠臣、良將、醫藥、僧、道、兵卒皆以子孫爻為用神。占六畜、禽獸亦以子孫爻為用神。子孫福德之神。為制鬼之神、為解憂之神、為剝官之神,諸事見之為喜,獨占功名者忌之。",
+          "quote_hash": "447a2b964c4b459305f3ac05afe76ac1727c0356998557f5e40a3726dafbf401"
+        }
+      ],
+      "summary": "标题：子孙类：晚辈与门生\n条件：目标为子女、孙辈、侄甥、女婿、门生等明列对象。\n动作：返回 category=子孙；记录具体关系，不仅存“晚辈”。\n限制与例外：不能仅凭年龄小判断关系；与对象无亲属或师生关系时不可自动套用。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+        "rule_type": "object_classification",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "object_classification",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 2
+      },
+      "rrf_score": 0.016129032258064516
+    },
+    {
+      "entity_revision_id": "entity-revision:92982551826420b6a5755ad0cec3c8e5c45d01bea7c36049713f15903a141a25",
+      "entity_id": "YS-SR-05",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:586d3b96ace4d988567098cec722b40f",
+          "passage_id": "passage:044fa4eb48b728507be13d7d9f19188c",
+          "start": 25754,
+          "end": 25791,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=157683",
+          "quote": "我事不可命人。我有心事,不可叫他人代我去占,我之一念,他又一念,事二念也!",
+          "quote_hash": "dab1b84e06850aed2ee1619bc45fd0f20fc4eb29b112ab31b04fd2d882b1b7fa"
+        },
+        {
+          "source_revision_id": "source-revision:586d3b96ace4d988567098cec722b40f",
+          "passage_id": "passage:0da3f4dd60a3a411a7e17d98b540242f",
+          "start": 25829,
+          "end": 26033,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=157683",
+          "quote": "此卦若以本人念,占防害者,喜子孫克世,克去身𨘢之鬼。而無覆也。告以家人,占主以父母為用神,又以官爻而兼用,巳火父爻旬空而墓于戌日,卯官𨿽臨月建,難擋疊疊之金,目下𨿽則無妨,秋來豈無險厄?豈知此卦,竟應官府自己之念,世爻為用,子孫克世,以解其災。至申日聞信,有人往上司揭告,被人勸阻,訟之未成。若以家人占主而決者,差別遠矣;又有不應主人之念,而應家人之念者,故曰我事必要親占,命他人而代者,難取用神,必然不驗。",
+          "quote_hash": "ab0b705a7fe0846cf50b03379157bc50c0a81059e65fed2eafdd3995aa641d90"
+        }
+      ],
+      "summary": "标题：受托代操作与本人代问分开\n条件：提供数字者、问题发起者或实际关切者不是同一人，或身份不清楚。\n动作：先询问谁提出问题、谁提供数字、问谁的什么目标；不自动切换世爻视角。\n限制与例外：原文对受命代占有不同念头的讨论；系统不能猜“神应谁的念”，也不据此偷偷更换问题。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:92982551826420b6a5755ad0cec3c8e5c45d01bea7c36049713f15903a141a25",
+        "rule_type": "subject_relation",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "subject_relation",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 3
+      },
+      "rrf_score": 0.015873015873015872
+    },
+    {
+      "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+      "entity_id": "YS-TO-06",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": "passage:096f6539fc63fc59ea1f3e92b76da345",
+          "start": 23834,
+          "end": 23938,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "與六親同居用六親,與外人同居看應爻。世為己,應為人,世應相合相生,日月動爻生合世應者,彼此俱祥。克世我遭喪,克應他遭害,世克應,他畏于我,應克世我被他欺,刑沖者同。與六親同居,宜于財興用神相生,不宜相沖相克。",
+          "quote_hash": "1dc299679210e8f0e22868c58e2b060a5ba5e38502f968f5976d74b8596b783f"
+        }
+      ],
+      "summary": "标题：同居：亲属与外人分流\n条件：问题明确为与某人同居或共同居住，关系明确。\n动作：与六亲同居调用相应六亲；与外人同居看应；保留世为自身。\n限制与例外：不以“同居”词自动判定婚姻或恋爱关系。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+        "rule_type": "topic_override",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "topic_override",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 3
+      },
+      "rrf_score": 0.015873015873015872
+    },
+    {
+      "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+      "entity_id": "YS-TO-03",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": "passage:c36f0601ee618d33d660f0f759c30b05",
+          "start": 98,
+          "end": 227,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "野鶴曰:見貴有兩間也,為名者用官,為利者用財,皆宜持世及生合世爻為吉,如逢空破,墓絕及動而變凶者,徒勞奔馳之力耳。倘若世爻化鬼化克及隨墓助傷者,更不宜行,若非到彼之凶,定在中途遇禍,凡謁貴者同斷。世動遇空,身興遇破,世動化空破者,勿曰不吉,乃應到彼之月日也。",
+          "quote_hash": "1cca8c6cc37d81f3c3b8ef87bd5ab14a3b2ee044db607a05158d4bca03bf1149"
+        },
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": "passage:f2b1452a2285905c1d8badb86d955796",
+          "start": 398,
+          "end": 466,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "為名宜父動,因利忌兄興。凡與謁貴旣得世與官星相合相生,必然得見,若為名利,須宜另占,不可此卦而斷之,為名者宜父官兩旺,為利者宜財福兩旺。",
+          "quote_hash": "d010d5fef78d3546439b208b09179539b76ff1ab06a7d442bf8b856a3d94d519"
+        }
+      ],
+      "summary": "标题：谒贵：为名与为利分开\n条件：问题是见贵人，且实际目的明确。\n动作：为名取官，为利取财；见面能否、名利能否分别作为目标，拒绝凭见面成功推出得利。\n限制与例外：原文也提示另占名利；现代“见客户”仅可作为审核后的映射，不直接等于谒贵。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+        "rule_type": "topic_override",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "topic_override",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 4
+      },
+      "rrf_score": 0.015625
+    },
+    {
+      "entity_revision_id": "entity-revision:bac3df55d38d2db1697933b2fd4d6bf9300349384fb39b01034e12da1540ef98",
+      "entity_id": "YS-SR-03",
+      "kind": "rule",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": "passage:d722196cd6a25a8d3342ecbdc5678182",
+          "start": 12754,
+          "end": 12909,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "用遇旬空,近病何須憂慮,用逢月破,久病難許安寧。自占病,世為用神,占父母弟兄取用神者皆在用神章內詳之,用神動靜而值旬空,及化空者,若無日月動爻沖克,許之沖空實空之日卽愈,倘逢沖克病𨿽重而不死,若值月破須看用神之衰旺,旺則愈于實破之日及出月而愈,衰而受克者必危。久病用神值旬空月破者,卽使用神旺相,亦無法以治之。",
+          "quote_hash": "7298edf2738b8ecae4fb05a28e86f794d0a28d9c6d85100070e60443b0f1e4ca"
+        }
+      ],
+      "summary": "标题：自占疾病取世\n条件：问题为本人自身疾病的传统取用定位。\n动作：selector=shi，标记 primary_candidate；不以“病”字直接选官鬼替换自己。\n限制与例外：这是疾病场景的取用规则，不能泛化为全部自占；不生成医学诊断、治疗建议或生死预测。",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "reason": "RULE_NOT_EXECUTABLE",
+        "missing_fields": []
+      },
+      "action_ast": null,
+      "rule_contract": {
+        "entity_revision_id": "entity-revision:bac3df55d38d2db1697933b2fd4d6bf9300349384fb39b01034e12da1540ef98",
+        "rule_type": "subject_relation",
+        "method_profile_id": "zengshan-single-cast-v1",
+        "conditions_ast": null,
+        "action_ast": null,
+        "exceptions_ast": null,
+        "conflict_group_ids": [],
+        "executable": false
+      },
+      "rule_type": "subject_relation",
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 4
+      },
+      "rrf_score": 0.015625
+    },
+    {
+      "entity_revision_id": "entity-revision:59d86ae15824842c451308c470f68f400ddf27711cfbd9c793ebb15d2316c184",
+      "entity_id": "final-case:188-1",
+      "kind": "case",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": null,
+          "start": 5588,
+          "end": 6380,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "又如寅月丙午日女家代占婚得臨之旣濟卦\n\n子孫酉金⚋  妻財子水⚋\n\n妻財亥水ㄨ應 兄弟戌土⚊\n\n兄弟丑土⚋  子孫申金⚋\n\n兄弟丑土ㄨ  妻財亥水⚊\n\n官鬼卯木○世 兄弟丑土⚋\n\n父母巳火⚊  官鬼卯木⚊\n\n覺子曰:女家占男,以官為用,以應爻為男家,此古法也,亦死法也,斷卦之時,須要人之活變,未必全得顯而易見者,卽如此卦,女家占男,卯木旺官持世,其婚必成,而應爻受克,又為男家不允,似此何以決之,要知財官為重,世應為輕,𨿽是女家占男,亦要財爻不致于換陷,此—卦也,男女二人財被回頭克又逢丑土之克,如何能生卯木之官?男女不能相合相生,婚𨿽成終有他變,後果聘定于四月,未及成婚被賊兵劫去,應巳月者亥水逢月破也。\n\n財值休囚破散,終非舉案之姻。官逢衰墓絕空,難遂齊眉之願。財爻官爻不宜墓絕空破,又不宜動而化破化散化克化鬼,乃夭折貧寒之合。男占忌財爻犯之,女占忌官爻犯之。男女自占,世爻忌犯,參商難免。\n\n世爻空亡,動化退,終須失望。動而空者實空之月日必成,靜而空者終不成也。世動化進神,事在必成。若化退神,終須難就。應爻靜而空破及化退神,亦同此推。\n\n應𨿽空,財化進,夙有良緣。應空他人不實,若動化退神,必有退悔之心,若得財爻動化進神而生世者,𨿽見退悔,終是良緣。若世應動而破者。亦應實破之時、\n\n世應皆空多費力,反吟多變事難成。世應俱空,皆無準實,反吟卦變,反覆難成。\n\n野鶴曰:倘得空而逢旺財鬼相生,先𨿽不允,後終還成。\n\n男占兮兄動,卦中非配偶。兄爻持世或兄動,乃傷妻阻隔之神,此婚必難成,已成者,遇此不免刑傷。覺子曰:兄爻持世,若得財爻動來相合,此婚必成。世兄爻化出財爻,此婚亦能成。\n\n女占兮官爻持世是良緣。女占男不宜子孫持世發動,子孫乃傷夫之神,未成者不成,已成者傷夫再嫁。惟官星持世合世生世旺相者,不獨姻緣必就,可期舉案齊眉。卦中官鬼重疊亦主再嫁。\n\n財官世應刑世夫妻反目。",
+          "quote_hash": "a2defb27c7e35be198d2bb21959c200583a49e1e173e781abea887c9f5736e84"
+        }
+      ],
+      "summary": "又如寅月丙午日女家代占婚",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "missing_fields": [
+          "reviewed_case_question_context"
+        ],
+        "direct_analogy": false
+      },
+      "action_ast": null,
+      "rule_contract": null,
+      "rule_type": null,
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 1
+      },
+      "rrf_score": 0.01639344262295082
+    },
+    {
+      "entity_revision_id": "entity-revision:11d63a02fd208213328e9dff78ff1d482e0b60f4f71c770c3d12e741230fd9b6",
+      "entity_id": "final-case:206-1",
+      "kind": "case",
+      "source_quotes": [
+        {
+          "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+          "passage_id": null,
+          "start": 21618,
+          "end": 22058,
+          "offset_unit": "unicode_codepoint",
+          "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+          "quote": "子月丁酉日占擇某日入宅是否有礙父母得萃卦\n\n父母未土⚋\n\n兄弟酉金⚊應\n\n子孫亥水⚊\n\n妻財卯木⚋\n\n官鬼巳火⚋世\n\n斷曰:此日入宅,卯木暗動以克父母。彼曰:卽煩另改一日。予曰:不必改日,此日寅卯時吉,申月亦吉,保爾淸靜吉祥。彼曰:何也?予曰:申時卯木絕于申也。父母未土及長生于申是以吉也。入宅之時宜父母安牀于西南,後照此行,予目其平安一十七載。\n\n馬房豬圈章一百十二\n\n凡作牛棚馬房雞窩羊欄,亦宜分占。\n\n子孫須宜旺動,父母切忌興隆。凡占一切六畜,皆以子孫為用神,不拘豬羊牛馬,皆忌父母發動,動則六畜受傷,亦忌子孫空破墓絕,及被日月動爻刑沖克害,及子孫動而化空破墓絕、化鬼、化父回頭克,皆主刑傷,此地不宜用之,或更擇地方,或另改一日,改日改地方者另占。\n\n生相必須兼看,日月更喜相生。六畜𨿽以子孫為用神,又宜兼看生相。假令作馬房,子孫不被沖克為吉也,不宜午爻,亦不宜臨鬼,不宜動而化鬼,餘仿此。凡占六畜,最宜日月生扶,謂之卦得日月生扶,六畜必然繁盛,倘受日月沖克,牲口絕種無根。",
+          "quote_hash": "2828353a58ae09e43e8ffe066ce0a93de9390b6065893ae0775389f78f47db95"
+        }
+      ],
+      "summary": "子月丁酉日占擇某日入宅是否有礙父母",
+      "condition_evaluation": "unknown",
+      "condition_details": {
+        "value": "unknown",
+        "missing_fields": [
+          "reviewed_case_question_context"
+        ],
+        "direct_analogy": false
+      },
+      "action_ast": null,
+      "rule_contract": null,
+      "rule_type": null,
+      "conflict_group_ids": [],
+      "not_for_interpretation": true,
+      "channel_ranks": {
+        "keyword": 2
+      },
+      "rrf_score": 0.016129032258064516
+    }
+  ],
+  "gaps": [
+    "NO_ELIGIBLE_EVIDENCE",
+    "CHART_FACTS_INCOMPLETE",
+    "UNRESOLVED_CONDITION"
+  ],
+  "clarification": [],
+  "case_support_available": false,
+  "retrieval_trace": [
+    {
+      "reason": "NO_VERIFIED_QUERY_PROVIDER",
+      "fallback": "bm25_and_structured",
+      "round": 0
+    },
+    {
+      "query_id": "q1",
+      "lane": "rule",
+      "eligible_views": 13,
+      "keyword_hits": 13,
+      "round": 0
+    },
+    {
+      "query_id": "q2",
+      "lane": "rule",
+      "eligible_views": 8,
+      "keyword_hits": 8,
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:04e5257585bc537bd79825c20d5f3eb49bbe1736b88023b54c8240db1a55ae51"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:64a793448c9412b0ac4e22850db6c54ea91457d33b9de484fb1928d279b03dd9"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:3aaa44b95247e81011f41ae7d99e12b9e57d14a4e8110931d247c03fe88330e2"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:602d08a6479c6199be0e1a1964a51d20f0123a05dcb4b53511435aa625fbce56"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:5b8748efc36106d5107841c3b055dbce83ddb9e91782472d5523614b4ed4c4d5"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:a4c20a7022ca7f77e254317790ecb6ab1a64b1a05760d79ac20de244269bacae"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:fc53758528e8fe3ff91aa84dd90aca6eae9161d529fb145d0c6bec299955a986"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:a03b8ca40ab04c143aeac7a721b9c22bcf4d3c2d1307f618fd691974bae6778f"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:bf146ac7f540cb8998475adf7299a51b985c850f5797553434194ef9e9db3d21"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:c98832f628dea42c826f7c1a09942991bf830d2165083f571fbb246fa1ab016e"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:98897d53615cdfeb25da578d0c8c66377656c6f2a4ed95dfdbd851afb8bfff7b"
+      ],
+      "round": 0
+    },
+    {
+      "reason": "RANKING_CUTOFF",
+      "lane": "rule",
+      "entity_revision_ids": [
+        "entity-revision:aa0012ac5db345fc19385db3f1b7ff7fccc7c56876dbbb490b91d752bc2dc132"
+      ],
+      "round": 0
+    },
+    {
+      "query_id": "q3",
+      "lane": "case",
+      "eligible_views": 207,
+      "keyword_hits": 2,
+      "round": 0
+    }
+  ],
+  "tokenizer_version": "cjk-bigram-v1",
+  "status": "evidence_insufficient",
+  "interpretation_contract": {
+    "recast_allowed": false,
+    "calculate_missing_core_facts": false,
+    "copy_case_outcome": false,
+    "strong_conclusion_allowed": false
+  },
+  "retrieval_run_id": "bbd1cfe5-0c6d-42b7-a108-02748b85c562"
+}

@@ -91,3 +91,50 @@ def test_similar_cases_exclude_profiles_without_consent(client: TestClient) -> N
     )
     assert response.status_code == 200
     assert response.json()["result"]["items"] == []
+
+
+def test_similar_cases_ignore_conversation_history(client: TestClient) -> None:
+    user_id = "conversation-history-user"
+    privacy = client.put(
+        "/api/v1/me/privacy",
+        headers=headers(user_id),
+        json={
+            "consent_scopes": ["session_storage", "anonymous_case_matching"],
+            "retention_policy": "standard",
+            "allow_anonymous_cases": True,
+            "allow_shared_training": False,
+        },
+    )
+    assert privacy.status_code == 200
+
+    session_id = create_session(client, user_id)
+    response = client.post(
+        "/api/session/event",
+        headers=headers(user_id),
+        json={
+            "session_id": session_id,
+            "event_type": "conversation.message",
+            "module": "bazi",
+            "source_module": "module2a",
+            "sequence_no": 1,
+            "payload": {
+                "role": "user",
+                "content": "这段普通对话不能进入相似案例。",
+                "chart_id": "conversation-chart",
+                "chart_features": {"day_master": "wood", "strength": "balanced"},
+            },
+        },
+    )
+    assert response.status_code == 200
+
+    cases = client.post(
+        "/api/v1/cases/similar",
+        headers=headers("query-user"),
+        json={
+            "features": {
+                "chart_structure": {"day_master": "wood", "strength": "balanced"}
+            }
+        },
+    )
+    assert cases.status_code == 200
+    assert cases.json()["result"]["items"] == []

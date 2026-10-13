@@ -1,2 +1,28 @@
-import type {UserNoteRequest} from "@/lib/contracts/user";import {failure,record,success,text} from "@/lib/contracts/api";import {saveNote} from "@/lib/session/store";import {currentUser} from "@/lib/server/module4-auth";
-export async function POST(request:Request){const user=await currentUser();if(!user)return failure("user-notes-v1","UNAUTHORIZED","请先登录后再保存笔记。",undefined,401);let body:Record<string,unknown>|null=null;try{body=record(await request.json())}catch{}if(!body)return failure("user-notes-v1","INVALID_JSON","请求体必须是 JSON 对象。");const action=["create","update","delete"].includes(String(body.action))?String(body.action) as UserNoteRequest["action"]:"create",title=text(body.title,120),content=text(body.content,5000),note_id=text(body.note_id,80)||undefined;if(action!=="delete"&&(!title||!content))return failure("user-notes-v1","VALIDATION_ERROR","创建或更新笔记需要 title 和 content。");if(action==="delete"&&!note_id)return failure("user-notes-v1","VALIDATION_ERROR","删除笔记需要 note_id。");const input:UserNoteRequest={action,note_id,title,content,tags:Array.isArray(body.tags)?body.tags.filter((x):x is string=>typeof x==="string").slice(0,20):[],source_ref:text(body.source_ref,200)||undefined};return Response.json(success(saveNote(user.id,input),{system:"user-notes-v1",warnings:["笔记当前仅保存在服务进程内存中，正式数据库接入后需替换存储层。"],mock:true}))}
+import { failure } from "@/lib/contracts/api";
+import { authenticatedFetch } from "@/lib/server/module4-auth";
+
+export async function POST(request: Request) {
+  let response: Response | null;
+  try {
+    response = await authenticatedFetch("/api/user/notes", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: await request.text(),
+    });
+  } catch {
+    return failure(
+      "user-notes-v1",
+      "PRIVATE_DATA_SERVICE_UNAVAILABLE",
+      "个人笔记服务暂不可用。",
+      undefined,
+      503,
+    );
+  }
+  if (!response) {
+    return failure("user-notes-v1", "UNAUTHORIZED", "请先登录后再保存笔记。", undefined, 401);
+  }
+  return new Response(await response.text(), {
+    status: response.status,
+    headers: { "content-type": "application/json" },
+  });
+}

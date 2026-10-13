@@ -26,6 +26,7 @@ class EventOut(BaseModel):
     user_id: str
     source_module: str
     event_type: str
+    inference_eligible: bool
     sequence_no: int
     occurred_at: datetime
     system: str

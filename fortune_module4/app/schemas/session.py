@@ -27,3 +27,10 @@ class SessionOut(BaseModel):
 class SessionCreateResult(BaseModel):
     session: SessionOut
     resumed: bool
+
+
+class SessionListItem(SessionOut):
+    event_count: int
+    conversation_count: int
+    last_event_at: datetime | None
+    last_message_preview: str | None

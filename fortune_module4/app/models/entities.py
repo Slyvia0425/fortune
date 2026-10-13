@@ -77,6 +77,9 @@ class EventRecord(Base):
     user_id: Mapped[str] = mapped_column(String(128), index=True, nullable=False)
     source_module: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
     event_type: Mapped[str] = mapped_column(String(128), index=True, nullable=False)
+    inference_eligible: Mapped[bool] = mapped_column(
+        Boolean, default=False, index=True, nullable=False
+    )
     sequence_no: Mapped[int] = mapped_column(Integer, nullable=False)
     occurred_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     system: Mapped[str] = mapped_column(String(32), index=True, nullable=False)
@@ -184,6 +187,26 @@ class TagRecord(Base):
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=utc_now, nullable=False
     )
+
+
+class PersonProfileRecord(Base, TimestampMixin):
+    __tablename__ = "person_profiles"
+    __table_args__ = (
+        UniqueConstraint("user_id", "name", name="uq_person_profile_user_name"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(128), index=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(128), nullable=False)
+    relation: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    gender: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    calendar: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    birth_date: Mapped[str | None] = mapped_column(String(32), nullable=True)
+    birth_time: Mapped[str | None] = mapped_column(String(16), nullable=True)
+    birth_place: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
+    chart_snapshot: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict, nullable=False)
+    tags: Mapped[list[str]] = mapped_column(JSON, default=list, nullable=False)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class PrivacySettingsRecord(Base, TimestampMixin):

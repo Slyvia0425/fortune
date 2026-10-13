@@ -49,6 +49,14 @@ export interface KnowledgeGraphNode {
 }
 export interface KnowledgeGraphEdge { source:string; target:string; relation:string }
 export interface KnowledgeGraphResult { center:string; nodes:KnowledgeGraphNode[]; edges:KnowledgeGraphEdge[] }
+export interface KnowledgeBook {
+  id:string; title:string; category:string; era:string; description:string;
+  page_count:number; content_layers:KnowledgeCategory[]; representative_source_id:string;
+}
+export interface KnowledgeBookGroup {
+  id:string; label:string; label_en:string; description:string; books:KnowledgeBook[];
+}
+export interface KnowledgeLibraryResult { total_books:number; total_pages:number; groups:KnowledgeBookGroup[] }
 export interface KnowledgePeriodView { period:string; meaning:string; focus:string }
 export interface KnowledgeCompareResult {
   query:string;

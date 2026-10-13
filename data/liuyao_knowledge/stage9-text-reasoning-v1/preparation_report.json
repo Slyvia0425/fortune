@@ -1,0 +1,8 @@
+{
+  "release_id": "text-release:39685c9c41d2f5a9942cb251aef91c7a3ee976acd165f545b9487c6b5ed53e84",
+  "rule_count": 36,
+  "scope": "reviewed_text_only",
+  "executable_rules_enabled": false,
+  "source_database_unchanged": true,
+  "embedding_rebuilt": false
+}
