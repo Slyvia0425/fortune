@@ -18,6 +18,12 @@ from app.services.personal import (
     person_profile_to_schema,
 )
 
+# The bazi pages file a chart without a saved profile under this name. It is a
+# placeholder rather than an identity, so two unnamed charts must not be read
+# as one person. Keep it in step with `displayName` in
+# `app/bazi/profile-activity.ts`.
+UNNAMED_PERSON = "未命名人物"
+
 DOMAIN_LABELS = {
     "career": "事业与职业发展",
     "wealth": "财务与资源安排",
@@ -123,6 +129,13 @@ def analyze_personal_question(
         notes=notes,
     )
     facts = _extract_facts(selected_profile, used_collections)
+    # When no profile was named, the facts above came from one chart. Keep the
+    # record list to that same chart so the reader is never handed two people's
+    # snapshots while the answer speaks for one.
+    if not selected_profile:
+        used_collections = _restrict_to_subject(used_collections, facts.get("subject_key") or "")
+    # Bookkeeping for the filter above; the prompt carries no profile ids.
+    facts.pop("subject_key", None)
     observations, suggestions, uncertainties = _build_analysis(
         question=question,
         domain=domain,
@@ -345,17 +358,79 @@ def _module_domain_score(
     return score
 
 
+def _subject_key(record: CollectionRecord) -> str:
+    """Which chart a bazi record belongs to, as far as the record itself knows.
+
+    The person profile is the identity when the reader saved one. Without it
+    the bazi pages fall back to the placeholder name for every unnamed chart,
+    so two unnamed charts would share one key and their snapshots would merge
+    into a chart neither person has. The source id carries the chart itself
+    (`bazi-chart:<person key>:<four pillars>[:<step>]`), which separates them.
+    """
+    metadata = record.source_metadata or {}
+    profile_id = _text(metadata.get("profile_id"))
+    if profile_id:
+        return profile_id
+    person_name = _text(metadata.get("person_name"))
+    if person_name and person_name != UNNAMED_PERSON:
+        return person_name
+    source_id = _text(record.source_id)
+    if source_id.startswith("bazi-chart:"):
+        return ":".join(source_id.split(":")[:3])
+    return person_name
+
+
+def _restrict_to_subject(
+    collections: list[CollectionRecord],
+    subject_key: str,
+) -> list[CollectionRecord]:
+    """Drop bazi records that belong to a chart the answer does not speak for.
+
+    Non-bazi records (signs, hexagrams, public knowledge) stay: they are the
+    shared evidence behind the question. Bazi records of other people are left
+    out of the record list as well, so the reader and the explanation never see
+    two charts side by side and read them as one.
+    """
+    if not subject_key:
+        return list(collections)
+    bazi_types = {"bazi_record", "bazi_analysis", "bazi_luck", "bazi_advisory"}
+    return [
+        record
+        for record in collections
+        if record.item_type not in bazi_types or _subject_key(record) == subject_key
+    ]
+
+
 def _extract_facts(
     profile: PersonProfileRecord | None,
     collections: list[CollectionRecord],
 ) -> dict[str, Any]:
     chart: dict[str, Any] = dict(profile.chart_snapshot or {}) if profile else {}
-    for record in collections:
-        if record.item_type not in {"bazi_record", "bazi_analysis", "bazi_luck", "bazi_advisory"}:
-            continue
-        snapshot = (record.source_metadata or {}).get("snapshot")
-        if not isinstance(snapshot, dict):
-            continue
+    bazi_types = {"bazi_record", "bazi_analysis", "bazi_luck", "bazi_advisory"}
+    snapshots = [
+        (record, (record.source_metadata or {}).get("snapshot"))
+        for record in collections
+        if record.item_type in bazi_types
+    ]
+    snapshots = [(record, snapshot) for record, snapshot in snapshots if isinstance(snapshot, dict)]
+
+    # One answer reads one chart. The records reaching here can belong to
+    # several people (the reader may ask without naming one), and merging their
+    # snapshots key by key produced a chart no person has — the day master of
+    # one chart standing beside the pillars of another. Keep to the subject of
+    # the highest-scoring bazi record, which is the one the question pointed at.
+    subject = "" if chart else next((key for key in map(_subject_key, [r for r, _ in snapshots]) if key), "")
+    if subject:
+        snapshots = [
+            (record, snapshot)
+            for record, snapshot in snapshots
+            if _subject_key(record) == subject
+        ]
+
+    # The chart record goes first: it is the one carrying the four pillars, and
+    # an analysis or luck snapshot reaching the merge first would fill the
+    # chart's other keys around pillars taken later from someone else.
+    for record, snapshot in sorted(snapshots, key=lambda item: item[0].item_type != "bazi_record"):
         if record.item_type == "bazi_record" and not chart:
             chart = {**snapshot, **chart}
         else:
@@ -367,9 +442,13 @@ def _extract_facts(
         (pillar for pillar in pillars if pillar.get("label") == "day"),
         {},
     )
-    day_stem = _text(day_pillar.get("stem"))
-    day_branch = _text(day_pillar.get("branch"))
     day_master = chart.get("day_master") if isinstance(chart.get("day_master"), dict) else {}
+    # The day pillar carries the day master, but an analysis or luck snapshot
+    # may be the only bazi record on file. Fall back to the stem that snapshot
+    # recorded, so a chart without pillars still reports its own day master
+    # instead of dropping the stem and printing a bare element.
+    day_stem = _text(day_pillar.get("stem")) or _text(day_master.get("stem"))
+    day_branch = _text(day_pillar.get("branch")) or _text(day_master.get("branch"))
     disposition = chart.get("disposition") if isinstance(chart.get("disposition"), dict) else {}
     elements = chart.get("elements") if isinstance(chart.get("elements"), dict) else {}
     ten_gods_raw = chart.get("ten_gods") if isinstance(chart.get("ten_gods"), list) else []
@@ -440,6 +519,7 @@ def _extract_facts(
         ),
         "advisory": advisory,
         "has_chart": bool(pillars or day_stem or elements),
+        "subject_key": subject,
     }
 
 
