@@ -1,0 +1,13 @@
+{
+  "database_integrity": "ok",
+  "foreign_key_errors": [],
+  "verified_lineage_count": 3867,
+  "entity_count": 3843,
+  "embedding_count": 0,
+  "active_release_count": 0,
+  "input_and_stage4_hashes_unchanged": true,
+  "review_rule_evidence_count": 7,
+  "production_evidence_count": 0,
+  "production_status": "evidence_insufficient",
+  "fixture_notice": "Production gate check uses a synthetic audit chart, not a live core chart."
+}
