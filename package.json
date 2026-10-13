@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
+    "eval:guanyin": "vite-node scripts/evaluate-guanyin.ts",
     "typecheck": "tsc --noEmit",
     "check": "npm test && npm run lint && npm run typecheck"
   },

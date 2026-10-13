@@ -46,7 +46,7 @@ const edges:KnowledgeGraphEdge[]=[
 
 function findNode(concept:string){const normalized=concept.trim().replace(/[《》]/g,"");return nodes.find(x=>x.label.replace(/[《》]/g,"")===normalized)||nodes.find(x=>x.label.includes(normalized)||normalized.includes(x.label.replace(/[《》]/g,"")))}
 export function getKnowledgeGraph(concept="五行",depth=2){
-  const matched=findNode(concept)??nodes.find(x=>x.id==="wuxing")!;const ids=new Set([matched.id]);let frontier=[matched.id];
+  const matched=findNode(concept);if(!matched)return null;const ids=new Set([matched.id]);let frontier=[matched.id];
   for(let level=0;level<Math.max(1,Math.min(depth,2));level++){const next:string[]=[];for(const edge of edges){if(frontier.includes(edge.source)&&!ids.has(edge.target)){ids.add(edge.target);next.push(edge.target)}if(frontier.includes(edge.target)&&!ids.has(edge.source)){ids.add(edge.source);next.push(edge.source)}}frontier=next}
   const selectedEdges=edges.filter(e=>ids.has(e.source)&&ids.has(e.target));return{center:matched.id,nodes:nodes.filter(x=>ids.has(x.id)),edges:selectedEdges};
 }
@@ -66,7 +66,7 @@ export function explainKnowledge(query:string){
   const status=alias?"normalized":evidence.length?"exact":"unsupported";
   const matchedTerm=alias?.term??(evidence.length?cleanQuery:null);
   const explanation=alias?.explanation??graphMatch?.summary??(evidence.length?`知识库已找到与“${cleanQuery}”直接相关的资料。该词的具体含义应结合下列原文和所属体系理解。`:`当前知识库没有找到“${cleanQuery}”的直接典籍依据。对话层可以生成通俗说明，但必须标注为AI辅助解释，并避免虚构出处。`);
-  const related=alias?.related??(graphMatch?getKnowledgeGraph(graphMatch.label,1).nodes.filter(n=>n.id!==graphMatch.id).slice(0,8).map(n=>n.label):[]);
+  const related=alias?.related??(graphMatch?(getKnowledgeGraph(graphMatch.label,1)?.nodes??[]).filter(n=>n.id!==graphMatch.id).slice(0,8).map(n=>n.label):[]);
   return{query:cleanQuery,matched_term:matchedTerm,explanation,normalized_terms:alias?[alias.term,...alias.related]:matchedTerm?[matchedTerm]:[],evidence_status:status,confidence:alias?.term?0.86:evidence.length?0.9:0.2,needs_llm:!alias&&!graphMatch&&!evidence.length,related_concepts:related,evidence:evidence.map(item=>({source_id:item.id,title:item.title,catalog:item.catalog,category:item.category,excerpt:item.excerpt,url:item.url}))};
 }
 
