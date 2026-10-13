@@ -37,7 +37,9 @@ const bazi = await jsonRequest(`${frontend}/api/bazi/chart`, {
       longitude: 103.8198,
       source: "dropdown",
     },
-    gender: "unspecified",
+    // The chart contract takes the two values the luck-cycle direction needs
+    // (a year stem's polarity together with the gender); there is no third option.
+    gender: "male",
     calendar: "solar",
   }),
 });
@@ -52,8 +54,8 @@ const divination = await jsonRequest(`${frontend}/api/divination/cast`, {
   headers: { "content-type": "application/json" },
   body: JSON.stringify({
     question: "全栈合规验证",
-    method: "numbers",
-    numbers: [18, 27],
+    method: "three_numbers",
+    numbers: [18, 27, 9],
   }),
 });
 assert.equal(divination.error, null);
@@ -66,7 +68,7 @@ passed("Divination contract");
 const lot = await jsonRequest(`${frontend}/api/guanyin-lot/draw`, {
   method: "POST",
   headers: { "content-type": "application/json" },
-  body: JSON.stringify({ question: "全栈合规验证", domain: "职场" }),
+  body: JSON.stringify({ question: "全栈合规验证", domain: "career" }),
 });
 assert.equal(lot.result.stick.id >= 1 && lot.result.stick.id <= 100, true);
 assert.equal(lot.result.stick.poem.length, 4);
@@ -78,10 +80,14 @@ assert.equal(knowledge.stats.pages, 764);
 assert.equal(knowledge.result.length > 0, true);
 passed("Knowledge dataset");
 
-const detail = await fetch(`${frontend}/knowledge/knowledge-0`);
-assert.equal(detail.status, 200, "knowledge detail page should be served locally");
+// The detail page is reached by clicking a search result, so follow the id the
+// search actually returns rather than a hard-coded one.
+const firstHit = knowledge.result[0];
+assert.equal(typeof firstHit?.id, "string");
+const detail = await fetch(`${frontend}/knowledge/${encodeURIComponent(firstHit.id)}`);
+assert.equal(detail.status, 200, `knowledge detail page for ${firstHit.id} should be served locally`);
 assert.match(detail.headers.get("content-type") || "", /text\/html/);
-passed("Knowledge detail page");
+passed(`Knowledge detail page (${firstHit.id})`);
 
 const agent = await jsonRequest(`${frontend}/api/agent/search?q=${encodeURIComponent("五行")}`);
 assert.equal(agent.error, null);

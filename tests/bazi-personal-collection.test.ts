@@ -3,7 +3,13 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { chartSourceId, personKey, type BaziProfileActivity } from "../app/bazi/profile-activity";
+import {
+  chartSourceId,
+  pillarText,
+  personKey,
+  type BaziProfileActivity,
+} from "../app/bazi/profile-activity";
+import type { BaziChartResult } from "../lib/contracts/bazi";
 
 const root = process.cwd();
 
@@ -57,6 +63,19 @@ describe("八字各环节收藏接入", () => {
 });
 
 describe("人物档案与记录来源标识", () => {
+  it("命盘摘要写汉字四柱，不写契约键", () => {
+    const chart = {
+      pillars: [
+        { stem: "geng", branch: "wu_branch" },
+        { stem: "ji", branch: "mao" },
+        { stem: "ren", branch: "shen" },
+        { stem: "ji", branch: "you" },
+      ],
+    } as unknown as BaziChartResult;
+
+    expect(pillarText(chart)).toBe("庚午 己卯 壬申 己酉");
+  });
+
   it("同一命盘属于不同人物时来源标识不同", () => {
     const first: BaziProfileActivity = { profileId: "p-1", personName: "张三", personRelation: "本人" };
     const second: BaziProfileActivity = { profileId: "p-2", personName: "李四", personRelation: "家人" };

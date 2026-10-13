@@ -91,14 +91,40 @@ pids+=("$!")
 wait_for_http "Algorithm service" "http://127.0.0.1:${ALGORITHM_PORT}/docs"
 wait_for_http "Module 4" "http://127.0.0.1:${MODULE4_PORT}/health"
 
+# Hand the language-model settings to the web app only when a provider answered.
+# Passing them unconditionally makes the front end believe a model is reachable
+# and wait out the whole request timeout before falling back to the rule-based
+# text — a minute of "处理中" on a machine that has no model running.
+frontend_env=(
+  "PYTHON_ALGORITHM_BASE_URL=http://127.0.0.1:${ALGORITHM_PORT}"
+  "MODULE4_API_BASE_URL=http://127.0.0.1:${MODULE4_PORT}"
+)
+if [[ "${LLM_PROVIDER_VALUE}" != "template" ]]; then
+  frontend_env+=(
+    "LLM_BASE_URL=${LLM_BASE_URL_VALUE}"
+    "LLM_API_KEY=${LLM_API_KEY_VALUE}"
+    "LLM_MODEL=${LLM_MODEL_VALUE}"
+    "LLM_TIMEOUT_SECONDS=${LLM_TIMEOUT_SECONDS_VALUE}"
+    "LLM_REASONING_EFFORT=${LLM_REASONING_EFFORT_VALUE}"
+  )
+  # Each page keeps its own request budget; only the shared settings are handed
+  # over here. An explicit LLM_TIMEOUT_MS still wins when the operator sets one.
+  if [[ -n "${LLM_TIMEOUT_MS:-}" ]]; then
+    frontend_env+=("LLM_TIMEOUT_MS=${LLM_TIMEOUT_MS}")
+  fi
+  # A reasoning model spends the whole request budget on its own reasoning and
+  # then times out, leaving the reply to the fallback text. Asking for the
+  # effort setting the rest of the stack uses keeps the answer inside budget.
+  if [[ "${LLM_REASONING_EFFORT_VALUE}" == "none" ]]; then
+    frontend_env+=("LLM_DISABLE_THINKING=true")
+  fi
+else
+  printf 'No language model at %s: the web app will use the rule-based text.\n' "${LLM_BASE_URL_VALUE}"
+fi
+
 (
   cd "${ROOT_DIR}"
-  env \
-    PYTHON_ALGORITHM_BASE_URL="http://127.0.0.1:${ALGORITHM_PORT}" \
-    MODULE4_API_BASE_URL="http://127.0.0.1:${MODULE4_PORT}" \
-    LLM_BASE_URL="${LLM_BASE_URL_VALUE}" \
-    LLM_API_KEY="${LLM_API_KEY_VALUE}" \
-    LLM_MODEL="${LLM_MODEL_VALUE}" \
+  env "${frontend_env[@]}" \
     npm run dev:web -- --hostname 0.0.0.0 --port "${FRONTEND_PORT}"
 ) >"${LOG_DIR}/frontend.log" 2>&1 &
 pids+=("$!")

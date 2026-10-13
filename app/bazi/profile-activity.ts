@@ -1,5 +1,12 @@
 import type { ArbitrationOutcome, BaziChartResult } from "@/lib/contracts/bazi";
-import { PILLAR_LABEL, STEM_LABEL, TEN_GOD_GROUP_LABEL, DOMAIN_LABEL, ELEMENT_LABEL } from "@/lib/bazi/display";
+import {
+  BRANCH_LABEL,
+  DOMAIN_LABEL,
+  ELEMENT_LABEL,
+  PILLAR_LABEL,
+  STEM_LABEL,
+  TEN_GOD_GROUP_LABEL,
+} from "@/lib/bazi/display";
 
 /**
  * Who the chart on screen belongs to.
@@ -48,9 +55,9 @@ export function chartSourceId(
 /** Where a piece of evidence sits in the chart, written the way the page writes it. */
 function positionOf(ref: BaziChartResult["reasoning_trace"]["factors"][number]["evidence"][number]): string {
   const pillar = PILLAR_LABEL[ref.pillar];
-  if (ref.position === "hidden") return `${pillar}藏干${ref.stem ?? ""}`;
-  if (ref.position === "stem") return `${pillar}干${ref.stem ?? ""}`;
-  return `${pillar}支${ref.branch}`;
+  if (ref.position === "hidden") return `${pillar}藏干${ref.stem ? STEM_LABEL[ref.stem] : ""}`;
+  if (ref.position === "stem") return `${pillar}干${ref.stem ? STEM_LABEL[ref.stem] : ""}`;
+  return `${pillar}支${BRANCH_LABEL[ref.branch]}`;
 }
 
 /**
@@ -105,9 +112,14 @@ export function sourceEvidence(chart: BaziChartResult): string[] {
   return chart.source_refs.map((ref) => [ref.title, ref.edition, ref.chapter].filter(Boolean).join(" · "));
 }
 
-/** The four pillars as one string, e.g. 甲子 乙丑 丙寅 丁卯. */
+/**
+ * The four pillars as one string, e.g. 甲子 乙丑 丙寅 丁卯.
+ *
+ * The contract carries romanised keys (`jia`, `zi`); the label maps turn them
+ * back into the characters a reader expects to see.
+ */
 export function pillarText(chart: BaziChartResult): string {
-  return chart.pillars.map((pillar) => `${pillar.stem}${pillar.branch}`).join(" ");
+  return chart.pillars.map((pillar) => `${STEM_LABEL[pillar.stem]}${BRANCH_LABEL[pillar.branch]}`).join(" ");
 }
 
 /** The day master and its element, e.g. 丙火. */
