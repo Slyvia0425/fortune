@@ -6,7 +6,7 @@ from liuyao_core import enrich
 
 from pydantic import AwareDatetime, BaseModel, Field, StrictInt
 
-from hexagram_engine import calculate
+from hexagram_engine import calculate, hexagram_catalog
 
 app = FastAPI(title="Fortune deterministic algorithm service")
 
@@ -32,6 +32,10 @@ def cast_divination(request: DivinationRequest):
     except (ValueError, ZoneInfoNotFoundError) as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
 
+
+@app.get("/divination/catalog")
+def divination_catalog() -> list[dict[str, object]]:
+    return hexagram_catalog()
 
 # --- BaZi module (bazi/) -----------------------------------------------------
 # Mounted here so both modules share one service, one port and the single

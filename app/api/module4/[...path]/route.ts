@@ -3,7 +3,9 @@ import { authenticatedFetch } from "@/lib/server/module4-auth";
 async function proxy(request: Request, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
   const sourceUrl = new URL(request.url);
-  const target = `/api/v1/${path.map(encodeURIComponent).join("/")}${sourceUrl.search}`;
+  const normalizedPath =
+    path[0] === "api" && path[1] === "v1" ? path.slice(2) : path;
+  const target = `/api/v1/${normalizedPath.map(encodeURIComponent).join("/")}${sourceUrl.search}`;
   let response: Response | null;
   try {
     response = await authenticatedFetch(target, {

@@ -22,7 +22,7 @@ export interface LiuyaoCoreFacts {
   hidden_lines:LiuyaoLineFact[]; hidden_lines_complete:boolean;
   capability_gaps:string[]; interpretation_limits:string[];
 }
-export interface DivinationCastResult { chart_id?:string; chart_hash?:string; core_facts?:LiuyaoCoreFacts; opposite?:HexagramView; reversed?:HexagramView; primary:HexagramView; moving_lines:number[]; mutual:HexagramView; transformed:HexagramView; traditional_meaning:string; contextual_interpretation:string; core_receipt?:CoreCastReceipt }
+export interface DivinationCastResult { chart_id?:string; chart_hash?:string; core_facts?:LiuyaoCoreFacts; opposite?:HexagramView; reversed?:HexagramView; primary:HexagramView; moving_lines:number[]; mutual:HexagramView; transformed:HexagramView; traditional_meaning:string; contextual_interpretation:string; core_receipt?:CoreCastReceipt; reading?:DivinationReading }
 export type FieldProvenance="user_explicit"|"conversation_explicit"|"model_inference"|"unknown";
 export interface QuestionFieldEvidence { message_id?:string;text:string;start_offset:number;end_offset_exclusive:number }
 export interface QuestionField<T> { value:T|null; provenance:FieldProvenance; evidence?:QuestionFieldEvidence; verification_status:"confirmed"|"extracted"|"unknown" }
@@ -38,6 +38,25 @@ export interface QuestionContext {
   parser_status:"parsed"|"unavailable"|"invalid";
 }
 export interface AnalysisPlan { goal_id:string|null; candidate_ids:string[]; required_rule_types:string[]; required_fact_ids:string[]; missing_fact_ids:string[]; allowed_topics:string[]; forbidden_expansions:string[]; timing_requested:boolean; precision_limit:"full"|"conditional"|"insufficient"; status:"ready_for_reviewed_rules"|"blocked_pending_rules"|"needs_clarification" }
+export interface MovingLineReading { line:number; text:string; commentary:string }
+export interface HexagramReading {
+  number:number;
+  name:string;
+  source_id:string;
+  source_title:string;
+  source_url:string;
+  judgment:string;
+  commentary:string;
+  image:string;
+  moving_lines:MovingLineReading[];
+}
+export interface DivinationReading {
+  primary:HexagramReading;
+  mutual:HexagramReading;
+  transformed:HexagramReading;
+  method_note:string;
+  source_refs:Array<{source_id:string;title:string;url?:string}>;
+}
 export type DivinationEvidenceRole="primary_judgment"|"primary_moving_line"|"transformed_judgment"|"transformed_static_line"|"special_line";
 export interface DivinationEvidenceItem { evidence_id:string; role:DivinationEvidenceRole; hexagram_number:number; hexagram_name:string; line_position?:number; priority:number; original:string; commentary:string[]; translation_en?:string; source_ids:string[] }
 export interface DivinationEvidencePack { rule_version:"changing-lines-v1"; selection_rule:string; question:string; time_range?:string; primary:{number:number;name:string;upper_trigram:string;lower_trigram:string;five_element_relation:string}; transformed:{number:number;name:string;upper_trigram:string;lower_trigram:string}; moving_lines:number[]; evidence:DivinationEvidenceItem[]; sources:import("./api").SourceReference[] }
