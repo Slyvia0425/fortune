@@ -80,7 +80,10 @@ lineage = table(
     Column("end", Integer, nullable=False),
     Column("quote_hash", String, nullable=False),
     Column("relation", String, nullable=False),
-    CheckConstraint("start >= 0 AND end > start"),
+    # Quote the identifiers: `end` is a reserved word in PostgreSQL, and a
+    # check clause is raw SQL, so the unquoted form fails there while SQLite
+    # accepts it.
+    CheckConstraint('"start" >= 0 AND "end" > "start"'),
 )
 rule = table(
     "rule",
