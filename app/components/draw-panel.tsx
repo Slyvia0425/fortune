@@ -6,6 +6,7 @@ import CollectionButton from "@/app/components/collection-button";
 import type { ApiEnvelope } from "@/lib/contracts/api";
 import { getGuanyinStick } from "@/lib/guanyin/library";
 import { type DrawRecord, type GuanyinDrawResult, type GuanyinReasoningStatement, type QuestionDomain } from "@/lib/guanyin/types";
+import { useI18n } from "@/lib/i18n";
 
 const domainOptions: ReadonlyArray<{ value: QuestionDomain; label: string }> = [
   { value: "career", label: "事业" },
@@ -18,6 +19,7 @@ const domainOptions: ReadonlyArray<{ value: QuestionDomain; label: string }> = [
 const DRAW_TRANSITION_MS = 3000;
 
 function DrawAnimation({ stickNumber }: { stickNumber: number }) {
+  const { t } = useI18n();
   return <div className="draw-animation" role="status" aria-live="polite">
     <div className="fortune-tube" aria-hidden="true">
       <i className="tube-rim" />
@@ -28,11 +30,12 @@ function DrawAnimation({ stickNumber }: { stickNumber: number }) {
       </div>
       <i className="tube-body" />
     </div>
-    <p>签条轻晃，静候一签停驻</p>
+    <p>{t("签条轻晃，静候一签停驻")}</p>
   </div>;
 }
 
 export default function DrawPanel() {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [domain, setDomain] = useState<QuestionDomain | null>(null);
@@ -99,17 +102,17 @@ export default function DrawPanel() {
 
   return <>
     <button className="oracle-launcher" type="button" onClick={() => setIsOpen(true)} aria-haspopup="dialog">
-      <span>观音</span><strong>灵签</strong>
+      <span>{t("观音")}</span><strong>{t("灵签")}</strong>
     </button>
     {isOpen && <div className="oracle-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) close(); }}>
       <section className="oracle-modal" role="dialog" aria-modal="true" aria-labelledby="oracle-dialog-title">
-        <button className="modal-close" type="button" aria-label="关闭抽签窗口" onClick={close} disabled={isDrawing}>×</button>
+        <button className="modal-close" type="button" aria-label={t("关闭抽签窗口")} onClick={close} disabled={isDrawing}>×</button>
         {record ? <Result record={record} onReset={reset} /> : <div className="draw-card">
-          <p className="eyebrow">观音灵签 · 百签</p><h2 id="oracle-dialog-title">一签问一事</h2>
+          <p className="eyebrow">{t("观音灵签 · 百签")}</p><h2 id="oracle-dialog-title">{t("一签问一事")}</h2>
           {!isDrawing && <>
-            <label htmlFor="question">所问之事</label>
-            <textarea id="question" value={question} onChange={(event) => setQuestion(event.target.value)} placeholder="写下此刻最想问的一件事" rows={3} />
-            <fieldset><legend>请选择领域</legend><div className="domain-grid">{domainOptions.map((option) => <label className="domain-option" key={option.value}>
+            <label htmlFor="question">{t("所问之事")}</label>
+            <textarea id="question" value={question} onChange={(event) => setQuestion(event.target.value)} placeholder={t("写下此刻最想问的一件事")} rows={3} />
+            <fieldset><legend>{t("请选择领域")}</legend><div className="domain-grid">{domainOptions.map((option) => <label className="domain-option" key={option.value}>
               <input type="radio" name="domain" value={option.value} checked={domain === option.value} onChange={() => setDomain(option.value)} /><span>{option.label}</span>
             </label>)}</div></fieldset>
 {question.trim() && domain ? (
@@ -123,12 +126,12 @@ export default function DrawPanel() {
                 step="question"
                 summary={`观音灵签问事（${domainOptions.find((option) => option.value === domain)?.label}）：${question.trim()}`}
                 tags={["观音灵签", domain]}
-                title="观音灵签问事记录"
+                title={t("观音灵签问事记录")}
                 snapshot={{ question: question.trim(), domain }}
               />
             ) : null}
             {notice && <p className="notice" role="alert">{notice}</p>}
-            <button className="primary-button" type="button" onClick={startDraw}>开始抽签</button>
+            <button className="primary-button" type="button" onClick={startDraw}>{t("开始抽签")}</button>
           </>}
           {pendingRecord && <DrawAnimation stickNumber={pendingRecord.stickNumber} />}
         </div>}
@@ -138,13 +141,14 @@ export default function DrawPanel() {
 }
 
 function Result({ record, onReset }: { record: DrawRecord; onReset: () => void }) {
+  const { t } = useI18n();
   const stick = getGuanyinStick(record.stickNumber);
   const domainLabel = domainOptions.find((option) => option.value === record.domain)?.label;
   return <div className="result-card" aria-live="polite">
-    <p className="eyebrow">你所问的事</p><p className="result-question">{record.question}</p><div className="result-heading"><p>第 {stick.id} 签</p><span>{stick.level}</span></div><h2 id="oracle-dialog-title">{stick.title}</h2>
-    <div className="poem" aria-label="签诗">{stick.poem.map((line) => <p key={line}>{line}</p>)}</div>
+    <p className="eyebrow">{t("你所问的事")}</p><p className="result-question">{record.question}</p><div className="result-heading"><p>第 {stick.id} 签</p><span>{stick.level}</span></div><h2 id="oracle-dialog-title">{stick.title}</h2>
+    <div className="poem" aria-label={t("签诗")}>{stick.poem.map((line) => <p key={line}>{line}</p>)}</div>
     <UserFacingResult record={record} />
-    <details className="traditional-details"><summary>查看签文原解与典故</summary><dl className="interpretations"><div><dt>传统解曰</dt><dd>{stick.traditional.jieyue}</dd></div><div><dt>传统仙机</dt><dd>{stick.traditional.xianji}</dd></div><div><dt>{domainLabel}事项</dt><dd>{stick.traditional.topics[record.domain]}</dd></div><div><dt>传统典故</dt><dd>{stick.traditional.diangu}</dd></div></dl></details>
+    <details className="traditional-details"><summary>{t("查看签文原解与典故")}</summary><dl className="interpretations"><div><dt>{t("传统解曰")}</dt><dd>{stick.traditional.jieyue}</dd></div><div><dt>{t("传统仙机")}</dt><dd>{stick.traditional.xianji}</dd></div><div><dt>{domainLabel}事项</dt><dd>{stick.traditional.topics[record.domain]}</dd></div><div><dt>{t("传统典故")}</dt><dd>{stick.traditional.diangu}</dd></div></dl></details>
     <ReasoningEvidence reasoning={record.reasoning} />
     <CollectionButton
       action="interpretation"
@@ -161,11 +165,12 @@ function Result({ record, onReset }: { record: DrawRecord; onReset: () => void }
       title={`观音灵签 · 第${stick.id}签 ${stick.title}`}
       snapshot={{ record, stick }}
     />
-    <button className="secondary-button" type="button" onClick={onReset}>重新问事</button>
+    <button className="secondary-button" type="button" onClick={onReset}>{t("重新问事")}</button>
   </div>;
 }
 
 function UserFacingResult({ record }: { record: DrawRecord }) {
+  const { t } = useI18n();
   const { reasoning, llmGeneration: generation } = record;
   const explanation = generation.explanation;
   const directAnswer = explanation?.directAnswer.text ?? reasoning.primarySafetyAnswer?.text ?? reasoning.coreJudgment?.text ?? "这支签目前只适合结合原文理解，不宜据此直接作出现实决定。";
@@ -174,14 +179,14 @@ function UserFacingResult({ record }: { record: DrawRecord }) {
   const risks = explanation?.risks.map((item) => item.text) ?? reasoning.risks.map((item) => item.text);
   const uncertainties = explanation?.uncertainties ?? reasoning.uncertainties;
   return <section className="user-result" aria-labelledby="user-result-title">
-    <p className="eyebrow">结合你所问之事</p><h3 id="user-result-title">先看结论</h3><div className="user-result-answer"><p>{directAnswer}</p></div>
-    {oracleContext && <section className="user-result-section"><h4>这支签的倾向</h4><p>{oracleContext}</p></section>}
-    {explanation?.conditions.length ? <section className="user-result-section"><h4>需要满足的现实条件</h4><ul>{explanation.conditions.map((item) => <li key={item.text}>{item.text}</li>)}</ul></section> : null}
-    {actions.length > 0 && <section className="user-result-section action-list"><h4>接下来可以怎么做</h4><ol>{actions.map((item) => <li key={item}>{item}</li>)}</ol></section>}
-    {risks.length > 0 && <section className="user-result-section"><h4>需要留意</h4><ul>{risks.map((item) => <li key={item}>{item}</li>)}</ul></section>}
-    {generation.status === "pending" && <div className="explanation-progress" role="status"><span aria-hidden="true" /><div><strong>正在整理更贴合问题的现代解释</strong><p>你可以先阅读以上结果，完成后会自动补充，不必停留等待。</p></div></div>}
+    <p className="eyebrow">{t("结合你所问之事")}</p><h3 id="user-result-title">{t("先看结论")}</h3><div className="user-result-answer"><p>{directAnswer}</p></div>
+    {oracleContext && <section className="user-result-section"><h4>{t("这支签的倾向")}</h4><p>{oracleContext}</p></section>}
+    {explanation?.conditions.length ? <section className="user-result-section"><h4>{t("需要满足的现实条件")}</h4><ul>{explanation.conditions.map((item) => <li key={item.text}>{item.text}</li>)}</ul></section> : null}
+    {actions.length > 0 && <section className="user-result-section action-list"><h4>{t("接下来可以怎么做")}</h4><ol>{actions.map((item) => <li key={item}>{item}</li>)}</ol></section>}
+    {risks.length > 0 && <section className="user-result-section"><h4>{t("需要留意")}</h4><ul>{risks.map((item) => <li key={item}>{item}</li>)}</ul></section>}
+    {generation.status === "pending" && <div className="explanation-progress" role="status"><span aria-hidden="true" /><div><strong>{t("正在整理更贴合问题的现代解释")}</strong><p>{t("你可以先阅读以上结果，完成后会自动补充，不必停留等待。")}</p></div></div>}
     {generation.status !== "pending" && !explanation && <p className="explanation-fallback">{generation.warning ?? "扩展解释暂不可用，以上基础解读仍然有效。"}</p>}
-    <details className="uncertainty-details"><summary>阅读边界与不确定性</summary><ul>{uncertainties.map((item) => <li key={item}>{item}</li>)}</ul><p>{explanation?.disclaimer ?? "签文用于传统文化学习与文本理解，不替代现实中的专业判断。"}</p></details>
+    <details className="uncertainty-details"><summary>{t("阅读边界与不确定性")}</summary><ul>{uncertainties.map((item) => <li key={item}>{item}</li>)}</ul><p>{explanation?.disclaimer ?? "签文用于传统文化学习与文本理解，不替代现实中的专业判断。"}</p></details>
   </section>;
 }
 
@@ -191,9 +196,10 @@ function ReasoningList({ title, items }: { title: string; items: readonly Guanyi
 }
 
 function ReasoningEvidence({ reasoning }: { reasoning: DrawRecord["reasoning"] }) {
+  const { t } = useI18n();
   if (reasoning.coverage === "unavailable") return null;
-  return <details className="reasoning-evidence user-evidence"><summary>查看解读依据</summary>
-    <ReasoningList title="发展趋势" items={reasoning.trends} /><ReasoningList title="时机信息" items={reasoning.timing} /><ReasoningList title="象征说明" items={reasoning.symbols} />
+  return <details className="reasoning-evidence user-evidence"><summary>{t("查看解读依据")}</summary>
+    <ReasoningList title={t("发展趋势")} items={reasoning.trends} /><ReasoningList title={t("时机信息")} items={reasoning.timing} /><ReasoningList title={t("象征说明")} items={reasoning.symbols} />
     {reasoning.evidence.map((item) => <blockquote key={`${item.tag.id}-${item.sourceId}`}><strong>{item.tag.label}</strong><p>{item.evidenceText}</p></blockquote>)}
   </details>;
 }

@@ -17,6 +17,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 import type { AgentSourceKind, PublicAgentSource } from "@/lib/agent/types";
 import { module4Api } from "@/lib/module4/api";
+import { useI18n } from "@/lib/i18n";
 import type {
   AgentUsedRecord,
   CollectionItem,
@@ -397,6 +398,7 @@ export default function KnowledgeAgent({
   onAddCollection,
   onAddNote,
 }: KnowledgeAgentProps) {
+  const { t } = useI18n();
   const [messages, setMessages] = useState<AgentMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [thinking, setThinking] = useState(false);
@@ -561,16 +563,16 @@ export default function KnowledgeAgent({
           <span className="agent-mark"><Bot size={22} /></span>
           <div>
             <p className="kicker">FORTUNE KNOWLEDGE HUB</p>
-            <h2>知命智库问答</h2>
+            <h2>{t("知命智库问答")}</h2>
           </div>
           <div className="agent-state">
             <span className={loading ? "status-dot offline" : "status-dot"} />
-            <span>{loading ? "正在读取个人资料" : "个人资料已就绪，跨模块检索已开启"}</span>
+            <span>{loading ? t("正在读取个人资料") : t("个人资料已就绪，跨模块检索已开启")}</span>
           </div>
           <button
-            aria-label="开始新对话"
+            aria-label={t("开始新对话")}
             onClick={resetConversation}
-            title="开始新对话"
+            title={t("开始新对话")}
             type="button"
           >
             <MessageSquarePlus size={17} />
@@ -633,12 +635,12 @@ export default function KnowledgeAgent({
         {profiles.length ? (
           <div className="agent-profile-picker">
             <label>
-              <span>分析人物档案</span>
+              <span>{t("分析人物档案")}</span>
               <select
                 onChange={(event) => setActiveProfileId(event.target.value)}
                 value={activeProfileId}
               >
-                <option value="">自动识别 / 未指定</option>
+                <option value="">{t("自动识别 / 未指定")}</option>
                 {profiles.map((profile) => (
                   <option key={profile.profile_id} value={profile.profile_id}>
                     {profile.name} · {profile.relation || "其他"}
@@ -646,21 +648,21 @@ export default function KnowledgeAgent({
                 ))}
               </select>
             </label>
-            <small>提问中出现姓名时会优先匹配对应人物档案。</small>
+            <small>{t("提问中出现姓名时会优先匹配对应人物档案。")}</small>
           </div>
         ) : null}
 
         <div className="quick-prompts">
           {quickPrompts.map((prompt) => (
             <button key={prompt} onClick={() => sendMessage(prompt)} type="button">
-              {prompt}
+              {t(prompt)}
             </button>
           ))}
         </div>
 
         <form className="agent-composer" onSubmit={submit}>
           <label>
-            <span className="sr-only">向知命智库提问</span>
+            <span className="sr-only">{t("向知命智库提问")}</span>
             <textarea
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
@@ -669,12 +671,12 @@ export default function KnowledgeAgent({
                   sendMessage(draft);
                 }
               }}
-              placeholder="询问典籍、灵签、易卦、八字或个人资料……"
+              placeholder={t("询问典籍、灵签、易卦、八字或个人资料……")}
               rows={2}
               value={draft}
             />
           </label>
-          <button aria-label="发送问题" disabled={!draft.trim() || thinking} title="发送" type="submit">
+          <button aria-label={t("发送问题")} disabled={!draft.trim() || thinking} title={t("发送")} type="submit">
             <Send size={18} />
           </button>
         </form>
@@ -683,25 +685,25 @@ export default function KnowledgeAgent({
       <aside className="agent-context">
         <section>
           <p className="kicker">LIBRARY SNAPSHOT</p>
-          <h3>你的知识库</h3>
+          <h3>{t("你的知识库")}</h3>
           <div className="agent-stats">
-            <div><BookOpen size={16} /><strong>{collections.length}</strong><span>收藏</span></div>
-            <div><NotebookPen size={16} /><strong>{notes.length}</strong><span>笔记</span></div>
-            <div><Tags size={16} /><strong>{tags.length}</strong><span>标签</span></div>
+            <div><BookOpen size={16} /><strong>{collections.length}</strong><span>{t("收藏")}</span></div>
+            <div><NotebookPen size={16} /><strong>{notes.length}</strong><span>{t("笔记")}</span></div>
+            <div><Tags size={16} /><strong>{tags.length}</strong><span>{t("标签")}</span></div>
           </div>
         </section>
         <section className="agent-actions">
           <p className="kicker">QUICK ACTIONS</p>
           <button onClick={onAddCollection} type="button">
-            <Plus size={15} /> 收藏一条来源
+            <Plus size={15} /> {t("收藏一条来源")}
           </button>
           <button onClick={onAddNote} type="button">
-            <FileText size={15} /> 新建个人笔记
+            <FileText size={15} /> {t("新建个人笔记")}
           </button>
         </section>
         <section className="agent-principle">
           <Library size={17} />
-          <p>回答会先定位人物档案，再结合命盘、签卦、收藏与笔记形成分析，并保留对应 <code>source_id</code>。</p>
+          <p>{t("回答会先定位人物档案，再结合命盘、签卦、收藏与笔记形成分析，并保留对应")} <code>source_id</code>。</p>
         </section>
       </aside>
     </section>

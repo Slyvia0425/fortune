@@ -4,6 +4,7 @@ import { Bookmark, BookmarkCheck, ExternalLink, LoaderCircle } from "lucide-reac
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { recordFortuneActivity, type FortuneActivity } from "@/lib/module4/activity";
+import { useI18n } from "@/lib/i18n";
 
 import styles from "./collection-button.module.css";
 
@@ -21,6 +22,7 @@ export default function CollectionButton({
   compact = false,
   ...activity
 }: CollectionButtonProps) {
+  const { t } = useI18n();
   const [state, setState] = useState<SaveState>("idle");
   const [message, setMessage] = useState("");
   const autoRecorded = useRef(false);
@@ -30,17 +32,17 @@ export default function CollectionButton({
   const save = useCallback(async () => {
     if (state === "saving" || state === "saved") return;
     setState("saving");
-    setMessage("正在写入智库…");
+    setMessage(t("正在写入智库…"));
     try {
       await recordFortuneActivity(activity);
       if (autoRecord) window.localStorage.setItem(storageKey, "saved");
       setState("saved");
-      setMessage("已写入知命智库");
+      setMessage(t("已写入知命智库"));
     } catch (error) {
       setState("error");
-      setMessage(error instanceof Error ? error.message : "收藏失败");
+      setMessage(error instanceof Error ? error.message : t("收藏失败"));
     }
-  }, [activity, autoRecord, setMessage, setState, state, storageKey]);
+  }, [activity, autoRecord, setMessage, setState, state, storageKey, t]);
 
   useEffect(() => {
     if (!autoRecord || autoRecorded.current) return;
@@ -48,12 +50,12 @@ export default function CollectionButton({
     if (window.localStorage.getItem(storageKey) === "saved") {
       queueMicrotask(() => {
         setState("saved");
-        setMessage("已写入知命智库");
+        setMessage(t("已写入知命智库"));
       });
       return;
     }
     queueMicrotask(() => void save());
-  }, [autoRecord, save, storageKey]);
+  }, [autoRecord, save, storageKey, t]);
 
   return (
     <span className={`${styles.wrap} ${compact ? styles.compact : ""}`}>
@@ -61,7 +63,7 @@ export default function CollectionButton({
         className={`${styles.button} ${state === "saved" ? styles.saved : ""}`}
         disabled={state === "saving" || state === "saved"}
         onClick={() => void save()}
-        title={message || label}
+        title={message || t(label)}
         type="button"
       >
         {state === "saving" ? (
@@ -71,11 +73,11 @@ export default function CollectionButton({
         ) : (
           <Bookmark size={15} />
         )}
-        <span>{state === "saved" ? "已收藏" : label}</span>
+        <span>{state === "saved" ? t("已收藏") : t(label)}</span>
       </button>
       {state === "saved" ? (
         <a href="/library#collections" rel="noreferrer">
-          智库 <ExternalLink size={11} />
+          {t("智库")} <ExternalLink size={11} />
         </a>
       ) : state === "error" ? (
         <small className={styles.error}>{message}</small>

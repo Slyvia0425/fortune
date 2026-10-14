@@ -15,6 +15,7 @@ import {
 import { getModule4UserId } from "@/lib/module4/activity";
 import { module4Api } from "@/lib/module4/api";
 import type { PersonProfile } from "@/lib/module4/types";
+import { useI18n } from "@/lib/i18n";
 import { AdvisoryStep } from "./advisory-step";
 import { BirthForm } from "./birth-form";
 import { ChainStep } from "./chain-step";
@@ -44,23 +45,24 @@ function StepNav({
   onNavigate: (target: number) => void;
   onReset: () => void;
 }) {
+  const { t } = useI18n();
   const onLastStep = step === STEPS.length;
 
   return (
     <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
       {step > 1 && (
         <button className="button" type="button" onClick={() => onNavigate(step - 1)}>
-          上一步
+          {t("上一步")}
         </button>
       )}
       {step < STEPS.length && unlocked && (
         <button className="button button-primary" type="button" onClick={() => onNavigate(step + 1)}>
-          下一步
+          {t("下一步")}
         </button>
       )}
       {onLastStep && (
         <button className="button button-primary" type="button" onClick={onReset}>
-          重新排盘
+          {t("重新排盘")}
         </button>
       )}
     </div>
@@ -68,6 +70,7 @@ function StepNav({
 }
 
 export default function BaziWorkspace() {
+  const { t } = useI18n();
   const [step, setStep] = useState(1);
   const panel = useRef<HTMLElement>(null);
   const shownStep = useRef(1);
@@ -158,7 +161,7 @@ export default function BaziWorkspace() {
     setResult(null);
     setSubmitted(null);
     setStep(1);
-    form.setNotice("已载入人物档案，请确认出生信息后重新生成命盘。");
+    form.setNotice(t("已载入人物档案，请确认出生信息后重新生成命盘。"));
   }
 
   function clearProfile() {
@@ -187,7 +190,7 @@ export default function BaziWorkspace() {
         body: JSON.stringify(built.value),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error?.message ?? "排盘失败");
+      if (!response.ok) throw new Error(data.error?.message ?? t("排盘失败"));
       // The chart is stored against the person whose birthday it is: the agent
       // reads a person's records back as one history, so an unnamed chart would
       // be unusable later. A failure here must not cost the user the chart.
@@ -212,15 +215,15 @@ export default function BaziWorkspace() {
       } catch (profileError) {
         setProfileNotice(
           profileError instanceof Error
-            ? `排盘完成，但人物档案未能保存：${profileError.message}`
-            : "排盘完成，但人物档案未能保存。",
+            ? t("排盘完成，但人物档案未能保存：{message}", { message: profileError.message })
+            : t("排盘完成，但人物档案未能保存。"),
         );
       }
       setResult(data);
       setSubmitted(built.value);
       setStep(2);
     } catch (error) {
-      form.setNotice(error instanceof Error ? error.message : "排盘失败");
+      form.setNotice(error instanceof Error ? error.message : t("排盘失败"));
     } finally {
       setPending(false);
     }
@@ -241,7 +244,7 @@ export default function BaziWorkspace() {
   const birthTimeText = joinTime(form.timeParts);
   const birthPlaceText =
     form.placeMode === "dropdown"
-      ? form.city?.name ?? "未选择城市"
+      ? form.city?.name ?? t("未选择城市")
       : `${form.lat.degrees}°${form.lat.minutes}′${form.lat.hemisphere} / ${form.lng.degrees}°${form.lng.minutes}′${form.lng.hemisphere}`;
 
   return (
@@ -265,7 +268,7 @@ export default function BaziWorkspace() {
               }}
               style={{ cursor: locked ? "default" : "pointer", opacity: locked ? 0.4 : 1 }}
             >
-              {String(item.id).padStart(2, "0")}　{item.label}
+              {String(item.id).padStart(2, "0")}　{t(item.label)}
             </span>
           );
         })}

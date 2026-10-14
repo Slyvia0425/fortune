@@ -17,16 +17,18 @@ import { StrengthBreakdown } from "./strength-breakdown";
 import { TenGodRelations } from "./ten-god-relations";
 import { YongshenDerivation } from "./yongshen-derivation";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 /** Step 3: the chart's structure (element distribution, ten gods), how strong the day master is and why, and the useful elements derived from it. */
 export function ElementsStep({ chart, profileActivity }: { chart: BaziChartResult; profileActivity?: BaziProfileActivity }) {
+  const { t } = useI18n();
   const elements = (Object.keys(chart.elements) as Array<keyof typeof chart.elements>)
     .map((key) => `${ELEMENT_LABEL[key]} ${chart.elements[key]}`)
     .join("，");
   return (
     <>
-      <h2>五行十神</h2>
-      <p className="kicker">命局结构</p>
+      <h2>{t("五行十神")}</h2>
+      <p className="kicker">{t("命局结构")}</p>
       <p className={styles.subline}>
         日主 {STEM_LABEL[chart.day_master.stem]}
         {ELEMENT_LABEL[chart.day_master.element]} · 以下十神均相对日主而论

@@ -23,6 +23,7 @@ import {
   type BaziProfileActivity,
 } from "./profile-activity";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 // Bar lengths only illustrate the primary/middle/residual ordering; they are
 // not weights used anywhere in the calculation.
@@ -70,6 +71,7 @@ function TimelineRow({
   currentKey?: string;
   onSelect: (key: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className={styles.timeline}>
       <div className={styles.timelineHead}>
@@ -98,7 +100,7 @@ function TimelineRow({
                 <b>{item.branch}</b>
                 <i>{TEN_GOD_LABEL[item.branchTenGod]}</i>
               </span>
-              {item.key === currentKey && <span className={styles.luckNow}>当前</span>}
+              {item.key === currentKey && <span className={styles.luckNow}>{t("当前")}</span>}
             </button>
           );
         })}
@@ -116,6 +118,7 @@ export function PillarsStep({
   warnings: string[];
   profileActivity?: BaziProfileActivity;
 }) {
+  const { t } = useI18n();
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
   const [selectedId, setSelectedId] = useState(dayMaster.id);
@@ -172,8 +175,8 @@ export function PillarsStep({
     <>
       <div className={styles.header}>
         <div>
-          <h2>四柱排盘</h2>
-          <p className="kicker">规则引擎计算结果</p>
+          <h2>{t("四柱排盘")}</h2>
+          <p className="kicker">{t("规则引擎计算结果")}</p>
           <p className={styles.subline}>
             日主 {STEM_LABEL[chart.day_master.stem]}
             {ELEMENT_LABEL[chart.day_master.element]}
@@ -189,7 +192,7 @@ export function PillarsStep({
             <circle cx="8" cy="8" r="6" />
             <path d="M8 4.8V8l2.2 1.6" />
           </svg>
-          时间校准
+          {t("时间校准")}
           <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
             <path d="m4.5 6.5 3.5 3.5 3.5-3.5" />
           </svg>
@@ -219,7 +222,7 @@ export function PillarsStep({
           <span className={styles.arrow}>→</span>
           <strong>真太阳时 {time.true_solar_time}</strong>
           {time.crossed_pillar_boundary && <span className={styles.arrow}>|</span>}
-          {time.crossed_pillar_boundary && <span className="notice">校正后跨越了时柱边界</span>}
+          {time.crossed_pillar_boundary && <span className="notice">{t("校正后跨越了时柱边界")}</span>}
           {/* The month pillar is set by a 节; some rules in 1.2 additionally
               split the month at its 中气, so the position within the term is
               shown, not just which month it is. */}
@@ -229,7 +232,7 @@ export function PillarsStep({
             距{SOLAR_TERM_LABEL[term.next_term]} {term.days_to_next_term.toFixed(1)} 天
             <span className={styles.arrow}>·</span>
             月令取{SOLAR_TERM_LABEL[term.month_term]}
-            {term.near_boundary && <span className="notice">　接近节气交界，结论对出生时刻较敏感</span>}
+            {term.near_boundary && <span className="notice">　{t("接近节气交界，结论对出生时刻较敏感")}</span>}
           </span>
         </div>
       )}
@@ -284,7 +287,7 @@ export function PillarsStep({
           style={{ animationDelay: "360ms" }}
           aria-live="polite"
         >
-          <span className="kicker">注释</span>
+          <span className="kicker">{t("注释")}</span>
           {/* Keyed so the note fades in afresh each time the selection changes. */}
           <div key={selected.id} className={styles.fade} style={{ display: "grid", gap: 12 }}>
             <span className={styles.asideChar}>{selected.char}</span>
@@ -294,12 +297,12 @@ export function PillarsStep({
             {note.relation && <span className={styles.asideRelation}>{note.relation}</span>}
             <p className={styles.asideBody}>{note.body}</p>
           </div>
-          <span className={styles.asideHint}>点击命盘中任意一字，查看它在命局中的位置与关系。</span>
+          <span className={styles.asideHint}>{t("点击命盘中任意一字，查看它在命局中的位置与关系。")}</span>
         </aside>
       </div>
 
       <div className={styles.legend}>
-        <span>五行色标</span>
+        <span>{t("五行色标")}</span>
         {GENERATING_ORDER.map((element) => (
           <span key={element} className={styles.el} data-element={element}>
             <ElementIcon element={element} />
@@ -307,7 +310,7 @@ export function PillarsStep({
           </span>
         ))}
         <p className={styles.legendNote}>
-          藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。
+          {t("藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。")}
         </p>
       </div>
 
@@ -348,8 +351,8 @@ export function PillarsStep({
       {/* 大运：与四柱同属 1.1 的确定性计算，故并入本页；仅展示，不含吉凶判断 */}
       <section className={`${styles.luckBlock} ${styles.rise}`} style={{ animationDelay: "480ms" }}>
         <div className={styles.sectionHead}>
-          <h3>大运</h3>
-          <span>推算结果展示，不含有利与否的判断</span>
+          <h3>{t("大运")}</h3>
+          <span>{t("推算结果展示，不含有利与否的判断")}</span>
         </div>
 
         <p className={styles.legendNote}>
@@ -359,7 +362,7 @@ export function PillarsStep({
         </p>
 
         <TimelineRow
-          title="大运"
+          title={t("大运")}
           items={chart.luck_cycles.map((cycle) => ({
             key: String(cycle.start_year),
             top: `${cycle.start_age} 岁起`,
@@ -377,7 +380,7 @@ export function PillarsStep({
         />
 
         <TimelineRow
-          title="流年"
+          title={t("流年")}
           note={`${selectedCycle.start_year}–${selectedCycle.end_year}　随所选大运变化`}
           items={yearsOfCycle.map((year) => ({
             key: String(year.year),

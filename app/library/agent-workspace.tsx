@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
 import KnowledgeAgent from "./knowledge-agent";
 import { Module4ApiError, module4Api } from "@/lib/module4/api";
@@ -322,6 +323,7 @@ function messageFrom(error: unknown): string {
 }
 
 export default function LibraryWorkspace({ user }: { user: AuthUser }) {
+  const { t } = useI18n();
   const activeUser = user.id;
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [notes, setNotes] = useState<NoteItem[]>([]);
@@ -825,23 +827,23 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       <section className="page-hero">
         <div className="page-shell">
           <p className="crumb">
-            <Link href="/">首页</Link> ／ 知命智库
+            <Link href="/">{t("首页")}</Link> ／ {t("知命智库")}
           </p>
           <p className="kicker">FORTUNE KNOWLEDGE HUB</p>
-          <h1 className="page-title">知命智库</h1>
-          <p>统一检索典籍、灵签、易卦、八字与个人收藏，在保留来源标识的前提下完成跨模块问答。</p>
+          <h1 className="page-title">{t("知命智库")}</h1>
+          <p>{t("统一检索典籍、灵签、易卦、八字与个人收藏，在保留来源标识的前提下完成跨模块问答。")}</p>
         </div>
       </section>
 
-      <nav className="module4-nav" aria-label="知命智库模块导航">
+      <nav className="module4-nav" aria-label={t("知命智库模块导航")}>
         <div className="page-shell">
-          <a href="#agent">知识助手</a>
-          <a href="#profiles">人物档案</a>
-          <a href="#history">会话历史</a>
-          <a href="#collections">个人收藏</a>
-          <a href="#notes">知识笔记</a>
-          <a href="#tags">标签</a>
-          <a href="#privacy">数据隐私</a>
+          <a href="#agent">{t("知识助手")}</a>
+          <a href="#profiles">{t("人物档案")}</a>
+          <a href="#history">{t("会话历史")}</a>
+          <a href="#collections">{t("个人收藏")}</a>
+          <a href="#notes">{t("知识笔记")}</a>
+          <a href="#tags">{t("标签")}</a>
+          <a href="#privacy">{t("数据隐私")}</a>
         </div>
       </nav>
 
@@ -859,7 +861,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       <section className="page-shell library-shell" id="collections">
         <div className="library-main">
           <div className="toolbar">
-            <div className="tabs" role="tablist" aria-label="收藏筛选">
+            <div className="tabs" role="tablist" aria-label={t("收藏筛选")}>
               {tabs.map((tab) => (
                 <button
                   aria-selected={activeTab === tab.id}
@@ -869,18 +871,18 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   role="tab"
                   type="button"
                 >
-                  {tab.label}
+                  {t(tab.label)}
                 </button>
               ))}
             </div>
             <div className="toolbar-actions">
               {activeTab === "profiles" ? (
                 <Link className="button button-primary" href="/bazi">
-                  <Users size={15} /> 前往八字建立档案
+                  <Users size={15} /> {t("前往八字建立档案")}
                 </Link>
               ) : activeTab === "history" ? (
                 <Link className="button button-primary" href="/divination">
-                  <MessageSquare size={15} /> 发起新的问卦
+                  <MessageSquare size={15} /> {t("发起新的问卦")}
                 </Link>
               ) : (
                 <>
@@ -889,14 +891,14 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                     onClick={() => setShowCollectionForm(true)}
                     type="button"
                   >
-                    <Plus size={15} /> 收藏来源
+                    <Plus size={15} /> {t("收藏来源")}
                   </button>
                   <button
                     className="button button-primary"
                     onClick={() => setShowNoteForm(true)}
                     type="button"
                   >
-                    <NotebookPen size={15} /> 新建笔记
+                    <NotebookPen size={15} /> {t("新建笔记")}
                   </button>
                 </>
               )}
@@ -905,15 +907,15 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
 
           {activeTab !== "profiles" && activeTab !== "history" ? <div className="filter-bar">
             <label>
-              <span>分类</span>
+              <span>{t("分类")}</span>
               <select
-                aria-label="按分类筛选"
+                aria-label={t("按分类筛选")}
                 onChange={(event) => setActiveCategory(event.target.value)}
                 value={activeCategory}
               >
                 {categoryOptions.map((option) => (
                   <option key={option.value} value={option.value}>
-                    {option.label}
+                    {t(option.label)}
                   </option>
                 ))}
               </select>
@@ -924,10 +926,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 onClick={() => setActiveTagFilter(null)}
                 type="button"
               >
-                标签：{activeTagFilter} <X size={12} />
+                {t("标签：{tag}", { tag: activeTagFilter })} <X size={12} />
               </button>
             ) : (
-              <span className="filter-hint">点击收藏或笔记上的标签即可筛选</span>
+              <span className="filter-hint">{t("点击收藏或笔记上的标签即可筛选")}</span>
             )}
             {activeCategory !== "all" || activeTagFilter ? (
               <button
@@ -938,7 +940,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 }}
                 type="button"
               >
-                清除筛选
+                {t("清除筛选")}
               </button>
             ) : null}
           </div> : null}
@@ -946,35 +948,35 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
           <div className="summary-strip">
             <div>
               <strong>{collections.length}</strong>
-              <span>收藏来源</span>
+              <span>{t("收藏来源")}</span>
             </div>
             <div>
               <strong>{notes.length}</strong>
-              <span>个人笔记</span>
+              <span>{t("个人笔记")}</span>
             </div>
             <div>
               <strong>{tagItems.length}</strong>
-              <span>个人标签</span>
+              <span>{t("个人标签")}</span>
             </div>
             <div>
               <strong>{profiles.length}</strong>
-              <span>人物档案</span>
+              <span>{t("人物档案")}</span>
             </div>
             <div>
               <strong>{sessions.length}</strong>
-              <span>会话历史</span>
+              <span>{t("会话历史")}</span>
             </div>
             <label className="search-box">
               <Search size={16} />
               <input
-                aria-label="搜索收藏和笔记"
+                aria-label={t("搜索收藏和笔记")}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={
                   activeTab === "profiles"
-                    ? "搜索人物、分类或命盘"
+                    ? t("搜索人物、分类或命盘")
                     : activeTab === "history"
-                      ? "搜索会话主题或最近消息"
-                      : "搜索标题、正文或来源"
+                      ? t("搜索会话主题或最近消息")
+                      : t("搜索标题、正文或来源")
                 }
                 value={query}
               />
@@ -985,7 +987,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="notice notice-error" role="alert">
               <span>{error}</span>
               <button onClick={() => setReloadKey((value) => value + 1)} type="button">
-                <RefreshCw size={14} /> 重试
+                <RefreshCw size={14} /> {t("重试")}
               </button>
             </div>
           ) : null}
@@ -993,8 +995,8 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
 
           {loading ? (
             <div className="panel empty-state">
-              <p className="kicker">正在读取</p>
-              <h2>载入个人收藏</h2>
+              <p className="kicker">{t("正在读取")}</p>
+              <h2>{t("载入个人收藏")}</h2>
             </div>
           ) : activeTab === "history" ? (
             <div className="history-layout" id="history">
@@ -1024,7 +1026,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           </span>
                           <time>{formatDateTime(session.started_at)}</time>
                         </span>
-                        <strong>{session.title || "问卦会话"}</strong>
+                        <strong>{session.title || t("问卦会话")}</strong>
                         <span className="history-preview">
                           {session.last_message_preview || "已保存结构化术数记录"}
                         </span>
@@ -1036,9 +1038,9 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   ))
                 ) : (
                   <div className="history-empty">
-                    <p className="kicker">尚无会话记录</p>
-                    <h2>从第一次问卦开始保存</h2>
-                    <p>登录后，在问卦页面发送的消息、助手回复和起卦结果会自动归入这里。</p>
+                    <p className="kicker">{t("尚无会话记录")}</p>
+                    <h2>{t("从第一次问卦开始保存")}</h2>
+                    <p>{t("登录后，在问卦页面发送的消息、助手回复和起卦结果会自动归入这里。")}</p>
                   </div>
                 )}
               </div>
@@ -1051,14 +1053,14 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                         <p className="kicker">SESSION TIMELINE</p>
                         <h2>
                           {sessions.find((session) => session.session_id === selectedSessionId)
-                            ?.title || "问卦会话"}
+                            ?.title || t("问卦会话")}
                         </h2>
                       </div>
                       <code>{selectedSessionId.slice(0, 8)}</code>
                     </div>
                     <div className="history-timeline">
                       {historyLoading ? (
-                        <p className="history-loading">正在读取完整记录</p>
+                        <p className="history-loading">{t("正在读取完整记录")}</p>
                       ) : sessionEvents.length ? (
                         sessionEvents.map((event) => {
                           const content = isConversationEvent(event)
@@ -1070,7 +1072,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                               className={`history-message ${role}`}
                               key={event.event_id}
                             >
-                              <span>{role === "user" ? "你" : "问卦助手"}</span>
+                              <span>{role === "user" ? t("你") : t("问卦助手")}</span>
                               <p>{content}</p>
                               <time>{formatDateTime(event.occurred_at)}</time>
                             </article>
@@ -1083,24 +1085,24 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           );
                         })
                       ) : (
-                        <p className="history-loading">这条会话暂时没有可显示的事件。</p>
+                        <p className="history-loading">{t("这条会话暂时没有可显示的事件。")}</p>
                       )}
                     </div>
                   </>
                 ) : (
                   <div className="history-empty compact">
                     <MessageSquare size={26} />
-                    <h2>选择一条会话</h2>
-                    <p>完整消息和结构化结果会在这里按顺序显示。</p>
+                    <h2>{t("选择一条会话")}</h2>
+                    <p>{t("完整消息和结构化结果会在这里按顺序显示。")}</p>
                   </div>
                 )}
               </section>
             </div>
           ) : activeTab === "profiles" && filteredProfiles.length === 0 ? (
             <div className="panel empty-state" id="profiles">
-              <p className="kicker">尚无人物档案</p>
-              <h2>为不同的命盘建立独立人物名称</h2>
-              <p>在八字页面填写人物名称并生成命盘后，姓名、分类、出生信息和完整命盘会保存在这里。</p>
+              <p className="kicker">{t("尚无人物档案")}</p>
+              <h2>{t("为不同的命盘建立独立人物名称")}</h2>
+              <p>{t("在八字页面填写人物名称并生成命盘后，姓名、分类、出生信息和完整命盘会保存在这里。")}</p>
             </div>
           ) : activeTab === "profiles" ? (
             <div className="saved-grid" id="profiles">
@@ -1112,7 +1114,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   <div className="saved-body">
                     <div className="saved-meta">
                       <span className="category-badge">{profile.relation || "其他"}</span>
-                      <span>人物档案</span>
+                      <span>{t("人物档案")}</span>
                       <time>{formatDate(profile.updated_at)}</time>
                     </div>
                     <h2>{profile.name}</h2>
@@ -1146,7 +1148,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                       <button
                         aria-label={`编辑人物档案 ${profile.name}`}
                         onClick={() => openProfileEditor(profile)}
-                        title="编辑人物档案"
+                        title={t("编辑人物档案")}
                         type="button"
                       >
                         <Pencil size={15} />
@@ -1154,7 +1156,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                       <button
                         aria-label={`删除人物档案 ${profile.name}`}
                         onClick={() => void removeProfile(profile)}
-                        title="删除人物档案"
+                        title={t("删除人物档案")}
                         type="button"
                       >
                         <Trash2 size={15} />
@@ -1166,15 +1168,15 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </div>
           ) : activeTab === "notes" && filteredNotes.length === 0 ? (
             <div className="panel empty-state" id="notes">
-              <p className="kicker">尚无笔记</p>
-              <h2>把思考留在原文旁边</h2>
-              <p>新建的笔记会保留来源标识与标签，并可在知命智库中检索。</p>
+              <p className="kicker">{t("尚无笔记")}</p>
+              <h2>{t("把思考留在原文旁边")}</h2>
+              <p>{t("新建的笔记会保留来源标识与标签，并可在知命智库中检索。")}</p>
             </div>
           ) : !hasVisibleItems ? (
             <div className="panel empty-state">
-              <p className="kicker">尚无收藏</p>
-              <h2>把值得再读的内容收在这里</h2>
-              <p>收藏内容会保留其来源链接与上下文。</p>
+              <p className="kicker">{t("尚无收藏")}</p>
+              <h2>{t("把值得再读的内容收在这里")}</h2>
+              <p>{t("收藏内容会保留其来源链接与上下文。")}</p>
             </div>
           ) : (
             <div className="saved-grid">
@@ -1193,7 +1195,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                       <span>{itemTypeLabel(item.item_type)}</span>
                       <time>{formatDate(item.created_at)}</time>
                     </div>
-                    {sourceNeedsReview(item) ? <strong className="source-update-badge">来源可能已更新，请返回原文核对</strong> : null}
+                    {sourceNeedsReview(item) ? <strong className="source-update-badge">{t("来源可能已更新，请返回原文核对")}</strong> : null}
                     <h2>{item.title || item.source_id || "未命名收藏"}</h2>
                     {collectionSummary(item) ? (
                       <p className="item-summary">{collectionSummary(item)}</p>
@@ -1215,26 +1217,26 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                         ))}
                       </div>
                     ) : (
-                      <p className="tag-empty">未添加标签，可在右侧编辑分类与标签</p>
+                      <p className="tag-empty">{t("未添加标签，可在右侧编辑分类与标签")}</p>
                     )}
                     <div className="saved-actions">
                       {sourceUrl(item) ? (
                         <a href={sourceUrl(item) || "#"} rel="noreferrer" target="_blank">
-                          <ExternalLink size={14} /> 查看来源
+                          <ExternalLink size={14} /> {t("查看来源")}
                         </a>
                       ) : null}
                       <button
-                        aria-label="编辑分类和标签"
+                        aria-label={t("编辑分类和标签")}
                         onClick={() => openCollectionEditor(item)}
-                        title="编辑分类和标签"
+                        title={t("编辑分类和标签")}
                         type="button"
                       >
                         <Pencil size={15} />
                       </button>
                       <button
-                        aria-label="删除收藏"
+                        aria-label={t("删除收藏")}
                         onClick={() => void removeCollection(item)}
-                        title="删除收藏"
+                        title={t("删除收藏")}
                         type="button"
                       >
                         <Trash2 size={15} />
@@ -1251,7 +1253,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   </div>
                   <div className="saved-body">
                     <div className="saved-meta">
-                      <span>个人笔记</span>
+                      <span>{t("个人笔记")}</span>
                       <time>{formatDate(note.updated_at)}</time>
                     </div>
                     <h2>{note.title || "未命名笔记"}</h2>
@@ -1272,12 +1274,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                         ))}
                       </div>
                     ) : (
-                      <p className="tag-empty">未添加标签，可在编辑笔记时填写</p>
+                      <p className="tag-empty">{t("未添加标签，可在编辑笔记时填写")}</p>
                     )}
                     <div className="saved-actions">
                       {note.source_id ? <small>来源 {note.source_id}</small> : null}
                       <button
-                        aria-label="编辑笔记"
+                        aria-label={t("编辑笔记")}
                         onClick={() => {
                           setNoteDraft({
                             noteId: note.note_id,
@@ -1289,15 +1291,15 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           });
                           setShowNoteForm(true);
                         }}
-                        title="编辑笔记"
+                        title={t("编辑笔记")}
                         type="button"
                       >
                         <Pencil size={15} />
                       </button>
                       <button
-                        aria-label="删除笔记"
+                        aria-label={t("删除笔记")}
                         onClick={() => void removeNote(note)}
-                        title="删除笔记"
+                        title={t("删除笔记")}
                         type="button"
                       >
                         <Trash2 size={15} />
@@ -1316,22 +1318,22 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <span className="panel-icon"><Tags size={17} /></span>
               <div>
                 <p className="kicker">TAGS</p>
-                <h2>个人标签</h2>
+                <h2>{t("个人标签")}</h2>
               </div>
             </div>
             <form className="inline-form" onSubmit={addTag}>
               <input
-                aria-label="新标签名称"
+                aria-label={t("新标签名称")}
                 onChange={(event) => setTagName(event.target.value)}
-                placeholder="输入标签"
+                placeholder={t("输入标签")}
                 value={tagName}
               />
-              <button aria-label="添加标签" disabled={busy} title="添加标签" type="submit">
+              <button aria-label={t("添加标签")} disabled={busy} title={t("添加标签")} type="submit">
                 <Plus size={15} />
               </button>
             </form>
             <p className="tag-help">
-              标签在收藏与笔记间同步：点击标签筛选，铅笔重命名，删除会从全部个人内容中移除。
+              {t("标签在收藏与笔记间同步：点击标签筛选，铅笔重命名，删除会从全部个人内容中移除。")}
             </p>
             <div className="tag-list tag-list-stacked tag-manager">
               {tagRows.length ? (
@@ -1348,13 +1350,13 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           onChange={(event) => setTagRenameDraft(event.target.value)}
                           value={tagRenameDraft}
                         />
-                        <button aria-label="保存标签名称" title="保存" type="submit">
+                        <button aria-label={t("保存标签名称")} title={t("保存")} type="submit">
                           <Check size={12} />
                         </button>
                         <button
-                          aria-label="取消重命名"
+                          aria-label={t("取消重命名")}
                           onClick={() => setRenamingTagId(null)}
-                          title="取消"
+                          title={t("取消")}
                           type="button"
                         >
                           <X size={12} />
@@ -1379,7 +1381,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                             aria-label={`重命名标签 ${tag.name}`}
                             disabled={tag.tag_id.startsWith("local:")}
                             onClick={() => startTagRename(tag)}
-                            title="重命名"
+                            title={t("重命名")}
                             type="button"
                           >
                             <Pencil size={12} />
@@ -1387,7 +1389,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           <button
                             aria-label={`删除标签 ${tag.name}`}
                             onClick={() => void removeTag(tag)}
-                            title="删除"
+                            title={t("删除")}
                             type="button"
                           >
                             <X size={12} />
@@ -1398,7 +1400,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   </div>
                 ))
               ) : (
-                <p className="aside-empty">暂无标签</p>
+                <p className="aside-empty">{t("暂无标签")}</p>
               )}
             </div>
           </section>
@@ -1408,11 +1410,11 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <span className="panel-icon"><ShieldCheck size={17} /></span>
               <div>
                 <p className="kicker">PRIVACY</p>
-                <h2>数据与隐私</h2>
+                <h2>{t("数据与隐私")}</h2>
               </div>
             </div>
             <div className="identity-form">
-              <label>当前账户</label>
+              <label>{t("当前账户")}</label>
               <strong>{user.display_name}</strong>
               <small>{user.email}</small>
             </div>
@@ -1420,8 +1422,8 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <div className="privacy-options">
                 <label className="switch-row">
                   <span>
-                    <b>匿名案例</b>
-                    <small>允许去标识化案例进入相似匹配</small>
+                    <b>{t("匿名案例")}</b>
+                    <small>{t("允许去标识化案例进入相似匹配")}</small>
                   </span>
                   <input
                     checked={privacy.allow_anonymous_cases}
@@ -1436,8 +1438,8 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 </label>
                 <label className="switch-row">
                   <span>
-                    <b>共享训练</b>
-                    <small>允许用于模型质量改进</small>
+                    <b>{t("共享训练")}</b>
+                    <small>{t("允许用于模型质量改进")}</small>
                   </span>
                   <input
                     checked={privacy.allow_shared_training}
@@ -1451,24 +1453,24 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   />
                 </label>
                 <label className="field compact-field">
-                  保留期限
+                  {t("保留期限")}
                   <select
                     onChange={(event) =>
                       void savePrivacy({ ...privacy, retention_policy: event.target.value })
                     }
                     value={privacy.retention_policy}
                   >
-                    <option value="standard">标准</option>
-                    <option value="30_days">30 天</option>
-                    <option value="90_days">90 天</option>
-                    <option value="indefinite">长期保留</option>
+                    <option value="standard">{t("标准")}</option>
+                    <option value="30_days">{t("30 天")}</option>
+                    <option value="90_days">{t("90 天")}</option>
+                    <option value="indefinite">{t("长期保留")}</option>
                   </select>
                 </label>
               </div>
             ) : null}
             <div className="data-actions">
               <button disabled={busy} onClick={() => void exportData()} type="button">
-                <Download size={15} /> 导出数据
+                <Download size={15} /> {t("导出数据")}
               </button>
               <button
                 className="danger-button"
@@ -1476,14 +1478,14 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 onClick={() => void deleteAllData()}
                 type="button"
               >
-                <Trash2 size={15} /> 删除全部
+                <Trash2 size={15} /> {t("删除全部")}
               </button>
             </div>
           </section>
 
           <section className="source-note">
             <Database size={17} />
-            <p>来源统一使用 <code>source_id</code> 关联，个人笔记不会改写公共知识内容。</p>
+            <p>{t("来源统一使用")} <code>source_id</code> {t("关联，个人笔记不会改写公共知识内容。")}</p>
           </section>
         </aside>
       </section>
@@ -1494,12 +1496,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="modal-heading">
               <div>
                 <p className="kicker">SAVE SOURCE</p>
-                <h2 id="collection-form-title">收藏来源</h2>
+                <h2 id="collection-form-title">{t("收藏来源")}</h2>
               </div>
               <button
-                aria-label="关闭收藏表单"
+                aria-label={t("关闭收藏表单")}
                 onClick={() => setShowCollectionForm(false)}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -1507,33 +1509,33 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </div>
             <form className="form-grid" onSubmit={submitCollection}>
               <label className="field full">
-                标题
+                {t("标题")}
                 <input
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, title: event.target.value })
                   }
-                  placeholder="例如：穷通宝鉴 · 论甲木"
+                  placeholder={t("例如：穷通宝鉴 · 论甲木")}
                   value={collectionDraft.title}
                 />
               </label>
               <label className="field">
-                类型
+                {t("类型")}
                 <select
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, itemType: event.target.value })
                   }
                   value={collectionDraft.itemType}
                 >
-                  <option value="knowledge_item">典籍原文</option>
-                  <option value="divination">卦象</option>
-                  <option value="sign">签文</option>
-                  <option value="divination_record">卦象记录</option>
-                  <option value="sign_record">灵签签文</option>
-                  <option value="bazi_record">八字命盘</option>
+                  <option value="knowledge_item">{t("典籍原文")}</option>
+                  <option value="divination">{t("卦象")}</option>
+                  <option value="sign">{t("签文")}</option>
+                  <option value="divination_record">{t("卦象记录")}</option>
+                  <option value="sign_record">{t("灵签签文")}</option>
+                  <option value="bazi_record">{t("八字命盘")}</option>
                 </select>
               </label>
               <label className="field">
-                分类
+                {t("分类")}
                 <select
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, category: event.target.value })
@@ -1555,13 +1557,13 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, sourceId: event.target.value })
                   }
-                  placeholder="必填"
+                  placeholder={t("必填")}
                   required
                   value={collectionDraft.sourceId}
                 />
               </label>
               <label className="field full">
-                来源链接
+                {t("来源链接")}
                 <input
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, sourceUrl: event.target.value })
@@ -1572,12 +1574,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 />
               </label>
               <label className="field full">
-                标签
+                {t("标签")}
                 <input
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, tags: event.target.value })
                   }
-                  placeholder="用逗号分隔，例如：五行, 用神, 重点"
+                  placeholder={t("用逗号分隔，例如：五行, 用神, 重点")}
                   value={collectionDraft.tags ?? ""}
                 />
               </label>
@@ -1587,10 +1589,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onClick={() => setShowCollectionForm(false)}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存收藏
+                  <Save size={15} /> {t("保存收藏")}
                 </button>
               </div>
             </form>
@@ -1609,12 +1611,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="modal-heading">
               <div>
                 <p className="kicker">CLASSIFY COLLECTION</p>
-                <h2 id="collection-edit-title">编辑分类与标签</h2>
+                <h2 id="collection-edit-title">{t("编辑分类与标签")}</h2>
               </div>
               <button
-                aria-label="关闭编辑窗口"
+                aria-label={t("关闭编辑窗口")}
                 onClick={() => setCollectionEdit(null)}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -1625,7 +1627,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </p>
             <form className="form-grid" onSubmit={submitCollectionEdit}>
               <label className="field full">
-                分类
+                {t("分类")}
                 <select
                   onChange={(event) => setEditCategory(event.target.value)}
                   value={editCategory}
@@ -1640,10 +1642,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 </select>
               </label>
               <label className="field full">
-                标签
+                {t("标签")}
                 <input
                   onChange={(event) => setEditTags(event.target.value)}
-                  placeholder="用逗号分隔，例如：五行, 用神, 重点"
+                  placeholder={t("用逗号分隔，例如：五行, 用神, 重点")}
                   value={editTags}
                 />
               </label>
@@ -1653,10 +1655,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onClick={() => setCollectionEdit(null)}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存分类与标签
+                  <Save size={15} /> {t("保存分类与标签")}
                 </button>
               </div>
             </form>
@@ -1675,12 +1677,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="modal-heading">
               <div>
                 <p className="kicker">PERSON PROFILE</p>
-                <h2 id="profile-edit-title">编辑人物档案</h2>
+                <h2 id="profile-edit-title">{t("编辑人物档案")}</h2>
               </div>
               <button
-                aria-label="关闭人物档案窗口"
+                aria-label={t("关闭人物档案窗口")}
                 onClick={() => setProfileEdit(null)}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -1691,7 +1693,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </p>
             <form className="form-grid" onSubmit={submitProfileEdit}>
               <label className="field full">
-                人物名称
+                {t("人物名称")}
                 <input
                   onChange={(event) => setProfileEditName(event.target.value)}
                   required
@@ -1699,7 +1701,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 />
               </label>
               <label className="field full">
-                档案分类
+                {t("档案分类")}
                 <select
                   onChange={(event) => setProfileEditRelation(event.target.value)}
                   value={profileEditRelation}
@@ -1712,10 +1714,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 </select>
               </label>
               <label className="field full">
-                标签
+                {t("标签")}
                 <input
                   onChange={(event) => setProfileEditTags(event.target.value)}
-                  placeholder="用逗号分隔，例如：家人, 事业咨询"
+                  placeholder={t("用逗号分隔，例如：家人, 事业咨询")}
                   value={profileEditTags}
                 />
               </label>
@@ -1725,10 +1727,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onClick={() => setProfileEdit(null)}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存人物档案
+                  <Save size={15} /> {t("保存人物档案")}
                 </button>
                 <button
                   className="danger-button"
@@ -1736,7 +1738,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onClick={() => void removeProfile(profileEdit)}
                   type="button"
                 >
-                  <Trash2 size={15} /> 删除档案
+                  <Trash2 size={15} /> {t("删除档案")}
                 </button>
               </div>
             </form>
@@ -1753,12 +1755,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 <h2 id="note-form-title">{noteDraft.noteId ? "编辑笔记" : "新建笔记"}</h2>
               </div>
               <button
-                aria-label="关闭笔记表单"
+                aria-label={t("关闭笔记表单")}
                 onClick={() => {
                   setShowNoteForm(false);
                   setNoteDraft(emptyNoteDraft);
                 }}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -1766,28 +1768,28 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </div>
             <form className="form-grid" onSubmit={submitNote}>
               <label className="field full">
-                标题
+                {t("标题")}
                 <input
                   onChange={(event) => setNoteDraft({ ...noteDraft, title: event.target.value })}
-                  placeholder="笔记标题"
+                  placeholder={t("笔记标题")}
                   value={noteDraft.title}
                 />
               </label>
               <label className="field full">
-                内容
+                {t("内容")}
                 <textarea
                   onChange={(event) => setNoteDraft({ ...noteDraft, body: event.target.value })}
-                  placeholder="记录你的理解、疑问与出处"
+                  placeholder={t("记录你的理解、疑问与出处")}
                   required
                   rows={7}
                   value={noteDraft.body}
                 />
               </label>
               <label className="field">
-                标签
+                {t("标签")}
                 <input
                   onChange={(event) => setNoteDraft({ ...noteDraft, tags: event.target.value })}
-                  placeholder="用逗号分隔，例如：五行, 用神"
+                  placeholder={t("用逗号分隔，例如：五行, 用神")}
                   value={noteDraft.tags}
                 />
               </label>
@@ -1797,19 +1799,19 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onChange={(event) =>
                     setNoteDraft({ ...noteDraft, sourceId: event.target.value })
                   }
-                  placeholder="可选"
+                  placeholder={t("可选")}
                   value={noteDraft.sourceId}
                 />
               </label>
               <label className="field full">
-                关联收藏
+                {t("关联收藏")}
                 <select
                   onChange={(event) =>
                     setNoteDraft({ ...noteDraft, collectionId: event.target.value })
                   }
                   value={noteDraft.collectionId}
                 >
-                  <option value="">不关联</option>
+                  <option value="">{t("不关联")}</option>
                   {collections.map((item) => (
                     <option key={item.collection_id} value={item.collection_id}>
                       {item.title || item.source_id}
@@ -1826,10 +1828,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   }}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存笔记
+                  <Save size={15} /> {t("保存笔记")}
                 </button>
               </div>
             </form>

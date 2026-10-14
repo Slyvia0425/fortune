@@ -4,6 +4,7 @@ import { ELEMENT_LABEL, STEM_LABEL } from "@/lib/bazi/display";
 import { GENERATING_ORDER, GROUP_INFO, groupForElement } from "@/lib/bazi/structure";
 import { ElementIcon } from "./element-icon";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 // Donut geometry.
 const DONUT_R = 72;
@@ -12,6 +13,7 @@ const SEGMENT_GAP = 3;
 
 /** 五行分布: the engine's weighted element distribution as a ring. Hovering the ring lifts one element and dims the rest; the legend follows. */
 export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; delay: string }) {
+  const { t } = useI18n();
   const dayMasterElement = chart.day_master.element;
   // The element the pointer (or keyboard focus, or a tap) is on in the distribution: it is lifted, the rest dim, and the centre reads it out.
   const [focusedElement, setFocusedElement] = useState<ElementKey | null>(null);
@@ -51,8 +53,8 @@ export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; 
   return (
     <section id="sec-distribution" className={`${styles.section} ${styles.rise}`} style={{ animationDelay: delay }}>
       <div className={styles.sectionHead}>
-        <h3>五行分布</h3>
-        <span>八个字各记一次（四个天干，四个地支的本气），各五行占全局的比例</span>
+        <h3>{t("五行分布")}</h3>
+        <span>{t("八个字各记一次（四个天干，四个地支的本气），各五行占全局的比例")}</span>
       </div>
       <div className={styles.donutRow}>
         <div
@@ -96,7 +98,7 @@ export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; 
               </>
             ) : (
               <>
-                <small>日主</small>
+                <small>{t("日主")}</small>
                 <strong>
                   {STEM_LABEL[chart.day_master.stem]}
                   {ELEMENT_LABEL[dayMasterElement]}

@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import PageHeading from "../components/page-heading";
 import BaziWorkspace from "./bazi-workspace";
+import { siteLocale } from "@/lib/i18n/server";
+import { translate } from "@/lib/i18n/translate";
 
-export const metadata: Metadata = { title: "八字命盘" };
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await siteLocale();
+  return { title: translate(locale, "八字命盘") };
+}
 
 export default function Page() {
   return (

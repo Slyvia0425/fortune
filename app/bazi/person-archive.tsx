@@ -3,6 +3,7 @@
 import { UserRound } from "lucide-react";
 
 import type { PersonProfile } from "@/lib/module4/types";
+import { useI18n } from "@/lib/i18n";
 
 import styles from "./bazi-chart.module.css";
 
@@ -38,19 +39,20 @@ export function PersonArchive({
   onSelect: (profile: PersonProfile) => void;
   onClear: () => void;
 }) {
+  const { t } = useI18n();
   return (
     <section className={styles.archive}>
       <div className={styles.sectionHead}>
         <h3>
-          <UserRound aria-hidden="true" size={15} /> 人物档案
+          <UserRound aria-hidden="true" size={15} /> {t("人物档案")}
         </h3>
-        <span>记录归到这个人名下，不同人物的命盘分开保存</span>
+        <span>{t("记录归到这个人名下，不同人物的命盘分开保存")}</span>
       </div>
 
       <div className={styles.archiveGrid}>
         <div className="field">
           <div className="field-head">
-            <label htmlFor="person-name">人物名称</label>
+            <label htmlFor="person-name">{t("人物名称")}</label>
           </div>
           <input
             id="person-name"
@@ -64,12 +66,12 @@ export function PersonArchive({
 
         <div className="field">
           <div className="field-head">
-            <label htmlFor="person-relation">关系</label>
+            <label htmlFor="person-relation">{t("关系")}</label>
           </div>
           <select id="person-relation" value={personRelation} onChange={(event) => onRelation(event.target.value)}>
             {RELATION_OPTIONS.map((option) => (
               <option key={option} value={option}>
-                {option}
+                {t(option)}
               </option>
             ))}
           </select>
@@ -77,7 +79,7 @@ export function PersonArchive({
 
         <div className="field">
           <div className="field-head">
-            <label htmlFor="person-profile">载入已有档案</label>
+            <label htmlFor="person-profile">{t("载入已有档案")}</label>
           </div>
           <div className={styles.archiveRow}>
             <select
@@ -88,7 +90,7 @@ export function PersonArchive({
                 if (picked) onSelect(picked);
               }}
             >
-              <option value="">新档案</option>
+              <option value="">{t("新档案")}</option>
               {profiles.map((profile) => (
                 <option key={profile.profile_id} value={profile.profile_id}>
                   {profile.name}
@@ -103,14 +105,14 @@ export function PersonArchive({
               onClick={onClear}
               disabled={!profileId && personName === "本人" && personRelation === "本人"}
             >
-              清空
+              {t("清空")}
             </button>
           </div>
         </div>
       </div>
 
       <p className={styles.collectNote}>
-        生成命盘时，出生信息与命盘会一并存入该人物的档案；档案只属于你本人，不进入公共知识库。
+        {t("生成命盘时，出生信息与命盘会一并存入该人物的档案；档案只属于你本人，不进入公共知识库。")}
       </p>
     </section>
   );

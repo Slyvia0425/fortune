@@ -3,6 +3,7 @@ import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, STEM_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodPositions } from "@/lib/bazi/structure";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 // Relation diagram geometry, in viewBox units (400 × 380).
 const VIEW_W = 400;
@@ -18,6 +19,7 @@ function onRing(angleDeg: number) {
 
 /** 五行与十神: the five elements as a ring of generation (outer) and overcoming (inner) around the day master; pick one to read its ten gods. */
 export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; delay: string }) {
+  const { t } = useI18n();
   const dayMasterElement = chart.day_master.element;
   const positions = tenGodPositions(chart.pillars);
 
@@ -40,8 +42,8 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
   return (
     <section id="sec-relations" className={`${styles.section} ${styles.rise}`} style={{ animationDelay: delay }}>
       <div className={styles.sectionHead}>
-        <h3>五行与十神</h3>
-        <span>点击任一五行，查看它在命局中对应的十神</span>
+        <h3>{t("五行与十神")}</h3>
+        <span>{t("点击任一五行，查看它在命局中对应的十神")}</span>
       </div>
       <div className={styles.relationGrid}>
         <div>
@@ -85,7 +87,7 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
             </svg>
 
             <div className={`${styles.cycleCenter} ${styles.el}`} data-element={dayMasterElement}>
-              <small>日主</small>
+              <small>{t("日主")}</small>
               <strong>
                 {STEM_LABEL[chart.day_master.stem]}
                 {ELEMENT_LABEL[dayMasterElement]}
@@ -122,17 +124,17 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
           <div className={styles.cycleLegend}>
             <span>
               <i className={styles.lineSolid} />
-              外圈相生（顺时针）
+              {t("外圈相生（顺时针）")}
             </span>
             <span>
               <i className={styles.lineDashed} />
-              内线相克
+              {t("内线相克")}
             </span>
           </div>
         </div>
 
         <div className={`${styles.groupNote} ${styles.el}`} data-element={selected.element} aria-live="polite">
-          <span className="kicker">注释</span>
+          <span className="kicker">{t("注释")}</span>
           <div key={selected.element} className={styles.fade} style={{ display: "grid", gap: 14 }}>
             <div className={styles.groupNoteHead}>
               <b>{ELEMENT_LABEL[selected.element]}</b>
@@ -143,7 +145,7 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
               {selectedInfo.definition}。{selectedInfo.polarityRule}。
             </p>
             <div className={styles.divider} />
-            <strong>命局中出现的位置</strong>
+            <strong>{t("命局中出现的位置")}</strong>
             {positions[selected.group].length > 0 ? (
               <ul className={styles.positionList}>
                 {positions[selected.group].map((position) => (
@@ -151,11 +153,11 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
                 ))}
               </ul>
             ) : (
-              <p style={{ color: "var(--muted)" }}>命局中未见此类十神。</p>
+              <p style={{ color: "var(--muted)" }}>{t("命局中未见此类十神。")}</p>
             )}
             {selected.element === dayMasterElement && (
               <p style={{ color: "var(--muted)", fontSize: 13 }}>
-                日主本身计入五行分布，但不计为十神。
+                {t("日主本身计入五行分布，但不计为十神。")}
               </p>
             )}
           </div>

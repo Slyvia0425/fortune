@@ -4,6 +4,7 @@ import type { BaziChartResult, EvidenceRef, StrengthFactor } from "@/lib/contrac
 import { FACTOR_LABEL, PILLAR_LABEL, QI_LABEL, STEM_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
 import { chartCells, groupForElement } from "@/lib/bazi/structure";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * 命盘演示: the chart in a dialog, with the characters that one factor rests on lit up and joined to the day master by
@@ -52,6 +53,7 @@ function dayMasterActsOn(chart: BaziChartResult, ref: EvidenceRef): boolean {
 }
 
 export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClose: () => void }) {
+  const { t } = useI18n();
   const factors = chart.reasoning_trace.factors;
   const [activeKey, setActiveKey] = useState<string>(factors[0]?.key ?? "");
   const active: StrengthFactor | undefined = factors.find((f) => f.key === activeKey) ?? factors[0];
@@ -144,12 +146,12 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
         className={`${styles.demoModal} ${styles.fade}`}
         role="dialog"
         aria-modal="true"
-        aria-label="命盘演示"
+        aria-label={t("命盘演示")}
         onClick={(event) => event.stopPropagation()}
       >
         <div className={styles.demoHead}>
-          <h3>命盘演示</h3>
-          <button type="button" className={styles.demoClose} onClick={onClose} aria-label="关闭">
+          <h3>{t("命盘演示")}</h3>
+          <button type="button" className={styles.demoClose} onClick={onClose} aria-label={t("关闭")}>
             ×
           </button>
         </div>
@@ -218,7 +220,7 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
                   ))}
                 </ul>
               ) : (
-                <p className={styles.demoNone}>本盘中没有符合的字，所以这一项没有箭头。</p>
+                <p className={styles.demoNone}>{t("本盘中没有符合的字，所以这一项没有箭头。")}</p>
               )}
             </div>
           </div>
