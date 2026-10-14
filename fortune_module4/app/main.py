@@ -6,11 +6,20 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.compat import router as compat_router
 from app.api.v1.router import api_router
-from app.core.config import get_settings
+from app.core.config import get_settings, server_safety_problems
 from app.core.database import init_database
 from app.core.errors import register_exception_handlers
 
 settings = get_settings()
+
+if problems := server_safety_problems(settings):
+    # Refusing here beats serving a stack where any caller can name another
+    # user, which is what these settings mean once the port is open.
+    raise RuntimeError(
+        f"Refusing to start in environment {settings.environment!r}:\n  - "
+        + "\n  - ".join(problems)
+        + "\nSee fortune_module4/linux_server.env.example for a server configuration."
+    )
 
 
 @asynccontextmanager

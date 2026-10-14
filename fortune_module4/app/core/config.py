@@ -4,12 +4,18 @@ from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+LOCAL_ENVIRONMENTS = {"development", "dev", "local", "test", "docker"}
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
+        # Accept the field name as well as the environment alias, so a caller
+        # writing `Settings(debug=False)` is not silently handed the default.
+        populate_by_name=True,
     )
 
     app_name: str = "fortune-module4"
@@ -63,6 +69,42 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def serves_public_traffic(self) -> bool:
+        return self.environment.strip().lower() not in LOCAL_ENVIRONMENTS
+
+
+def server_safety_problems(settings: Settings) -> list[str]:
+    """Configuration that must not be reachable from the internet.
+
+    The shipped defaults suit a laptop behind a closed firewall: a request
+    without a session is served as `DEV_USER_ID`, and `X-User-Id` lets a caller
+    name any owner. On a public server the first merges every visitor into one
+    account and the second hands out anyone's data, so a configuration that
+    still carries them is refused at startup rather than served quietly.
+    """
+    if not settings.serves_public_traffic:
+        return []
+    problems = []
+    if settings.allow_legacy_user_header:
+        problems.append(
+            "ALLOW_LEGACY_USER_HEADER must be false: with it on, any caller can name "
+            "another user through X-User-Id and read or write that user's data."
+        )
+    if not settings.require_user_header:
+        problems.append(
+            "REQUIRE_USER_HEADER must be true: with it off, a request that sends no "
+            "session is served as DEV_USER_ID instead of being rejected."
+        )
+    if settings.debug:
+        problems.append("MODULE4_DEBUG must be false outside local development.")
+    if settings.auto_create_tables:
+        problems.append(
+            "AUTO_CREATE_TABLES must be false outside local development; run "
+            "`alembic upgrade head` instead."
+        )
+    return problems
 
 
 @lru_cache(maxsize=1)

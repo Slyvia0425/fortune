@@ -86,6 +86,18 @@ python3 -m venv .venv
 
 具体请求和返回结构见 [Python 算法接入说明](docs/API_INTEGRATION.md)。
 
+## 服务器部署
+
+单机部署时四个服务共用一台机器，端口固定为：前端 3000、Python 算法服务 8000、
+Module 4 API 8003、PostgreSQL 5432；模型服务（Ollama 或 vLLM）与数据库只监听
+`127.0.0.1`，对外只暴露前端端口。Module 4 必须用 `PORT=8003` 启动，因为 8000 已被
+算法服务占用。
+
+生产环境不要沿用开发默认值：`REQUIRE_USER_HEADER=false` 会把没有携带会话的请求当作
+`DEV_USER_ID`，`ALLOW_LEGACY_USER_HEADER=true` 则允许任意调用方用 `X-User-Id` 冒充其他
+账号。`ENVIRONMENT=production` 下应用会拒绝以这两个开关启动，模板见
+[Module 4 部署模式](fortune_module4/docs/deployment_modes.md)。
+
 ## 常用命令
 
 ```bash
