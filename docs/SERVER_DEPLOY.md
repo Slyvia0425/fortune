@@ -85,5 +85,21 @@ sudo journalctl -u fortune-module4 -f     # logs
   the publish step into these tables still has to be wired up.
 - `alembic` has two heads (`20261008_0004`, `20261010_0002`) and the knowledge_v2 revision fails on
   PostgreSQL; the schema is currently bootstrapped from the models and stamped.
-- No TLS yet: Caddy serves plain HTTP on the instance IP. Point a domain at the host and Caddy will
-  obtain a certificate on its own.
+## Serving from the instance IP (decided 2026-10-15)
+
+The site is reachable at `http://43.132.114.201/` and stays that way: no domain was bought, so Caddy
+keeps the catch-all `:80` site and an A record is not needed. Two settings exist only because of
+that choice and must not be "tidied up" while it holds:
+
+- `FORTUNE_COOKIE_SECURE=false`. A cookie marked `Secure` is dropped by the browser on a plain-HTTP
+  origin, so signing in would answer 201 and leave the reader signed out. Remove the variable only
+  after the site is served over HTTPS.
+- `CORS_ORIGINS=http://43.132.114.201`.
+
+The trade-off is that the session token travels unencrypted, and a link to an IP address is treated
+as untrusted by browsers and messaging apps. Adding a domain later means: point an A record at the
+host, replace `:80` in the Caddyfile with the domain, and drop `FORTUNE_COOKIE_SECURE`. Caddy then
+obtains a certificate on its own.
+
+Optional, without buying anything: a wildcard-DNS host such as `43-132-114-201.sslip.io` resolves to
+this address, and Let's Encrypt can issue for it, which would give the site HTTPS.
