@@ -176,3 +176,51 @@ application refuses to start in `ENVIRONMENT=production` while that is the case.
 - The LLM receives only ranked candidates or anonymized case features.
 - The LLM may generate explanations only.
 - The LLM must never modify scores, ordering, source identifiers, charts, hexagrams, or source text.
+
+## 5. Model Behind A Hosted API
+
+The explanation layer speaks the OpenAI chat-completions protocol, so a hosted model replaces the
+local one by configuration alone. Nothing else changes: the deterministic engine still owns every
+calculation, and the model still only writes prose.
+
+Set these on **both** processes that call a model — the Next.js server (divination extraction,
+Guanyin explanation) and Module 4 (recommendation, similar cases, personal analysis):
+
+```dotenv
+LLM_PROVIDER=openai_compatible
+LLM_BASE_URL=https://your-provider.example/v1
+LLM_API_KEY=...
+LLM_MODEL=...
+```
+
+Requests go to `POST {LLM_BASE_URL}/chat/completions` with `Authorization: Bearer {LLM_API_KEY}`.
+A complete `/chat/completions` URL is also accepted in `LLM_BASE_URL`.
+
+### Fields that are not part of the base protocol
+
+Each call site adds a field for the local server it was written against. A vendor that rejects
+unknown fields answers 400, so switch the matching variable off when it complains:
+
+| Call site | Extra field | Turn off with |
+| --- | --- | --- |
+| Module 4 analysis | `reasoning_effort` | `LLM_REASONING_EFFORT=` (empty) |
+| Guanyin explanation | `reasoning_effort` | `LLM_REASONING_EFFORT=` (empty) |
+| Divination extraction | `enable_thinking` | `LLM_DISABLE_THINKING=false` |
+
+`response_format: {"type": "json_object"}` is sent by the two JSON-returning call sites; providers
+that do not support it need a model that reliably returns bare JSON instead.
+
+### When the API is unreachable or refuses the request
+
+Every call site falls back to its own rule-based text rather than failing the page, so a wrong key
+shows up as plainer wording instead of an error. The `model` field in the Module 4 answer names the
+model that actually replied, and `template-explainer-v1` there means the API was not used. The
+Guanyin layer retries up to three times when the JSON does not validate and then keeps the base
+reading.
+
+### Privacy
+
+The prompts carry the reader's own material: chart fields, saved records, question text, and the
+ranked candidates. Pointing the layer at a hosted API therefore sends that material to the
+vendor, which is a different posture from the local model. Say so in the privacy notice, or keep
+`LLM_PROVIDER=template` on a deployment where personal data must not leave the machine.
