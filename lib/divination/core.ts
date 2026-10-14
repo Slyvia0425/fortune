@@ -1,4 +1,5 @@
 import type { AnalysisPlan, CoreCastReceipt, DivinationCastRequest, NumberTriple, QuestionContext, QuestionField } from "@/lib/contracts/divination";
+import { randomId } from "@/lib/crypto/random-id";
 
 export const CORE_VERSION="liuyao-decoration-v1";
 export const THREE_NUMBER_ALGORITHM_ID="three-numbers-mod8-mod6";
@@ -17,7 +18,7 @@ export function freezeCastInput(input:DivinationCastRequest,now=new Date(),serve
   if(!validTimezone(serverTimezone))throw new CoreInputError("INVALID_SERVER_TIMEZONE","服务端默认时区无效。");
   const timestamp=now.toISOString(),rawNumbers=[...input.numbers] as NumberTriple;
   if(rawNumbers.some(number=>number<=0))throw new CoreInputError("INVALID_THREE_NUMBERS","当前三数字算法只接受正整数。");
-  return {request_id:input.request_id||crypto.randomUUID(),cast_id:crypto.randomUUID(),raw_numbers:rawNumbers,validated_numbers:[...rawNumbers] as NumberTriple,raw_question:input.question,submitted_at:timestamp,cast_at:timestamp,timezone,timezone_source:input.timezone?.trim()?"client":"server_default",casting_algorithm_id:THREE_NUMBER_ALGORITHM_ID,casting_algorithm_version:THREE_NUMBER_ALGORITHM_VERSION,calendar_policy_id:"shanghai-jie-midnight-water-earth-v1",core_version:CORE_VERSION,method_profile_id:METHOD_PROFILE_ID,method_profile_version:"1",question_parser_version:QUESTION_PARSER_VERSION};
+  return {request_id:input.request_id||randomId(),cast_id:randomId(),raw_numbers:rawNumbers,validated_numbers:[...rawNumbers] as NumberTriple,raw_question:input.question,submitted_at:timestamp,cast_at:timestamp,timezone,timezone_source:input.timezone?.trim()?"client":"server_default",casting_algorithm_id:THREE_NUMBER_ALGORITHM_ID,casting_algorithm_version:THREE_NUMBER_ALGORITHM_VERSION,calendar_policy_id:"shanghai-jie-midnight-water-earth-v1",core_version:CORE_VERSION,method_profile_id:METHOD_PROFILE_ID,method_profile_version:"1",question_parser_version:QUESTION_PARSER_VERSION};
 }
 
 export function emptyQuestionContext(rawQuestion:string):QuestionContext { return {raw_question:rawQuestion,initiator:unknownField(),number_provider:unknownField(),perspective_person:unknownField(),target_entities:[],relationships:[],topic_candidates:[],goal:unknownField(),question_kind:unknownField(),process_stage:unknownField(),time_expression:unknownField(),known_facts:[],assumptions:[],exclusions:[],ambiguities:[],goal_groups:[],parser_status:"unavailable"}; }

@@ -8,6 +8,7 @@ import CollectionButton from "@/app/components/collection-button";
 import HexagramEvolution from "./hexagram-evolution";
 import InterpretationPanel from "./interpretation-panel";
 import { useI18n } from "@/lib/i18n";
+import { randomId } from "@/lib/crypto/random-id";
 
 const intro = "我是问卦助手。先告诉我你要问的一件事；我会简短确认时间范围和起卦数字，再为你推演卦象。";
 const resultCacheKey = "fortune.divination.latest-result.v2";
@@ -77,8 +78,8 @@ export default function DivinationChatbot() {
   }, [cast, interpretation, messages, reply, restored, questionContext]);
 
   function saveHistory(eventType: string, payload: Record<string, unknown>) {
-    sessionId.current ??= crypto.randomUUID();
-    const eventId = crypto.randomUUID();
+    sessionId.current ??= randomId();
+    const eventId = randomId();
     sequence.current += 1;
     void fetch("/api/session/event", {
       method: "POST",
@@ -104,7 +105,7 @@ export default function DivinationChatbot() {
       saveHistory("module2a.chat.assistant_message", { role: "assistant", content: bot.message, status: bot.status, message_index: next.length, inference_eligible: false });
       let activeCast=cast;
       if (bot.cast_request && !activeCast) {
-        const castResponse = await fetch("/api/divination/cast", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...bot.cast_request, request_id: crypto.randomUUID(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone }) });
+        const castResponse = await fetch("/api/divination/cast", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...bot.cast_request, request_id: randomId(), timezone: Intl.DateTimeFormat().resolvedOptions().timeZone }) });
         const castPayload = await castResponse.json() as ApiEnvelope<DivinationCastResult>;
         const result = castPayload.result;
         if (!castResponse.ok || !result) throw new Error(castPayload.error?.message ?? "起卦服务暂不可用。");
@@ -113,7 +114,7 @@ export default function DivinationChatbot() {
         setMessages(current => [...current, { role: "assistant", content: completionMessage }]);
         saveHistory("module2a.chat.assistant_message", { role: "assistant", content: completionMessage, message_index: next.length + 1, inference_eligible: false });
         saveHistory("module2a.divination.completed", {
-          divination_id: crypto.randomUUID(),
+          divination_id: randomId(),
           method: bot.cast_request.method,
           primary_hexagram: { number: result.primary.number, name: result.primary.name },
           changed_hexagram: { number: result.transformed.number, name: result.transformed.name },

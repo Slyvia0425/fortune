@@ -7,6 +7,7 @@ import type { ApiEnvelope } from "@/lib/contracts/api";
 import { getGuanyinStick } from "@/lib/guanyin/library";
 import { type DrawRecord, type GuanyinDrawResult, type GuanyinReasoningStatement, type QuestionDomain } from "@/lib/guanyin/types";
 import { useI18n } from "@/lib/i18n";
+import { randomId } from "@/lib/crypto/random-id";
 
 const domainOptions: ReadonlyArray<{ value: QuestionDomain; label: string }> = [
   { value: "career", label: "事业" },
@@ -72,7 +73,7 @@ export default function DrawPanel() {
       const response = await fetch("/api/guanyin-lot/draw", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ question: trimmedQuestion, domain }) });
       const payload = await response.json() as ApiEnvelope<GuanyinDrawResult>;
       if (!response.ok || !payload.result?.stick?.id) throw new Error(payload.error?.message ?? "抽签服务暂不可用。");
-      const nextRecord: DrawRecord = { drawId: payload.session_id ?? crypto.randomUUID(), question: trimmedQuestion, domain, stickNumber: payload.result.stick.id, drawnAt: payload.result.drawn_at, oracleVersion: "0.1.0", randomMethod: "server-crypto-random-int", reasoning: payload.result.reasoning, evidenceIntegration: payload.result.evidence_integration, llmGeneration: payload.result.llm_generation };
+      const nextRecord: DrawRecord = { drawId: payload.session_id ?? randomId(), question: trimmedQuestion, domain, stickNumber: payload.result.stick.id, drawnAt: payload.result.drawn_at, oracleVersion: "0.1.0", randomMethod: "server-crypto-random-int", reasoning: payload.result.reasoning, evidenceIntegration: payload.result.evidence_integration, llmGeneration: payload.result.llm_generation };
       setPendingRecord(nextRecord);
       void fetchExplanation(nextRecord);
       window.setTimeout(() => setPendingRecord((current) => {

@@ -25,9 +25,16 @@ curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - && sudo apt-ge
 
 # 2. code (from the Mac; .env.local, node_modules, .next, .runtime and venvs are excluded)
 ssh ubuntu@<host> 'sudo mkdir -p /opt/fortune && sudo chown ubuntu:ubuntu /opt/fortune'
-rsync -az --delete --exclude='.git' --exclude='node_modules' --exclude='.next' --exclude='.runtime' \
-  --exclude='fortune_module4/.venv' --exclude='__pycache__' --exclude='.env*' --exclude='*.db' \
+rsync -az --delete \
+  --exclude='.git' --exclude='node_modules' --exclude='.next' --exclude='.runtime' \
+  --exclude='.venv-algorithms' --exclude='.venv-module4' --exclude='fortune_module4/.venv' \
+  --exclude='__pycache__' --exclude='*.pyc' --exclude='.env*' --exclude='*.log' \
   -e 'ssh -i ~/.ssh/id_ed25519' ./ ubuntu@<host>:/opt/fortune/
+
+Every local environment belongs in that exclude list. `--delete` removes whatever the Mac does not
+have, so dropping `.venv-algorithms` or `.venv-module4` deletes the running Python environments: the
+services keep answering from memory until their next restart and then fail to start. The knowledge
+snapshots (`data/**/*.sqlite3`) are data, not build output, so they must stay in the transfer.
 
 # 3. database
 sudo -u postgres psql -c "CREATE ROLE fortune LOGIN PASSWORD '<password>';"
@@ -100,6 +107,12 @@ The trade-off is that the session token travels unencrypted, and a link to an IP
 as untrusted by browsers and messaging apps. Adding a domain later means: point an A record at the
 host, replace `:80` in the Caddyfile with the domain, and drop `FORTUNE_COOKIE_SECURE`. Caddy then
 obtains a certificate on its own.
+
+Serving over plain HTTP also means the browser withholds the secure-context APIs. `crypto.randomUUID`
+is one of them: calling it during a render threw and the personal knowledge hub showed the
+framework's "This page couldn't load" screen. Client code goes through `randomId()` in
+`lib/crypto/random-id.ts`, which falls back to `getRandomValues`, so the app works on both HTTP and
+HTTPS and the fix is not needed again when a certificate arrives.
 
 Optional, without buying anything: a wildcard-DNS host such as `43-132-114-201.sslip.io` resolves to
 this address, and Let's Encrypt can issue for it, which would give the site HTTPS.

@@ -18,6 +18,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { AgentSourceKind, PublicAgentSource } from "@/lib/agent/types";
 import { module4Api } from "@/lib/module4/api";
 import { useI18n } from "@/lib/i18n";
+import { randomId } from "@/lib/crypto/random-id";
 import type {
   AgentUsedRecord,
   CollectionItem,
@@ -65,7 +66,7 @@ const quickPrompts = [
 ];
 
 function createMessageId(role: AgentMessage["role"]): string {
-  return `${role}-${globalThis.crypto.randomUUID()}`;
+  return `${role}-${randomId()}`;
 }
 
 function compactText(value: string, max = 150): string {
