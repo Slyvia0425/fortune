@@ -92,27 +92,40 @@ sudo journalctl -u fortune-module4 -f     # logs
   the publish step into these tables still has to be wired up.
 - `alembic` has two heads (`20261008_0004`, `20261010_0002`) and the knowledge_v2 revision fails on
   PostgreSQL; the schema is currently bootstrapped from the models and stamped.
-## Serving from the instance IP (decided 2026-10-15)
+## HTTPS without buying a domain (2026-10-15)
 
-The site is reachable at `http://43.132.114.201/` and stays that way: no domain was bought, so Caddy
-keeps the catch-all `:80` site and an A record is not needed. Two settings exist only because of
-that choice and must not be "tidied up" while it holds:
+The site is served at **https://43-132-114-201.sslip.io**. `sslip.io` answers wildcard DNS with the
+address embedded in the name, so `43-132-114-201.sslip.io` already points at this instance and Let's
+Encrypt issues a real certificate for it — no registrar, no fee. `http://43.132.114.201` still works
+and answers 301 to the https address, so links already handed out keep working.
 
-- `FORTUNE_COOKIE_SECURE=false`. A cookie marked `Secure` is dropped by the browser on a plain-HTTP
-  origin, so signing in would answer 201 and leave the reader signed out. Remove the variable only
-  after the site is served over HTTPS.
-- `CORS_ORIGINS=http://43.132.114.201`.
+Two things had to be in place first:
 
-The trade-off is that the session token travels unencrypted, and a link to an IP address is treated
-as untrusted by browsers and messaging apps. Adding a domain later means: point an A record at the
-host, replace `:80` in the Caddyfile with the domain, and drop `FORTUNE_COOKIE_SECURE`. Caddy then
-obtains a certificate on its own.
+1. **Port 443 in the Tencent Lighthouse firewall.** It ships allowing only 22, 80 and ICMP, so the
+   console's 防火墙 tab needed a rule: application type `HTTPS (443)`, source all IPv4, allow.
+   Without it the certificate is issued (the challenge uses port 80) but no browser can connect.
+2. **The Caddyfile**, with the sslip host for the app and a redirect from the bare IP:
 
-Serving over plain HTTP also means the browser withholds the secure-context APIs. `crypto.randomUUID`
-is one of them: calling it during a render threw and the personal knowledge hub showed the
-framework's "This page couldn't load" screen. Client code goes through `randomId()` in
-`lib/crypto/random-id.ts`, which falls back to `getRandomValues`, so the app works on both HTTP and
-HTTPS and the fix is not needed again when a certificate arrives.
+```caddyfile
+43-132-114-201.sslip.io {
+	encode gzip
+	reverse_proxy 127.0.0.1:3000
+}
+
+http://43.132.114.201 {
+	redir https://43-132-114-201.sslip.io{uri} permanent
+}
+```
+
+Caddy obtains and renews the certificate on its own. Confirm with
+`openssl s_client -connect 43-132-114-201.sslip.io:443 -servername 43-132-114-201.sslip.io`.
+
+With TLS in place the session cookie keeps its production `Secure` flag; the earlier
+`FORTUNE_COOKIE_SECURE=false` was removed. Keep `CORS_ORIGINS` pointing at whatever origin readers
+type. Two notes if this is ever revisited: `sslip.io` is a free third-party service, so a bought
+domain is the sturdier option, and client code must keep using `randomId()` from
+`lib/crypto/random-id.ts` — `crypto.randomUUID` only exists in a secure context, and calling it
+directly threw inside a render while the site was on plain HTTP.
 
 Optional, without buying anything: a wildcard-DNS host such as `43-132-114-201.sslip.io` resolves to
 this address, and Let's Encrypt can issue for it, which would give the site HTTPS.
