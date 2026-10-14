@@ -36,6 +36,7 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
+!.env.local.example
 
 # source archives are kept locally; the extracted, versioned data lives in /data
 /knowledge_sources_complete*.zip

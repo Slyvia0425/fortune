@@ -2,6 +2,20 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# Optional per-machine settings, including model keys. `.env*` is ignored by
+# git, so a key written here stays out of the repository; anything already set
+# in the shell wins. Export the variables here so both the web app and Module 4
+# read the same values.
+ENV_FILE="${FORTUNE_ENV_FILE:-${ROOT_DIR}/.env.local}"
+if [[ -f "${ENV_FILE}" ]]; then
+  set -a
+  # shellcheck disable=SC1090
+  source "${ENV_FILE}"
+  set +a
+  printf 'Local settings: %s\n' "${ENV_FILE}"
+fi
+
 DATA_ROOT="${FORTUNE_DATA_DIR:-${HOME}/Documents/Codex/fortune-data}"
 RUNTIME_ROOT="${FORTUNE_RUNTIME_DIR:-${ROOT_DIR}/.runtime}"
 VENV_ROOT="${FORTUNE_VENV_ROOT:-${RUNTIME_ROOT}/venvs}"
@@ -22,6 +36,12 @@ if [[ -z "${LLM_PROVIDER_VALUE}" ]]; then
   else
     LLM_PROVIDER_VALUE="template"
   fi
+fi
+
+if [[ "${LLM_PROVIDER_VALUE}" == "template" ]]; then
+  printf 'Model: none reachable at %s, so answers use the rule-based text.\n' "${LLM_BASE_URL_VALUE}"
+else
+  printf 'Model: %s at %s (provider %s)\n' "${LLM_MODEL_VALUE}" "${LLM_BASE_URL_VALUE}" "${LLM_PROVIDER_VALUE}"
 fi
 
 mkdir -p "${DATA_ROOT}/module4" "${LOG_DIR}"
