@@ -210,6 +210,14 @@ unknown fields answers 400, so switch the matching variable off when it complain
 `response_format: {"type": "json_object"}` is sent by the two JSON-returning call sites; providers
 that do not support it need a model that reliably returns bare JSON instead.
 
+### Budget for reasoning models
+
+The service returns an empty body when the completion hits `max_tokens` while the model is still
+reasoning, and an empty body makes Module 4 fall back to the rule-based text — the reader sees a
+plain summary and nothing looks broken. The personal analysis therefore asks for 8000 tokens
+(`analyze_personal_records`), which covers the reasoning plus a 500–800 character answer. A model
+that spends heavily on hidden reasoning needs a larger cap, or an explicit low reasoning effort.
+
 ### When the API is unreachable or refuses the request
 
 Every call site falls back to its own rule-based text rather than failing the page, so a wrong key

@@ -108,16 +108,36 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
 
     def analyze_personal_records(self, context: dict[str, Any]) -> str:
         system_prompt = (
-            "你是知命智库的分析助手。只能依据输入中的人物档案、命盘字段、签卦记录、"
-            "个人笔记和来源信息作答；不得编造缺失字段，不得把传统术数判断写成确定事实，"
-            "不得提供医疗、法律或投资保证。健康问题只能按传统文化作身心状态提醒，"
-            "不得作疾病判断，并应明确建议以专业医疗意见为准。请使用简体中文，"
-            "直接输出最终分析，不展示思考过程。"
+            "你是知命智库的分析助手，用简体中文给读者写回答。读者是普通人，不是命理师，"
+            "所以要说人话。\n\n"
+            "怎么做：\n"
+            "- 只用输入里给出的事实（question、person、facts、records、observations、"
+            "uncertainties、base_answer）。输入里没有的四柱、十神、签文、典籍原文一律不编造；"
+            "缺失就直说缺失。\n"
+            "- 先把问题本身读准：读者真正想确认的是什么，判断它需要哪些依据。问题含糊就先拆清楚，"
+            "再给判断。\n"
+            "- 给结论时要走通「依据 → 推理 → 结论」这条链：哪一条记录或命盘字段支持它、"
+            "为什么能支持、有没有反证。引用记录时保留其 source_id。\n"
+            "- 结论要有倾向，不要两边都对；可以说「偏向……」，但必须给理由。证据不足时明确说不足，"
+            "并说清补什么资料能让判断更可靠。\n"
+            "- 建议要具体可执行：让读者知道接下来看什么、做什么、留意什么信号、什么时候回看，"
+            "不要写「保持谨慎」「顺其自然」这类空话。\n"
+            "- 语言像人在说话：口语、连贯成段、长短句交错。禁止「针对当前可用资料，按综合问题进行"
+            "综合分析」这种模板腔，禁止通篇编号清单和小标题堆叠；主体是自然段，最多用一两处分段"
+            "强调重点。\n"
+            "- 传统术数只是参考框架，不能写成确定事实或宿命结论，不做医疗、法律、投资保证；"
+            "健康问题必须提示以专业医疗意见为准。\n"
+            "- 不展示思考过程，直接给最终回答。"
         )
         user_prompt = (
-            "请针对 question 给出切实的分析，而不是只罗列来源。要求：先明确分析对象和问题领域；"
-            "然后解释命盘结构与问题的关系；再结合签卦、典籍和个人笔记形成结论；最后列出不确定性。"
-            "保留输入中的 record source_id，不要改动原始事实。输入如下："
+            "下面是这次分析的输入（JSON）。据此给读者写一段回答，按这个顺序：\n"
+            "1. 开头两三句直接回应：他在问什么、我的判断是什么（有倾向的结论）。\n"
+            "2. 讲清依据链：用了哪些记录、命盘字段、签卦或典籍，它们各自如何支持这个判断，"
+            "保留相关 source_id。\n"
+            "3. 给具体建议：结合这份档案和已保存的记录，他接下来可以做什么、留意什么。\n"
+            "4. 最后坦率说明不确定性：缺哪些信息、结论有多可靠。\n\n"
+            "篇幅：资料充足时 500–800 字；资料很少时也要写到 250 字以上，并把缺什么说清楚。"
+            "用自然中文，像懂行的朋友在解释，不是报告模板。输入如下："
             f"{json.dumps(context, ensure_ascii=False)}"
         )
         fallback = str(context.get("base_answer") or "现有资料不足，暂时无法形成分析。")
@@ -125,7 +145,12 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
             system_prompt,
             user_prompt,
             fallback=fallback,
-            max_tokens=1_400,
+            # Reasoning models spend part of the completion budget on their own
+            # reasoning, and an answer of this length is a few thousand tokens,
+            # so a small cap comes back with an empty body and the reader sees
+            # the rule-based fallback instead.
+            max_tokens=8_000,
+            temperature=0.35,
         )
 
     def _complete(
@@ -134,6 +159,7 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
         user_prompt: str,
         fallback: str,
         max_tokens: int,
+        temperature: float = 0.1,
     ) -> str:
         payload: dict[str, Any] = {
             "model": self._model,
@@ -141,7 +167,7 @@ class OpenAICompatibleExplanationProvider(ExplanationProvider):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
             ],
-            "temperature": 0.1,
+            "temperature": temperature,
             "max_tokens": max_tokens,
         }
         if self._reasoning_effort:
