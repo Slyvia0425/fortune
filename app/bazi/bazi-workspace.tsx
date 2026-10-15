@@ -274,7 +274,7 @@ export default function BaziWorkspace() {
         })}
       </aside>
 
-      <section className="panel" ref={panel}>
+      <section className="panel bazi-panel" ref={panel}>
         {profileNotice ? <p className="notice">{profileNotice}</p> : null}
 
         {/* ---------------------------------------------------------- */}

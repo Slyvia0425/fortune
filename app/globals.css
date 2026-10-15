@@ -150,6 +150,7 @@
 .field-error{color:var(--red)}
 .field-note{opacity:.7}
 .city-coords{opacity:.6}
+@media(max-width:800px){.panel.bazi-panel{padding:22px 14px}}
 
 /* Language switch: two flat options in the header, matching the account
    chip beside it rather than introducing a new control style. */
@@ -159,4 +160,3 @@
 .language-switch button.active{background:var(--jade);color:#fff}
 .header-tools{display:flex;align-items:center;gap:14px;flex:0 0 auto}
 @media(max-width:800px){.nav-shell{gap:14px}.header-tools{gap:10px}.language-switch button{padding:6px 8px}}
-

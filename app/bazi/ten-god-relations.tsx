@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, STEM_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodPositions } from "@/lib/bazi/structure";
@@ -95,7 +95,7 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
             </div>
 
             {cycle.map((node, index) => {
-              const size = 56 + 10 * Math.min(node.count, 4);
+              const size = 68 + 7 * Math.min(node.count, 4);
               const info = GROUP_INFO[node.group];
               return (
                 <div
@@ -110,7 +110,7 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
                     aria-pressed={node.element === selected.element}
                     aria-label={`${ELEMENT_LABEL[node.element]}，${info.label}，${node.count} 处`}
                     onClick={() => setSelectedElement(node.element)}
-                    style={{ width: size, height: size, animationDelay: `${150 + index * 100}ms` }}
+                    style={{ "--k": size / VIEW_W, animationDelay: `${150 + index * 100}ms` } as CSSProperties}
                   >
                     <span className={styles.nodeChar}>{ELEMENT_LABEL[node.element]}</span>
                     <span className={styles.nodeLabel}>
