@@ -6,8 +6,6 @@
 
 ## 当前状态
 
-## 当前状态
-
 本仓库为全分支整合分支 `integration/all-branches`，已把 `upstream/main`、`M1_branch`、`M3_branch`、`feat/module2a-divination-chatbot` 与本组 Module 4 分支合并到同一条历史。
 
 - 统一账户：注册、登录、退出和用户隔离可用。
@@ -19,12 +17,14 @@
 - Module 4 会话历史：完整对话和结构化术数事件持久化保存，支持会话列表、消息时间线、来源和最近预览。
 - Module 2 接入：用户消息、助手回复、起卦完成事件和最终解释写入 Module 4；普通聊天不进入推荐或相似案例推理。
 - 个人知识库：收藏、笔记、标签、人物档案、隐私设置、导出和删除接口可用。
-- 当前验证：前端 219 项测试通过，Module 4 后端 500 项测试通过，Python 算法 351 项测试通过，TypeScript 与生产构建通过。
+- 中英切换：界面文案按中文原文为键的字典翻译，语言写入 Cookie，服务端首屏即按所选语言渲染；已收藏内容、签文、卦辞与古籍原文不参与翻译。
+- 移动端布局：已合入上游移动端导航与布局更新，首页在窄屏显示入口宫格，八字、易卦、灵签、典籍等子页面提供返回控件。
+- 当前验证：前端 250 项测试通过（2 项跳过），Module 4 后端 514 项测试通过，Python 算法 354 项测试通过，TypeScript 检查与生产构建通过。
 
 ## 分支状态
 
-- `upstream/main`：`8179254`，已全部合并。
-- `upstream/M1_branch`：`15797a8`，已通过 `upstream/main` 进入本分支。
+- `upstream/main`：`20c5c3d`，已全部合并（含移动端导航与布局更新）。
+- `upstream/M1_branch`：`8f750ec`，已通过 `upstream/main` 进入本分支。
 - `upstream/M3_branch`：`d9f0a51`，已合并。
 - `upstream/feat/module2a-divination-chatbot`：`ec5d8ae`，已合并，包含上游 revert 掉的 liuyao 检索栈。
 - `fork/M4_branch`：`0fc7828`，已合并。
