@@ -1,0 +1,136 @@
+{
+  "version": "2.0.1",
+  "reviewer": "codex-semantic-review-v1",
+  "reviewedAt": "2026-10-08",
+  "scope": "technical-semantic-consistency",
+  "assignmentCount": 320,
+  "defaultDecision": "accept",
+  "humanAdjudicationRequired": true,
+  "notes": [
+    "本轮覆盖全部 100 支签的 320 条标注；未列入 exceptions 的标注已通过原文存在性、标签定义匹配和过度推断检查。",
+    "本轮不是独立传统文化专家审核；正式上线前仍需人工确认争议项和来源版本。",
+    "来自 topic 的行动或时间标签必须声明适用领域，禁止推广到其他问题领域。"
+    ,"根据补充人工评审，把交易、搬迁、启程等专项证据进一步限制到问题意图，并补充关系、医疗帮助和家庭不安标签。",
+    "新增第 26、27、29 至 40、42 至 47 签共 20 支、57 条标注；复核重点为守成与等待边界、典故帮助推导和领域事项隔离。",
+    "新增第 48 至 54、56 至 68 签共 20 支、64 条标注；复核重点为吉象与行动标签边界、启程与搬迁隔离、健康文本安全边界。",
+    "新增第 69 至 75、77 至 89 签共 20 支、60 条标注；复核重点为虚实风险、守成语义、关系再合、吉象与主动推进边界。",
+    "新增第 90 至 99 签共 10 支、34 条标注，完成百签覆盖；复核重点为强吉象与行动边界、虚名幻象、受困风险和典故推导。"
+    ,"根据百签最终人工验收，将第 97 签的镜花幻象从外部欺骗修正为目标与期待失真，并补充保护性行动、可逆验证和主动脱困规则。"
+  ],
+  "overlapFindings": [
+    {"tags":["action.hold","action.wait"],"decision":"keep_separate","boundary":"hold 表示维持现状；wait 表示暂缓、未来仍可推进。"},
+    {"tags":["action.wait","time.wait_for_timing"],"decision":"keep_separate","boundary":"前者是当前行动倾向，后者是结果依赖未来时机。"},
+    {"tags":["theme.opportunity","action.advance"],"decision":"keep_separate","boundary":"机会存在不等于文本支持立即推进。"},
+    {"tags":["pattern.delayed_success","action.wait"],"decision":"keep_separate","boundary":"前者描述发展轨迹，后者描述当前行动。"},
+    {"tags":["pattern.steady_growth","pattern.delayed_success"],"decision":"keep_separate","boundary":"steady_growth 必须包含积累过程，delayed_success 只表示结果较晚出现。"},
+    {"tags":["theme.help_from_others","action.seek_help"],"decision":"keep_separate","boundary":"help_from_others 描述得到帮助；seek_help 必须有主动接近、请求或寻找帮助的行动依据。"},
+    {"tags":["theme.deception","risk.false_promise"],"decision":"keep_separate","boundary":"deception 描述文本中的虚假或误导主题；false_promise 强调据此行动可能产生的失信风险。"},
+    {"tags":["pattern.difficulty_then_relief","pattern.obscured_then_clear"],"decision":"keep_separate","boundary":"前者要求处境由难转易；后者要求信息、价值或局势由遮蔽转为显明。"}
+  ],
+  "exceptions": [
+    {
+      "signId": 8,
+      "tagId": "theme.opportunity",
+      "sourceId": "guanyin-100-v1:sign:008:poem",
+      "decision": "change_tag",
+      "proposedTagId": "pattern.delayed_success",
+      "proposedConfidence": 0.9,
+      "reason": "“异日忽然成大用”强调未来成材，更符合迟成，不足以证明当前机会已经出现。"
+    },
+    {
+      "signId": 55,
+      "tagId": "pattern.steady_growth",
+      "sourceId": "guanyin-100-v1:sign:055:jieyue",
+      "decision": "reject",
+      "reason": "“接竹引泉，流传不绝”支持延续与传承，但没有足够证据证明逐步成长过程；已有根基与传承标签覆盖其含义。"
+    },
+    {
+      "signId": 100,
+      "tagId": "theme.integrity",
+      "sourceId": "guanyin-100-v1:sign:100:diangu",
+      "decision": "lower_confidence",
+      "proposedConfidence": 0.65,
+      "reason": "修身养德来自当前签库的典故整理层，不是签诗或解曰直接表述，应降低证据权重并等待版本来源复核。"
+    },
+    {
+      "signId": 6,
+      "tagId": "theme.help_from_others",
+      "sourceId": "guanyin-100-v1:sign:006:diangu",
+      "decision": "reject",
+      "reason": "典故中是薛仁贵救助唐太宗，签中主角是帮助提供者而非帮助接受者，不能推出求签事项将得到他人帮助。"
+    },
+    {
+      "signId": 10,
+      "tagId": "action.hold",
+      "sourceId": "guanyin-100-v1:sign:010:poem",
+      "decision": "reject",
+      "reason": "“收拾枉劳心”支持停止无效寻找，但不等同于维持现状；徒劳风险与待时标签已经覆盖原意。"
+    },
+    {
+      "signId": 16,
+      "tagId": "theme.opportunity",
+      "sourceId": "guanyin-100-v1:sign:016:jieyue",
+      "decision": "reject",
+      "reason": "“损中有益”描述损益转化，不足以证明存在可推进或可成就的具体机会。"
+    },
+    {
+      "signId": 21,
+      "tagId": "action.advance",
+      "sourceId": "guanyin-100-v1:sign:021:jieyue",
+      "decision": "reject",
+      "reason": "“和合大吉”是结果评价，不是主动推进的行动指示；机会标签已能表达有利条件。"
+    },
+    {
+      "signId": 23,
+      "tagId": "action.seek_help",
+      "sourceId": "guanyin-100-v1:sign:023:jieyue",
+      "decision": "reject",
+      "reason": "“必有贵人”只说明可能得到帮助，没有主动求助、接近或寻找贵人的行动依据。"
+    },
+    {
+      "signId": 24,
+      "tagId": "theme.deception",
+      "sourceId": "guanyin-100-v1:sign:024:diangu",
+      "decision": "lower_confidence",
+      "proposedConfidence": 0.65,
+      "reason": "受人唆使来自典故叙事，能提示误导主题，但不是签诗或解曰的直接结论，因此降低证据权重。"
+    },
+    {
+      "signId": 25,
+      "tagId": "action.seek_help",
+      "sourceId": "guanyin-100-v1:sign:025:poem",
+      "decision": "reject",
+      "reason": "“得遇高人”描述遇见和得到帮助，并未要求主动求助；保留贵人帮助即可。"
+    },
+    {
+      "signId": 33,
+      "tagId": "theme.foundation",
+      "sourceId": "guanyin-100-v1:sign:033:poem",
+      "decision": "change_tag",
+      "proposedTagId": "pattern.obscured_then_clear",
+      "proposedConfidence": 0.9,
+      "reason": "“内藏无价宝和珍”描述尚未被识别的内在价值，而非家庭根基、传承或长期积累；结合等待高人识，更符合由隐而明。"
+    },
+    {
+      "signId": 43,
+      "tagId": "theme.help_from_others",
+      "sourceId": "guanyin-100-v1:sign:043:jieyue:help",
+      "decision": "reject",
+      "reason": "“福德相助”不是具体他人、师长或可靠关系提供帮助，不符合贵人帮助标签的边界。"
+    },
+    {
+      "signId": 68,
+      "tagId": "theme.integrity",
+      "sourceId": "guanyin-100-v1:sign:068:poem",
+      "decision": "reject",
+      "reason": "“积善之门”表达传统伦理因果，不等同于处理具体问题时的诚信、守正原则；尤其不应进入健康问题解释。"
+    },
+    {
+      "signId": 84,
+      "tagId": "theme.deception",
+      "sourceId": "guanyin-100-v1:sign:084:poem",
+      "decision": "reject",
+      "reason": "醉态与梦境朦胧只能支持判断模糊，不能据此推断他人存在欺骗或失信。"
+    }
+  ]
+}
