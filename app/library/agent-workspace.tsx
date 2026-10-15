@@ -24,6 +24,7 @@ import {
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/lib/i18n";
+import BackNavigation from "@/app/components/back-navigation";
 
 import KnowledgeAgent from "./knowledge-agent";
 import { Module4ApiError, module4Api } from "@/lib/module4/api";
@@ -826,12 +827,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     <main className="subpage">
       <section className="page-hero">
         <div className="page-shell">
-          <p className="crumb">
-            <Link href="/">{t("首页")}</Link> ／ {t("知命智库")}
-          </p>
-          <p className="kicker">FORTUNE KNOWLEDGE HUB</p>
-          <h1 className="page-title">{t("知命智库")}</h1>
-          <p>{t("统一检索典籍、灵签、易卦、八字与个人收藏，在保留来源标识的前提下完成跨模块问答。")}</p>
+          <BackNavigation current="个人知识库" />
+          <p className="kicker">PERSONAL KNOWLEDGE BASE</p>
+          <h1 className="page-title">{t("与你的知识库对话")}</h1>
+          <p>{t("收藏典籍段落、卦象、签文与个人笔记，再通过知识库智能体检索原文、上下文和来源。")}</p>
         </div>
       </section>
 

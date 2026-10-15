@@ -43,6 +43,23 @@ export const EN: Record<string, string> = {
   "以规则完成推演，以古籍提供依据，以清晰的现代语言帮助你理解传统文化中的象、数与理。":
     "Rules carry the calculation, the classics supply the evidence, and plain modern language helps you read the symbols, numbers, and reasoning of the tradition.",
   "静心求一签": "Draw a lot",
+  "首页功能入口": "Home shortcuts",
+  "页面返回": "Back navigation",
+  "返回上一页": "Back",
+  "返回上一页，当前页面：{current}": "Back, current page: {current}",
+  "典籍求索": "Classics",
+  "你想从哪里开始？": "Where would you like to start?",
+  "选择一项即可进入": "Pick one to begin",
+  "排八字": "BaZi chart",
+  "起一卦": "Cast a hexagram",
+  "求一签": "Draw a lot",
+  "查典籍": "Search the classics",
+  "我的藏书": "My library",
+  "与你的知识库对话": "Talk to your knowledge base",
+  "收藏典籍段落、卦象、签文与个人笔记，再通过知识库智能体检索原文、上下文和来源。":
+    "Save passages, hexagrams, lot verses, and your own notes, then let the agent search the sources, their context, and where they came from.",
+  "个人知识库": "Personal knowledge base",
+  "收藏、笔记与个人资料": "Bookmarks, notes, and profiles",
   "先读一卷典籍": "Read a classic first",
   "系统包含八字、易卦、灵签和典籍四类知识":
     "Four areas: BaZi charts, hexagrams, Guanyin lots, and classical texts",
@@ -67,7 +84,6 @@ export const EN: Record<string, string> = {
   "从百签数据库中抽取一签，分层阅读签诗与典故。":
     "Draw one of the hundred lots and read verse, commentary, and allusion in separate layers.",
   "百签签库 · 原文保真": "Hundred-lot corpus · verbatim verses",
-  "典籍求索": "Classics",
   "在古籍、注解与现代资料中检索术语和原文依据。":
     "Search terms and evidence across source texts, commentaries, and modern scholarship.",
   "764 篇资料 · 来源可溯": "764 records · traceable sources",
@@ -98,7 +114,6 @@ export const EN: Record<string, string> = {
   "知识图谱与学习中心": "Knowledge Graph & Learning Centre",
   "读原文，看注解，探索概念关系。":
     "Read source texts, compare commentaries, and explore how the concepts connect.",
-  "个人知识库": "Personal Knowledge Base",
 
   // --- Shared controls -----------------------------------------------------
   "上一步": "Previous",
@@ -549,7 +564,6 @@ export const EN: Record<string, string> = {
   "取消收藏": "Remove bookmark",
   "来源已更新": "Source updated",
   "来源内容已有更新，点击更新收藏": "The source has changed; click to refresh the saved copy",
-  "我的藏书": "My library",
   "收藏已更新": "Bookmark refreshed",
   "已取消": "Removed",
   "请先登录": "Sign in first",

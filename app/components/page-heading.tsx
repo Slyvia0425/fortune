@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
+import BackNavigation from "./back-navigation";
 
 export default function PageHeading({
   eyebrow,
@@ -16,6 +17,7 @@ export default function PageHeading({
   return (
     <section className="page-hero">
       <div className="page-shell">
+        <BackNavigation current={eyebrow} />
         <p className="crumb">
           <Link href="/">{t("首页")}</Link>　/　{t(eyebrow)}
         </p>
