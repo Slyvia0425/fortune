@@ -87,3 +87,4 @@
 .field-error{color:var(--red)}
 .field-note{opacity:.7}
 .city-coords{opacity:.6}
+@media(max-width:800px){.panel.bazi-panel{padding:22px 14px}}

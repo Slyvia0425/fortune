@@ -144,7 +144,8 @@
 /* Neutral so it doesn't read as a sixth element colour. */
 .tile:focus-visible, .tile[aria-pressed="true"] { outline-color: rgba(23, 32, 28, 0.45); }
 .tileChar { font-size: 46px; font-weight: 700; line-height: 1; color: var(--el-strong); }
-.tileMeta { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+.tileMeta { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0 4px; font-size: 12px; }
+.tileMetaPart { white-space: nowrap; }
 
 .hiddenList { display: grid; gap: 8px; width: 100%; }
 .hiddenRow { display: grid; gap: 4px; font-size: 13px; }
@@ -246,7 +247,7 @@
   align-items: start;
 }
 
-.cycle { position: relative; width: 100%; max-width: 400px; aspect-ratio: 400 / 380; }
+.cycle { position: relative; width: 100%; max-width: 400px; aspect-ratio: 400 / 380; container-type: inline-size; }
 .cycle svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cycleCenter {
   position: absolute;
@@ -264,7 +265,10 @@
 /* Positioned by its centre; the inner button keeps `transform` free for the
    entrance animation. */
 .nodeWrap { position: absolute; transform: translate(-50%, -50%); }
+/* Sized as a share of the diagram (--k, set per node), so on a narrow screen the circles shrink with the ring instead of crowding into each other. */
 .node {
+  width: calc(var(--k) * 100cqw);
+  aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -282,8 +286,8 @@
 .node:hover { box-shadow: 0 6px 18px rgba(23, 63, 53, 0.2); }
 .node:focus-visible, .node[aria-pressed="true"] { outline-color: rgba(23, 32, 28, 0.45); }
 .nodeEmpty { border-style: dashed; }
-.nodeChar { font-size: 22px; font-weight: 700; line-height: 1; color: var(--el-strong); }
-.nodeLabel { font-size: 11px; }
+.nodeChar { font-size: max(16px, 5.5cqw); font-weight: 700; line-height: 1; color: var(--el-strong); }
+.nodeLabel { font-size: max(10px, 2.75cqw); white-space: nowrap; }
 
 .cycleLegend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 10px; font-size: 12px; color: var(--muted); }
 .cycleLegend span { display: inline-flex; align-items: center; gap: 8px; }
@@ -415,7 +419,17 @@
   .board, .relationGrid { grid-template-columns: 1fr; }
 }
 @media (max-width: 800px) {
-  .pillarGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* The four pillars stay in one row (reading order year-month-day-hour); the cards are slimmed to fit instead. */
+  .pillarGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .pillarCard { gap: 6px; padding: 10px 3px; }
+  .pillarLabel { font-size: 12px; }
+  .godPill { padding: 0 6px; font-size: 12px; }
+  .tile { min-height: 70px; gap: 3px; }
+  .tileChar { font-size: 32px; }
+  .tileMeta { gap: 2px; font-size: 11px; }
+  .hiddenList { gap: 6px; }
+  .hiddenRow { font-size: 11px; }
+  .hiddenRow > div:first-child { flex-direction: column; align-items: center; gap: 0; }
   .factorRow { grid-template-columns: 48px minmax(0, 1fr); padding: 10px 12px; }
   .factorDetail { grid-template-columns: 1fr; padding-left: 12px; }
   .factorRow .factorTrack, .factorRow .value { grid-column: 2; }
