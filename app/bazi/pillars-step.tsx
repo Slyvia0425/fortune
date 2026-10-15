@@ -144,7 +144,12 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
         <span className={styles.tileChar}>{cell.char}</span>
         <span className={styles.tileMeta}>
           <ElementIcon element={cell.element} size={13} />
-          {meta}
+          {/* Each part stays whole, so on a narrow tile the line breaks between parts ("木 ·" / "月令") rather than inside one. */}
+          {meta.split(" · ").map((part, index, parts) => (
+            <span key={part} className={styles.tileMetaPart}>
+              {index < parts.length - 1 ? `${part} ·` : part}
+            </span>
+          ))}
         </span>
       </button>
     );

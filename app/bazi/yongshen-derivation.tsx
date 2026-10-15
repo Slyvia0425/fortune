@@ -84,7 +84,9 @@ export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; d
               {ELEMENT_LABEL[element]}
             </span>
           ))}
-          <span className={styles.chipLabel} style={{ marginLeft: 16 }}>忌神</span>
+        </div>
+        <div className={styles.chipRow}>
+          <span className={styles.chipLabel}>忌神</span>
           {chart.disposition.unfavourable.map((element) => (
             <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
               {ELEMENT_LABEL[element]}

@@ -139,7 +139,7 @@ export default function BaziWorkspace() {
         })}
       </aside>
 
-      <section className="panel" ref={panel}>
+      <section className="panel bazi-panel" ref={panel}>
         {/* ---------------------------------------------------------- */}
         {/* 01 出生信息                                                  */}
         {/* ---------------------------------------------------------- */}
