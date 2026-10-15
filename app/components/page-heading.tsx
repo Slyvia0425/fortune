@@ -1,1 +1,10 @@
-import Link from "next/link";export default function PageHeading({eyebrow,title,description}:{eyebrow:string;title:string;description:string}){return <section className="page-hero"><div className="page-shell"><p className="crumb"><Link href="/">首页</Link>　/　{eyebrow}</p><p className="kicker">{eyebrow}</p><h1 className="page-title">{title}</h1><p>{description}</p></div></section>}
+import BackNavigation from "./back-navigation";
+
+export default function PageHeading({ eyebrow, title, description }: { eyebrow: string; title: string; description: string }) {
+  return <section className="page-hero"><div className="page-shell">
+    <BackNavigation current={eyebrow} />
+    <p className="kicker">{eyebrow}</p>
+    <h1 className="page-title">{title}</h1>
+    <p>{description}</p>
+  </div></section>;
+}
