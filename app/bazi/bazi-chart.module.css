@@ -796,9 +796,9 @@
 /* Where a step offers its own record to the personal knowledge base. */
 .collectRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
 .collectNote { font-size: 12px; color: #8d8b82; }
-/* Step 1's person archive: whose chart the records below belong to. */
-.archive { margin: 18px 0 22px; padding: 16px 18px; border: 1px solid var(--line); background: var(--white); }
-.archive .sectionHead h3 { display: flex; align-items: center; gap: 7px; }
-.archiveGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 14px; }
-.archiveRow { display: flex; gap: 8px; align-items: center; }
-.archiveRow select { flex: 1 1 auto; min-width: 0; }
+/* Step 1's person archive sits in the same grid as the birth form below it, so
+   it only needs air underneath and a rule for the clear action. */
+.archiveFields { margin-bottom: 30px; }
+.archiveClear { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 0; }
+.archiveClear:hover:not(:disabled) { color: var(--red); }
+.archiveClear:disabled { opacity: .4; cursor: default; }

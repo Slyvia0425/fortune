@@ -1,7 +1,5 @@
 "use client";
 
-import { UserRound } from "lucide-react";
-
 import type { PersonProfile } from "@/lib/module4/types";
 import { useI18n } from "@/lib/i18n";
 
@@ -41,15 +39,11 @@ export function PersonArchive({
 }) {
   const { t } = useI18n();
   return (
-    <section className={styles.archive}>
-      <div className={styles.sectionHead}>
-        <h3>
-          <UserRound aria-hidden="true" size={15} /> {t("人物档案")}
-        </h3>
-        <span>{t("记录归到这个人名下，不同人物的命盘分开保存")}</span>
-      </div>
+    <>
+      <h2>{t("人物档案")}</h2>
+      <p className="panel-intro">{t("记录归到这个人名下，不同人物的命盘分开保存。")}</p>
 
-      <div className={styles.archiveGrid}>
+      <div className={`form-grid bazi-form ${styles.archiveFields}`}>
         <div className="field">
           <div className="field-head">
             <label htmlFor="person-name">{t("人物名称")}</label>
@@ -80,27 +74,8 @@ export function PersonArchive({
         <div className="field">
           <div className="field-head">
             <label htmlFor="person-profile">{t("载入已有档案")}</label>
-          </div>
-          <div className={styles.archiveRow}>
-            <select
-              id="person-profile"
-              value={profileId}
-              onChange={(event) => {
-                const picked = profiles.find((profile) => profile.profile_id === event.target.value);
-                if (picked) onSelect(picked);
-              }}
-            >
-              <option value="">{t("新档案")}</option>
-              {profiles.map((profile) => (
-                <option key={profile.profile_id} value={profile.profile_id}>
-                  {profile.name}
-                  {profile.relation ? `（${profile.relation}）` : ""}
-                  {profile.birth_date ? ` · ${profile.birth_date}` : ""}
-                </option>
-              ))}
-            </select>
             <button
-              className="button"
+              className={styles.archiveClear}
               type="button"
               onClick={onClear}
               disabled={!profileId && personName === "本人" && personRelation === "本人"}
@@ -108,12 +83,29 @@ export function PersonArchive({
               {t("清空")}
             </button>
           </div>
+          <select
+            id="person-profile"
+            value={profileId}
+            onChange={(event) => {
+              const picked = profiles.find((profile) => profile.profile_id === event.target.value);
+              if (picked) onSelect(picked);
+            }}
+          >
+            <option value="">{t("新档案")}</option>
+            {profiles.map((profile) => (
+              <option key={profile.profile_id} value={profile.profile_id}>
+                {profile.name}
+                {profile.relation ? `（${profile.relation}）` : ""}
+                {profile.birth_date ? ` · ${profile.birth_date}` : ""}
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
 
-      <p className={styles.collectNote}>
-        {t("生成命盘时，出生信息与命盘会一并存入该人物的档案；档案只属于你本人，不进入公共知识库。")}
-      </p>
-    </section>
+        <p className="form-note">
+          {t("生成命盘时，出生信息与命盘会一并存入该人物的档案；档案只属于你本人，不进入公共知识库。")}
+        </p>
+      </div>
+    </>
   );
 }
