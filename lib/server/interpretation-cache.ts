@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { traceNode } from "./case-trace";
 
 type SavedResponse = { status: number; body: unknown };
 const runtime = globalThis as typeof globalThis & { interpretationJobs?: Map<string, Promise<SavedResponse>> };
@@ -17,10 +18,10 @@ export async function cachedInterpretation(owner: string, input: unknown, retry:
   const jobKey = directory + key;
   const path = join(directory, `${key}.json`);
   const active = jobs.get(jobKey);
-  if (active) { const saved = await active; return Response.json(saved.body, { status: saved.status }); }
+  if (active) { const saved = await traceNode("interpretation-inflight-hit",input,()=>active); return Response.json(saved.body, { status: saved.status }); }
   const job = (async () => {
     if (!retry) {
-      try { return JSON.parse(await readFile(path, "utf8")) as SavedResponse; }
+      try { const saved=JSON.parse(await readFile(path, "utf8")) as SavedResponse;return await traceNode("interpretation-cache-hit",input,()=>saved); }
       catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
     }
     const response = await generate();

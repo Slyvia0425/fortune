@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-16",
+  "acceptance_status": "实现与安全降级通过；真实模型生成的完整综合报告未通过验收，不能宣告生产质量修复完成。",
+  "scope": "在已完成确定性 P1 上接入 PR6 判断记录、跨任务综合、三段式渲染与 UI。未重新起卦、未更换历法/取用、未开发 PR7、未增加独立审查或写作模型。",
+  "architecture": {
+    "model": "同一次 Reasoning 调用输出逐任务 findings、synthesis、轻量三段正文草稿。模型选择已评估证据、说明相关性、待核验条件和例外。",
+    "compiler": "程序编译判断 ID、区块类别、事实合集、basis_finding_ids、强度边界、缺口影响、引用序号、完整原文、书名和已有来源 URL。",
+    "report_version": "evidence-explainer-v1.3",
+    "reasoning_prompt": "reasoning-evidence-explainer-v5.2",
+    "input": "reasoning-input-explainer-v4",
+    "stage": "structured-stage-evidence-explainer-v4",
+    "writer": "validated-claim-report-renderer-v3；新报告不调用旧逐字复制 writer，旧版显式接口仅兼容保留。",
+    "budget": "单个 PR6 节点仍为 120 秒，共享外层剩余预算；不因超时重复同一请求。输出上限为 9000 token，最多一次受控修复，没有增加模型节点。",
+    "public_compatibility": "StructuredReasoningV1 与现代解释增加可选 explainer；overall_interpretation 由同一报告生成，UI 不另造正文。旧契约仍可读取，但生产新调用必须有新报告；版本进入缓存与检查点，旧结果不冒充新格式。"
+  },
+  "validation": [
+    "原有 task→evidence 与冻结 fact 引用、角色和方向校验保留。跨任务综合仅可联合已经合法的 finding；不能直接绕过父任务引用边界。",
+    "完整原文由程序从 EvidenceSnapshot 取出，不再让模型重抄标点或拼接引文。旧客户端显式提供摘录时仍须连续逐字匹配。",
+    "区分 supports、limits、background、contradicts；案例不能升格为规则支持。主题与原文锚点检查只保证粗粒度相关性，不宣称语义蕴含。",
+    "已知明确取用错配：原文应为用神不能直接作为当前非应爻用神判断的支持，只能记录不适用或局限。",
+    "规则条件未知不能当成已满足。扩展契约中的 met/unmet 必须引用实际冻结值并核对 expected_value；生产轻量草稿将未核定规则条件保留为 unknown。",
+    "报告强度不超过原任务与整体允许范围；进退神仍未程序审定，不放开当前盘面化退/化进断言。",
+    "按父任务类型/优先级保守映射核心、时间、次要缺口，不能由模型随意降级；完整缺口与内部审计仍可展开。没有证明独立性时不静默丢弃缺口。",
+    "现实建议与卦理建议分开。现实建议不得伪装成基于五行、卦象、心理或择日的推断。",
+    "月破与月令旺并存的伪冲突、由世生官推定心理/行动等明确表述被表面规则拦截；这些规则不是完整中文语义验证器。",
+    "条件与限制不再复制到两个字段，正文不再逐任务堆叠完整 gaps。完整信息移至详情，文化提示仅在统一 disclaimer 显示一次。"
+  ],
+  "changed_files": [
+    "lib/divination/explainer-report.ts",
+    "lib/divination/explainer-prompt.ts",
+    "lib/divination/reasoning-input.ts",
+    "lib/divination/reasoning-output.ts",
+    "lib/divination/reasoning-text.ts",
+    "lib/divination/structured-reasoning.ts",
+    "lib/server/structured-reasoning-llm.ts",
+    "lib/server/reasoning-stage.ts",
+    "lib/server/reasoning-config.ts",
+    "lib/contracts/divination.ts",
+    "app/divination/interpretation-panel.tsx",
+    "tests/explainer-report.test.ts",
+    "tests/fixtures/explainer-fixture.ts",
+    "tests/pr6-production.test.ts",
+    "tests/structured-reasoning.test.ts",
+    "tests/analysis-plan-route.test.ts",
+    "scripts/export-explainer-replay.mjs",
+    "scripts/rerender-saved-explainer.ts"
+  ],
+  "tests": {
+    "vitest": {"passed": 453, "skipped": 8, "failed": 0},
+    "new_explainer_tests": 27,
+    "typescript": "npm run typecheck passed",
+    "build": "npm run build passed",
+    "lint": "0 errors; 4 existing warnings in knowledge-centre.tsx and build_stage5_final_review.cjs",
+    "python": "tests/test_question_confirmation.py: 13 passed; 本轮未修改 Python 公共契约。",
+    "warnings": "构建仍提示现有 .runtime/case-traces 动态文件跟踪过宽及外部 package-lock；未在本轮扩展处理，生产打包前仍须复核私有运行数据排除策略。",
+    "coverage": ["跨任务合法综合与父任务越界", "空证据、仅案例、未知与未满足条件", "实际冲突、核心/时间/次要缺口", "伪造原文、来源、事实与规则前提错配", "新旧格式隔离", "三段式 UI/API 一致、证据入口与单次提示", "安全部分报告不用失败正文、不冒充规则支持"]
+  },
+  "real_frozen_replays": {
+    "chart_id": "dc9c1f75-9a17-4ebb-98bd-9ad54d0bd830",
+    "chart_hash": "7e919f0b0a22e99aa53c178ba6c40b7d60350f398311a6ccb805a211608e9fc4",
+    "invariants": "三次均使用同一已确认求职问事、原期限、原卦盘与取用；无 cast 调用，原始文件 hash 均不变。P1 模型调用为 0。",
+    "runs": [
+      {"directory": ".runtime/evals/job-entry-245-replay-1792161005662", "prompt": "v5", "interpret_elapsed_ms": 135868, "status": "partial", "reasoning_calls": 2, "reasoning_elapsed_ms": [65312, 53288], "reason": "模型将半角逗号改为全角并拼接省略号，原文摘录不匹配；未放宽逐字检查。"},
+      {"directory": ".runtime/evals/job-entry-245-replay-1792161302126", "prompt": "v5.1", "interpret_elapsed_ms": 130548, "status": "partial", "reasoning_calls": 1, "reasoning_elapsed_ms": [111276], "reason": "遗漏 EXT 扩展任务，剩余预算不足以修复；原始草稿还存在错误类型/范围、心理推断及不适用原文套用，不能作为合格报告。"},
+      {"directory": ".runtime/evals/job-entry-245-replay-1792161664943", "prompt": "v5.2", "interpret_elapsed_ms": 135045, "status": "partial", "reasoning_calls": 2, "reasoning_elapsed_ms": [83236, 36631], "reason": "首次报告仍制造月破与月令旺的理论冲突；修复随后在共享节点剩余预算内超时，未再次盲重试。"}
+    ],
+    "measurement_boundary": "不同实现版本的调试回放，不能合并宣称固定版本成功率或 P95。没有一份完整模型生成报告通过本轮真实验收。"
+  },
+  "safe_partial_delivery": {
+    "directory": ".runtime/evals/explainer-safe-rerender-1792162045848",
+    "source_kind": "saved_real_model_partial_program_rerender",
+    "source": ".runtime/evals/job-entry-245-replay-1792161664943",
+    "meaning": "以第三次真实模型回放中已验证的 findings、原冻结事实和原证据，调用当前阶段代码重新渲染；不是一次新的完整 API/模型成功记录。",
+    "new_model_calls": 0,
+    "status": "partial",
+    "generation_mode": "safe_fallback",
+    "claim_count": 8,
+    "citation_count": 4,
+    "all_claim_strength": "insufficient",
+    "conclusion": null,
+    "source_usage": "所有引用仅作背景/局限记录，不包装成已经支持吉凶判断的证据。现实建议明确标注，不伪造古籍依据。",
+    "output": ".runtime/evals/explainer-safe-rerender-1792162045848/explainer-report.actual.txt",
+    "report": ".runtime/evals/explainer-safe-rerender-1792162045848/explainer-report.actual.json",
+    "claim_source_audit": ".runtime/evals/explainer-safe-rerender-1792162045848/claim-source-audit.actual.json",
+    "claim_graph": "关键判断→已验证 finding→本次 FactCatalog/EvidenceSnapshot→原文、来源位置和已有 URL 可展开；未证明规则适用时不生成预测。"
+  },
+  "source_by_source_review": [
+    {"citation": 1, "book": "增删卜易", "offsets": "28045–28176", "observation": "原文明确以应为用神；当前程序主用为官鬼 main:5。", "decision": "不能直接套作本人求职的旺相生世判断。降级报告只标背景并说明取用前提不同，不用来证明程序取用或现实结果。"},
+    {"citation": 2, "book": "增删卜易", "offsets": "70–214", "observation": "原文含月建冲爻月破及诸书皆以的转述。", "decision": "可保留定义与待核验线索，不能只摘严厉说法就断世爻无用，更不能推断个人能力。降级报告只呈现程序月破事实与尚未判定的作用。"},
+    {"citation": 3, "book": "增删卜易", "offsets": "13875–14239", "observation": "同段含月建作用、旺衰变化和古有此说予试不然的限定。", "decision": "完整原文保留，不拼接出单向支持；不能由月令旺标签抵消月破，或把两类标签自动叫理论冲突。"},
+    {"citation": 4, "book": "增删卜易", "offsets": "4362–4406", "observation": "提供进退神一般定义和喜忌，未提供本段可核定酉变申的完整分类与适用条件。", "decision": "保留定义背景；本卦的变化仍是酉金变申金，不断言已成立化退或具体应期。"}
+  ],
+  "not_yet_accepted": [
+    "当前模型仍会忽略边界、套用不适用规则、制造伪冲突；结构检查与非空引用不能补足这一语义缺陷。",
+    "检索片段中存在事件/取用前提不匹配和转述/作者裁定难以区分的问题；没有以提高输出率为由把它们当成支持证据。",
+    "完整、专业的模型综合报告和有据卦理行动建议尚未真实验收通过。现有交付为安全部分报告，不是已修好的完整断卦能力。",
+    "本轮没有继续无界调 prompt、延长预算或扩大为规则库重建；应先解决检索适用性与理论条件核定，再验收完整生成。"
+  ]
+}

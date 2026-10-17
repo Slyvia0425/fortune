@@ -1,0 +1,29 @@
+{
+  "release_id": "source-release:18f84075f35e0b30e21c9fe1939169b337c27d2d81d1389ac6f9d81ae79f76ce",
+  "source_vectors": 332,
+  "case_vectors": 207,
+  "verification": {
+    "probe_distances": [
+      1.0202906923773014e-06,
+      1.0335372347958227e-06,
+      1.0019136982286625e-06
+    ],
+    "baseline_created_at": "2026-10-10T11:37:30.128940+00:00",
+    "verified_operational_profile": true,
+    "fixed_weight_revision_available": false
+  },
+  "embedding": {
+    "completed": 332,
+    "cached": 243,
+    "failed": 0,
+    "blocked": 0,
+    "total_jobs": 575,
+    "accounting_closed": true,
+    "post_build_probe_distances": [
+      9.683877055799428e-07,
+      1.0414067777020364e-06,
+      1.1447311901724433e-06
+    ],
+    "source_database_unchanged": true
+  }
+}

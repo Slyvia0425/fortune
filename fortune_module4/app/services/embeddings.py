@@ -1,11 +1,36 @@
 import hashlib
 import math
 import re
+import time
 from abc import ABC, abstractmethod
+from contextlib import contextmanager
+from contextvars import ContextVar
 from functools import lru_cache
 from typing import Any
 
 from app.core.config import get_settings
+
+_request_deadline: ContextVar[float | None] = ContextVar("embedding_request_deadline", default=None)
+
+
+@contextmanager
+def retrieval_deadline(seconds: float):
+    """Request-local budget; never mutate the shared cached provider's timeout."""
+    parent = _request_deadline.get()
+    deadline = time.monotonic() + seconds
+    token = _request_deadline.set(min(parent, deadline) if parent is not None else deadline)
+    try:
+        yield
+    finally:
+        _request_deadline.reset(token)
+
+
+def embedding_request_timeout():
+    deadline = _request_deadline.get()
+    remaining = 60.0 if deadline is None else deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError("RETRIEVAL_DEADLINE")
+    return min(60.0, remaining)
 
 
 class EmbeddingProvider(ABC):
@@ -132,7 +157,7 @@ class OpenAIEmbeddingProvider(EmbeddingProvider):
             self._url,
             headers={"authorization": f"Bearer {self._api_key}"},
             json={"model": self._model_name, "input": texts, "dimensions": self._dimension},
-            timeout=60.0,
+            timeout=embedding_request_timeout(),
         )
         response.raise_for_status()
         payload = response.json()

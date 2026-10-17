@@ -416,17 +416,12 @@ def test_api_freezes_once_saves_plan_and_never_calls_provider_unpublished(
             "request_id": "00000000-0000-0000-0000-000000000001",
         }
         first = client.post("/liuyao/hybrid/query", json=payload)
-        assert first.status_code == 200
-        result = first.json()["result"]
-        second = client.post("/liuyao/hybrid/query", json=payload).json()["result"]
-        assert second["chart_hash"] == result["chart_hash"]
-        assert second["retrieval_run_id"] != result["retrieval_run_id"]
-        assert result["supporting_evidence"] == []
-        assert result["query_plan"]["original_question"] == QUESTION
+        assert first.status_code == 410  # retired write path cannot bypass confirmation
+        assert client.post("/liuyao/hybrid/query", json=payload).status_code == 410
         assert client.post("/liuyao/hybrid/query", json={**payload, "facts": {}}).status_code == 422
         assert (
             client.post("/liuyao/hybrid/query", json={**payload, "numbers": [3, 5, 9]}).status_code
-            == 422
+            == 410
         )
 
 
@@ -523,14 +518,21 @@ def test_web_cast_and_evidence_share_frozen_record(db, tmp_path, monkeypatch):
         conn.execute(s.active.insert().values(name="production", release_id="release"))
     store = RuntimeStore(tmp_path / "web.sqlite")
     monkeypatch.setattr(api, "dependencies", lambda: (db, store))
+    monkeypatch.setattr(api, "question_store", lambda: store)
+    state = store.dialogue("web-user")
+    state = store.save_dialogue("web-user", state["conversation_id"], 0,
+        [{"role": "user", "content": QUESTION}],
+        {"question_context": {"parser_status": "parsed", "raw_question": QUESTION,
+                              "goal": {"value": QUESTION}, "goal_groups": [QUESTION], "ambiguities": []},
+         "question_analysis": {"version": "single-question-analysis-v4", "status": "valid", "issue_count": 1, "normalized_question": QUESTION},
+         "numbers": [3, 5, 8], "timezone": "Asia/Hong_Kong"}, None)
+    confirmed = store.confirm_question("web-user", state["conversation_id"], state["revision"], state["candidate"]["question_hash"])
     app = FastAPI()
     app.include_router(api.router)
     app.dependency_overrides[get_hybrid_user_id] = lambda: "web-user"
     with TestClient(app) as client:
         body = {
-            "question": QUESTION,
-            "numbers": [3, 5, 8],
-            "timezone": "Asia/Hong_Kong",
+            "confirmation_id": confirmed["confirmation_id"],
             "request_id": "00000000-0000-0000-0000-000000000007",
         }
         cast = client.post("/liuyao/hybrid/cast", json=body)

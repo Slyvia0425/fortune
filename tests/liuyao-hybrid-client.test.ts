@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { signInternalRequest } from "../lib/server/divination-signature";
 
 const state = vi.hoisted(() => ({
   token: null as string | null,
@@ -30,6 +31,7 @@ import {
 } from "../lib/server/liuyao-hybrid";
 
 describe("hybrid divination session", () => {
+  afterEach(()=>vi.unstubAllEnvs());
   beforeEach(() => {
     state.token = null;
     state.cookies.clear();
@@ -42,7 +44,7 @@ describe("hybrid divination session", () => {
   });
 
   it("creates and reuses an anonymous session when logged out", async () => {
-    await callHybrid("cast", { numbers: [3, 5, 8] });
+    await callHybrid("cast", { confirmation_id:"00000000-0000-0000-0000-000000000001",request_id:"00000000-0000-0000-0000-000000000001" });
     await callHybrid("evidence", { chart_id: "chart-1" });
 
     expect(state.setCookie).toHaveBeenCalledTimes(1);
@@ -57,11 +59,24 @@ describe("hybrid divination session", () => {
 
   it("keeps account identity for a logged-in user", async () => {
     state.token = "session-token";
-    await callHybrid("cast", { numbers: [3, 5, 8] });
+    await callHybrid("cast", { confirmation_id:"00000000-0000-0000-0000-000000000001",request_id:"00000000-0000-0000-0000-000000000001" });
 
     expect(state.setCookie).not.toHaveBeenCalled();
     const [, init] = vi.mocked(fetch).mock.calls[0];
     expect(new Headers(init?.headers).get("Authorization")).toBe("Bearer session-token");
     expect(new Headers(init?.headers).has("X-Anonymous-Session")).toBe(false);
+  });
+  it("候选写入签名绑定身份、路径和完整请求体",async()=>{
+    const secret="test-private-bridge-key-0123456789012345";
+    vi.stubEnv("DIVINATION_INTERNAL_SECRET",secret);
+    await callHybrid("dialogue-save",{conversation_id:"draft",candidate:{question:"测试"}},true);
+    const [,init]=vi.mocked(fetch).mock.calls[0];
+    const headers=new Headers(init?.headers);
+    const stamp=headers.get("X-Divination-Timestamp")!;
+    const identity=headers.get("X-Anonymous-Session")!;
+    const signature=headers.get("X-Divination-Signature");
+    expect(signature).toBe(signInternalRequest(secret,"dialogue-save",stamp,identity,String(init?.body)));
+    expect(signature).not.toBe(signInternalRequest(secret,"confirm",stamp,identity,String(init?.body)));
+    expect(signature).not.toBe(signInternalRequest(secret,"dialogue-save",stamp,"other",String(init?.body)));
   });
 });

@@ -136,8 +136,14 @@ def allowed_rows(
             continue
         if text_mode:
             is_case = row["kind"] == "case"
+            is_source = row["kind"] == "passage"
             policy = rel["validation"]
-            grant = policy.get("case_allowlist" if is_case else "text_allowlist", {}).get(rid, {})
+            grant = policy.get("case_allowlist" if is_case else "source_allowlist" if is_source else "text_allowlist", {}).get(rid, {})
+            if is_source and (grant.get("usage") != "source_reading"
+                              or grant.get("metadata_hash") != sha(canonical(row["metadata_json"]))
+                              or row["summary_review_status"] != "source_structure_validated"
+                              or set(row["metadata_json"].get("parent_passage_revision_ids", [])).intersection(excluded)):
+                continue
             if is_case and (
                 not policy.get("cases_enabled")
                 or grant.get("usage") != "analogy_only"
@@ -146,11 +152,13 @@ def allowed_rows(
             ):
                 continue
             if (
-                row["kind"] not in ("rule", "case")
+                row["kind"] not in ("rule", "case", "passage")
                 or row["review_status"]
                 not in (
-                    ("reviewed_manual_boundary",)
+                    ("reviewed_manual_boundary", "reviewed_context_boundary")
                     if is_case
+                    else ("source_structure_validated",)
+                    if is_source
                     else ("modified_pass", "pass", "approved")
                 )
                 or grant.get("review_status") != row["review_status"]

@@ -11,7 +11,7 @@ export function mapEvidenceIds(value: unknown, ids: Map<string, string>): unknow
 export function synthesisAliases(pack: DivinationEvidencePack, evidence: HybridEvidenceUnit[]) {
   const forward = new Map<string, string>();
   pack.evidence.forEach((item, index) => forward.set(item.evidence_id, `T${index + 1}`));
-  for (const kind of ["rule", "case"] as const) evidence.filter(item => item.kind === kind).forEach((item, index) => forward.set(item.entity_revision_id, `${kind === "rule" ? "R" : "C"}${index + 1}`));
+  for (const kind of ["rule", "case", "passage"] as const) evidence.filter(item => item.kind === kind).forEach((item, index) => forward.set(item.entity_revision_id, `${kind === "rule" ? "R" : kind === "case" ? "C" : "P"}${index + 1}`));
   return { forward, reverse: new Map([...forward].map(([id, alias]) => [alias, id])) };
 }
 

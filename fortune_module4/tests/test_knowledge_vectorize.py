@@ -52,12 +52,15 @@ def test_drift_rejected():
         compare_probes([[1.0, 0.0]], [[1.0]])
 
 
-def test_batch_resume_and_usage_validation(tmp_path):
+@pytest.mark.parametrize("disconnect", [False, True])
+def test_batch_resume_and_usage_validation(tmp_path, monkeypatch, disconnect):
     from sqlalchemy import create_engine, select
 
     from app.services.knowledge_v2 import schema as s
     from app.services.knowledge_v2.ingest import sha
     from app.services.knowledge_v2.vectorize import run_batches
+    import httpx
+    monkeypatch.setattr("app.services.knowledge_v2.vectorize.time.sleep", lambda _: None)
 
     engine = create_engine("sqlite:///" + str(tmp_path / "batch.sqlite"))
     s.metadata.create_all(engine)
@@ -120,13 +123,15 @@ def test_batch_resume_and_usage_validation(tmp_path):
 
         def embed_many(self, texts):
             self.calls += 1
+            if disconnect and self.calls == 1:
+                raise httpx.RemoteProtocolError("incomplete response")
             self.last_response_metadata = {"usage": {"total_tokens": 4}, "model": "test"}
             return [[1.0, 2.0] for _ in texts]
 
     p = Provider()
     assert run_batches(engine, "p", p, tmp_path / "log.jsonl")["completed"] == 2
     assert run_batches(engine, "p", p, tmp_path / "log.jsonl")["cached"] == 2
-    assert p.calls == 1
+    assert p.calls == (2 if disconnect else 1)
     with engine.connect() as conn:
         assert all(row.status == "completed" for row in conn.execute(select(s.job)))
     p.endpoint_identity = "https://other/embeddings"

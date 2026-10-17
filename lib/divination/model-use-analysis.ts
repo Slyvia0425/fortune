@@ -222,7 +222,7 @@ export function factCatalog(core:LiuyaoCoreFacts, question:string, context?:unkn
 }
 export function reasoningEvidence(pack:HybridEvidencePack) {
   if (pack.reasoning_mode !== "llm_source_reasoning" || !pack.interpretation_contract.model_reasoning_allowed) return [];
-  return (pack.reasoning_evidence??[]).filter(u=>(u.kind==="rule" || (u.kind==="case" && u.usage==="analogy_only" && u.condition_evaluation!=="false")) && !u.not_for_interpretation && u.source_quotes.length>0);
+  return (pack.reasoning_evidence??[]).filter(u=>(u.kind==="rule" || (u.kind==="passage"&&u.usage==="source_reading") || (u.kind==="case" && u.usage==="analogy_only" && u.condition_evaluation!=="false")) && !u.not_for_interpretation && u.source_quotes.length>0);
 }
 export { ModelAnalysisValidationError } from "./model-use-validator";
 export function parseModelUseAnalysis(content:string,pack:HybridEvidencePack,core:LiuyaoCoreFacts,question:string):HybridInterpretation {

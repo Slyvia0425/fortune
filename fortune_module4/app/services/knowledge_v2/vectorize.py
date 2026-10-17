@@ -294,7 +294,7 @@ def prepare_release(engine, parent_release_id, config, manifest_hash):
     return report
 
 
-def run_batches(engine, profile_id, provider, log_path, max_attempts=3):
+def run_batches(engine, profile_id, provider, log_path, max_attempts=3, batch_size=None):
     with engine.connect() as conn:
         profile = (
             conn.execute(select(s.profile).where(s.profile.c.profile_id == profile_id))
@@ -344,7 +344,7 @@ def run_batches(engine, profile_id, provider, log_path, max_attempts=3):
     for row in pending:
         amount = len(row["text"].encode("utf-8"))
         if batch and (
-            len(batch) >= config["max_batch_size"] or size + amount > config["max_batch_utf8_bytes"]
+            len(batch) >= min(config["max_batch_size"], batch_size or config["max_batch_size"]) or size + amount > config["max_batch_utf8_bytes"]
         ):
             batches.append(batch)
             batch, size = [], 0
@@ -381,7 +381,7 @@ def run_batches(engine, profile_id, provider, log_path, max_attempts=3):
                     )
                 error = None
                 break
-            except (httpx.TimeoutException, httpx.NetworkError):
+            except httpx.TransportError:
                 error = "TRANSIENT_NETWORK"
             except httpx.HTTPStatusError as exc:
                 error = "HTTP_" + str(exc.response.status_code)

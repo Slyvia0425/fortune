@@ -1,0 +1,59 @@
+{
+  "phase": "post-run reference-image evaluation, never read by the model runner",
+  "date": "2026-10-17 Asia/Hong_Kong",
+  "root": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792218349839",
+  "model": "Qwen3.5-397B-A17B",
+  "prompt_version": "reasoning-full-generation-v2-no-advice",
+  "mode": "full/integrity; semantic rules paused",
+  "boundary": "Offline historical chart plus real retrieval and PR6 directed test, not production Q1/R1/P1 end-to-end acceptance. Original multi-question hiring input is preserved. Existing registry branches and program Najia used; no production rules or roles modified. No present-date cast or official frozen-database writes. Year/hour/Gregorian date remain null. Two theory-only rounds per case, 8 accumulated evidence records each. No selected same-case answer detected; zero exclusions. Pretraining familiarity cannot be excluded.",
+  "input_audit": "All three root fields correct, all references real, no image/reference-answer/8月14/原判/二审/新证据 markers in either actual request. Both output advice arrays empty; no independent action-advice heading. Full messages, model output, provenance and request SHA256 retained per case.",
+  "case42": {
+    "directory": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792218349839/case-42",
+    "status": "complete", "elapsed_ms": 27226, "model_calls": 1, "model_elapsed_ms": 25117,
+    "input_tokens": 10493, "output_tokens": 883, "repairs": 0, "unreviewed_tasks": [],
+    "comparison": [
+      {"item":"能力", "reference":"有能力，可以考虑", "model":"才华出众、能力强", "classification":"一致", "note":"不代表现实能力得到证实"},
+      {"item":"聘用结果", "reference":"最终能够谈成", "model":"总体吉利，建议聘用", "classification":"部分一致", "note":"同为偏肯定，但模型未清楚断最终谈成，且夹带强势难驾驭推断"},
+      {"item":"对方意愿", "reference":"观望权衡，不会爽快答应", "model":"意愿高，颇重视此事", "classification":"相反", "note":"模型从应旺直接推出意愿强，依据不足"},
+      {"item":"合同与职责", "reference":"重岗位权责、合同约束", "model":"文书合约可能反复", "classification":"部分一致", "note":"注意到合约，但没有说对方重视职责及制度；未把参考心理推断当事实"},
+      {"item":"老板顾虑", "reference":"本人顾虑重、反复权衡", "model":"本人受制、有压力", "classification":"模型未提及", "note":"压力不是同一心理判断"},
+      {"item":"先难后易", "reference":"有阻滞但最终可落地", "model":"总体吉利但伴随压力和变故", "classification":"部分一致", "note":"没有清楚建立先难后易的发展顺序"},
+      {"item":"择日", "reference":"首选子日、次选亥日，避巳午", "model":"首选子日或丑日，避巳午", "classification":"部分一致", "note":"子日及避巳午一致，未提亥日，另添丑日；模型解释丑未相合错误，实际相冲。无年月不能核定绝对公历日期"},
+      {"item":"世爻", "reference":"初爻父母子水，月克日生", "model":"初爻甲子水，酉日相生，未月处死", "classification":"部分一致", "note":"定位和日生正确；月令标签死不是综合旺衰结论"},
+      {"item":"应爻", "reference":"四爻未土临月建", "model":"四爻辛未临月建、青龙", "classification":"一致", "note":"从月建青龙扩写才华与意愿仍只是模型推断"},
+      {"item":"世应方向", "reference":"子水克未土，己方主动", "model":"应未土克世子水", "classification":"参考自身待核验", "note":"程序和五行均为土克水，图片写反；不能因此扣模型分，也不能据结构证明对方现实主导"},
+      {"item":"五爻动变", "reference":"子孙巳火化父母子水回头克", "model":"五爻辛巳化丙子，水回克火", "classification":"一致", "note":"截图己巳与项目辛巳不同，沿用项目纳甲不迎合图片"},
+      {"item":"伏官鬼", "reference":"酉金伏三爻辰土下，得生有用", "model":"正文未分析；finding说飞旺、需防隐忧", "classification":"模型未提及", "note":"finding仍未充分处理飞辰土生伏酉金，不能当作与参考有效性结论一致"}
+    ],
+    "independent_errors": ["丑日与未土相合写错，丑未相冲", "丑土生水写错，土克水", "用水土通关解释择日缺少适用依据", "把原文对执独发断成败应期的警告概括为独发往往决定成败应期", "仅凭应旺推定意愿高、才华出众、难驾驭，超出用户已知事实"]
+  },
+  "case43": {
+    "directory": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792218349839/case-43",
+    "status": "complete", "elapsed_ms": 23620, "model_calls": 1, "model_elapsed_ms": 21594,
+    "input_tokens": 13870, "output_tokens": 839, "repairs": 0, "unreviewed_tasks": [],
+    "comparison": [
+      {"item":"胜负总体", "reference":"全胜困难，仍有一丝转机", "model":"主官司可赢，判决有利", "classification":"相反", "note":"不能以complete冒充理论质量通过"},
+      {"item":"调解/部分利益", "reference":"争取调解，保住部分诉求", "model":"胜诉后执行或反扑风险", "classification":"模型未提及", "note":"模型未谈和解或部分利益，风险阶段也被自行移到胜诉后"},
+      {"item":"游魂多动", "reference":"游魂、多动，反复难定", "model":"四爻齐动，变数多", "classification":"部分一致", "note":"未提游魂；finding还把二爻称独静，实际初二两爻静，不构成独静"},
+      {"item":"世爻定位", "reference":"四爻父母亥水持世", "model":"丁亥父母居四爻", "classification":"一致"},
+      {"item":"世受月日克", "reference":"未月戌日土克亥水", "model":"月死但得日生、戌日拱扶", "classification":"相反", "note":"戌土克亥水，日生/拱扶属明确方向错误"},
+      {"item":"动土克世", "reference":"旺土动克世", "model":"识别世亥化戌土回头克，解作胜诉后执行波折", "classification":"部分一致", "note":"结构正确，但没有依据把制约推迟到胜诉后；上爻未土动克世未充分权衡"},
+      {"item":"应月破及获扶", "reference":"应丑土月破，有旺财土动扶", "model":"应旺于月令，被戌日刑破，生官而非克世", "classification":"相反", "note":"漏月破；丑土生金和丑土克水可同时存在，生官不能抹去克世。日刑不能偷换为已判日破"},
+      {"item":"官鬼受制与墓", "reference":"官鬼受子孙制并入墓", "model":"三、五官鬼都化午火回头克，未提墓", "classification":"部分一致", "note":"只有三爻酉化午；五爻酉化子水父母，模型串错动变；墓的有效性仍须规则条件"},
+      {"item":"兄弟助力", "reference":"兄弟透出可助力", "model":"未分析", "classification":"模型未提及"},
+      {"item":"伏神", "reference":"不作为独立必须命中项", "model":"午火子孙伏世亥水下，飞克伏", "classification":"一致", "note":"与程序盘面一致，较上轮串为寅木子孙改正；制官受制为何又代表潜在阻力，推理仍待核验"},
+      {"item":"原判、二审、新证据、8月14日", "reference":"图片额外添加这些背景", "model":"没有补出日期，但增加胜后执行和上诉反扑", "classification":"参考自身待核验", "note":"图片新增背景全部不计命中项；模型增加的执行/上诉为无用户背景支撑的可能情节，不当成已知事实"}
+    ],
+    "independent_errors": ["戌土日生亥水方向错误", "五爻酉金化子水父母被写成午火子孙", "生官而非克世排除了可同时存在的土克水", "两静爻被finding误称独静", "官鬼金生父母水不等于法官必支持本人或官司可赢"]
+  },
+  "citations": [
+    {"case":42,"issue":"[2]独发原文警告不可舍用神执独发断事，未支持子丑择日、丑未相合或土生水"},
+    {"case":42,"issue":"[3]泛论日月与太岁，不证明所给择日通关方法。真实编号不能替代适用论证"},
+    {"case":43,"issue":"[1]仍是聘用篇应为用神文段，被当作诉讼判断依据，存在场景适用错配"},
+    {"case":43,"issue":"[2][3]是目录式规则提示和泛论日月，不能证明戌土生日亥水或判决有利"},
+    {"case":43,"issue":"[4][5]可支持变爻作用本位的一般规则，不支持五爻变午火这一错误盘面，更不证明胜诉后执行难"}
+  ],
+  "comparison_to_prior": {"case42_previous":"reasoning_failed, 61467ms, 2 model calls", "case43_previous":"complete, 37801ms, 1 model call", "this_run":"Both complete on one call, no repairs, advice arrays empty", "interpretation":"Observed generation got shorter/faster in this pair. N=1 per case and stochastic content changed; this is not causal proof, success-rate estimate, or evidence of improved divination accuracy. Decision wording still occurs inside verdict because the original hiring question requests a decision; no standalone advice block is generated."},
+  "files_per_case": ["00-input.json", "01-core.json", "02-support-boundary.json", "03-planner-fixture.json", "04-retrieval-input.json", "05-retrieval-raw.json", "06-contamination-audit.json", "07-context.json", "08-reasoning-input.json", "09-result.json", "10-complete-output.txt", "11-all-nodes.json", "12-request-reference-audit.json"],
+  "verdict": "Delivery complete for both cases; semantic quality blind test NOT accepted. Reference images also contain mistakes/extra context, so no simplistic exact-match accuracy score is reported."
+}

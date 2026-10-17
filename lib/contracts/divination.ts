@@ -24,11 +24,54 @@ export interface LiuyaoCoreFacts {
 }
 export interface DivinationCastResult { chart_id?:string; chart_hash?:string; core_facts?:LiuyaoCoreFacts; opposite?:HexagramView; reversed?:HexagramView; primary:HexagramView; moving_lines:number[]; mutual:HexagramView; transformed:HexagramView; traditional_meaning:string; contextual_interpretation:string; core_receipt?:CoreCastReceipt }
 export type FieldProvenance="user_explicit"|"conversation_explicit"|"model_inference"|"unknown";
+export interface ConfirmedQuestionV1 {
+  version: "confirmed-question-v1";
+  confirmation_id: string;
+  normalized_question: string;
+  question_hash: string;
+  context: {
+    initiator: string | null; number_provider: string | null; perspective_person: string | null;
+    target_entities: QuestionEntity[]; relationships: QuestionRelationship[];
+    known_facts: QuestionField<string>[]; process_stage: string | null;
+    time_expression: string | null; exclusions: string[];
+  };
+  numbers: NumberTriple;
+  timezone: string;
+  confirmed_at: string;
+  source: "explicit_user_action";
+  state: "confirmed";
+  question_analysis?: import("../divination/question-analysis").SingleQuestionAnalysis;
+}
+export interface DivinationCastResult {
+  confirmation_id?: string | null;
+  question_hash?: string | null;
+  confirmation_status?: "confirmed" | "legacy_unconfirmed";
+}
+export interface QuestionConfirmationPreview {
+  normalized_question: string; question_hash: string; numbers: NumberTriple;
+  timezone: string; question_context: QuestionContext;
+  question_analysis?: import("../divination/question-analysis").SingleQuestionAnalysis;
+}
+export interface DialogueState {
+  conversation_id: string; revision: number; messages: DivinationChatMessage[];
+  candidate: QuestionConfirmationPreview | null;
+  reply: DivinationChatReply | null;
+  confirmed_question?: ConfirmedQuestionV1 | null;
+}
+export interface FrozenQuestionRecord {
+  cast: DivinationCastResult; question: string; question_context?: QuestionContext | null;
+  confirmed_question?: ConfirmedQuestionV1 | null;
+  confirmation_status: "confirmed" | "legacy_unconfirmed";
+  question_analysis?: import("../divination/question-analysis").SingleQuestionAnalysis | null;
+}
 export interface QuestionFieldEvidence { message_id?:string;text:string;start_offset:number;end_offset_exclusive:number }
 export interface QuestionField<T> { value:T|null; provenance:FieldProvenance; evidence?:QuestionFieldEvidence; verification_status:"confirmed"|"extracted"|"unknown" }
 export interface QuestionEntity { entity_id:string; label:string; kind:"person"|"object"|"event"; provenance:FieldProvenance; evidence?:QuestionFieldEvidence }
 export interface QuestionRelationship { from_entity_id:string; to_entity_id:string; relation:string; provenance:FieldProvenance; evidence?:QuestionFieldEvidence }
 export interface QuestionContext {
+  domain?: import("../divination/topic-taxonomy").QuestionDomain;
+  question_type?: "outcome"|"timing"|"current_state"|"intention"|"decision"|"comparison"|"development"|"reason"|"unknown";
+  event_type?: string;
   raw_question:string;
   initiator:QuestionField<string>; number_provider:QuestionField<string>; perspective_person:QuestionField<string>;
   target_entities:QuestionEntity[]; relationships:QuestionRelationship[]; topic_candidates:string[];
@@ -43,23 +86,42 @@ export interface DivinationEvidenceItem { evidence_id:string; role:DivinationEvi
 export interface DivinationEvidencePack { rule_version:"changing-lines-v1"; selection_rule:string; question:string; time_range?:string; primary:{number:number;name:string;upper_trigram:string;lower_trigram:string;five_element_relation:string}; transformed:{number:number;name:string;upper_trigram:string;lower_trigram:string}; moving_lines:number[]; evidence:DivinationEvidenceItem[]; sources:import("./api").SourceReference[] }
 export interface DivinationInterpretationReading { evidence_id:string; modern_chinese:string }
 export interface DivinationContextualReflection { text:string; evidence_ids:string[] }
-export interface DivinationModernInterpretation { overall_interpretation:string; readings:DivinationInterpretationReading[]; contextual_reflections:DivinationContextualReflection[]; uncertainties:string[]; disclaimer:string }
-export interface DivinationInterpretationResult { diagnostic_run_id?:string; interpretation_diagnostic?:{run_id:string;stage:string;code:string;reasons:string[];log_saved:boolean}; frozen_core?:LiuyaoCoreFacts; hybrid_evidence?:HybridEvidencePack; hybrid_interpretation?:HybridInterpretation; evidence_pack:DivinationEvidencePack; modern_interpretation:DivinationModernInterpretation|null; model_used?:string }
+export interface DivinationModernInterpretation { overall_interpretation:string; readings:DivinationInterpretationReading[]; contextual_reflections:DivinationContextualReflection[]; uncertainties:string[]; disclaimer:string; explainer?:import("../divination/explainer-report").ExplainerReport }
+export interface DivinationInterpretationResult {
+  basic_interpretation?:DivinationModernInterpretation;
+  structured_reasoning?:import("../divination/structured-reasoning").StructuredReasoningV1;
+  reasoning_text?:import("../divination/reasoning-text").ReasoningTextV1;
+  analysis_status?:"complete"|"partial"|"structured_available"|"reasoning_failed";
+  reasoning_diagnostic?:{stage:"reasoning"|"writing"|"checkpoint"|"identity";code:string;attempts:number};
+  reasoning_checkpoint_key?:string;
+  evidence_snapshot?:import("../divination/evidence-accumulator").EvidenceSnapshot;
+  analysis_agent?:import("../divination/agent-controller").AgentResult;
+  compiled_retrieval?:import("../divination/query-compiler").CompiledRetrievalPlan;
+  initial_analysis?:import("../server/analysis-planner").InitialPlannerSnapshot;
+  retrieval_plan?:import("../divination/retrieval-plan").RetrievalPlan; use_role_analysis?:UseRoleAnalysis; diagnostic_run_id?:string; interpretation_diagnostic?:{run_id:string;stage:string;code:string;reasons:string[];log_saved:boolean}; frozen_core?:LiuyaoCoreFacts; hybrid_evidence?:HybridEvidencePack; hybrid_interpretation?:HybridInterpretation; evidence_pack:DivinationEvidencePack; modern_interpretation:DivinationModernInterpretation|null; model_used?:string
+}
 export type ChatRole="user"|"assistant";
-export interface DivinationChatMessage { role:ChatRole; content:string }
+export interface DivinationChatMessage { role:ChatRole; content:string; message_id?:string }
 export interface DivinationChatRequest { messages:DivinationChatMessage[] }
 export interface DivinationExtraction { source:"llm"|"rules"|"unavailable"; question?:string; time_range?:string; method?:CastingMethod; numbers?:NumberTriple; fallback_reason?:string }
-export interface DivinationChatReply { status:"clarify"|"ready"; message:string; suggestions:string[]; cast_request?:DivinationCastRequest; extraction?:DivinationExtraction; question_context?:QuestionContext }
+export interface DivinationChatReply { status:"clarify"|"ready"|"ready_for_confirmation"|"confirmed"|"blocked"; message:string; suggestions:string[]; cast_request?:DivinationCastRequest; extraction?:DivinationExtraction; question_context?:QuestionContext; conversation_id?:string; draft_revision?:number; confirmation_preview?:QuestionConfirmationPreview; confirmed_question?:ConfirmedQuestionV1; question_analysis_status?:import("../divination/question-analysis").QuestionAnalysisStatus; retry_message?:DivinationChatMessage }
 
 export interface HybridEvidenceUnit {
-  usage?:"analogy_only"|"rule_reasoning";
+  usage?:"analogy_only"|"rule_reasoning"|"source_reading";
+  review_status?:string;
+  content_type?:"theory"|"author_commentary"|"case_excerpt"|"unclassified";
+  content_review?:string;
+  related_case_revision_ids?:string[];
   case_context?:{remaining_issues?:string[];question_status?:string;chart_status?:string;judgment_status?:string;outcome_status?:string;method_profile_id?:string|null;final_case_id?:string;case_group_id?:string;reading_id?:string}|null;
-  entity_revision_id:string; entity_id:string; kind:"rule"|"case"; summary:string;
+  entity_revision_id:string; entity_id:string; kind:"rule"|"case"|"passage"; summary:string;
   not_for_interpretation:boolean; condition_evaluation:"true"|"false"|"unknown";
   conflict_group_ids:string[];
-  source_quotes:Array<{source_revision_id:string; quote:string; quote_hash:string; start:number; end:number; url?:string}>;
+  source_quotes:Array<{source_revision_id:string; quote:string; quote_hash:string; start:number; end:number; offset_unit?:string; url?:string}>;
 }
 export interface HybridEvidencePack {
+  retrieval_trace?:Array<Record<string,unknown>>;
+  retrieval_identity?:Record<string,unknown>;
+  query_plan?:Record<string,unknown>;
   chart_id:string; chart_hash:string; method_profile_id:string; core_version:string;
   knowledge_release_id:string; retrieval_run_id:string; status:"evidence_ready"|"evidence_insufficient";
   facts?:{question?:unknown};
@@ -71,6 +133,18 @@ export interface HybridEvidencePack {
   interpretation_contract:{model_reasoning_allowed?:boolean; model_selection_allowed?:boolean; strong_conclusion_allowed:boolean; recast_allowed:boolean; copy_case_outcome:boolean};
 }
 export interface HybridReading { text:string; evidence_ids:string[] }
+export type UseRole = "parents"|"siblings"|"offspring"|"wealth"|"officials"|"self"|"response";
+export interface ValidatedUseRole {
+  role:UseRole; meaning:string; rule_id:string; reason:string;
+  main_line_refs:string[]; hidden_line_refs:string[];
+  location_status:"main"|"hidden"|"absent"|"unknown";
+}
+export interface UseRoleAnalysis {
+  rules_version:"fixed-use-branches-v1"|"reviewed-career-self-pr65-v1"; chart_hash:string;
+  status:"generated"|"insufficient"|"unavailable";
+  primary:ValidatedUseRole|null; auxiliary:ValidatedUseRole[];
+  missing_information:string[]; uncertainties:string[];
+}
 export interface HybridInterpretation {
   status:"generated"|"insufficient"|"unavailable"; readings:HybridReading[]; message:string;
   analysis?:ModelUseAnalysis;

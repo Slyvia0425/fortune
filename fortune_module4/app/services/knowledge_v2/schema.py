@@ -166,3 +166,20 @@ active = table(
     Column("name", String, primary_key=True),
     Column("release_id", String, ForeignKey(release.c.release_id), nullable=False),
 )
+
+passage_annotation = table(
+    "passage_annotation",
+    Column("annotation_id", String, primary_key=True),
+    Column("parent_revision_id", String, ForeignKey(entity.c.revision_id), nullable=False, index=True),
+    Column("source_revision_id", String, ForeignKey(source.c.source_revision_id), nullable=False, index=True),
+    Column("start", Integer, nullable=False),
+    Column("end", Integer, nullable=False),
+    Column("content_type", String, nullable=False, index=True),
+    Column("case_revision_ids", JSON, nullable=False),
+    Column("classification_basis", String, nullable=False),
+    Column("classification_review", String, nullable=False),
+    Column("excluded", Boolean, nullable=False),
+    Column("text_hash", String, nullable=False),
+    Column("curation_version", String, nullable=False),
+    CheckConstraint("start >= 0 AND end > start"),
+)
