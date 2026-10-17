@@ -1,0 +1,4181 @@
+{
+ "rules": [
+  {
+   "rule_id": "R-TIAOHOU-JIA-YIN",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-2-original",
+   "chapter": "穷通宝鉴 · 第2章 正月甲木 · 原文",
+   "quotation": "得丙癸逢,富贵双全",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-MAO",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：庚金、丁火",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": true
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-3-original",
+   "chapter": "穷通宝鉴 · 第3章 二月甲木 · 原文",
+   "quotation": "庚金得所者,名阳刃架煞",
+   "derived": false,
+   "note": "页首讲煞刃格；用神次序按徐注「二月木旺，无庚克之，则用火泄之」及总论归纳，待人工核对"
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-CHEN",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：庚金、壬水",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-4-original",
+   "chapter": "穷通宝鉴 · 第4章 三月甲木 · 原文",
+   "quotation": "先取庚金,次用壬水",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-SI",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：癸水、丁火",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-5-original",
+   "chapter": "穷通宝鉴 · 第5章 四月甲木 · 原文",
+   "quotation": "四月甲木退气,丙火司权,先癸后丁",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-WU",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于五月（午月）",
+   "conclusion": "调候用神（依次）：节气前（夏至）：癸水、丁火、庚金；节气后（夏至）：丁火、庚金、癸水",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "xiazhi",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ],
+      "quotation": "五月先癸后丁,庚金次之"
+     },
+     {
+      "phase": {
+       "term": "xiazhi",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ],
+      "quotation": "夏至后与六月相同"
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-6-original",
+   "chapter": "穷通宝鉴 · 第6章 五、六月甲木 · 原文",
+   "quotation": "五月先癸后丁,庚金次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-WEI",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于六月（未月）",
+   "conclusion": "调候用神（依次）：丁火、庚金、癸水",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-6-original",
+   "chapter": "穷通宝鉴 · 第6章 五、六月甲木 · 原文",
+   "quotation": "先丁后庚,无癸亦可",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-SHEN",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丁火、庚金",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-7-original",
+   "chapter": "穷通宝鉴 · 第7章 七月甲木 · 原文",
+   "quotation": "非丁不能造庚,非庚不能造甲,丁庚两透,科甲可许",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-YOU",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：丁火、丙火、庚金",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-8-original",
+   "chapter": "穷通宝鉴 · 第8章 八月甲木 · 原文",
+   "quotation": "丁火为先,次用丙火,庚金再次",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-XU",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：丁火、壬水、癸水",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-9-original",
+   "chapter": "穷通宝鉴 · 第9章 九月甲木 · 原文",
+   "quotation": "独爱丁火壬癸滋扶",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-HAI",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：庚金、丁火、丙火、戊土",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       },
+       {
+        "stem": "wu",
+        "rank": 4
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-10-original",
+   "chapter": "穷通宝鉴 · 第10章 十月甲木 · 原文",
+   "quotation": "以庚为君,以丁为佐,丙火次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-ZI",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丁火、庚金、丙火",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-11-original",
+   "chapter": "穷通宝鉴 · 第11章 十一月甲木 · 原文",
+   "quotation": "丁先庚后,丙火佐之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JIA-CHOU",
+   "group": "tiaohou",
+   "condition": "日主甲木，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：庚金、丁火",
+   "when": {
+    "day_master_stem": "jia",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-12-original",
+   "chapter": "穷通宝鉴 · 第12章 十二月甲木 · 原文",
+   "quotation": "先用庚劈甲,方引丁火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-YIN",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-13-original",
+   "chapter": "穷通宝鉴 · 第13章 正月乙木 · 原文",
+   "quotation": "故先用丙,癸次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-MAO",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-14-original",
+   "chapter": "穷通宝鉴 · 第14章 二月乙木 · 原文",
+   "quotation": "以丙为君,癸为臣",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-CHEN",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：癸水、丙火",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-15-original",
+   "chapter": "穷通宝鉴 · 第15章 三月乙木 · 原文",
+   "quotation": "先癸后丙",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-SI",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：癸水、丙火",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-16-original",
+   "chapter": "穷通宝鉴 · 第16章 四月乙木 · 原文",
+   "quotation": "专用癸水,丙火酌用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-WU",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于五月（午月）",
+   "conclusion": "调候用神（依次）：节气前（夏至）：癸水、丙火；节气后（夏至）：丙火、癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "xiazhi",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ],
+      "quotation": "上半月属阳,先癸次丙"
+     },
+     {
+      "phase": {
+       "term": "xiazhi",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 1
+       }
+      ],
+      "quotation": "下半月属阴,三伏生寒,丙癸齐用"
+     }
+    ],
+    "review": true
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-17-original",
+   "chapter": "穷通宝鉴 · 第17章 五月乙木 · 原文",
+   "quotation": "上半月属阳,先癸次丙",
+   "derived": false,
+   "note": "「上半月/下半月」按徐注「以夏至为分界」取夏至前后"
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-WEI",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于六月（未月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-18-original",
+   "chapter": "穷通宝鉴 · 第18章 六月乙木 · 原文",
+   "quotation": "柱多金水,丙火为尊",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-SHEN",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丙火、癸水、己土",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "ji",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-19-original",
+   "chapter": "穷通宝鉴 · 第19章 七月乙木 · 原文",
+   "quotation": "丙癸透干,又加己出埋金",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-YOU",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：节气前（秋分）：癸水、丙火；节气后（秋分）：丙火、癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "qiufen",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ],
+      "quotation": "专用癸水,以滋桂萼"
+     },
+     {
+      "phase": {
+       "term": "qiufen",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ],
+      "quotation": "宜先用丙,癸水次之"
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-20-original",
+   "chapter": "穷通宝鉴 · 第20章 八月乙木 · 原文",
+   "quotation": "专用癸水,以滋桂萼",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-XU",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：癸水",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-21-original",
+   "chapter": "穷通宝鉴 · 第21章 九月乙木 · 原文",
+   "quotation": "必赖癸水滋养",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-HAI",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：丙火、戊土",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "wu",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-22-original",
+   "chapter": "穷通宝鉴 · 第22章 十月乙木 · 原文",
+   "quotation": "丙为尊,或壬多,用戊土",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-ZI",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丙火",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-23-original",
+   "chapter": "穷通宝鉴 · 第23章 十一月乙木 · 原文",
+   "quotation": "故专用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-YI-CHOU",
+   "group": "tiaohou",
+   "condition": "日主乙木，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火",
+   "when": {
+    "day_master_stem": "yi",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-24-original",
+   "chapter": "穷通宝鉴 · 第24章 十二月乙木 · 原文",
+   "quotation": "木寒宜丙,有寒谷回春之象",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-YIN",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：壬水、庚金",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-25-original",
+   "chapter": "穷通宝鉴 · 第25章 正月丙火 · 原文",
+   "quotation": "取壬为尊,庚金为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-MAO",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：壬水",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-26-original",
+   "chapter": "穷通宝鉴 · 第26章 二月丙火 · 原文",
+   "quotation": "专用壬水",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-CHEN",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：壬水、甲木",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-27-original",
+   "chapter": "穷通宝鉴 · 第27章 三月丙火 · 原文",
+   "quotation": "专用壬水,或支成土局,取甲为辅",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-SI",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：壬水、庚金",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-28-original",
+   "chapter": "穷通宝鉴 · 第28章 四月丙火 · 原文",
+   "quotation": "宜专用壬水,解炎威之力",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-WU",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于五月（午月）",
+   "conclusion": "调候用神（依次）：壬水、庚金",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-29-original",
+   "chapter": "穷通宝鉴 · 第29章 五月丙火 · 原文",
+   "quotation": "五月丙火愈炎,得壬庚高透,方为上命",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-WEI",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于六月（未月）",
+   "conclusion": "调候用神（依次）：壬水、庚金",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-30-original",
+   "chapter": "穷通宝鉴 · 第30章 六月丙火 · 原文",
+   "quotation": "壬水为用,取庚辅佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-SHEN",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于七月（申月）",
+   "conclusion": "调候用神（依次）：壬水",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-31-original",
+   "chapter": "穷通宝鉴 · 第31章 七月丙火 · 原文",
+   "quotation": "仍用壬水,辅映太阳光辉",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-YOU",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：壬水",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-32-original",
+   "chapter": "穷通宝鉴 · 第32章 八月丙火 · 原文",
+   "quotation": "仍用壬水辅映",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-XU",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：甲木、壬水",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-33-original",
+   "chapter": "穷通宝鉴 · 第33章 九月丙火 · 原文",
+   "quotation": "必须先用甲木,次取壬水",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-HAI",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：甲木、戊土、庚金",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "wu",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-34-original",
+   "chapter": "穷通宝鉴 · 第34章 十月丙火 · 原文",
+   "quotation": "得见甲戊庚齐透,科甲有准",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-ZI",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：壬水、戊土",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "wu",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-35-original",
+   "chapter": "穷通宝鉴 · 第35章 十一月丙火 · 原文",
+   "quotation": "壬水为最,戊土佐之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-BING-CHOU",
+   "group": "tiaohou",
+   "condition": "日主丙火，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：壬水、甲木",
+   "when": {
+    "day_master_stem": "bing",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-36-original",
+   "chapter": "穷通宝鉴 · 第36章 十二月丙火 · 原文",
+   "quotation": "喜壬为用,己土司令,土多又不可少甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-YIN",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：庚金、壬水",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-37-original",
+   "chapter": "穷通宝鉴 · 第37章 正月丁火 · 原文",
+   "quotation": "先庚次壬",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-MAO",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：庚金、甲木",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-38-original",
+   "chapter": "穷通宝鉴 · 第38章 二月丁火 · 原文",
+   "quotation": "先庚后甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-CHEN",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：节气前（谷雨）：庚金、甲木；节气后（谷雨）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "guyu",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ],
+      "quotation": "三月丁火,谷雨之前,与二月一理共推"
+     },
+     {
+      "phase": {
+       "term": "guyu",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ],
+      "quotation": "先用甲木引丁制土,次看庚金"
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-39-original",
+   "chapter": "穷通宝鉴 · 第39章 三月丁火 · 原文",
+   "quotation": "先用甲木引丁制土,次看庚金",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-SI",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-40-original",
+   "chapter": "穷通宝鉴 · 第40章 四月丁火 · 原文",
+   "quotation": "虽取甲引丁,必须用庚劈甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-WU",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于五月（午月）",
+   "conclusion": "调候用神（依次）：壬水、癸水、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": true
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-41-original",
+   "chapter": "穷通宝鉴 · 第41章 五月丁火 · 原文",
+   "quotation": "不得轻用甲木;遇干透隔位之壬",
+   "derived": false,
+   "note": "页首只言忌轻用甲、取壬；癸、庚次序据徐注「壬癸解炎」「须庚金发水之源」归纳，待人工核对"
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-WEI",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于六月（未月）",
+   "conclusion": "调候用神（依次）：甲木、壬水",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-42-original",
+   "chapter": "穷通宝鉴 · 第42章 六月丁火 · 原文",
+   "quotation": "专取甲木,壬水次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-SHEN",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于七月（申月）",
+   "conclusion": "调候用神（依次）：甲木、庚金、丙火",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-43-original",
+   "chapter": "穷通宝鉴 · 第43章 七月丁火 · 原文",
+   "quotation": "端用甲木,金虽乘旺司权,无伤丁之理,仍取庚劈甲,为引火之物",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-YOU",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：甲木、丙火、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-43-original",
+   "chapter": "穷通宝鉴 · 第43章 七月丁火 · 原文",
+   "quotation": "八月甲丙庚皆用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-XU",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-43-original",
+   "chapter": "穷通宝鉴 · 第43章 七月丁火 · 原文",
+   "quotation": "九月端用甲庚",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-HAI",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：庚金、甲木",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-45-original",
+   "chapter": "穷通宝鉴 · 第45章 十月丁火 · 原文",
+   "quotation": "三冬丁火微寒,端用庚甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-ZI",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-46-original",
+   "chapter": "穷通宝鉴 · 第46章 十一、十二月丁火 · 原文",
+   "quotation": "三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-DING-CHOU",
+   "group": "tiaohou",
+   "condition": "日主丁火，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ding",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-46-original",
+   "chapter": "穷通宝鉴 · 第46章 十一、十二月丁火 · 原文",
+   "quotation": "三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-YIN",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：丙火、甲木、癸水",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-48-original",
+   "chapter": "穷通宝鉴 · 第48章 正二月戊土 · 原文",
+   "quotation": "正二月宜先透丙,三月宜先透甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-MAO",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：丙火、甲木、癸水",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-48-original",
+   "chapter": "穷通宝鉴 · 第48章 正二月戊土 · 原文",
+   "quotation": "正二月宜先透丙,三月宜先透甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-CHEN",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：甲木、癸水、丙火",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-49-original",
+   "chapter": "穷通宝鉴 · 第49章 三月戊土 · 原文",
+   "quotation": "甲木为先,取癸为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-SI",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：甲木、丙火、癸水",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-50-original",
+   "chapter": "穷通宝鉴 · 第50章 四月戊土 · 原文",
+   "quotation": "先用甲疏劈,次取丙癸为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-WU",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于五月（午月）",
+   "conclusion": "调候用神（依次）：壬水、甲木、丙火",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-51-original",
+   "chapter": "穷通宝鉴 · 第51章 五月戊土 · 原文",
+   "quotation": "先看壬水,次取甲木,丙火酌用,用癸恐其力微",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-WEI",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于六月（未月）",
+   "conclusion": "调候用神（依次）：癸水、丙火、甲木",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "jia",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-52-original",
+   "chapter": "穷通宝鉴 · 第52章 六月戊土 · 原文",
+   "quotation": "先看癸水,次用丙火、甲木",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-SHEN",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丙火、癸水、甲木",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "jia",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-53-original",
+   "chapter": "穷通宝鉴 · 第53章 七月戊土 · 原文",
+   "quotation": "先丙后癸,甲木次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-YOU",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-54-original",
+   "chapter": "穷通宝鉴 · 第54章 八月戊土 · 原文",
+   "quotation": "先丙后癸,不必木疏",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-XU",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：甲木、癸水、丙火",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-55-original",
+   "chapter": "穷通宝鉴 · 第55章 九月戊土 · 原文",
+   "quotation": "先看甲木,次取癸水",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-HAI",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：甲木、丙火",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-56-original",
+   "chapter": "穷通宝鉴 · 第56章 十月戊土 · 原文",
+   "quotation": "先用甲木,次取丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-ZI",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-57-original",
+   "chapter": "穷通宝鉴 · 第57章 十一、十二月戊土 · 原文",
+   "quotation": "丙火为尊,甲木为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-WU-CHOU",
+   "group": "tiaohou",
+   "condition": "日主戊土，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "wu",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-57-original",
+   "chapter": "穷通宝鉴 · 第57章 十一、十二月戊土 · 原文",
+   "quotation": "丙火为尊,甲木为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-YIN",
+   "group": "tiaohou",
+   "condition": "日主己土，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：丙火",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-58-original",
+   "chapter": "穷通宝鉴 · 第58章 正月己土 · 原文",
+   "quotation": "丙暖为尊",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-MAO",
+   "group": "tiaohou",
+   "condition": "日主己土，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：甲木、癸水",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-59-original",
+   "chapter": "穷通宝鉴 · 第59章 二月己土 · 原文",
+   "quotation": "宜先取甲木疏之,忌合;次取癸水润之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-CHEN",
+   "group": "tiaohou",
+   "condition": "日主己土，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：丙火、癸水、甲木",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       },
+       {
+        "stem": "jia",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-60-original",
+   "chapter": "穷通宝鉴 · 第60章 三月己土 · 原文",
+   "quotation": "先丙后癸,土暖而润,随用甲疏",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-SI",
+   "group": "tiaohou",
+   "condition": "日主己土，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：癸水、丙火",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-61-original",
+   "chapter": "穷通宝鉴 · 第61章 四五六月己土 · 原文",
+   "quotation": "取癸为要,次用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-WU",
+   "group": "tiaohou",
+   "condition": "日主己土，生于五月（午月）",
+   "conclusion": "调候用神（依次）：癸水、丙火",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-61-original",
+   "chapter": "穷通宝鉴 · 第61章 四五六月己土 · 原文",
+   "quotation": "取癸为要,次用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-WEI",
+   "group": "tiaohou",
+   "condition": "日主己土，生于六月（未月）",
+   "conclusion": "调候用神（依次）：癸水、丙火",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "gui",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-61-original",
+   "chapter": "穷通宝鉴 · 第61章 四五六月己土 · 原文",
+   "quotation": "取癸为要,次用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-SHEN",
+   "group": "tiaohou",
+   "condition": "日主己土，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-62-original",
+   "chapter": "穷通宝鉴 · 第62章 七八九月己土 · 原文",
+   "quotation": "须丙火温之,癸水润之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-YOU",
+   "group": "tiaohou",
+   "condition": "日主己土，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-62-original",
+   "chapter": "穷通宝鉴 · 第62章 七八九月己土 · 原文",
+   "quotation": "须丙火温之,癸水润之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-XU",
+   "group": "tiaohou",
+   "condition": "日主己土，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：丙火、癸水",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-62-original",
+   "chapter": "穷通宝鉴 · 第62章 七八九月己土 · 原文",
+   "quotation": "须丙火温之,癸水润之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-HAI",
+   "group": "tiaohou",
+   "condition": "日主己土，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-63-original",
+   "chapter": "穷通宝鉴 · 第63章 十十一十二月己土 · 原文",
+   "quotation": "取丙为尊,甲木能参用,不可用癸",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-ZI",
+   "group": "tiaohou",
+   "condition": "日主己土，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-63-original",
+   "chapter": "穷通宝鉴 · 第63章 十十一十二月己土 · 原文",
+   "quotation": "取丙为尊,甲木能参用,不可用癸",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-JI-CHOU",
+   "group": "tiaohou",
+   "condition": "日主己土，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "ji",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-63-original",
+   "chapter": "穷通宝鉴 · 第63章 十十一十二月己土 · 原文",
+   "quotation": "取丙为尊,甲木能参用,不可用癸",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-YIN",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：丙火、甲木",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-65-original",
+   "chapter": "穷通宝鉴 · 第65章 正月庚金 · 原文",
+   "quotation": "先用丙暖庚性",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-MAO",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：丁火、甲木、庚金",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-66-original",
+   "chapter": "穷通宝鉴 · 第66章 二月庚金 · 原文",
+   "quotation": "专用丁火以抑其强,次用甲木引丁",
+   "derived": false,
+   "note": "原文总论「总之，二月庚金，专用丁火以抑其强，次用甲木引丁，又须用庚劈甲」直接写明；已逐句核对原文"
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-CHEN",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：甲木、丁火",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-67-original",
+   "chapter": "穷通宝鉴 · 第67章 三月庚金 · 原文",
+   "quotation": "故先用甲木疏土,次用丁火煅炼成器",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-SI",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：壬水、戊土、丙火",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "wu",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-68-original",
+   "chapter": "穷通宝鉴 · 第68章 四月庚金 · 原文",
+   "quotation": "宜先用壬水,方得中和",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-WU",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于五月（午月）",
+   "conclusion": "调候用神（依次）：壬水、癸水",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-69-original",
+   "chapter": "穷通宝鉴 · 第69章 五月庚金 · 原文",
+   "quotation": "专用壬水,癸又次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-WEI",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于六月（未月）",
+   "conclusion": "调候用神（依次）：丁火、甲木",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-70-original",
+   "chapter": "穷通宝鉴 · 第70章 六月庚金 · 原文",
+   "quotation": "先用丁火,次取甲木",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-SHEN",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丁火、甲木",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-71-original",
+   "chapter": "穷通宝鉴 · 第71章 七月庚金 · 原文",
+   "quotation": "专用丁火煅炼,次取木引丁",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-YOU",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：丁火、甲木、丙火",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-72-original",
+   "chapter": "穷通宝鉴 · 第72章 八月庚金 · 原文",
+   "quotation": "仍用丁甲,丙不可少",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-XU",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：甲木、壬水",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-73-original",
+   "chapter": "穷通宝鉴 · 第73章 九月庚金 · 原文",
+   "quotation": "宜先用甲疏,后用壬洗",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-HAI",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：丁火、丙火",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-74-original",
+   "chapter": "穷通宝鉴 · 第74章 十月庚金 · 原文",
+   "quotation": "非丁莫造,非丙不暖",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-ZI",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丁火、甲木、丙火",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "bing",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-75-original",
+   "chapter": "穷通宝鉴 · 第75章 十一月庚金 · 原文",
+   "quotation": "仍取丁甲,次取丙火照暖",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GENG-CHOU",
+   "group": "tiaohou",
+   "condition": "日主庚金，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火、丁火、甲木",
+   "when": {
+    "day_master_stem": "geng",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       },
+       {
+        "stem": "jia",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-76-original",
+   "chapter": "穷通宝鉴 · 第76章 十二月庚金 · 原文",
+   "quotation": "先取丙火解冻,次取丁火炼金,甲亦不可少",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-YIN",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：己土、壬水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ji",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-77-original",
+   "chapter": "穷通宝鉴 · 第77章 正月辛金 · 原文",
+   "quotation": "取己土为身之本。次用壬水淘洗",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-MAO",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：壬水、甲木",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-78-original",
+   "chapter": "穷通宝鉴 · 第78章 二月辛金 · 原文",
+   "quotation": "壬水为尊",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-CHEN",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：壬水、甲木",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-79-original",
+   "chapter": "穷通宝鉴 · 第79章 三月辛金 · 原文",
+   "quotation": "三月辛金,先壬后甲,壬甲两透,富贵必然",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-SI",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：壬水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-80-original",
+   "chapter": "穷通宝鉴 · 第80章 四月辛金 · 原文",
+   "quotation": "忌丙火之燥烈,喜壬水之洗淘",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-WU",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于五月（午月）",
+   "conclusion": "调候用神（依次）：己土、壬水、癸水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ji",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-81-original",
+   "chapter": "穷通宝鉴 · 第81章 五月辛金 · 原文",
+   "quotation": "须己壬兼用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-WEI",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于六月（未月）",
+   "conclusion": "调候用神（依次）：壬水、庚金",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-82-original",
+   "chapter": "穷通宝鉴 · 第82章 六月辛金 · 原文",
+   "quotation": "专用壬水为妙,次取庚金佐之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-SHEN",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于七月（申月）",
+   "conclusion": "调候用神（依次）：壬水、甲木、戊土",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "wu",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-83-original",
+   "chapter": "穷通宝鉴 · 第83章 七月辛金 · 原文",
+   "quotation": "壬水为尊,甲戊酌用可也,癸水不可为用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-YOU",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：壬水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-84-original",
+   "chapter": "穷通宝鉴 · 第84章 八月辛金 · 原文",
+   "quotation": "专用壬水淘之泄之为贵",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-XU",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：壬水、甲木",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-85-original",
+   "chapter": "穷通宝鉴 · 第85章 九月辛金 · 原文",
+   "quotation": "须甲疏土,壬泄旺金,先壬后甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-HAI",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：壬水、丙火",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-86-original",
+   "chapter": "穷通宝鉴 · 第86章 十月辛金 · 原文",
+   "quotation": "先用壬水,次用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-ZI",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丙火、壬水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-87-original",
+   "chapter": "穷通宝鉴 · 第87章 十一月辛金 · 原文",
+   "quotation": "总之,冬月辛金,须丙温暖方妙",
+   "derived": false,
+   "note": "原文「得丙壬两透」与「总之，冬月辛金，须丙温暖方妙」写明用丙、壬；已逐句核对原文"
+  },
+  {
+   "rule_id": "R-TIAOHOU-XIN-CHOU",
+   "group": "tiaohou",
+   "condition": "日主辛金，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火、壬水",
+   "when": {
+    "day_master_stem": "xin",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "ren",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-88-original",
+   "chapter": "穷通宝鉴 · 第88章 十二月辛金 · 原文",
+   "quotation": "先丙后壬",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-YIN",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：庚金、丙火、戊土",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "wu",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-90-original",
+   "chapter": "穷通宝鉴 · 第90章 正月壬水 · 原文",
+   "quotation": "宜用庚金之源,次取丙火以除寒气,又次取戊土以止其流",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-MAO",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：戊土、辛金、庚金",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "wu",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-91-original",
+   "chapter": "穷通宝鉴 · 第91章 二月壬水 · 原文",
+   "quotation": "专取戊土为堤岸,辛发其源,庚金次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-CHEN",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：甲木、庚金",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-92-original",
+   "chapter": "穷通宝鉴 · 第92章 三月壬水 · 原文",
+   "quotation": "先用甲疏季土,次取庚发水源",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-SI",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：壬水、辛金、庚金",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ren",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-93-original",
+   "chapter": "穷通宝鉴 · 第93章 四月壬水 · 原文",
+   "quotation": "专取壬水比肩为助,次取辛金发源",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-WU",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于五月（午月）",
+   "conclusion": "调候用神（依次）：庚金、癸水",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "gui",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-94-original",
+   "chapter": "穷通宝鉴 · 第94章 五月壬水 · 原文",
+   "quotation": "取庚为用,取癸为佐",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-WEI",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于六月（未月）",
+   "conclusion": "调候用神（依次）：辛金、甲木、癸水",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "xin",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-95-original",
+   "chapter": "穷通宝鉴 · 第95章 六月壬水 · 原文",
+   "quotation": "先辛后甲,次取癸水",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-SHEN",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于七月（申月）",
+   "conclusion": "调候用神（依次）：戊土、丁火",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "wu",
+        "rank": 1
+       },
+       {
+        "stem": "ding",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-96-original",
+   "chapter": "穷通宝鉴 · 第96章 七月壬水 · 原文",
+   "quotation": "专用戊土,次取丁火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-YOU",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：甲木",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-97-original",
+   "chapter": "穷通宝鉴 · 第97章 八月壬水 · 原文",
+   "quotation": "专取甲木",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-XU",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：甲木、丙火、戊土",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "jia",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       },
+       {
+        "stem": "wu",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-98-original",
+   "chapter": "穷通宝鉴 · 第98章 九月壬水 · 原文",
+   "quotation": "九月壬水,专用甲木,次看丙火,戊土须酌用之",
+   "derived": false,
+   "note": "原文「九月壬水，专用甲木，次看丙火，戊土须酌用之」直接写明；已逐句核对原文"
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-HAI",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：戊土",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "wu",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-99-original",
+   "chapter": "穷通宝鉴 · 第99章 十月壬水 · 原文",
+   "quotation": "取戊为用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-ZI",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：戊土、丙火",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "wu",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-100-original",
+   "chapter": "穷通宝鉴 · 第100章 十一月壬水 · 原文",
+   "quotation": "先取戊土,次用丙火",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-REN-CHOU",
+   "group": "tiaohou",
+   "condition": "日主壬水，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：节气前（大寒）：丙火；节气后（大寒）：丙火、甲木",
+   "when": {
+    "day_master_stem": "ren",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "dahan",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ],
+      "quotation": "壬水稍旺,专用丙火解冻"
+     },
+     {
+      "phase": {
+       "term": "dahan",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       }
+      ],
+      "quotation": "亦用丙火,甲木佐之"
+     }
+    ],
+    "review": true
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-101-original",
+   "chapter": "穷通宝鉴 · 第101章 十二月壬水 · 原文",
+   "quotation": "壬水稍旺,专用丙火解冻",
+   "derived": false,
+   "note": "「上半月/下半月」按月内 中气 大寒 划分，待人工核对"
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-YIN",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于正月（寅月）",
+   "conclusion": "调候用神（依次）：辛金、丙火",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "yin"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "xin",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-102-original",
+   "chapter": "穷通宝鉴 · 第102章 正月癸水 · 原文",
+   "quotation": "先用辛金,生癸水之源,次用丙火照暖",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-MAO",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于二月（卯月）",
+   "conclusion": "调候用神（依次）：庚金、辛金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "mao"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-103-original",
+   "chapter": "穷通宝鉴 · 第103章 二月癸水 · 原文",
+   "quotation": "专用庚金为用,辛金次之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-CHEN",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于三月（辰月）",
+   "conclusion": "调候用神（依次）：节气前（谷雨）：丙火；节气后（谷雨）：丙火、辛金、庚金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "chen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": {
+       "term": "guyu",
+       "side": "before"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ],
+      "quotation": "清明后火气未炽,专用丙火,名阴阳承蔼"
+     },
+     {
+      "phase": {
+       "term": "guyu",
+       "side": "after"
+      },
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       },
+       {
+        "stem": "geng",
+        "rank": 3
+       }
+      ],
+      "quotation": "谷雨后虽用丙火,还宜辛金佐之"
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-104-original",
+   "chapter": "穷通宝鉴 · 第104章 三月癸水 · 原文",
+   "quotation": "清明后火气未炽,专用丙火,名阴阳承蔼",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-SI",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于四月（巳月）",
+   "conclusion": "调候用神（依次）：辛金、庚金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "si"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "xin",
+        "rank": 1
+       },
+       {
+        "stem": "geng",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-105-original",
+   "chapter": "穷通宝鉴 · 第105章 四月癸水 · 原文",
+   "quotation": "喜见新母,无辛,庚亦可用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-WU",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于五月（午月）",
+   "conclusion": "调候用神（依次）：庚金、辛金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "wu_branch"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-106-original",
+   "chapter": "穷通宝鉴 · 第106章 五月癸水 · 原文",
+   "quotation": "必须庚辛为生身之本",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-WEI",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于六月（未月）",
+   "conclusion": "调候用神（依次）：庚金、辛金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "wei"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-107-original",
+   "chapter": "穷通宝鉴 · 第107章 六月癸水 · 原文",
+   "quotation": "所以专用庚辛",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-SHEN",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于七月（申月）",
+   "conclusion": "调候用神（依次）：丁火",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "shen"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "ding",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-108-original",
+   "chapter": "穷通宝鉴 · 第108章 七月癸水 · 原文",
+   "quotation": "必取丁火为用",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-YOU",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于八月（酉月）",
+   "conclusion": "调候用神（依次）：辛金、丙火",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "you"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "xin",
+        "rank": 1
+       },
+       {
+        "stem": "bing",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-109-original",
+   "chapter": "穷通宝鉴 · 第109章 八月癸水 · 原文",
+   "quotation": "取辛金为用,丙火佐之",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-XU",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于九月（戌月）",
+   "conclusion": "调候用神（依次）：辛金、甲木、癸水",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "xu"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "xin",
+        "rank": 1
+       },
+       {
+        "stem": "jia",
+        "rank": 2
+       },
+       {
+        "stem": "gui",
+        "rank": 3
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-110-original",
+   "chapter": "穷通宝鉴 · 第110章 九月癸水 · 原文",
+   "quotation": "专用辛金发癸水之源,次用癸甲",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-HAI",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于十月（亥月）",
+   "conclusion": "调候用神（依次）：庚金、辛金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "hai"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "geng",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-111-original",
+   "chapter": "穷通宝鉴 · 第111章 十月癸水 · 原文",
+   "quotation": "宜用庚辛为妙",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-ZI",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于十一月（子月）",
+   "conclusion": "调候用神（依次）：丙火、辛金",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "zi"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       },
+       {
+        "stem": "xin",
+        "rank": 2
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-112-original",
+   "chapter": "穷通宝鉴 · 第112章 十一月癸水 · 原文",
+   "quotation": "专用丙火解冻",
+   "derived": false
+  },
+  {
+   "rule_id": "R-TIAOHOU-GUI-CHOU",
+   "group": "tiaohou",
+   "condition": "日主癸水，生于十二月（丑月）",
+   "conclusion": "调候用神（依次）：丙火",
+   "when": {
+    "day_master_stem": "gui",
+    "month_branch": "chou"
+   },
+   "then": {
+    "variants": [
+     {
+      "phase": null,
+      "useful": [
+       {
+        "stem": "bing",
+        "rank": 1
+       }
+      ]
+     }
+    ],
+    "review": false
+   },
+   "source_id": "qiongtong-baojian",
+   "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-113-original",
+   "chapter": "穷通宝鉴 · 第113章 十二月癸水 · 原文",
+   "quotation": "专用丙火解冻",
+   "derived": false
+  }
+ ]
+}

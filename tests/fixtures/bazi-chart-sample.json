@@ -1,0 +1,2705 @@
+{
+ "request": {
+  "birth_date": "1990-05-17",
+  "birth_time": "08:30",
+  "birth_place": {
+   "latitude": 31.2,
+   "longitude": 121.5,
+   "source": "manual_coordinates"
+  },
+  "gender": "male",
+  "calendar": "solar"
+ },
+ "result": {
+  "resolved_time": {
+   "solar_date": "1990-05-17",
+   "civil_time": "08:30",
+   "timezone": "Asia/Shanghai",
+   "utc_offset_minutes": 540,
+   "dst_applied": true,
+   "longitude_correction_minutes": 6.0,
+   "equation_of_time_minutes": 3.66,
+   "true_solar_time": "07:39",
+   "crossed_pillar_boundary": false
+  },
+  "solar_term": {
+   "current_term": "lixia",
+   "current_term_at": "1990-05-06T03:35:31",
+   "days_since_term": 11.204,
+   "next_term": "xiaoman",
+   "next_term_at": "1990-05-21T16:37:30",
+   "days_to_next_term": 4.339,
+   "month_term": "lixia",
+   "near_boundary": false
+  },
+  "pillars": [
+   {
+    "label": "year",
+    "stem": "geng",
+    "branch": "wu_branch",
+    "element": "metal",
+    "ten_god": "indirect_resource",
+    "hidden_stems": [
+     {
+      "stem": "ding",
+      "element": "fire",
+      "qi": "primary",
+      "ten_god": "direct_wealth"
+     },
+     {
+      "stem": "ji",
+      "element": "earth",
+      "qi": "middle",
+      "ten_god": "direct_officer"
+     }
+    ]
+   },
+   {
+    "label": "month",
+    "stem": "xin",
+    "branch": "si",
+    "element": "metal",
+    "ten_god": "direct_resource",
+    "hidden_stems": [
+     {
+      "stem": "bing",
+      "element": "fire",
+      "qi": "primary",
+      "ten_god": "indirect_wealth"
+     },
+     {
+      "stem": "geng",
+      "element": "metal",
+      "qi": "middle",
+      "ten_god": "indirect_resource"
+     },
+     {
+      "stem": "wu",
+      "element": "earth",
+      "qi": "residual",
+      "ten_god": "seven_killings"
+     }
+    ]
+   },
+   {
+    "label": "day",
+    "stem": "ren",
+    "branch": "wu_branch",
+    "element": "water",
+    "ten_god": null,
+    "hidden_stems": [
+     {
+      "stem": "ding",
+      "element": "fire",
+      "qi": "primary",
+      "ten_god": "direct_wealth"
+     },
+     {
+      "stem": "ji",
+      "element": "earth",
+      "qi": "middle",
+      "ten_god": "direct_officer"
+     }
+    ]
+   },
+   {
+    "label": "hour",
+    "stem": "jia",
+    "branch": "chen",
+    "element": "wood",
+    "ten_god": "eating_god",
+    "hidden_stems": [
+     {
+      "stem": "wu",
+      "element": "earth",
+      "qi": "primary",
+      "ten_god": "seven_killings"
+     },
+     {
+      "stem": "yi",
+      "element": "wood",
+      "qi": "middle",
+      "ten_god": "hurting_officer"
+     },
+     {
+      "stem": "gui",
+      "element": "water",
+      "qi": "residual",
+      "ten_god": "rob_wealth"
+     }
+    ]
+   }
+  ],
+  "elements": {
+   "wood": 1.0,
+   "fire": 3.0,
+   "earth": 1.0,
+   "metal": 2.0,
+   "water": 1.0
+  },
+  "luck_onset": {
+   "years": 6,
+   "months": 7,
+   "direction": "forward",
+   "rationale": "阳年男命，大运顺排；出生距下一节（芒种）20.0 天，按三日折一年计，起运 6 岁 7 个月。"
+  },
+  "luck_cycles": [
+   {
+    "start_age": 6,
+    "end_age": 15,
+    "start_year": 1996,
+    "end_year": 2005,
+    "stem": "ren",
+    "branch": "wu_branch",
+    "stem_element": "water",
+    "branch_element": "fire",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "direct_wealth"
+   },
+   {
+    "start_age": 16,
+    "end_age": 25,
+    "start_year": 2006,
+    "end_year": 2015,
+    "stem": "gui",
+    "branch": "wei",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "direct_officer"
+   },
+   {
+    "start_age": 26,
+    "end_age": 35,
+    "start_year": 2016,
+    "end_year": 2025,
+    "stem": "jia",
+    "branch": "shen",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "indirect_resource"
+   },
+   {
+    "start_age": 36,
+    "end_age": 45,
+    "start_year": 2026,
+    "end_year": 2035,
+    "stem": "yi",
+    "branch": "you",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_resource"
+   },
+   {
+    "start_age": 46,
+    "end_age": 55,
+    "start_year": 2036,
+    "end_year": 2045,
+    "stem": "bing",
+    "branch": "xu",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "seven_killings"
+   },
+   {
+    "start_age": 56,
+    "end_age": 65,
+    "start_year": 2046,
+    "end_year": 2055,
+    "stem": "ding",
+    "branch": "hai",
+    "stem_element": "fire",
+    "branch_element": "water",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "friend"
+   },
+   {
+    "start_age": 66,
+    "end_age": 75,
+    "start_year": 2056,
+    "end_year": 2065,
+    "stem": "wu",
+    "branch": "zi",
+    "stem_element": "earth",
+    "branch_element": "water",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "rob_wealth"
+   },
+   {
+    "start_age": 76,
+    "end_age": 85,
+    "start_year": 2066,
+    "end_year": 2075,
+    "stem": "ji",
+    "branch": "chou",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "direct_officer"
+   }
+  ],
+  "annual_cycles": [
+   {
+    "stem": "bing",
+    "branch": "zi",
+    "stem_element": "fire",
+    "branch_element": "water",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "rob_wealth",
+    "year": 1996
+   },
+   {
+    "stem": "ding",
+    "branch": "chou",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 1997
+   },
+   {
+    "stem": "wu",
+    "branch": "yin",
+    "stem_element": "earth",
+    "branch_element": "wood",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "eating_god",
+    "year": 1998
+   },
+   {
+    "stem": "ji",
+    "branch": "mao",
+    "stem_element": "earth",
+    "branch_element": "wood",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "hurting_officer",
+    "year": 1999
+   },
+   {
+    "stem": "geng",
+    "branch": "chen",
+    "stem_element": "metal",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "seven_killings",
+    "year": 2000
+   },
+   {
+    "stem": "xin",
+    "branch": "si",
+    "stem_element": "metal",
+    "branch_element": "fire",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2001
+   },
+   {
+    "stem": "ren",
+    "branch": "wu_branch",
+    "stem_element": "water",
+    "branch_element": "fire",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "direct_wealth",
+    "year": 2002
+   },
+   {
+    "stem": "gui",
+    "branch": "wei",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 2003
+   },
+   {
+    "stem": "jia",
+    "branch": "shen",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "indirect_resource",
+    "year": 2004
+   },
+   {
+    "stem": "yi",
+    "branch": "you",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_resource",
+    "year": 2005
+   },
+   {
+    "stem": "bing",
+    "branch": "xu",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "seven_killings",
+    "year": 2006
+   },
+   {
+    "stem": "ding",
+    "branch": "hai",
+    "stem_element": "fire",
+    "branch_element": "water",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "friend",
+    "year": 2007
+   },
+   {
+    "stem": "wu",
+    "branch": "zi",
+    "stem_element": "earth",
+    "branch_element": "water",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "rob_wealth",
+    "year": 2008
+   },
+   {
+    "stem": "ji",
+    "branch": "chou",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2009
+   },
+   {
+    "stem": "geng",
+    "branch": "yin",
+    "stem_element": "metal",
+    "branch_element": "wood",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "eating_god",
+    "year": 2010
+   },
+   {
+    "stem": "xin",
+    "branch": "mao",
+    "stem_element": "metal",
+    "branch_element": "wood",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "hurting_officer",
+    "year": 2011
+   },
+   {
+    "stem": "ren",
+    "branch": "chen",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "seven_killings",
+    "year": 2012
+   },
+   {
+    "stem": "gui",
+    "branch": "si",
+    "stem_element": "water",
+    "branch_element": "fire",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2013
+   },
+   {
+    "stem": "jia",
+    "branch": "wu_branch",
+    "stem_element": "wood",
+    "branch_element": "fire",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "direct_wealth",
+    "year": 2014
+   },
+   {
+    "stem": "yi",
+    "branch": "wei",
+    "stem_element": "wood",
+    "branch_element": "earth",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2015
+   },
+   {
+    "stem": "bing",
+    "branch": "shen",
+    "stem_element": "fire",
+    "branch_element": "metal",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "indirect_resource",
+    "year": 2016
+   },
+   {
+    "stem": "ding",
+    "branch": "you",
+    "stem_element": "fire",
+    "branch_element": "metal",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "direct_resource",
+    "year": 2017
+   },
+   {
+    "stem": "wu",
+    "branch": "xu",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "seven_killings",
+    "year": 2018
+   },
+   {
+    "stem": "ji",
+    "branch": "hai",
+    "stem_element": "earth",
+    "branch_element": "water",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "friend",
+    "year": 2019
+   },
+   {
+    "stem": "geng",
+    "branch": "zi",
+    "stem_element": "metal",
+    "branch_element": "water",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "rob_wealth",
+    "year": 2020
+   },
+   {
+    "stem": "xin",
+    "branch": "chou",
+    "stem_element": "metal",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "direct_officer",
+    "year": 2021
+   },
+   {
+    "stem": "ren",
+    "branch": "yin",
+    "stem_element": "water",
+    "branch_element": "wood",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "eating_god",
+    "year": 2022
+   },
+   {
+    "stem": "gui",
+    "branch": "mao",
+    "stem_element": "water",
+    "branch_element": "wood",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "hurting_officer",
+    "year": 2023
+   },
+   {
+    "stem": "jia",
+    "branch": "chen",
+    "stem_element": "wood",
+    "branch_element": "earth",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "seven_killings",
+    "year": 2024
+   },
+   {
+    "stem": "yi",
+    "branch": "si",
+    "stem_element": "wood",
+    "branch_element": "fire",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2025
+   },
+   {
+    "stem": "bing",
+    "branch": "wu_branch",
+    "stem_element": "fire",
+    "branch_element": "fire",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "direct_wealth",
+    "year": 2026
+   },
+   {
+    "stem": "ding",
+    "branch": "wei",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 2027
+   },
+   {
+    "stem": "wu",
+    "branch": "shen",
+    "stem_element": "earth",
+    "branch_element": "metal",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "indirect_resource",
+    "year": 2028
+   },
+   {
+    "stem": "ji",
+    "branch": "you",
+    "stem_element": "earth",
+    "branch_element": "metal",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "direct_resource",
+    "year": 2029
+   },
+   {
+    "stem": "geng",
+    "branch": "xu",
+    "stem_element": "metal",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "seven_killings",
+    "year": 2030
+   },
+   {
+    "stem": "xin",
+    "branch": "hai",
+    "stem_element": "metal",
+    "branch_element": "water",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "friend",
+    "year": 2031
+   },
+   {
+    "stem": "ren",
+    "branch": "zi",
+    "stem_element": "water",
+    "branch_element": "water",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "rob_wealth",
+    "year": 2032
+   },
+   {
+    "stem": "gui",
+    "branch": "chou",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 2033
+   },
+   {
+    "stem": "jia",
+    "branch": "yin",
+    "stem_element": "wood",
+    "branch_element": "wood",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "eating_god",
+    "year": 2034
+   },
+   {
+    "stem": "yi",
+    "branch": "mao",
+    "stem_element": "wood",
+    "branch_element": "wood",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "hurting_officer",
+    "year": 2035
+   },
+   {
+    "stem": "bing",
+    "branch": "chen",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "seven_killings",
+    "year": 2036
+   },
+   {
+    "stem": "ding",
+    "branch": "si",
+    "stem_element": "fire",
+    "branch_element": "fire",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2037
+   },
+   {
+    "stem": "wu",
+    "branch": "wu_branch",
+    "stem_element": "earth",
+    "branch_element": "fire",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "direct_wealth",
+    "year": 2038
+   },
+   {
+    "stem": "ji",
+    "branch": "wei",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2039
+   },
+   {
+    "stem": "geng",
+    "branch": "shen",
+    "stem_element": "metal",
+    "branch_element": "metal",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "indirect_resource",
+    "year": 2040
+   },
+   {
+    "stem": "xin",
+    "branch": "you",
+    "stem_element": "metal",
+    "branch_element": "metal",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "direct_resource",
+    "year": 2041
+   },
+   {
+    "stem": "ren",
+    "branch": "xu",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "seven_killings",
+    "year": 2042
+   },
+   {
+    "stem": "gui",
+    "branch": "hai",
+    "stem_element": "water",
+    "branch_element": "water",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "friend",
+    "year": 2043
+   },
+   {
+    "stem": "jia",
+    "branch": "zi",
+    "stem_element": "wood",
+    "branch_element": "water",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "rob_wealth",
+    "year": 2044
+   },
+   {
+    "stem": "yi",
+    "branch": "chou",
+    "stem_element": "wood",
+    "branch_element": "earth",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2045
+   },
+   {
+    "stem": "bing",
+    "branch": "yin",
+    "stem_element": "fire",
+    "branch_element": "wood",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "eating_god",
+    "year": 2046
+   },
+   {
+    "stem": "ding",
+    "branch": "mao",
+    "stem_element": "fire",
+    "branch_element": "wood",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "hurting_officer",
+    "year": 2047
+   },
+   {
+    "stem": "wu",
+    "branch": "chen",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "seven_killings",
+    "year": 2048
+   },
+   {
+    "stem": "ji",
+    "branch": "si",
+    "stem_element": "earth",
+    "branch_element": "fire",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2049
+   },
+   {
+    "stem": "geng",
+    "branch": "wu_branch",
+    "stem_element": "metal",
+    "branch_element": "fire",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "direct_wealth",
+    "year": 2050
+   },
+   {
+    "stem": "xin",
+    "branch": "wei",
+    "stem_element": "metal",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "direct_officer",
+    "year": 2051
+   },
+   {
+    "stem": "ren",
+    "branch": "shen",
+    "stem_element": "water",
+    "branch_element": "metal",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "indirect_resource",
+    "year": 2052
+   },
+   {
+    "stem": "gui",
+    "branch": "you",
+    "stem_element": "water",
+    "branch_element": "metal",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "direct_resource",
+    "year": 2053
+   },
+   {
+    "stem": "jia",
+    "branch": "xu",
+    "stem_element": "wood",
+    "branch_element": "earth",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "seven_killings",
+    "year": 2054
+   },
+   {
+    "stem": "yi",
+    "branch": "hai",
+    "stem_element": "wood",
+    "branch_element": "water",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "friend",
+    "year": 2055
+   },
+   {
+    "stem": "bing",
+    "branch": "zi",
+    "stem_element": "fire",
+    "branch_element": "water",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "rob_wealth",
+    "year": 2056
+   },
+   {
+    "stem": "ding",
+    "branch": "chou",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 2057
+   },
+   {
+    "stem": "wu",
+    "branch": "yin",
+    "stem_element": "earth",
+    "branch_element": "wood",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "eating_god",
+    "year": 2058
+   },
+   {
+    "stem": "ji",
+    "branch": "mao",
+    "stem_element": "earth",
+    "branch_element": "wood",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "hurting_officer",
+    "year": 2059
+   },
+   {
+    "stem": "geng",
+    "branch": "chen",
+    "stem_element": "metal",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "seven_killings",
+    "year": 2060
+   },
+   {
+    "stem": "xin",
+    "branch": "si",
+    "stem_element": "metal",
+    "branch_element": "fire",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2061
+   },
+   {
+    "stem": "ren",
+    "branch": "wu_branch",
+    "stem_element": "water",
+    "branch_element": "fire",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "direct_wealth",
+    "year": 2062
+   },
+   {
+    "stem": "gui",
+    "branch": "wei",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "direct_officer",
+    "year": 2063
+   },
+   {
+    "stem": "jia",
+    "branch": "shen",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "indirect_resource",
+    "year": 2064
+   },
+   {
+    "stem": "yi",
+    "branch": "you",
+    "stem_element": "wood",
+    "branch_element": "metal",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_resource",
+    "year": 2065
+   },
+   {
+    "stem": "bing",
+    "branch": "xu",
+    "stem_element": "fire",
+    "branch_element": "earth",
+    "stem_ten_god": "indirect_wealth",
+    "branch_ten_god": "seven_killings",
+    "year": 2066
+   },
+   {
+    "stem": "ding",
+    "branch": "hai",
+    "stem_element": "fire",
+    "branch_element": "water",
+    "stem_ten_god": "direct_wealth",
+    "branch_ten_god": "friend",
+    "year": 2067
+   },
+   {
+    "stem": "wu",
+    "branch": "zi",
+    "stem_element": "earth",
+    "branch_element": "water",
+    "stem_ten_god": "seven_killings",
+    "branch_ten_god": "rob_wealth",
+    "year": 2068
+   },
+   {
+    "stem": "ji",
+    "branch": "chou",
+    "stem_element": "earth",
+    "branch_element": "earth",
+    "stem_ten_god": "direct_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2069
+   },
+   {
+    "stem": "geng",
+    "branch": "yin",
+    "stem_element": "metal",
+    "branch_element": "wood",
+    "stem_ten_god": "indirect_resource",
+    "branch_ten_god": "eating_god",
+    "year": 2070
+   },
+   {
+    "stem": "xin",
+    "branch": "mao",
+    "stem_element": "metal",
+    "branch_element": "wood",
+    "stem_ten_god": "direct_resource",
+    "branch_ten_god": "hurting_officer",
+    "year": 2071
+   },
+   {
+    "stem": "ren",
+    "branch": "chen",
+    "stem_element": "water",
+    "branch_element": "earth",
+    "stem_ten_god": "friend",
+    "branch_ten_god": "seven_killings",
+    "year": 2072
+   },
+   {
+    "stem": "gui",
+    "branch": "si",
+    "stem_element": "water",
+    "branch_element": "fire",
+    "stem_ten_god": "rob_wealth",
+    "branch_ten_god": "indirect_wealth",
+    "year": 2073
+   },
+   {
+    "stem": "jia",
+    "branch": "wu_branch",
+    "stem_element": "wood",
+    "branch_element": "fire",
+    "stem_ten_god": "eating_god",
+    "branch_ten_god": "direct_wealth",
+    "year": 2074
+   },
+   {
+    "stem": "yi",
+    "branch": "wei",
+    "stem_element": "wood",
+    "branch_element": "earth",
+    "stem_ten_god": "hurting_officer",
+    "branch_ten_god": "direct_officer",
+    "year": 2075
+   }
+  ],
+  "current_period": {
+   "year": {
+    "stem": "bing",
+    "branch": "wu_branch",
+    "stem_element": "fire",
+    "branch_element": "fire",
+    "year": 2026
+   },
+   "month": {
+    "stem": "wu",
+    "branch": "xu",
+    "stem_element": "earth",
+    "branch_element": "earth"
+   },
+   "day": {
+    "stem": "ding",
+    "branch": "si",
+    "stem_element": "fire",
+    "branch_element": "fire"
+   }
+  },
+  "day_master": {
+   "stem": "ren",
+   "element": "water",
+   "strength": "somewhat_weak"
+  },
+  "ten_gods": [
+   {
+    "pillar": "year",
+    "position": "stem",
+    "ten_god": "indirect_resource",
+    "element": "metal",
+    "disposition": "useful"
+   },
+   {
+    "pillar": "year",
+    "position": "hidden",
+    "ten_god": "direct_wealth",
+    "element": "fire",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "year",
+    "position": "hidden",
+    "ten_god": "direct_officer",
+    "element": "earth",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "month",
+    "position": "stem",
+    "ten_god": "direct_resource",
+    "element": "metal",
+    "disposition": "useful"
+   },
+   {
+    "pillar": "month",
+    "position": "hidden",
+    "ten_god": "indirect_wealth",
+    "element": "fire",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "month",
+    "position": "hidden",
+    "ten_god": "indirect_resource",
+    "element": "metal",
+    "disposition": "useful"
+   },
+   {
+    "pillar": "month",
+    "position": "hidden",
+    "ten_god": "seven_killings",
+    "element": "earth",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "day",
+    "position": "hidden",
+    "ten_god": "direct_wealth",
+    "element": "fire",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "day",
+    "position": "hidden",
+    "ten_god": "direct_officer",
+    "element": "earth",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "hour",
+    "position": "stem",
+    "ten_god": "eating_god",
+    "element": "wood",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "hour",
+    "position": "hidden",
+    "ten_god": "seven_killings",
+    "element": "earth",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "hour",
+    "position": "hidden",
+    "ten_god": "hurting_officer",
+    "element": "wood",
+    "disposition": "unfavourable"
+   },
+   {
+    "pillar": "hour",
+    "position": "hidden",
+    "ten_god": "rob_wealth",
+    "element": "water",
+    "disposition": "useful"
+   }
+  ],
+  "disposition": {
+   "useful": [
+    "metal",
+    "water"
+   ],
+   "unfavourable": [
+    "earth",
+    "wood",
+    "fire"
+   ],
+   "rationale": "调候用神（水、金）都在扶抑用神之内，两法一致：日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）"
+  },
+  "derivation": {
+   "methods": [
+    {
+     "method": "supporting",
+     "basis": "日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）",
+     "rule_id": "R-FUYI-01",
+     "source_id": "ziping-zhenquan",
+     "useful": [
+      "metal",
+      "water"
+     ],
+     "unfavourable": [
+      "earth",
+      "wood",
+      "fire"
+     ]
+    },
+    {
+     "method": "climatic",
+     "basis": "壬日主生巳月：《穷通宝鉴》先用壬水，次用辛金，次用庚金；即比劫、印",
+     "rule_id": "R-TIAOHOU-REN-SI",
+     "source_id": "qiongtong-baojian",
+     "useful": [
+      "water",
+      "metal"
+     ],
+     "unfavourable": null
+    }
+   ],
+   "arbitration": {
+    "conflict": false,
+    "outcome": "agree",
+    "rule_id": "R-ARB-00",
+    "source_id": null,
+    "rationale": "调候用神（水、金）都在扶抑用神之内，两法一致：日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）"
+   }
+  },
+  "reasoning_trace": {
+   "factors": [
+    {
+     "key": "seasonal_command",
+     "rule_id": "R-DELING-04",
+     "source_id": "sanming-tonghui",
+     "score": 0.25,
+     "weight": 0.5,
+     "weighted_score": 0.125,
+     "evidence": [
+      {
+       "pillar": "month",
+       "position": "branch",
+       "branch": "si",
+       "stem": null,
+       "qi": null,
+       "description": "月令巳（本气属火）与日主（水）的关系为囚"
+      }
+     ],
+     "scale": {
+      "labels": [
+       "旺",
+       "相",
+       "休",
+       "囚",
+       "死"
+      ],
+      "scores": [
+       1.0,
+       0.75,
+       0.5,
+       0.25,
+       0.0
+      ],
+      "rule_id": "R-SCALE-DELING",
+      "derived": true
+     },
+     "level": 3,
+     "calculation": "月令巳（本气属火）与日主（水）的关系为囚，得 0.25",
+     "rule_text": "日主去克出生月份的五行，力量被牵制。",
+     "chapter": "論五行旺相休囚死並寄生十二宮",
+     "quotation": "金乃木之鬼,被火克制,不能施設,故金囚",
+     "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423",
+     "derived": false
+    },
+    {
+     "key": "rootedness",
+     "rule_id": "R-DEDI-03",
+     "source_id": "ziping-zhenquan",
+     "score": 0.33,
+     "weight": 0.2,
+     "weighted_score": 0.066,
+     "evidence": [
+      {
+       "pillar": "hour",
+       "position": "hidden",
+       "branch": "chen",
+       "stem": "gui",
+       "qi": "residual",
+       "description": "时支辰中藏癸（余气），与日主同属水，取此最深一处"
+      }
+     ],
+     "scale": {
+      "labels": [
+       "本气通根",
+       "中气通根",
+       "余气通根",
+       "无根"
+      ],
+      "scores": [
+       1.0,
+       0.67,
+       0.33,
+       0.0
+      ],
+      "rule_id": "R-SCALE-DEDI",
+      "derived": true
+     },
+     "level": 2,
+     "calculation": "月支以外的地支藏干中与日主同五行者共 1 处，最深为余气，得 0.33",
+     "rule_text": "月支以外的地支里，只有最弱的一层藏干与日主同五行，日主扎根较浅。",
+     "chapter": "论十干得时不旺失时不弱",
+     "quotation": "墓库余气,根之轻者也",
+     "kb_url": "https://luckclub.cn/bazi/002/008/",
+     "derived": false
+    },
+    {
+     "key": "revealed_support",
+     "rule_id": "R-DESHI-02",
+     "source_id": "ziping-zhenquan",
+     "score": 0.67,
+     "weight": 0.1,
+     "weighted_score": 0.067,
+     "evidence": [
+      {
+       "pillar": "year",
+       "position": "stem",
+       "branch": "wu_branch",
+       "stem": "geng",
+       "qi": null,
+       "description": "年干庚为偏印，透出，计入"
+      },
+      {
+       "pillar": "month",
+       "position": "stem",
+       "branch": "si",
+       "stem": "xin",
+       "qi": null,
+       "description": "月干辛为正印，透出，计入"
+      }
+     ],
+     "scale": {
+      "labels": [
+       "透出 3 个",
+       "透出 2 个",
+       "透出 1 个",
+       "透出 0 个"
+      ],
+      "scores": [
+       1.0,
+       0.67,
+       0.33,
+       0.0
+      ],
+      "rule_id": "R-SCALE-DESHI",
+      "derived": true
+     },
+     "level": 1,
+     "calculation": "日主以外的天干：年干庚（偏印）、月干辛（正印）、时干甲（食神）；其中印、比劫 2 个，得 0.67",
+     "rule_text": "其余三个天干里，有 2 个是帮扶日主的（印或比劫）。",
+     "chapter": "论十干得时不旺失时不弱",
+     "quotation": "比劫印绶通根扶助为党众",
+     "kb_url": "https://luckclub.cn/bazi/002/008/",
+     "derived": true
+    },
+    {
+     "key": "assisting_support",
+     "rule_id": "R-DEZHU-01",
+     "source_id": "ziping-zhenquan",
+     "score": 0.1,
+     "weight": 0.05,
+     "weighted_score": 0.005,
+     "evidence": [
+      {
+       "pillar": "month",
+       "position": "hidden",
+       "branch": "si",
+       "stem": "geng",
+       "qi": "middle",
+       "description": "月支巳中庚（中气）为偏印，生日主"
+      }
+     ],
+     "scale": null,
+     "level": null,
+     "calculation": "地支藏干共 10 个，生日主者（印）1 个，1 ÷ 10 = 0.1",
+     "rule_text": "看地支藏干里生日主的（印）占多少，占的比例越高，日主得到的助力越多。",
+     "chapter": "论印绶",
+     "quotation": "印绶喜其生身",
+     "kb_url": "https://luckclub.cn/bazi/002/037/",
+     "derived": true
+    },
+    {
+     "key": "opposition",
+     "rule_id": "R-KEXIE-01",
+     "source_id": "yuanhai-ziping",
+     "score": 0.625,
+     "weight": -0.15,
+     "weighted_score": -0.0938,
+     "evidence": [
+      {
+       "pillar": "hour",
+       "position": "stem",
+       "branch": "chen",
+       "stem": "jia",
+       "qi": null,
+       "description": "时干甲为食神，克泄耗日主"
+      },
+      {
+       "pillar": "year",
+       "position": "hidden",
+       "branch": "wu_branch",
+       "stem": "ding",
+       "qi": "primary",
+       "description": "年支午本气丁为正财，克泄耗日主"
+      },
+      {
+       "pillar": "month",
+       "position": "hidden",
+       "branch": "si",
+       "stem": "bing",
+       "qi": "primary",
+       "description": "月支巳本气丙为偏财，克泄耗日主"
+      },
+      {
+       "pillar": "day",
+       "position": "hidden",
+       "branch": "wu_branch",
+       "stem": "ding",
+       "qi": "primary",
+       "description": "日支午本气丁为正财，克泄耗日主"
+      },
+      {
+       "pillar": "hour",
+       "position": "hidden",
+       "branch": "chen",
+       "stem": "wu",
+       "qi": "primary",
+       "description": "时支辰本气戊为七杀，克泄耗日主"
+      }
+     ],
+     "scale": null,
+     "level": null,
+     "calculation": "八字中克泄耗日主者（官杀、财、食伤）5 个，5 ÷ 8 = 0.625（阻力权重为负）",
+     "rule_text": "看八个字里克日主、消耗日主的（官杀、财、食伤）占多少，占的比例越高，日主被消耗得越多。",
+     "chapter": "渊海子平 · 玄机赋",
+     "quotation": "身旺者,则宜泄、宜伤。身衰者,则喜扶、喜助",
+     "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-55",
+     "derived": true
+    }
+   ],
+   "fused_score": 0.3192,
+   "baseline": 0.15,
+   "threshold_band": "0.25 - 0.50 → somewhat_weak",
+   "provisional_strength": "somewhat_weak",
+   "override": null,
+   "final_strength": "somewhat_weak",
+   "near_balance": false,
+   "sources": [
+    {
+     "source_id": "sanming-tonghui",
+     "title": "三命通会",
+     "edition": "万民英",
+     "chapter": null,
+     "page": null,
+     "url": null
+    },
+    {
+     "source_id": "ziping-zhenquan",
+     "title": "子平真诠评注",
+     "edition": "沈孝瞻原著，徐乐吾评注",
+     "chapter": null,
+     "page": null,
+     "url": null
+    },
+    {
+     "source_id": "qiongtong-baojian",
+     "title": "穷通宝鉴",
+     "edition": "徐乐吾评注",
+     "chapter": null,
+     "page": null,
+     "url": null
+    }
+   ]
+  },
+  "domain_tallies": [
+   {
+    "domain": "career",
+    "groups": [
+     {
+      "group": "officer",
+      "category": "管理 / 组织",
+      "count": 4,
+      "disposition": "unfavourable",
+      "gloss": "主管理、权威、约束",
+      "quotation": "正官者分所当尊,如在国有君,在家有亲",
+      "quotation_plain": "正官是名分上该尊敬的，就像国家有君主、家里有长辈。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论正官",
+      "occurrences": [
+       {
+        "pillar": "year",
+        "position": "hidden",
+        "stem": "ji",
+        "element": "earth",
+        "ten_god": "direct_officer",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "month",
+        "position": "hidden",
+        "stem": "wu",
+        "element": "earth",
+        "ten_god": "seven_killings",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "day",
+        "position": "hidden",
+        "stem": "ji",
+        "element": "earth",
+        "ten_god": "direct_officer",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "wu",
+        "element": "earth",
+        "ten_god": "seven_killings",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在职业方向里，官杀对应「管理 / 组织」，主管理、权威、约束。本命局中官杀出现 4 处。"
+     },
+     {
+      "group": "wealth",
+      "category": "经营 / 资源调配",
+      "count": 3,
+      "disposition": "unfavourable",
+      "gloss": "主经营、资源调配",
+      "quotation": "财为我克,使用之物也,以能生官,所以为美",
+      "quotation_plain": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论财",
+      "occurrences": [
+       {
+        "pillar": "year",
+        "position": "hidden",
+        "stem": "ding",
+        "element": "fire",
+        "ten_god": "direct_wealth",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "month",
+        "position": "hidden",
+        "stem": "bing",
+        "element": "fire",
+        "ten_god": "indirect_wealth",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "day",
+        "position": "hidden",
+        "stem": "ding",
+        "element": "fire",
+        "ten_god": "direct_wealth",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在职业方向里，财对应「经营 / 资源调配」，主经营、资源调配。本命局中财出现 3 处。"
+     },
+     {
+      "group": "output",
+      "category": "表达 / 才艺",
+      "count": 2,
+      "disposition": "unfavourable",
+      "gloss": "主表达、才华外显",
+      "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+      "quotation_plain": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论伤官",
+      "occurrences": [
+       {
+        "pillar": "hour",
+        "position": "stem",
+        "stem": "jia",
+        "element": "wood",
+        "ten_god": "eating_god",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "yi",
+        "element": "wood",
+        "ten_god": "hurting_officer",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在职业方向里，食伤对应「表达 / 才艺」，主表达、才华外显。本命局中食伤出现 2 处。"
+     },
+     {
+      "group": "companion",
+      "category": "自主 / 竞争",
+      "count": 1,
+      "disposition": "useful",
+      "gloss": "主自主、竞争",
+      "quotation": "财者,人之所欲,方令弟兄见之,多有争竞",
+      "quotation_plain": "财是人人想要的东西，兄弟（比劫）遇上它，常会起争夺。",
+      "source_id": "yuanhai-ziping",
+      "chapter": "渊海子平 · 论劫财",
+      "occurrences": [
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "gui",
+        "element": "water",
+        "ten_god": "rob_wealth",
+        "disposition": "useful"
+       }
+      ],
+      "narrative": "在职业方向里，比劫对应「自主 / 竞争」，主自主、竞争。本命局中比劫出现 1 处。"
+     }
+    ],
+    "narrative": "典籍把官杀、财、食伤、比劫与职业方向联系在一起。"
+   },
+   {
+    "domain": "study",
+    "groups": [
+     {
+      "group": "resource",
+      "category": "学问 / 受教",
+      "count": 3,
+      "disposition": "useful",
+      "gloss": "主学问、受教能力",
+      "quotation": "故主人多智虑,兼丰厚",
+      "quotation_plain": "所以主人多有智谋、思虑，也比较丰足厚实。",
+      "source_id": "yuanhai-ziping",
+      "chapter": "渊海子平 · 论印绶",
+      "occurrences": [
+       {
+        "pillar": "year",
+        "position": "stem",
+        "stem": "geng",
+        "element": "metal",
+        "ten_god": "indirect_resource",
+        "disposition": "useful"
+       },
+       {
+        "pillar": "month",
+        "position": "stem",
+        "stem": "xin",
+        "element": "metal",
+        "ten_god": "direct_resource",
+        "disposition": "useful"
+       },
+       {
+        "pillar": "month",
+        "position": "hidden",
+        "stem": "geng",
+        "element": "metal",
+        "ten_god": "indirect_resource",
+        "disposition": "useful"
+       }
+      ],
+      "narrative": "在学业方向里，印对应「学问 / 受教」，主学问、受教能力。本命局中印出现 3 处。"
+     },
+     {
+      "group": "output",
+      "category": "才艺 / 创作",
+      "count": 2,
+      "disposition": "unfavourable",
+      "gloss": "主才华表达，偏艺术创造类倾向",
+      "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+      "quotation_plain": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论伤官",
+      "occurrences": [
+       {
+        "pillar": "hour",
+        "position": "stem",
+        "stem": "jia",
+        "element": "wood",
+        "ten_god": "eating_god",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "yi",
+        "element": "wood",
+        "ten_god": "hurting_officer",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在学业方向里，食伤对应「才艺 / 创作」，主才华表达，偏艺术创造类倾向。本命局中食伤出现 2 处。"
+     }
+    ],
+    "narrative": "典籍把印、食伤与学业方向联系在一起。学业方向的对应是现代适配，不是典籍原文直接对应。"
+   },
+   {
+    "domain": "wealth",
+    "groups": [
+     {
+      "group": "wealth",
+      "category": "财之本体",
+      "count": 3,
+      "disposition": "unfavourable",
+      "gloss": "财星即财运本体",
+      "quotation": "财为我克,使用之物也,以能生官,所以为美",
+      "quotation_plain": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论财",
+      "occurrences": [
+       {
+        "pillar": "year",
+        "position": "hidden",
+        "stem": "ding",
+        "element": "fire",
+        "ten_god": "direct_wealth",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "month",
+        "position": "hidden",
+        "stem": "bing",
+        "element": "fire",
+        "ten_god": "indirect_wealth",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "day",
+        "position": "hidden",
+        "stem": "ding",
+        "element": "fire",
+        "ten_god": "direct_wealth",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在财运里，财对应「财之本体」，财星即财运本体。本命局中财出现 3 处。"
+     },
+     {
+      "group": "output",
+      "category": "以才艺生财",
+      "count": 2,
+      "disposition": "unfavourable",
+      "gloss": "食伤生财，是财的来源通道",
+      "quotation": "食神本属泄气,以其能生正财,所以喜之",
+      "quotation_plain": "食神本来是在消耗日主之气，但它能生出正财，所以被看重。",
+      "source_id": "ziping-zhenquan",
+      "chapter": "论食神",
+      "occurrences": [
+       {
+        "pillar": "hour",
+        "position": "stem",
+        "stem": "jia",
+        "element": "wood",
+        "ten_god": "eating_god",
+        "disposition": "unfavourable"
+       },
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "yi",
+        "element": "wood",
+        "ten_god": "hurting_officer",
+        "disposition": "unfavourable"
+       }
+      ],
+      "narrative": "在财运里，食伤对应「以才艺生财」，食伤生财，是财的来源通道。本命局中食伤出现 2 处。"
+     },
+     {
+      "group": "companion",
+      "category": "协作与分担",
+      "count": 1,
+      "disposition": "useful",
+      "gloss": "比劫克财",
+      "quotation": "弟见兄,兄能劫弟之财",
+      "quotation_plain": "弟遇到兄，兄能把弟的财夺走（比劫夺财）。",
+      "source_id": "yuanhai-ziping",
+      "chapter": "渊海子平 · 论劫财",
+      "occurrences": [
+       {
+        "pillar": "hour",
+        "position": "hidden",
+        "stem": "gui",
+        "element": "water",
+        "ten_god": "rob_wealth",
+        "disposition": "useful"
+       }
+      ],
+      "narrative": "在财运里，比劫对应「协作与分担」，比劫克财。本命局中比劫出现 1 处。"
+     }
+    ],
+    "narrative": "典籍把财、食伤、比劫与财运联系在一起。"
+   }
+  ],
+  "calculation_trace": [
+   {
+    "id": "input",
+    "title": "出生信息",
+    "stage": "input",
+    "inputs": [],
+    "summary": "公历 1990-05-17 08:30，北纬 31.2°，东经 121.5°，男",
+    "facts": [
+     {
+      "label": "历法",
+      "value": "公历"
+     },
+     {
+      "label": "出生日期",
+      "value": "1990-05-17"
+     },
+     {
+      "label": "出生时间",
+      "value": "08:30（出生地的当地时间）"
+     },
+     {
+      "label": "出生地点",
+      "value": "北纬 31.2°，东经 121.5°（纬度 31.2°，经度 121.5°）"
+     },
+     {
+      "label": "性别",
+      "value": "男（只用于大运顺逆，不影响命盘本身）"
+     }
+    ],
+    "uses": []
+   },
+   {
+    "id": "timezone",
+    "title": "时区与夏令时",
+    "stage": "chart",
+    "inputs": [
+     "input"
+    ],
+    "summary": "Asia/Shanghai，UTC+9，当时实行夏令时",
+    "facts": [
+     {
+      "label": "时区",
+      "value": "Asia/Shanghai"
+     },
+     {
+      "label": "当时的偏移",
+      "value": "540 分钟"
+     },
+     {
+      "label": "夏令时",
+      "value": "当时实行，计算时已扣除"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "method",
+      "id": null,
+      "title": "出生地的坐标定出时区",
+      "detail": "由经纬度查得所在时区；偏移取出生那一天当地实际实行的值（含历史上的夏令时）",
+      "derived": false,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "solar_time",
+    "title": "真太阳时",
+    "stage": "chart",
+    "inputs": [
+     "input",
+     "timezone"
+    ],
+    "summary": "民用 08:30 → 经度 +6.0 分 → 均时差 +3.7 分 → 真太阳时 07:39",
+    "facts": [
+     {
+      "label": "民用时间",
+      "value": "08:30"
+     },
+     {
+      "label": "经度修正",
+      "value": "+6.0 分（出生地经度与时区标准经线之差，每度 4 分钟，夏令时已先扣除）"
+     },
+     {
+      "label": "均时差",
+      "value": "+3.7 分（真太阳与平均太阳每天不同步的差）"
+     },
+     {
+      "label": "真太阳时",
+      "value": "07:39，用来定日柱与时柱"
+     },
+     {
+      "label": "跨过柱的边界",
+      "value": "否"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "method",
+      "id": null,
+      "title": "真太阳时 = 民用时间 − 夏令时 + 经度修正 + 均时差",
+      "detail": "均时差用 Meeus《天文算法》第 28 章的公式计算；这是天文计算，不来自典籍",
+      "derived": false,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "solar_term",
+    "title": "节气与月令",
+    "stage": "chart",
+    "inputs": [
+     "input",
+     "timezone"
+    ],
+    "summary": "「立夏」后 11.2 天，月令取「立夏」",
+    "facts": [
+     {
+      "label": "前一个节气",
+      "value": "立夏，1990-05-06 03:35（已过 11.2 天）"
+     },
+     {
+      "label": "后一个节气",
+      "value": "小满，1990-05-21 16:37（还有 4.3 天）"
+     },
+     {
+      "label": "月令",
+      "value": "取「立夏」（开启本月的那个节）"
+     },
+     {
+      "label": "节气用哪个时间判定",
+      "value": "民用时间，不用真太阳时：节气是全球同一个天文时刻"
+     },
+     {
+      "label": "是否接近交节",
+      "value": "否"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "table",
+      "id": null,
+      "title": "二十四节气，节开启月柱",
+      "detail": "二十四节气的次序，哪些是「节」（开启一个月柱）、各对应哪个月支",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论阴阳生死",
+       "quotation": "十二月令人元司令分野表\n\n寅月 立春后戊土七日,丙火七日,甲木十六日 立春 雨水\n\n卯月 惊蛰后甲木十日,乙木二十日 惊蛰 春分\n\n辰月 清明后乙木九日,癸水三日,戊土十八日 清明 谷雨\n\n巳月 立夏后戊土五日,庚金九日,丙火十六日 立夏 ……",
+       "kb_url": "https://luckclub.cn/bazi/002/005/"
+      }
+     },
+     {
+      "kind": "method",
+      "id": null,
+      "title": "节气的时刻",
+      "detail": "太阳黄经每 15 度一个节气，起点立春为 315 度；用天文历表求出太阳到达该黄经的时刻",
+      "derived": false,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "pillars",
+    "title": "四柱",
+    "stage": "chart",
+    "inputs": [
+     "input",
+     "solar_term",
+     "solar_time"
+    ],
+    "summary": "庚午 辛巳 壬午 甲辰；日主壬水",
+    "facts": [
+     {
+      "label": "年柱",
+      "value": "庚午"
+     },
+     {
+      "label": "月柱",
+      "value": "辛巳"
+     },
+     {
+      "label": "日柱",
+      "value": "壬午"
+     },
+     {
+      "label": "时柱",
+      "value": "甲辰"
+     },
+     {
+      "label": "日主",
+      "value": "壬水（日柱的天干）"
+     },
+     {
+      "label": "年柱、月柱的依据",
+      "value": "按民用时间所在的节气：年以立春为界，月以「立夏」所开启的月（巳月）"
+     },
+     {
+      "label": "日柱、时柱的依据",
+      "value": "按真太阳时：日从 23:00 起算次日，时按两小时一个时辰"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "table",
+      "id": null,
+      "title": "五虎遁月：由年干定出寅月的天干，其后每月顺推",
+      "detail": "月柱的天干",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "卷二",
+       "quotation": "甲已之年丙作首,乙庚之歲戊為頭,丙辛之歲尋庚上,丁壬壬位順行流,更有戊癸何處起?甲寅之上",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "五鼠遁时：由日干定出子时的天干，其后每个时辰顺推",
+      "detail": "时柱的天干",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "卷二",
+       "quotation": "甲己還加甲,乙庚丙作初,丙辛從戊起,丁壬庚子居,戊癸何方發?壬子是直途",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "天干地支的次序，及各天干的五行、阴阳",
+      "detail": "六十甲子的排列",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "卷二",
+       "quotation": "東方甲乙木畏西方庚辛金克。甲屬陽為兄,乙屬陰為妹",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "convention",
+      "id": null,
+      "title": "六十甲子的起点",
+      "detail": "年柱以 1984 年为甲子、日柱以 2000-01-01 为戊午 起算。六十甲子纪年的一个已知点（1984 年为甲子年）；知识库只讲干支次序，不讲某公历年是哪一年。test_pillars 对照 lunar-python 的 1900–2100 年验证。",
+      "derived": true,
+      "source": null
+     },
+     {
+      "kind": "convention",
+      "id": null,
+      "title": "23:00 换日",
+      "detail": "23:00 换日（早晚子时不分，23 点起算次日），是流派选择，见交接文档 T3；《三命通会》论遁月日时只说「遁时从日」，没有说换日的钟点。",
+      "derived": true,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "structure",
+    "title": "藏干与十神",
+    "stage": "structure",
+    "inputs": [
+     "pillars"
+    ],
+    "summary": "年午藏丁己；月巳藏丙庚戊；日午藏丁己；时辰藏戊乙癸",
+    "facts": [
+     {
+      "label": "年柱 午",
+      "value": "丁（本气·正财）、己（中气·正官）"
+     },
+     {
+      "label": "月柱 巳",
+      "value": "丙（本气·偏财）、庚（中气·偏印）、戊（余气·七杀）"
+     },
+     {
+      "label": "日柱 午",
+      "value": "丁（本气·正财）、己（中气·正官）"
+     },
+     {
+      "label": "时柱 辰",
+      "value": "戊（本气·七杀）、乙（中气·伤官）、癸（余气·劫财）"
+     },
+     {
+      "label": "年柱天干 庚",
+      "value": "偏印"
+     },
+     {
+      "label": "月柱天干 辛",
+      "value": "正印"
+     },
+     {
+      "label": "日柱天干 壬",
+      "value": "日主"
+     },
+     {
+      "label": "时柱天干 甲",
+      "value": "食神"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "table",
+      "id": null,
+      "title": "地支藏干：每个地支藏哪几个天干",
+      "detail": "渊海子平的藏遁歌",
+      "derived": false,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "第1部分",
+       "quotation": "子宮癸水在其中,丑癸辛金己土同;寅宮甲木兼丙戊,卯宮乙木獨相逢。辰藏乙戊三分癸,巳中庚金丙戊叢;午宮丁火並己土,未宮乙己丁共宗。申位庚金壬水戊,酉宮辛金獨豐隆;戌宮辛金及丁戊,亥藏壬甲是真蹤。",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=296619"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "本气、中气、余气的次序",
+      "detail": "按十二月令人元司令分野表里各干当令的日数由多到少",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论阴阳生死",
+       "quotation": "十二月令人元司令分野表\n\n寅月 立春后戊土七日,丙火七日,甲木十六日 立春 雨水\n\n卯月 惊蛰后甲木十日,乙木二十日 惊蛰 春分\n\n辰月 清明后乙木九日,癸水三日,戊土十八日 清明 谷雨\n\n巳月 立夏后戊土五日,庚金九日,丙火十六日 立夏 ……",
+       "kb_url": "https://luckclub.cn/bazi/002/005/"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "五行相生相克",
+      "detail": "十神由日主与他字的五行生克关系定出",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论阴阳生克",
+       "quotation": "木生火,火生土,土生金,金生水,水复生木",
+       "kb_url": "https://luckclub.cn/bazi/002/004/"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "十神：他干与日主的五行关系 × 阴阳同异",
+      "detail": "比肩、劫财、食神、伤官、偏财、正财、七杀、正官、偏印、正印",
+      "derived": false,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "第1部分",
+       "quotation": "五干屬陽,喜合。\n\n以甲為例★見甲:為比肩、兄弟。\n\n見乙:為劫財、敗財,克父及妻。\n\n見丙:為食神、天廚、壽星,為男。\n\n見丁",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=296619"
+      }
+     }
+    ]
+   },
+   {
+    "id": "elements",
+    "title": "五行占比",
+    "stage": "structure",
+    "inputs": [
+     "structure"
+    ],
+    "summary": "木12% 火38% 土12% 金25% 水12%",
+    "facts": [
+     {
+      "label": "木",
+      "value": "1 / 8（12.5%）"
+     },
+     {
+      "label": "火",
+      "value": "3 / 8（37.5%）"
+     },
+     {
+      "label": "土",
+      "value": "1 / 8（12.5%）"
+     },
+     {
+      "label": "金",
+      "value": "2 / 8（25.0%）"
+     },
+     {
+      "label": "水",
+      "value": "1 / 8（12.5%）"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "method",
+      "id": null,
+      "title": "五行的统计",
+      "detail": "八个字各记一次：四个天干按各自的五行，四个地支按本气的五行；这是展示用的占比，诊断读藏干，不用它",
+      "derived": false,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "factors",
+    "title": "五因子打分",
+    "stage": "strength",
+    "inputs": [
+     "structure"
+    ],
+    "summary": "得令 0.25　得地 0.33　得势 0.67　得助 0.1　克泄耗 0.625",
+    "facts": [
+     {
+      "label": "得令",
+      "value": "月令巳（本气属火）与日主（水）的关系为囚，得 0.25，得 0.25"
+     },
+     {
+      "label": "得地",
+      "value": "月支以外的地支藏干中与日主同五行者共 1 处，最深为余气，得 0.33，得 0.33"
+     },
+     {
+      "label": "得势",
+      "value": "日主以外的天干：年干庚（偏印）、月干辛（正印）、时干甲（食神）；其中印、比劫 2 个，得 0.67，得 0.67"
+     },
+     {
+      "label": "得助",
+      "value": "地支藏干共 10 个，生日主者（印）1 个，1 ÷ 10 = 0.1，得 0.1"
+     },
+     {
+      "label": "克泄耗",
+      "value": "八字中克泄耗日主者（官杀、财、食伤）5 个，5 ÷ 8 = 0.625（阻力权重为负），得 0.625"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-DELING-04",
+      "title": "该五行克月令五行",
+      "detail": "日主去克出生月份的五行，力量被牵制。",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "論五行旺相休囚死並寄生十二宮",
+       "quotation": "金乃木之鬼,被火克制,不能施設,故金囚",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-DEDI-03",
+      "title": "日主五行在月支以外的地支藏干中仅为余气",
+      "detail": "月支以外的地支里，只有最弱的一层藏干与日主同五行，日主扎根较浅。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论十干得时不旺失时不弱",
+       "quotation": "墓库余气,根之轻者也",
+       "kb_url": "https://luckclub.cn/bazi/002/008/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-DESHI-02",
+      "title": "日主之外的三个天干中，透出印或比劫的有 2 个",
+      "detail": "其余三个天干里，有 2 个是帮扶日主的（印或比劫）。",
+      "derived": true,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论十干得时不旺失时不弱",
+       "quotation": "比劫印绶通根扶助为党众",
+       "kb_url": "https://luckclub.cn/bazi/002/008/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-DEZHU-01",
+      "title": "地支藏干中生日主者（印）所占比例",
+      "detail": "看地支藏干里生日主的（印）占多少，占的比例越高，日主得到的助力越多。",
+      "derived": true,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论印绶",
+       "quotation": "印绶喜其生身",
+       "kb_url": "https://luckclub.cn/bazi/002/037/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-KEXIE-01",
+      "title": "八字中克泄耗日主者（官杀、财、食伤）所占比例",
+      "detail": "看八个字里克日主、消耗日主的（官杀、财、食伤）占多少，占的比例越高，日主被消耗得越多。",
+      "derived": true,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "玄机赋",
+       "quotation": "身旺者,则宜泄、宜伤。身衰者,则喜扶、喜助",
+       "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-55"
+      }
+     }
+    ]
+   },
+   {
+    "id": "strength",
+    "title": "强弱融合",
+    "stage": "strength",
+    "inputs": [
+     "factors"
+    ],
+    "summary": "各因子贡献相加 = 0.32，落在「偏弱」一档",
+    "facts": [
+     {
+      "label": "得令",
+      "value": "0.25 × 0.5 = 0.12"
+     },
+     {
+      "label": "得地",
+      "value": "0.33 × 0.2 = 0.07"
+     },
+     {
+      "label": "得势",
+      "value": "0.67 × 0.1 = 0.07"
+     },
+     {
+      "label": "得助",
+      "value": "0.1 × 0.05 = 0.01"
+     },
+     {
+      "label": "克泄耗",
+      "value": "（1 − 0.625）× 0.15 = 0.06"
+     },
+     {
+      "label": "加权合计",
+      "value": "0.32"
+     },
+     {
+      "label": "所在档",
+      "value": "偏弱"
+     },
+     {
+      "label": "靠近强弱分界线",
+      "value": "否"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-WEIGHT-01",
+      "title": "标定所得的因子权重",
+      "detail": "得令 0.5 / 得地 0.2 / 得势 0.1 / 得助 0.05 / 克泄耗 -0.15",
+      "derived": true,
+      "source": null
+     },
+     {
+      "kind": "rule",
+      "id": "R-CUT-01",
+      "title": "标定所得的强弱切点（方案 A）",
+      "detail": "0.25 / 0.5 / 0.75 切分四档，强弱分界在 0.5",
+      "derived": true,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "pattern",
+    "title": "特殊格局检查",
+    "stage": "strength",
+    "inputs": [
+     "elements",
+     "pillars"
+    ],
+    "summary": "不成专旺、两气成象，按常规多因子判定",
+    "facts": [
+     {
+      "label": "五行占比",
+      "value": "木 1/8，火 3/8，土 1/8，金 2/8，水 1/8"
+     },
+     {
+      "label": "结论",
+      "value": "没有哪种特殊格局成立"
+     },
+     {
+      "label": "最终强弱",
+      "value": "偏弱"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-SHARE-01",
+      "title": "五行在命盘中的占比",
+      "detail": "占比 = 八个字（四天干，四地支各按本气）中属该五行的个数 ÷ 8",
+      "derived": true,
+      "source": null
+     },
+     {
+      "kind": "rule",
+      "id": "R-ZHUANWANG-01",
+      "title": "日主五行的三合局或三会方在四支中齐全（土：辰戌丑未至少三个），且日主五行占比不低于 5/8",
+      "detail": "专旺格（dominant_element）：顺其气势取用，不再用扶抑",
+      "derived": true,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论用神",
+       "quotation": "四柱之气势,偏于一方其势不可逆,惟有顺其气势为用,或从或化,及一方专旺等格局皆是也",
+       "kb_url": "https://luckclub.cn/bazi/002/010/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-LIANGQI-01",
+      "title": "两种五行各占一半，其余五行缺",
+      "detail": "两气成象（dual_qi_formation）：日主去生，取食伤秀气；情形见 R-LIANGQI-YS-*",
+      "derived": true,
+      "source": {
+       "book": "滴天髓阐微",
+       "chapter": "第1部分",
+       "quotation": "此造木火各半,兩氣成象",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=126492"
+      }
+     }
+    ]
+   },
+   {
+    "id": "fuyi",
+    "title": "扶抑",
+    "stage": "derivation",
+    "inputs": [
+     "strength",
+     "pattern"
+    ],
+    "summary": "日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）",
+    "facts": [
+     {
+      "label": "输入",
+      "value": "日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）"
+     },
+     {
+      "label": "用神",
+      "value": "金、水"
+     },
+     {
+      "label": "忌神",
+      "value": "土、木、火"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-FUYI-01",
+      "title": "日主强弱决定扶或抑",
+      "detail": "日主弱则扶，日主强则抑",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论用神",
+       "quotation": "日元强者抑之,日元弱者扶之",
+       "kb_url": "https://luckclub.cn/bazi/002/010/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-FUYI-02",
+      "title": "日主偏弱，取扶",
+      "detail": "取印与比劫（印以生之，劫以助之）",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论用神",
+       "quotation": "扶有二,印以生之,劫以助之是也",
+       "kb_url": "https://luckclub.cn/bazi/002/010/"
+      }
+     }
+    ]
+   },
+   {
+    "id": "tiaohou",
+    "title": "调候",
+    "stage": "derivation",
+    "inputs": [
+     "pillars",
+     "solar_term"
+    ],
+    "summary": "壬日主生巳月：《穷通宝鉴》先用壬水，次用辛金，次用庚金；即比劫、印",
+    "facts": [
+     {
+      "label": "输入",
+      "value": "壬日主生巳月：《穷通宝鉴》先用壬水，次用辛金，次用庚金；即比劫、印"
+     },
+     {
+      "label": "用神",
+      "value": "水、金"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-TIAOHOU-REN-SI",
+      "title": "日主壬水，生于四月（巳月）",
+      "detail": "调候用神（依次）：壬水、辛金、庚金",
+      "derived": false,
+      "source": {
+       "book": "穷通宝鉴",
+       "chapter": "第93章 四月壬水 · 原文",
+       "quotation": "专取壬水比肩为助,次取辛金发源",
+       "kb_url": "/data/sources/qiongtong-baojian.pdf#chapter-93-original"
+      }
+     }
+    ]
+   },
+   {
+    "id": "arbitration",
+    "title": "仲裁",
+    "stage": "derivation",
+    "inputs": [
+     "fuyi",
+     "tiaohou"
+    ],
+    "summary": "两法一致：调候用神（水、金）都在扶抑用神之内，两法一致：日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）",
+    "facts": [
+     {
+      "label": "结论",
+      "value": "两法一致"
+     },
+     {
+      "label": "理由",
+      "value": "调候用神（水、金）都在扶抑用神之内，两法一致：日主偏弱，取扶：用印、比劫（金、水），忌官杀、食伤、财（土、木、火）"
+     },
+     {
+      "label": "两种方法",
+      "value": "结论一致，无需裁决"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-ARB-00",
+      "title": "两法结论一致（调候用神都在扶抑用神之内）",
+      "detail": "无需取舍，取扶抑所得",
+      "derived": true,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "result",
+    "title": "用神与忌神",
+    "stage": "derivation",
+    "inputs": [
+     "arbitration"
+    ],
+    "summary": "用神 金、水；忌神 土、木、火",
+    "facts": [
+     {
+      "label": "用神",
+      "value": "金、水"
+     },
+     {
+      "label": "忌神",
+      "value": "土、木、火"
+     }
+    ],
+    "uses": []
+   },
+   {
+    "id": "luck",
+    "title": "大运起运",
+    "stage": "chart",
+    "inputs": [
+     "input",
+     "pillars",
+     "solar_term"
+    ],
+    "summary": "顺排，6 岁 7 个月起运",
+    "facts": [
+     {
+      "label": "方向",
+      "value": "顺排"
+     },
+     {
+      "label": "起运",
+      "value": "6 岁 7 个月"
+     },
+     {
+      "label": "依据",
+      "value": "阳年男命，大运顺排；出生距下一节（芒种）20.0 天，按三日折一年计，起运 6 岁 7 个月。"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "table",
+      "id": null,
+      "title": "阳男阴女顺行、阴男阳女逆行；数到下一个（上一个）节，三日折一岁",
+      "detail": "起运的岁数和大运的顺逆",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "卷二",
+       "quotation": "陽男陰女,大運以生日後未來節氣日時為數,順而行之;陰男陽女,大運以生日前過去節氣日時為數,逆而行之",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "table",
+      "id": null,
+      "title": "一月三百六十时折十岁",
+      "detail": "起运的换算",
+      "derived": false,
+      "source": {
+       "book": "三命通会",
+       "chapter": "卷二",
+       "quotation": "一月之中有三百六十時,折除節氣,算計三千六百日為一辰之十歲",
+       "kb_url": "https://ctext.org/wiki.pl?if=en&chapter=17423"
+      }
+     },
+     {
+      "kind": "convention",
+      "id": null,
+      "title": "展示 8 步大运",
+      "detail": "展示八步大运，是产品选择；古籍不限步数。",
+      "derived": true,
+      "source": null
+     }
+    ]
+   },
+   {
+    "id": "advisory",
+    "title": "倾向对照",
+    "stage": "advisory",
+    "inputs": [
+     "structure"
+    ],
+    "summary": "职业方向：官杀 4 处，财 3 处，食伤 2 处，比劫 1 处；学业方向：印 3 处，食伤 2 处；财运：财 3 处，食伤 2 处，比劫 1 处",
+    "facts": [
+     {
+      "label": "职业方向",
+      "value": "官杀 4 处，财 3 处，食伤 2 处，比劫 1 处"
+     },
+     {
+      "label": "学业方向",
+      "value": "印 3 处，食伤 2 处"
+     },
+     {
+      "label": "财运",
+      "value": "财 3 处，食伤 2 处，比劫 1 处"
+     }
+    ],
+    "uses": [
+     {
+      "kind": "rule",
+      "id": "R-ADV-CAREER-OFFICER",
+      "title": "职业方向：命局中出现官杀",
+      "detail": "正官是名分上该尊敬的，就像国家有君主、家里有长辈。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论正官",
+       "quotation": "正官者分所当尊,如在国有君,在家有亲",
+       "kb_url": "https://luckclub.cn/bazi/002/033/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-CAREER-WEALTH",
+      "title": "职业方向：命局中出现财",
+      "detail": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论财",
+       "quotation": "财为我克,使用之物也,以能生官,所以为美",
+       "kb_url": "https://luckclub.cn/bazi/002/035/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-CAREER-OUTPUT",
+      "title": "职业方向：命局中出现食伤",
+      "detail": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论伤官",
+       "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+       "kb_url": "https://luckclub.cn/bazi/002/043/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-CAREER-COMPANION",
+      "title": "职业方向：命局中出现比劫",
+      "detail": "财是人人想要的东西，兄弟（比劫）遇上它，常会起争夺。",
+      "derived": false,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "论劫财",
+       "quotation": "财者,人之所欲,方令弟兄见之,多有争竞",
+       "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-21"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-STUDY-RESOURCE",
+      "title": "学业方向：命局中出现印",
+      "detail": "所以主人多有智谋、思虑，也比较丰足厚实。",
+      "derived": false,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "论印绶",
+       "quotation": "故主人多智虑,兼丰厚",
+       "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-19"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-STUDY-OUTPUT",
+      "title": "学业方向：命局中出现食伤",
+      "detail": "伤官虽然不算吉神，却是一种聪秀之气，所以文人学者多出在伤官格里。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论伤官",
+       "quotation": "伤官虽非吉神,实为秀气,故文人学士,多于伤官格内得之",
+       "kb_url": "https://luckclub.cn/bazi/002/043/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-WEALTH-WEALTH",
+      "title": "财运：命局中出现财",
+      "detail": "财是日主所克、可以拿来使用的东西，又能生出官星，所以被看重。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论财",
+       "quotation": "财为我克,使用之物也,以能生官,所以为美",
+       "kb_url": "https://luckclub.cn/bazi/002/035/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-WEALTH-OUTPUT",
+      "title": "财运：命局中出现食伤",
+      "detail": "食神本来是在消耗日主之气，但它能生出正财，所以被看重。",
+      "derived": false,
+      "source": {
+       "book": "子平真诠评注",
+       "chapter": "论食神",
+       "quotation": "食神本属泄气,以其能生正财,所以喜之",
+       "kb_url": "https://luckclub.cn/bazi/002/039/"
+      }
+     },
+     {
+      "kind": "rule",
+      "id": "R-ADV-WEALTH-COMPANION",
+      "title": "财运：命局中出现比劫",
+      "detail": "弟遇到兄，兄能把弟的财夺走（比劫夺财）。",
+      "derived": false,
+      "source": {
+       "book": "渊海子平",
+       "chapter": "论劫财",
+       "quotation": "弟见兄,兄能劫弟之财",
+       "kb_url": "https://zh.wikisource.org/zh-hans/淵海子平#section-21"
+      }
+     }
+    ]
+   }
+  ],
+  "source_refs": [
+   {
+    "source_id": "sanming-tonghui",
+    "title": "三命通会",
+    "edition": "万民英",
+    "chapter": null,
+    "page": null,
+    "url": null
+   },
+   {
+    "source_id": "ziping-zhenquan",
+    "title": "子平真诠评注",
+    "edition": "沈孝瞻原著，徐乐吾评注",
+    "chapter": null,
+    "page": null,
+    "url": null
+   },
+   {
+    "source_id": "qiongtong-baojian",
+    "title": "穷通宝鉴",
+    "edition": "徐乐吾评注",
+    "chapter": null,
+    "page": null,
+    "url": null
+   },
+   {
+    "source_id": "yuanhai-ziping",
+    "title": "渊海子平",
+    "edition": null,
+    "chapter": null,
+    "page": null,
+    "url": null
+   }
+  ],
+  "meta": {
+   "mock": false,
+   "engine_version": "0.5.0",
+   "weight_set": "calibrated-1",
+   "rule_base": "R1.2",
+   "warnings": []
+  }
+ }
+}

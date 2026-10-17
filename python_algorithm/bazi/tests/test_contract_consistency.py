@@ -20,17 +20,30 @@ from pathlib import Path
 
 import pytest
 
+from bazi.tests._each import all_of
+
 from bazi.models.enums import (
+    ArbitrationOutcome,
+    DerivationMethod,
+    DISPLAY_ARBITRATION,
+    DISPLAY_LUCK_DIRECTION,
     DISPLAY_BRANCH,
+    DISPLAY_METHOD,
     DISPLAY_ELEMENT,
+    DISPLAY_FACTOR,
     DISPLAY_PATTERN,
+    DISPLAY_PILLAR,
     DISPLAY_STEM,
     DISPLAY_STRENGTH,
     DISPLAY_TEN_GOD,
     DayMasterStrength,
+    DISPLAY_SOLAR_TERM,
     EarthlyBranch,
     ElementKey,
+    EvidencePosition,
     HeavenlyStem,
+    LuckDirection,
+    SolarTerm,
     SpecialPattern,
     TenGod,
 )
@@ -81,7 +94,7 @@ def assert_same(label: str, ts: set[str], py: set[str]) -> None:
 # ------------------------------------------------------------------ #
 
 
-@pytest.mark.parametrize(
+@all_of(
     "type_name,enum_cls",
     [
         ("ElementKey", ElementKey),
@@ -90,6 +103,10 @@ def assert_same(label: str, ts: set[str], py: set[str]) -> None:
         ("TenGod", TenGod),
         ("DayMasterStrength", DayMasterStrength),
         ("SpecialPattern", SpecialPattern),
+        ("SolarTerm", SolarTerm),
+        ("DerivationMethod", DerivationMethod),
+        ("ArbitrationOutcome", ArbitrationOutcome),
+        ("LuckDirection", LuckDirection),
     ],
 )
 def test_enum_values_match(type_name, enum_cls):
@@ -107,16 +124,22 @@ DISPLAY_PAIRS = [
     ("TEN_GOD_LABEL", DISPLAY_TEN_GOD),
     ("STRENGTH_LABEL", DISPLAY_STRENGTH),
     ("PATTERN_LABEL", DISPLAY_PATTERN),
+    ("PILLAR_LABEL", DISPLAY_PILLAR),
+    ("FACTOR_LABEL", DISPLAY_FACTOR),
+    ("SOLAR_TERM_LABEL", DISPLAY_SOLAR_TERM),
+    ("METHOD_LABEL", DISPLAY_METHOD),
+    ("ARBITRATION_LABEL", DISPLAY_ARBITRATION),
+    ("LUCK_DIRECTION_LABEL", DISPLAY_LUCK_DIRECTION),
 ]
 
 
-@pytest.mark.parametrize("ts_name,py_map", DISPLAY_PAIRS)
+@all_of("ts_name,py_map", DISPLAY_PAIRS)
 def test_display_keys_match(ts_name, py_map):
     py_keys = {member.value for member in py_map}
     assert_same(f"{ts_name} keys", set(ts_record(ts_name)), py_keys)
 
 
-@pytest.mark.parametrize("ts_name,py_map", DISPLAY_PAIRS)
+@all_of("ts_name,py_map", DISPLAY_PAIRS)
 def test_display_labels_match(ts_name, py_map):
     """Same key rendering differently on each side is a visible inconsistency."""
     ts_labels = ts_record(ts_name)
@@ -125,3 +148,15 @@ def test_display_labels_match(ts_name, py_map):
             f"{ts_name}[{member.value}] is {ts_labels[member.value]!r} in display.ts "
             f"but {chinese!r} in enums.py"
         )
+
+
+def test_evidence_position_union_matches():
+    assert_same("EvidencePosition", ts_union("EvidencePosition"), {m.value for m in EvidencePosition})
+
+
+def test_trace_kinds_and_stages_match():
+    from typing import get_args
+
+    from bazi.models.bazi import TraceStep, TraceUse
+    assert_same("TraceUseKind", ts_union("TraceUseKind"), set(get_args(TraceUse.model_fields["kind"].annotation)))
+    assert_same("TraceStage", ts_union("TraceStage"), set(get_args(TraceStep.model_fields["stage"].annotation)))

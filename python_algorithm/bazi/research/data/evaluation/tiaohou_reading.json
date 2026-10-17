@@ -1,0 +1,97 @@
+{
+ "R-TIAOHOU-JIA-MAO": {
+  "verdict": "inferred",
+  "basis": "原文只说庚金得所成阳刃架煞（庚）；丁来自徐注「二月木旺，无庚克之，则用火泄之」，次序为归纳",
+  "sentence": "或二月甲木,庚金得所者,名阳刃架煞"
+ },
+ "R-TIAOHOU-JIA-WEI": {
+  "verdict": "agrees",
+  "basis": "六月：先丁后庚，无癸亦可（与五月「先癸后丁」同一段，所以段首次序不同）",
+  "sentence": "六月三伏生寒,丁火退气。先丁后庚,无癸亦可"
+ },
+ "R-TIAOHOU-YI-SI": {
+  "verdict": "agrees",
+  "basis": "专用癸水，丙火酌用（段首先提巳宫有丙火，只是背景）",
+  "sentence": "四月乙木,专用癸水,丙火酌用"
+ },
+ "R-TIAOHOU-DING-CHEN": {
+  "verdict": "agrees",
+  "basis": "原文：先用甲木，次看庚金；谷雨前后之分见徐注「谷雨之前，与二月一理共推；谷雨之后……甲木破土为先」",
+  "sentence": "三月丁火,戊土司令,泄弱丁气,先用甲木引丁制土,次看庚金"
+ },
+ "R-TIAOHOU-DING-WU": {
+  "verdict": "inferred",
+  "basis": "原文只取壬（隔位之壬）；癸、庚来自徐注「壬癸解炎」「必须庚金发水之源」，次序为归纳",
+  "sentence": "遇干透隔位之壬,不贪丁合"
+ },
+ "R-TIAOHOU-DING-YOU": {
+  "verdict": "agrees",
+  "basis": "三秋一段中的八月：甲丙庚皆用（段首是七月，所以先出现甲庚丙）",
+  "sentence": "八月甲丙庚皆用"
+ },
+ "R-TIAOHOU-WU-CHEN": {
+  "verdict": "agrees",
+  "basis": "甲木为先，取癸为佐；丙为佐",
+  "sentence": "三月戊土司令,甲木为先,取癸为佐"
+ },
+ "R-TIAOHOU-WU-XU": {
+  "verdict": "agrees",
+  "basis": "先看甲木，次取癸水；见金先用癸后取丙",
+  "sentence": "九月戊土当权……先看甲木,次取癸水"
+ },
+ "R-TIAOHOU-GENG-MAO": {
+  "verdict": "agrees",
+  "basis": "原文总论：专用丁火，次用甲木引丁，又须用庚劈甲（段首讲暗强之势，不列用神）",
+  "sentence": "总之,二月庚金,专用丁火以抑其强,次用甲木引丁,又须用庚劈甲"
+ },
+ "R-TIAOHOU-GENG-SI": {
+  "verdict": "agrees",
+  "basis": "先用壬水；次取戊土，丙火佐之",
+  "sentence": "宜先用壬水,方得中和……次取戊土,丙火佐之"
+ },
+ "R-TIAOHOU-GENG-SHEN": {
+  "verdict": "agrees",
+  "basis": "专用丁火煅炼，次取木引丁",
+  "sentence": "七月庚金,刚锐极矣。专用丁火煅炼,次取木引丁"
+ },
+ "R-TIAOHOU-XIN-CHEN": {
+  "verdict": "agrees",
+  "basis": "同一章后文：先壬后甲，壬甲两透（段首只讲戊土司令）",
+  "sentence": "三月辛金,先壬后甲,壬甲两透,富贵必然"
+ },
+ "R-TIAOHOU-XIN-SHEN": {
+  "verdict": "agrees",
+  "basis": "同一章后文：壬水为尊，甲戊酌用，癸不可用（段首讲庚秉令）",
+  "sentence": "壬水为尊,甲戊酌用可也,癸水不可为用"
+ },
+ "R-TIAOHOU-XIN-XU": {
+  "verdict": "agrees",
+  "basis": "须甲疏土，壬泄旺金，先壬后甲",
+  "sentence": "九月辛金,戊土司令……先壬后甲"
+ },
+ "R-TIAOHOU-XIN-ZI": {
+  "verdict": "agrees",
+  "basis": "原文：得丙壬两透；总之冬月辛金须丙温暖方妙（段首只讲忌癸出干）",
+  "sentence": "得丙壬两透,不见戊癸"
+ },
+ "R-TIAOHOU-REN-XU": {
+  "verdict": "agrees",
+  "basis": "同一章：九月壬水，专用甲木，次看丙火，戊土须酌用（段首是一个特定格局）",
+  "sentence": "九月壬水,专用甲木,次看丙火,戊土须酌用之"
+ },
+ "R-TIAOHOU-GUI-XU": {
+  "verdict": "agrees",
+  "basis": "专用辛金发癸水之源，次用癸甲；徐注以甲木为「不可缺之辅佐」，癸滋甲。原文「癸甲」连言，甲先于癸为按徐注的次序",
+  "sentence": "专用辛金发癸水之源,次用癸甲"
+ },
+ "R-TIAOHOU-YI-WU": {
+  "verdict": "agrees_split_inferred",
+  "basis": "上半月先癸次丙、下半月丙癸齐用，均是原文；以夏至为界是徐注的说法",
+  "sentence": "上半月属阳,先癸次丙;下半月属阴,三伏生寒,丙癸齐用"
+ },
+ "R-TIAOHOU-REN-CHOU": {
+  "verdict": "agrees_split_inferred",
+  "basis": "原文：上半月壬水稍旺专用丙火，下半月亦用丙火甲木佐之；以大寒为界是我们对上下半月的划分",
+  "sentence": "亦用丙火,甲木佐之"
+ }
+}

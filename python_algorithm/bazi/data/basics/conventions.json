@@ -1,0 +1,23 @@
+{
+ "note": "知识库里没有、因此手写的约定。每一项都说明为什么，并有测试对照 lunar-python 或其他事实。其余基础知识一律由 bazi.research.build_basics 从知识库原文解析生成。",
+ "year_anchor": {
+  "year": 1984,
+  "ganzhi": "甲子",
+  "why": "六十甲子纪年的一个已知点（1984 年为甲子年）；知识库只讲干支次序，不讲某公历年是哪一年。已与 lunar-python 在 1900–2100 年逐年核对。"
+ },
+ "day_anchor": {
+  "date": "2000-01-01",
+  "ganzhi": "戊午",
+  "why": "六十甲子纪日的一个已知点，知识库没有公历日期。已与 lunar-python 逐日核对。"
+ },
+ "day_change_hour": 23,
+ "day_change_why": "23:00 换日（早晚子时不分，23 点起算次日），是流派选择；《三命通会》论遁月日时只说「遁时从日」，没有说换日的钟点。",
+ "luck_cycles": 8,
+ "luck_cycles_why": "展示八步大运，是产品选择；古籍不限步数。",
+ "hidden_stem_order_override": {
+  "申": {
+   "order": "庚壬戊",
+   "why": "按分野表日数（戊己十日、壬三日）申应为庚戊壬；沿用通行次序庚壬戊（lunar-python 与万年历同）。依据：徐乐吾论阴阳生死「在申亥,寒湿虚浮,力量薄弱而无可用」，土寄生于申，力在壬之下。test_structure_crossval 对照 lunar-python 钉住此处。"
+  }
+ }
+}

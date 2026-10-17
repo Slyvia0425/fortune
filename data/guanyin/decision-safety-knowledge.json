@@ -1,0 +1,162 @@
+{
+  "version": "1.4.0",
+  "records": [
+    {
+      "id": "travel-reality-check",
+      "conceptId": "decision.travel",
+      "title": "出行与搬迁的现实核查",
+      "tagIds": [],
+      "domains": ["travel"],
+      "alwaysApply": true,
+      "keywords": ["出行条件", "安全健康", "可撤回安排"],
+      "content": "决定出行或搬迁前，应核实目的、交通与住宿、预算、同行与联络安排，以及安全、健康、照护和合同等现实条件。预订行程时可按条件确认程度分阶段安排，并优先选择可取消或可变更的选项。非紧迫搬迁可先查询、看房或制定备选方案；若存在安全、健康、照护或合同到期等紧迫原因，应以现实需要为先。",
+      "boundary": "该规则只提供现实核查框架，不预测旅程吉凶，也不把签文中的守旧、等待或时机表述当作必须出行或不得出行的命令。"
+    },
+    {
+      "id": "wasted-effort-stop-rule",
+      "conceptId": "risk.wasted_effort",
+      "title": "反复无效投入的止损与短周期验证",
+      "tagIds": ["risk.wasted_effort", "pattern.repeated_failure", "theme.effort_without_result"],
+      "domains": ["career", "wealth", "family", "marriage"],
+      "keywords": ["止损阈值", "短周期测试", "退出条件"],
+      "content": "当相同方法反复投入却没有形成可观察进展时，先暂停新增投入并记录已付成本。为调整后的方案设定短周期、可衡量的验证指标和能够承受的成本上限；达到指标再继续，未达到则缩减、暂停或退出，避免仅因已经投入很多而继续加码。",
+      "boundary": "这是控制追加投入的方法，不证明目标永远无法实现，也不要求忽略新证据或立即彻底放弃。"
+    },
+    {
+      "id": "career-decision-baseline",
+      "conceptId": "decision.career",
+      "title": "事业选择的分阶段验证",
+      "tagIds": [],
+      "domains": ["career"],
+      "alwaysApply": true,
+      "keywords": ["关键条件", "保留退路", "分阶段验证"],
+      "content": "处理求职、转岗、合作或创业选择时，先核实岗位职责、收入、稳定性、发展空间、成本与退出条件。优先通过咨询、投递、面试、试做或小范围合作验证，再根据现实反馈逐步决定，避免只凭签文作辞职或重投入等不可逆选择。",
+      "boundary": "该规则不证明某个机会真实或适合当事人，也不替代劳动合同、财务状况和个人承受能力的判断。"
+    },
+    {
+      "id": "family-decision-baseline",
+      "conceptId": "decision.family",
+      "title": "家庭事项的事实沟通与安全边界",
+      "tagIds": [],
+      "domains": ["family"],
+      "alwaysApply": true,
+      "keywords": ["具体事实", "家庭沟通", "现实安全"],
+      "content": "处理家庭分歧、照护或居住安排时，应先区分可核实事实、各方需求和情绪推测，通过明确沟通协商责任、时间和可接受边界。涉及暴力、健康、未成年人、老人照护或财产安全时，应优先寻求现实支持与专业帮助。",
+      "boundary": "不得把家宅不安、口舌或其他传统象征写成现实灾害或某位家庭成员必然造成伤害。"
+    },
+    {
+      "id": "relationship-decision-baseline",
+      "conceptId": "decision.relationship",
+      "title": "感情关系的沟通、同意与观察",
+      "tagIds": [],
+      "domains": ["marriage"],
+      "alwaysApply": true,
+      "keywords": ["双方意愿", "行为一致性", "持续同意"],
+      "content": "判断关系是否继续或推进，应依据双方明确表达、持续同意、实际行为是否一致，以及价值观和现实条件是否可协调。准备婚姻承诺时，应坦诚沟通价值观、财务安排、居住计划、家庭边界和时间预期，并通过一段时间的现实观察比较表达与行为，不以签文替代对方意愿，也不因吉凶倾向推动承诺、婚姻或分离。",
+      "boundary": "该规则不预测姻缘结果，不推断对方内心，也不能替代对控制、欺骗或暴力等现实风险的核实与求助。"
+    },
+    {
+      "id": "wealth-decision-baseline",
+      "conceptId": "decision.wealth",
+      "title": "财务选择的核实与损失控制",
+      "tagIds": [],
+      "domains": ["wealth"],
+      "alwaysApply": true,
+      "keywords": ["资金风险", "独立核实", "损失上限"],
+      "content": "面对投资、借贷、交易或较大支出，应独立核实主体、合同、费用、收益来源和退出条件，并先设定自己能够承担的损失上限。不要因签文吉凶、他人催促或收益承诺跳过必要核查，也不要投入生活必需资金。",
+      "boundary": "该规则不提供具体投资建议，不预测收益，也不替代持牌专业人士对合同、税务和风险的审查。"
+    },
+    {
+      "id": "health-decision-baseline",
+      "conceptId": "decision.health",
+      "title": "健康事项的现实观察与专业支持",
+      "tagIds": [],
+      "domains": ["health"],
+      "alwaysApply": true,
+      "keywords": ["症状记录", "专业评估", "紧急就医"],
+      "content": "健康问题应依据症状、持续时间、检查结果和专业医疗意见处理。可以记录变化并准备就诊信息；出现严重、快速恶化或紧急症状时应及时寻求医疗帮助，不因签文倾向延迟检查、停药或改变治疗。",
+      "boundary": "该规则不作诊断，不评价具体治疗方案；签文和传统资料不能替代医生或紧急医疗服务。"
+    },
+    {
+      "id": "opportunity-verification",
+      "conceptId": "decision.opportunity",
+      "title": "机会信息的低成本验证",
+      "tagIds": ["theme.opportunity"],
+      "domains": ["career", "wealth", "travel"],
+      "keywords": ["核实条件", "低成本试探", "保留退路"],
+      "content": "面对尚未证实的机会，先核实关键条件、成本、责任和退出方式。优先采用低成本、小范围、可撤回的测试，并保留现有稳定安排；只有验证结果支持继续时，才逐步扩大投入。",
+      "boundary": "这是现实决策安全规则，只约束验证和投入方式，不证明机会真实，也不保证结果成功。"
+    },
+    {
+      "id": "career-change-reversible-verification",
+      "conceptId": "decision.career_change",
+      "title": "职业转换的可逆验证",
+      "tagIds": ["theme.help_from_others", "pattern.obscured_then_clear", "theme.opportunity"],
+      "domains": ["career"],
+      "intents": ["career_change"],
+      "keywords": ["保留现职", "投递面试", "可逆验证"],
+      "content": "在新机会的岗位、薪资、稳定性、发展空间和录用条件得到独立确认前，优先保留现职。可以先投递、面试、试做或小范围合作，以低成本、可撤回的方式验证；比较现实结果和退出方案后，再决定是否辞职或转换职业。",
+      "boundary": "这是职业决策安全规则，不证明新机会存在或适合当事人，也不得因签文中的机会、贵人或转机倾向建议立即辞职。"
+    },
+    {
+      "id": "claim-source-verification",
+      "conceptId": "epistemic.verification",
+      "title": "消息与承诺的来源核查",
+      "tagIds": ["theme.deception", "risk.false_promise", "action.verify"],
+      "domains": ["career", "marriage", "wealth", "family", "travel"],
+      "keywords": ["消息来源", "承诺内容", "独立查证"],
+      "content": "对未经证实的消息或承诺，分别记录消息来源、原始内容、责任主体、兑现条件和可验证时间点，并通过独立渠道交叉核查。在关键事实确认前，不付款、不扩大投入，也不作不可逆承诺。",
+      "boundary": "缺少证据只表示尚未证实，不能据此断言对方欺骗或承诺必然落空。"
+    },
+    {
+      "id": "goal-calibration",
+      "conceptId": "risk.expectation_distortion",
+      "title": "目标校准与可衡量测试",
+      "tagIds": ["risk.goal_distortion"],
+      "domains": ["career", "marriage", "wealth", "family", "travel"],
+      "keywords": ["目标校准", "现实检验", "可衡量测试"],
+      "content": "把目标拆成可观察指标、时间范围和最低可接受结果，用短周期测试比较预期与实际反馈。如果关键假设持续不成立，应调整目标或方法，而不是仅凭投入时间继续加码。",
+      "boundary": "校准目标不等于认定目标错误，更不等于永久失败或必须放弃。"
+    },
+    {
+      "id": "uncertainty-observation",
+      "conceptId": "risk.uncertainty",
+      "title": "不确定条件的观察清单",
+      "tagIds": ["risk.uncertainty", "pattern.obscured_then_clear", "symbol.moon_cloud"],
+      "domains": ["career", "marriage", "wealth", "family", "travel"],
+      "keywords": ["待查事实", "观察条件", "重新评估"],
+      "content": "先列出尚未查明的事实、需要出现的条件和可接受的观察期限。在等待期间主动收集信息、验证关键假设，并在条件变化或期限到达时重新评估，而不是把不确定直接解释为吉凶结论。",
+      "boundary": "该规则说明如何处理信息不足，不预测局势一定转明，也不给出确定日期。"
+    },
+    {
+      "id": "new-beginning-reversible-plan",
+      "conceptId": "decision.new_beginning",
+      "title": "新开始与重建的可逆计划",
+      "tagIds": ["theme.new_beginning", "symbol.creation"],
+      "domains": ["career", "wealth", "family", "travel"],
+      "keywords": ["重建基础", "分阶段推进", "退出条件"],
+      "content": "开始新项目或重建现有安排前，先确认最低资源、现实约束和失败后的退出方案。把计划拆成可验证阶段，每一阶段达到条件后再继续，避免把‘重新开始’理解为结果必然改善。",
+      "boundary": "支持的是规划新起点的方法，不证明新计划正确，也不保证成功。"
+    },
+    {
+      "id": "relationship-consent",
+      "conceptId": "relationship.consent",
+      "title": "关系中的意愿、沟通与同意",
+      "tagIds": ["theme.relationship_harmony"],
+      "domains": ["marriage"],
+      "keywords": ["双方意愿", "明确沟通", "持续同意"],
+      "content": "关系是否推进，应以双方真实意愿、明确沟通、现实条件和持续同意为依据。任何传统和合倾向都不能代替其中一方的选择，也不能证明关系已经确定。",
+      "boundary": "这是关系安全规则，不预测姻缘结果，也不构成对任何一方意愿的推断。"
+    },
+    {
+      "id": "hidden-harm-protection",
+      "conceptId": "risk.harm",
+      "title": "潜在伤害的核实与保护",
+      "tagIds": ["risk.hidden_harm"],
+      "domains": ["career", "marriage", "wealth", "family", "travel"],
+      "keywords": ["核实风险", "保存证据", "寻求帮助"],
+      "content": "出现潜在伤害或安全疑虑时，先区分可验证事实、可疑线索和主观担忧；优先保护自身、限制损失、保存证据，并向可信人员、专业机构或正式渠道求助。",
+      "boundary": "安全措施不代表已经确认有人加害；遇到紧迫危险时应以现实安全和专业支持为先。"
+    }
+  ]
+}

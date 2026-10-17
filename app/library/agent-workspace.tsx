@@ -18,9 +18,9 @@ import {
   X,
 } from "lucide-react";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 
 import KnowledgeAgent from "./knowledge-agent";
+import BackNavigation from "../components/back-navigation";
 import { Module4ApiError, module4Api } from "@/lib/module4/api";
 import type {
   CollectionDraft,
@@ -332,9 +332,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     <main className="subpage">
       <section className="page-hero">
         <div className="page-shell">
-          <p className="crumb">
-            <Link href="/">首页</Link> ／ 个人知识库
-          </p>
+          <BackNavigation current="个人知识库" />
           <p className="kicker">PERSONAL KNOWLEDGE BASE</p>
           <h1 className="page-title">与你的知识库对话</h1>
           <p>收藏典籍段落、卦象、签文与个人笔记，再通过知识库智能体检索原文、上下文和来源。</p>
