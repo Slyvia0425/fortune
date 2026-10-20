@@ -254,6 +254,33 @@ export function cellNote(cell: ChartCell, dayMaster: ChartCell): CellNote {
   };
 }
 
+interface TenGodOccurrence {
+  tenGod: TenGod;
+  text: string;
+}
+
+/** Every appearance of a ten god: visible stems, then all hidden stems, pillar by pillar. */
+function tenGodOccurrences(pillars: BaziPillar[]): TenGodOccurrence[] {
+  const occurrences: TenGodOccurrence[] = [];
+  for (const pillar of pillars) {
+    const prefix = PILLAR_PREFIX[pillar.label];
+    if (pillar.ten_god) {
+      occurrences.push({
+        tenGod: pillar.ten_god,
+        text: `${prefix}干 ${STEM_LABEL[pillar.stem]} · ${TEN_GOD_LABEL[pillar.ten_god]}`,
+      });
+    }
+    for (const hidden of pillar.hidden_stems) {
+      const qi = hidden.qi === "primary" ? "" : `（${QI_LABEL[hidden.qi]}）`;
+      occurrences.push({
+        tenGod: hidden.ten_god,
+        text: `${prefix}支 ${BRANCH_LABEL[pillar.branch]} · 藏${STEM_LABEL[hidden.stem]}${qi} · ${TEN_GOD_LABEL[hidden.ten_god]}`,
+      });
+    }
+  }
+  return occurrences;
+}
+
 /** Occurrences of every ten-god group: visible stems plus all hidden stems. */
 export function tenGodPositions(pillars: BaziPillar[]): Record<TenGodGroup, string[]> {
   const positions: Record<TenGodGroup, string[]> = {
@@ -263,19 +290,38 @@ export function tenGodPositions(pillars: BaziPillar[]): Record<TenGodGroup, stri
     officer: [],
     resource: [],
   };
-  for (const pillar of pillars) {
-    const prefix = PILLAR_PREFIX[pillar.label];
-    if (pillar.ten_god) {
-      positions[TEN_GOD_GROUP[pillar.ten_god]].push(
-        `${prefix}干 ${STEM_LABEL[pillar.stem]} · ${TEN_GOD_LABEL[pillar.ten_god]}`,
-      );
-    }
-    for (const hidden of pillar.hidden_stems) {
-      const qi = hidden.qi === "primary" ? "" : `（${QI_LABEL[hidden.qi]}）`;
-      positions[TEN_GOD_GROUP[hidden.ten_god]].push(
-        `${prefix}支 ${BRANCH_LABEL[pillar.branch]} · 藏${STEM_LABEL[hidden.stem]}${qi} · ${TEN_GOD_LABEL[hidden.ten_god]}`,
-      );
-    }
+  for (const { tenGod, text } of tenGodOccurrences(pillars)) {
+    positions[TEN_GOD_GROUP[tenGod]].push(text);
   }
   return positions;
+}
+
+/** The canonical order of the ten gods, used to settle ties in the ranking. */
+const TEN_GOD_ORDER: TenGod[] = [
+  "friend",
+  "rob_wealth",
+  "eating_god",
+  "hurting_officer",
+  "indirect_wealth",
+  "direct_wealth",
+  "seven_killings",
+  "direct_officer",
+  "indirect_resource",
+  "direct_resource",
+];
+
+export interface TenGodRank {
+  tenGod: TenGod;
+  group: TenGodGroup;
+  count: number;
+  positions: string[];
+}
+
+/** All ten gods ranked by how many times they appear (same counting as the positions above); ties keep the canonical order. */
+export function tenGodRanking(pillars: BaziPillar[]): TenGodRank[] {
+  const occurrences = tenGodOccurrences(pillars);
+  return TEN_GOD_ORDER.map((tenGod) => {
+    const positions = occurrences.filter((o) => o.tenGod === tenGod).map((o) => o.text);
+    return { tenGod, group: TEN_GOD_GROUP[tenGod], count: positions.length, positions };
+  }).sort((a, b) => b.count - a.count);
 }

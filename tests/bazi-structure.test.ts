@@ -10,6 +10,7 @@ import {
   STEM_POLARITY,
   TEN_GOD_GROUP,
   tenGodPositions,
+  tenGodRanking,
 } from "../lib/bazi/structure";
 
 // 癸酉 辛酉 乙卯 丙子 — 日主乙木。每个值都按规则人工核对过。
@@ -155,5 +156,27 @@ describe("基础表", () => {
       return acc;
     }, {});
     expect(counts).toEqual({ wood: 2, fire: 2, earth: 4, metal: 2, water: 2 });
+  });
+});
+
+describe("十神排行", () => {
+  const ranking = tenGodRanking(SAMPLE);
+
+  it("十个十神都在，按出现次数从多到少", () => {
+    expect(ranking).toHaveLength(10);
+    const counts = ranking.map((item) => item.count);
+    expect([...counts].sort((a, b) => b - a)).toEqual(counts);
+    expect(ranking[0]).toMatchObject({ tenGod: "seven_killings", count: 3 });
+    expect(ranking[1]).toMatchObject({ tenGod: "indirect_resource", count: 2 });
+  });
+
+  it("次数相同时按十神的固定次序，未见的排在最后", () => {
+    expect(ranking.slice(2, 4).map((item) => item.tenGod)).toEqual(["friend", "hurting_officer"]);
+    expect(ranking.slice(4).every((item) => item.count === 0 && item.positions.length === 0)).toBe(true);
+  });
+
+  it("总数与按组统计的位置一致", () => {
+    const groups = Object.values(tenGodPositions(SAMPLE)).reduce((sum, list) => sum + list.length, 0);
+    expect(ranking.reduce((sum, item) => sum + item.count, 0)).toBe(groups);
   });
 });
