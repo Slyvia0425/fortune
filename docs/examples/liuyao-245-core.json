@@ -1,0 +1,632 @@
+{
+  "core_version": "liuyao-decoration-v1",
+  "calendar": {
+    "policy_id": "shanghai-jie-midnight-water-earth-v1",
+    "provider": "lunar-python==1.4.8",
+    "calendar_timezone": "Asia/Shanghai",
+    "display_timezone": "Asia/Hong_Kong",
+    "display_time": "2026-10-13T13:49:13.276541+08:00",
+    "calendar_time": "2026-10-13T13:49:13.276541+08:00",
+    "year_ganzhi": "丙午",
+    "month_ganzhi": "戊戌",
+    "month_branch": "戌",
+    "day_ganzhi": "庚申",
+    "day_branch": "申",
+    "day_stem": "庚",
+    "xun_start": "甲寅",
+    "empty_branches": [
+      "子",
+      "丑"
+    ],
+    "day_rollover": "00:00",
+    "month_rollover": "exact_jie",
+    "true_solar_time": false
+  },
+  "palace": {
+    "trigram": "震",
+    "element": "木",
+    "stage": "归魂",
+    "self_position": 3,
+    "response_position": 6
+  },
+  "main_lines": [
+    {
+      "ref": "main:1",
+      "position": 1,
+      "yin_yang_value": 7,
+      "yin_yang": "yang",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "子",
+      "ganzhi": "庚子",
+      "element": "水",
+      "kin": "parents",
+      "kin_name": "父母",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "白虎",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "死",
+        "month_relation": {
+          "element_relation": "controls",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generates",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": true,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": null
+    },
+    {
+      "ref": "main:2",
+      "position": 2,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "寅",
+      "ganzhi": "庚寅",
+      "element": "木",
+      "kin": "siblings",
+      "kin_name": "兄弟",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "玄武",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "囚",
+        "month_relation": {
+          "element_relation": "controlled_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "controls",
+          "same_branch": false,
+          "clash": true,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": true,
+        "xun_empty": false,
+        "month_life_stage": "养",
+        "day_life_stage": "绝",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": null
+    },
+    {
+      "ref": "main:3",
+      "position": 3,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "辰",
+      "ganzhi": "庚辰",
+      "element": "土",
+      "kin": "wealth",
+      "kin_name": "妻财",
+      "kin_basis": "primary_palace",
+      "position_role": "self",
+      "six_spirit": "青龙",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "旺",
+        "month_relation": {
+          "element_relation": "same",
+          "same_branch": false,
+          "clash": true,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": true,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": null
+    },
+    {
+      "ref": "main:4",
+      "position": 4,
+      "yin_yang_value": 7,
+      "yin_yang": "yang",
+      "age": "young",
+      "moving": false,
+      "stem": "丁",
+      "branch": "亥",
+      "ganzhi": "丁亥",
+      "element": "水",
+      "kin": "parents",
+      "kin_name": "父母",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "朱雀",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "死",
+        "month_relation": {
+          "element_relation": "controls",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generates",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": null
+    },
+    {
+      "ref": "main:5",
+      "position": 5,
+      "yin_yang_value": 9,
+      "yin_yang": "yang",
+      "age": "old",
+      "moving": true,
+      "stem": "丁",
+      "branch": "酉",
+      "ganzhi": "丁酉",
+      "element": "金",
+      "kin": "officials",
+      "kin_name": "官鬼",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "勾陈",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "相",
+        "month_relation": {
+          "element_relation": "generates",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "same",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "衰",
+        "day_life_stage": "临官",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": {
+        "line_ref": "transformed:5",
+        "return_relation": {
+          "element_relation": "same",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "life_stage_at_changed_branch": "临官"
+      }
+    },
+    {
+      "ref": "main:6",
+      "position": 6,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "丁",
+      "branch": "未",
+      "ganzhi": "丁未",
+      "element": "土",
+      "kin": "wealth",
+      "kin_name": "妻财",
+      "kin_basis": "primary_palace",
+      "position_role": "response",
+      "six_spirit": "螣蛇",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "旺",
+        "month_relation": {
+          "element_relation": "same",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "transformation": null
+    }
+  ],
+  "main_lines_complete": true,
+  "transformed_lines": [
+    {
+      "ref": "transformed:1",
+      "position": 1,
+      "yin_yang_value": 7,
+      "yin_yang": "yang",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "子",
+      "ganzhi": "庚子",
+      "element": "水",
+      "kin": "parents",
+      "kin_name": "父母",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "白虎",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "死",
+        "month_relation": {
+          "element_relation": "controls",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generates",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": true,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    },
+    {
+      "ref": "transformed:2",
+      "position": 2,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "寅",
+      "ganzhi": "庚寅",
+      "element": "木",
+      "kin": "siblings",
+      "kin_name": "兄弟",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "玄武",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "囚",
+        "month_relation": {
+          "element_relation": "controlled_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "controls",
+          "same_branch": false,
+          "clash": true,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": true,
+        "xun_empty": false,
+        "month_life_stage": "养",
+        "day_life_stage": "绝",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    },
+    {
+      "ref": "transformed:3",
+      "position": 3,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "辰",
+      "ganzhi": "庚辰",
+      "element": "土",
+      "kin": "wealth",
+      "kin_name": "妻财",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "青龙",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "旺",
+        "month_relation": {
+          "element_relation": "same",
+          "same_branch": false,
+          "clash": true,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": true,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    },
+    {
+      "ref": "transformed:4",
+      "position": 4,
+      "yin_yang_value": 7,
+      "yin_yang": "yang",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "午",
+      "ganzhi": "庚午",
+      "element": "火",
+      "kin": "offspring",
+      "kin_name": "子孙",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "朱雀",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "休",
+        "month_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "controlled_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "墓",
+        "day_life_stage": "病",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    },
+    {
+      "ref": "transformed:5",
+      "position": 5,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "申",
+      "ganzhi": "庚申",
+      "element": "金",
+      "kin": "officials",
+      "kin_name": "官鬼",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "勾陈",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "相",
+        "month_relation": {
+          "element_relation": "generates",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "same",
+          "same_branch": true,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "衰",
+        "day_life_stage": "临官",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    },
+    {
+      "ref": "transformed:6",
+      "position": 6,
+      "yin_yang_value": 8,
+      "yin_yang": "yin",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "戌",
+      "ganzhi": "庚戌",
+      "element": "土",
+      "kin": "wealth",
+      "kin_name": "妻财",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "螣蛇",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "旺",
+        "month_relation": {
+          "element_relation": "same",
+          "same_branch": true,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "冠带",
+        "day_life_stage": "长生",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      }
+    }
+  ],
+  "transformed_lines_complete": true,
+  "hidden_lines": [
+    {
+      "ref": "hidden:4",
+      "position": 4,
+      "yin_yang_value": 7,
+      "yin_yang": "yang",
+      "age": "young",
+      "moving": false,
+      "stem": "庚",
+      "branch": "午",
+      "ganzhi": "庚午",
+      "element": "火",
+      "kin": "offspring",
+      "kin_name": "子孙",
+      "kin_basis": "primary_palace",
+      "position_role": null,
+      "six_spirit": "朱雀",
+      "strength": {
+        "policy_id": "shanghai-jie-midnight-water-earth-v1",
+        "month_seasonal_label": "休",
+        "month_relation": {
+          "element_relation": "generated_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "day_relation": {
+          "element_relation": "controlled_by",
+          "same_branch": false,
+          "clash": false,
+          "combine": false
+        },
+        "month_break": false,
+        "day_clash": false,
+        "xun_empty": false,
+        "month_life_stage": "墓",
+        "day_life_stage": "病",
+        "overall_strength": null,
+        "overall_strength_status": "requires_contextual_rule_evaluation"
+      },
+      "flying_line_ref": "main:4",
+      "flying_to_hidden": {
+        "element_relation": "controls",
+        "same_branch": false,
+        "clash": false,
+        "combine": false
+      },
+      "usable": null,
+      "usability_status": "requires_rule_evaluation"
+    }
+  ],
+  "hidden_lines_complete": true,
+  "moving_line_interactions": [
+    {
+      "source_ref": "main:5",
+      "target_ref": "main:1",
+      "element_relation": "generates",
+      "same_branch": false,
+      "clash": false,
+      "combine": false
+    },
+    {
+      "source_ref": "main:5",
+      "target_ref": "main:2",
+      "element_relation": "controls",
+      "same_branch": false,
+      "clash": false,
+      "combine": false
+    },
+    {
+      "source_ref": "main:5",
+      "target_ref": "main:3",
+      "element_relation": "generated_by",
+      "same_branch": false,
+      "clash": false,
+      "combine": true
+    },
+    {
+      "source_ref": "main:5",
+      "target_ref": "main:4",
+      "element_relation": "generates",
+      "same_branch": false,
+      "clash": false,
+      "combine": false
+    },
+    {
+      "source_ref": "main:5",
+      "target_ref": "main:6",
+      "element_relation": "generated_by",
+      "same_branch": false,
+      "clash": false,
+      "combine": false
+    }
+  ],
+  "capability_gaps": [],
+  "interpretation_limits": [
+    "overall_strength_requires_rules",
+    "hidden_usability_requires_rules"
+  ]
+}

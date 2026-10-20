@@ -1,0 +1,3120 @@
+{
+  "description": "固定教学夹具真实输出摘录；不是完整API响应，不是新实测。请按集成契约包装。",
+  "chat_request": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "我是妻子，自己提供数字，问丈夫此次出行能否平安。"
+      }
+    ]
+  },
+  "cast_request": {
+    "question": "我是妻子，自己提供数字，问丈夫此次出行能否平安。",
+    "method": "three_numbers",
+    "numbers": [
+      1,
+      1,
+      1
+    ],
+    "request_id": "9bb61c5b-5747-4a53-996c-f4335b6d6456",
+    "timezone": "Asia/Hong_Kong"
+  },
+  "interpret_request": {
+    "chart_id": "4e355e39-754e-50ae-9d70-4a3b8303183c",
+    "chart_hash": "ec43e961eca3396f5ac1259cf1d45173f2ac3269d7f0ba27249ca2e21ae55171"
+  },
+  "core_facts": {
+    "core_version": "liuyao-decoration-v1",
+    "calendar": {
+      "policy_id": "shanghai-jie-midnight-water-earth-v1",
+      "provider": "lunar-python==1.4.8",
+      "calendar_timezone": "Asia/Shanghai",
+      "display_timezone": "Asia/Hong_Kong",
+      "display_time": "2026-10-11T12:00:00+08:00",
+      "calendar_time": "2026-10-11T12:00:00+08:00",
+      "year_ganzhi": "丙午",
+      "month_ganzhi": "戊戌",
+      "month_branch": "戌",
+      "day_ganzhi": "戊午",
+      "day_branch": "午",
+      "day_stem": "戊",
+      "xun_start": "甲寅",
+      "empty_branches": [
+        "子",
+        "丑"
+      ],
+      "day_rollover": "00:00",
+      "month_rollover": "exact_jie",
+      "true_solar_time": false
+    },
+    "palace": {
+      "trigram": "乾",
+      "element": "金",
+      "stage": "本宫",
+      "self_position": 6,
+      "response_position": 3
+    },
+    "main_lines": [
+      {
+        "ref": "main:1",
+        "position": 1,
+        "yin_yang_value": 9,
+        "yin_yang": "yang",
+        "age": "old",
+        "moving": true,
+        "stem": "甲",
+        "branch": "子",
+        "ganzhi": "甲子",
+        "element": "水",
+        "kin": "offspring",
+        "kin_name": "子孙",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "勾陈",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "死",
+          "month_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "controlled_by",
+            "same_branch": false,
+            "clash": true,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": true,
+          "xun_empty": true,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": {
+          "line_ref": "transformed:1",
+          "return_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": true
+          },
+          "life_stage_at_changed_branch": "衰"
+        }
+      },
+      {
+        "ref": "main:2",
+        "position": 2,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "甲",
+        "branch": "寅",
+        "ganzhi": "甲寅",
+        "element": "木",
+        "kin": "wealth",
+        "kin_name": "妻财",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "螣蛇",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "囚",
+          "month_relation": {
+            "element_relation": "controlled_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "generated_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "养",
+          "day_life_stage": "死",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": null
+      },
+      {
+        "ref": "main:3",
+        "position": 3,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "甲",
+        "branch": "辰",
+        "ganzhi": "甲辰",
+        "element": "土",
+        "kin": "parents",
+        "kin_name": "父母",
+        "kin_basis": "primary_palace",
+        "position_role": "response",
+        "six_spirit": "白虎",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "旺",
+          "month_relation": {
+            "element_relation": "same",
+            "same_branch": false,
+            "clash": true,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": true,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": null
+      },
+      {
+        "ref": "main:4",
+        "position": 4,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "午",
+        "ganzhi": "壬午",
+        "element": "火",
+        "kin": "officials",
+        "kin_name": "官鬼",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "玄武",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "休",
+          "month_relation": {
+            "element_relation": "generated_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "same",
+            "same_branch": true,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "墓",
+          "day_life_stage": "帝旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": null
+      },
+      {
+        "ref": "main:5",
+        "position": 5,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "申",
+        "ganzhi": "壬申",
+        "element": "金",
+        "kin": "siblings",
+        "kin_name": "兄弟",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "青龙",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "相",
+          "month_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "衰",
+          "day_life_stage": "沐浴",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": null
+      },
+      {
+        "ref": "main:6",
+        "position": 6,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "戌",
+        "ganzhi": "壬戌",
+        "element": "土",
+        "kin": "parents",
+        "kin_name": "父母",
+        "kin_basis": "primary_palace",
+        "position_role": "self",
+        "six_spirit": "朱雀",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "旺",
+          "month_relation": {
+            "element_relation": "same",
+            "same_branch": true,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        },
+        "transformation": null
+      }
+    ],
+    "main_lines_complete": true,
+    "transformed_lines": [
+      {
+        "ref": "transformed:1",
+        "position": 1,
+        "yin_yang_value": 8,
+        "yin_yang": "yin",
+        "age": "young",
+        "moving": false,
+        "stem": "辛",
+        "branch": "丑",
+        "ganzhi": "辛丑",
+        "element": "土",
+        "kin": "parents",
+        "kin_name": "父母",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "勾陈",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "旺",
+          "month_relation": {
+            "element_relation": "same",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": true,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      },
+      {
+        "ref": "transformed:2",
+        "position": 2,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "辛",
+        "branch": "亥",
+        "ganzhi": "辛亥",
+        "element": "水",
+        "kin": "offspring",
+        "kin_name": "子孙",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "螣蛇",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "死",
+          "month_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "controlled_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      },
+      {
+        "ref": "transformed:3",
+        "position": 3,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "辛",
+        "branch": "酉",
+        "ganzhi": "辛酉",
+        "element": "金",
+        "kin": "siblings",
+        "kin_name": "兄弟",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "白虎",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "相",
+          "month_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "衰",
+          "day_life_stage": "沐浴",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      },
+      {
+        "ref": "transformed:4",
+        "position": 4,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "午",
+        "ganzhi": "壬午",
+        "element": "火",
+        "kin": "officials",
+        "kin_name": "官鬼",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "玄武",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "休",
+          "month_relation": {
+            "element_relation": "generated_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "same",
+            "same_branch": true,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "墓",
+          "day_life_stage": "帝旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      },
+      {
+        "ref": "transformed:5",
+        "position": 5,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "申",
+        "ganzhi": "壬申",
+        "element": "金",
+        "kin": "siblings",
+        "kin_name": "兄弟",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "青龙",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "相",
+          "month_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "衰",
+          "day_life_stage": "沐浴",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      },
+      {
+        "ref": "transformed:6",
+        "position": 6,
+        "yin_yang_value": 7,
+        "yin_yang": "yang",
+        "age": "young",
+        "moving": false,
+        "stem": "壬",
+        "branch": "戌",
+        "ganzhi": "壬戌",
+        "element": "土",
+        "kin": "parents",
+        "kin_name": "父母",
+        "kin_basis": "primary_palace",
+        "position_role": null,
+        "six_spirit": "朱雀",
+        "strength": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "month_seasonal_label": "旺",
+          "month_relation": {
+            "element_relation": "same",
+            "same_branch": true,
+            "clash": false,
+            "combine": false
+          },
+          "day_relation": {
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "month_break": false,
+          "day_clash": false,
+          "xun_empty": false,
+          "month_life_stage": "冠带",
+          "day_life_stage": "胎",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation"
+        }
+      }
+    ],
+    "transformed_lines_complete": true,
+    "hidden_lines": [],
+    "hidden_lines_complete": true,
+    "moving_line_interactions": [
+      {
+        "source_ref": "main:1",
+        "target_ref": "main:2",
+        "element_relation": "generates",
+        "same_branch": false,
+        "clash": false,
+        "combine": false
+      },
+      {
+        "source_ref": "main:1",
+        "target_ref": "main:3",
+        "element_relation": "controlled_by",
+        "same_branch": false,
+        "clash": false,
+        "combine": false
+      },
+      {
+        "source_ref": "main:1",
+        "target_ref": "main:4",
+        "element_relation": "controls",
+        "same_branch": false,
+        "clash": true,
+        "combine": false
+      },
+      {
+        "source_ref": "main:1",
+        "target_ref": "main:5",
+        "element_relation": "generated_by",
+        "same_branch": false,
+        "clash": false,
+        "combine": false
+      },
+      {
+        "source_ref": "main:1",
+        "target_ref": "main:6",
+        "element_relation": "controlled_by",
+        "same_branch": false,
+        "clash": false,
+        "combine": false
+      }
+    ],
+    "capability_gaps": [],
+    "interpretation_limits": [
+      "overall_strength_requires_rules",
+      "hidden_usability_requires_rules"
+    ]
+  },
+  "hybrid_evidence": {
+    "knowledge_release_id": "text-release:d078192b3454d577a7c670ab8dcf8807fb20f71b7df9effee18c7926cc487c58",
+    "embedding_profile_id": "profile:39e6412a5b13c729c2d33c257f0459dca4e4cd91cfae98fea25696fe5a80965b",
+    "chart_id": "4e355e39-754e-50ae-9d70-4a3b8303183c",
+    "chart_hash": "ec43e961eca3396f5ac1259cf1d45173f2ac3269d7f0ba27249ca2e21ae55171",
+    "core_version": "liuyao-decoration-v1",
+    "method_profile_id": "zengshan-single-cast-v1",
+    "method_profile_version": "1",
+    "facts": {
+      "question": {
+        "original_question": "我是妻子，自己提供数字，问丈夫此次出行能否平安。",
+        "topic": "出行",
+        "subtopic": null,
+        "subject_mode": null,
+        "subject_relation": "丈夫",
+        "asked_object": "丈夫",
+        "goal": "是否平安",
+        "exam_type": null,
+        "time_scope": {
+          "raw": null,
+          "normalized": null
+        },
+        "field_evidence": {
+          "subject_relation": {
+            "quote": "丈夫",
+            "start": 13,
+            "end": 15,
+            "confirmed": true
+          }
+        },
+        "explicit_facts": {
+          "subject_relation": "丈夫",
+          "parsed_goal": "是否平安",
+          "parsed_topic": "出行",
+          "parsed_relation": "丈夫"
+        },
+        "ambiguities": []
+      },
+      "core": {
+        "core_version": "liuyao-decoration-v1",
+        "calendar": {
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "provider": "lunar-python==1.4.8",
+          "calendar_timezone": "Asia/Shanghai",
+          "display_timezone": "Asia/Hong_Kong",
+          "display_time": "2026-10-11T12:00:00+08:00",
+          "calendar_time": "2026-10-11T12:00:00+08:00",
+          "year_ganzhi": "丙午",
+          "month_ganzhi": "戊戌",
+          "month_branch": "戌",
+          "day_ganzhi": "戊午",
+          "day_branch": "午",
+          "day_stem": "戊",
+          "xun_start": "甲寅",
+          "empty_branches": [
+            "子",
+            "丑"
+          ],
+          "day_rollover": "00:00",
+          "month_rollover": "exact_jie",
+          "true_solar_time": false
+        },
+        "palace": {
+          "trigram": "乾",
+          "element": "金",
+          "stage": "本宫",
+          "self_position": 6,
+          "response_position": 3
+        },
+        "main_lines": [
+          {
+            "ref": "main:1",
+            "position": 1,
+            "yin_yang_value": 9,
+            "yin_yang": "yang",
+            "age": "old",
+            "moving": true,
+            "stem": "甲",
+            "branch": "子",
+            "ganzhi": "甲子",
+            "element": "水",
+            "kin": "offspring",
+            "kin_name": "子孙",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "勾陈",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "死",
+              "month_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "controlled_by",
+                "same_branch": false,
+                "clash": true,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": true,
+              "xun_empty": true,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": {
+              "line_ref": "transformed:1",
+              "return_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": true
+              },
+              "life_stage_at_changed_branch": "衰"
+            }
+          },
+          {
+            "ref": "main:2",
+            "position": 2,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "甲",
+            "branch": "寅",
+            "ganzhi": "甲寅",
+            "element": "木",
+            "kin": "wealth",
+            "kin_name": "妻财",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "螣蛇",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "囚",
+              "month_relation": {
+                "element_relation": "controlled_by",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "generated_by",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "养",
+              "day_life_stage": "死",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": null
+          },
+          {
+            "ref": "main:3",
+            "position": 3,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "甲",
+            "branch": "辰",
+            "ganzhi": "甲辰",
+            "element": "土",
+            "kin": "parents",
+            "kin_name": "父母",
+            "kin_basis": "primary_palace",
+            "position_role": "response",
+            "six_spirit": "白虎",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "旺",
+              "month_relation": {
+                "element_relation": "same",
+                "same_branch": false,
+                "clash": true,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": true,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": null
+          },
+          {
+            "ref": "main:4",
+            "position": 4,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "午",
+            "ganzhi": "壬午",
+            "element": "火",
+            "kin": "officials",
+            "kin_name": "官鬼",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "玄武",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "休",
+              "month_relation": {
+                "element_relation": "generated_by",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "same",
+                "same_branch": true,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "墓",
+              "day_life_stage": "帝旺",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": null
+          },
+          {
+            "ref": "main:5",
+            "position": 5,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "申",
+            "ganzhi": "壬申",
+            "element": "金",
+            "kin": "siblings",
+            "kin_name": "兄弟",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "青龙",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "相",
+              "month_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "衰",
+              "day_life_stage": "沐浴",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": null
+          },
+          {
+            "ref": "main:6",
+            "position": 6,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "戌",
+            "ganzhi": "壬戌",
+            "element": "土",
+            "kin": "parents",
+            "kin_name": "父母",
+            "kin_basis": "primary_palace",
+            "position_role": "self",
+            "six_spirit": "朱雀",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "旺",
+              "month_relation": {
+                "element_relation": "same",
+                "same_branch": true,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            },
+            "transformation": null
+          }
+        ],
+        "main_lines_complete": true,
+        "transformed_lines": [
+          {
+            "ref": "transformed:1",
+            "position": 1,
+            "yin_yang_value": 8,
+            "yin_yang": "yin",
+            "age": "young",
+            "moving": false,
+            "stem": "辛",
+            "branch": "丑",
+            "ganzhi": "辛丑",
+            "element": "土",
+            "kin": "parents",
+            "kin_name": "父母",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "勾陈",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "旺",
+              "month_relation": {
+                "element_relation": "same",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": true,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          },
+          {
+            "ref": "transformed:2",
+            "position": 2,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "辛",
+            "branch": "亥",
+            "ganzhi": "辛亥",
+            "element": "水",
+            "kin": "offspring",
+            "kin_name": "子孙",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "螣蛇",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "死",
+              "month_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "controlled_by",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          },
+          {
+            "ref": "transformed:3",
+            "position": 3,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "辛",
+            "branch": "酉",
+            "ganzhi": "辛酉",
+            "element": "金",
+            "kin": "siblings",
+            "kin_name": "兄弟",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "白虎",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "相",
+              "month_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "衰",
+              "day_life_stage": "沐浴",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          },
+          {
+            "ref": "transformed:4",
+            "position": 4,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "午",
+            "ganzhi": "壬午",
+            "element": "火",
+            "kin": "officials",
+            "kin_name": "官鬼",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "玄武",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "休",
+              "month_relation": {
+                "element_relation": "generated_by",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "same",
+                "same_branch": true,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "墓",
+              "day_life_stage": "帝旺",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          },
+          {
+            "ref": "transformed:5",
+            "position": 5,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "申",
+            "ganzhi": "壬申",
+            "element": "金",
+            "kin": "siblings",
+            "kin_name": "兄弟",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "青龙",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "相",
+              "month_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "controls",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "衰",
+              "day_life_stage": "沐浴",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          },
+          {
+            "ref": "transformed:6",
+            "position": 6,
+            "yin_yang_value": 7,
+            "yin_yang": "yang",
+            "age": "young",
+            "moving": false,
+            "stem": "壬",
+            "branch": "戌",
+            "ganzhi": "壬戌",
+            "element": "土",
+            "kin": "parents",
+            "kin_name": "父母",
+            "kin_basis": "primary_palace",
+            "position_role": null,
+            "six_spirit": "朱雀",
+            "strength": {
+              "policy_id": "shanghai-jie-midnight-water-earth-v1",
+              "month_seasonal_label": "旺",
+              "month_relation": {
+                "element_relation": "same",
+                "same_branch": true,
+                "clash": false,
+                "combine": false
+              },
+              "day_relation": {
+                "element_relation": "generates",
+                "same_branch": false,
+                "clash": false,
+                "combine": false
+              },
+              "month_break": false,
+              "day_clash": false,
+              "xun_empty": false,
+              "month_life_stage": "冠带",
+              "day_life_stage": "胎",
+              "overall_strength": null,
+              "overall_strength_status": "requires_contextual_rule_evaluation"
+            }
+          }
+        ],
+        "transformed_lines_complete": true,
+        "hidden_lines": [],
+        "hidden_lines_complete": true,
+        "moving_line_interactions": [
+          {
+            "source_ref": "main:1",
+            "target_ref": "main:2",
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          {
+            "source_ref": "main:1",
+            "target_ref": "main:3",
+            "element_relation": "controlled_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          {
+            "source_ref": "main:1",
+            "target_ref": "main:4",
+            "element_relation": "controls",
+            "same_branch": false,
+            "clash": true,
+            "combine": false
+          },
+          {
+            "source_ref": "main:1",
+            "target_ref": "main:5",
+            "element_relation": "generated_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          {
+            "source_ref": "main:1",
+            "target_ref": "main:6",
+            "element_relation": "controlled_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          }
+        ],
+        "capability_gaps": [],
+        "interpretation_limits": [
+          "overall_strength_requires_rules",
+          "hidden_usability_requires_rules"
+        ]
+      },
+      "candidates": {}
+    },
+    "query_plan": {
+      "original_question": "我是妻子，自己提供数字，问丈夫此次出行能否平安。",
+      "question_context": {
+        "original_question": "我是妻子，自己提供数字，问丈夫此次出行能否平安。",
+        "topic": "出行",
+        "subtopic": null,
+        "subject_mode": null,
+        "subject_relation": "丈夫",
+        "asked_object": "丈夫",
+        "goal": "是否平安",
+        "exam_type": null,
+        "time_scope": {
+          "raw": null,
+          "normalized": null
+        },
+        "field_evidence": {
+          "subject_relation": {
+            "quote": "丈夫",
+            "start": 13,
+            "end": 15,
+            "confirmed": true
+          }
+        },
+        "explicit_facts": {
+          "subject_relation": "丈夫",
+          "parsed_goal": "是否平安",
+          "parsed_topic": "出行",
+          "parsed_relation": "丈夫"
+        },
+        "ambiguities": []
+      },
+      "template_version": "question-template-v2.1",
+      "dictionary_version": "liuyao-search-terms-v1",
+      "queries": [
+        {
+          "text": "丈夫 对象关系 条件 取用",
+          "lane": "rule",
+          "purpose": "关系与对象分类",
+          "rule_types": [
+            "subject_relation",
+            "object_classification"
+          ],
+          "round": 0,
+          "provenance": [
+            {
+              "field": "subject_mode"
+            },
+            {
+              "field": "subject_relation"
+            }
+          ],
+          "query_id": "q1"
+        },
+        {
+          "text": "出行 专题 取用条件 例外",
+          "lane": "rule",
+          "purpose": "专题条件与例外",
+          "rule_types": [
+            "topic_override"
+          ],
+          "round": 0,
+          "provenance": [
+            {
+              "field": "topic"
+            }
+          ],
+          "query_id": "q2"
+        },
+        {
+          "text": "丈夫 出行 是否平安 我是妻子，自己提供数字，问丈夫此次出行能否平安。",
+          "lane": "case",
+          "purpose": "问事相似案例",
+          "rule_types": [],
+          "round": 0,
+          "provenance": [
+            {
+              "field": "subject_mode"
+            },
+            {
+              "field": "subject_relation"
+            },
+            {
+              "field": "topic"
+            },
+            {
+              "field": "goal"
+            }
+          ],
+          "query_id": "q3"
+        }
+      ],
+      "rejected_rewrites": [],
+      "rewrite_mode": "deterministic_templates",
+      "consumption": {
+        "unique_queries": 3,
+        "followup_rounds": 0,
+        "embedding_requests": 3,
+        "provider_usage": [
+          {
+            "prompt_tokens": 25,
+            "total_tokens": 25
+          },
+          {
+            "prompt_tokens": 25,
+            "total_tokens": 25
+          },
+          {
+            "prompt_tokens": 37,
+            "total_tokens": 37
+          }
+        ],
+        "elapsed_ms": 3855,
+        "token_count_source": "provider_usage_only",
+        "token_budget": null
+      }
+    },
+    "candidate_roles": [],
+    "selected_use": [],
+    "supporting_evidence": [],
+    "pending_conditions": [
+      {
+        "entity_revision_id": "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6",
+        "entity_id": "YS-OC-03",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:48dae958bd52d87414f0aca5a0fb383d",
+            "start": 10016,
+            "end": 10075,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "官鬼爻:占功名、官府、雷霆鬼神、妻占夫皆以官鬼爻為用神。占亂臣賊盜邪崇也以官鬼爻為用神,物類亦多,一切拘束我身者是也。",
+            "quote_hash": "4f5e24c7ee646d04c8ef30916e5d625303bba36bfd88316ee0463723f2f0ad91"
+          }
+        ],
+        "summary": "标题：官鬼类：功名、官府与妻问夫\n条件：目标为功名、官府，或关系明确为妻子问丈夫。\n动作：返回 category=官鬼，并区分目标是职位、机构还是人物。\n限制与例外：不把所有男性、上司、男朋友直接等同丈夫；现代关系另审。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 1
+        },
+        "rrf_score": 0.03278688524590164
+      },
+      {
+        "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+        "entity_id": "YS-TO-06",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:096f6539fc63fc59ea1f3e92b76da345",
+            "start": 23834,
+            "end": 23938,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "與六親同居用六親,與外人同居看應爻。世為己,應為人,世應相合相生,日月動爻生合世應者,彼此俱祥。克世我遭喪,克應他遭害,世克應,他畏于我,應克世我被他欺,刑沖者同。與六親同居,宜于財興用神相生,不宜相沖相克。",
+            "quote_hash": "1dc299679210e8f0e22868c58e2b060a5ba5e38502f968f5976d74b8596b783f"
+          }
+        ],
+        "summary": "标题：同居：亲属与外人分流\n条件：问题明确为与某人同居或共同居住，关系明确。\n动作：与六亲同居调用相应六亲；与外人同居看应；保留世为自身。\n限制与例外：不以“同居”词自动判定婚姻或恋爱关系。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 2
+        },
+        "rrf_score": 0.03252247488101534
+      },
+      {
+        "entity_revision_id": "entity-revision:04e5257585bc537bd79825c20d5f3eb49bbe1736b88023b54c8240db1a55ae51",
+        "entity_id": "YS-TO-04",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:84254843b76e5c72a91d762b2f5c0b03",
+            "start": 10551,
+            "end": 10613,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "問行人之歸期,有遠有近,遠則應月,近則應日,亦有去久,若在日下當歸,又可以日斷也。問行人之否泰,另占一卦,不可一卦而兼斷也。",
+            "quote_hash": "3178588adfdf793c3a14f678ab60eecf17a12696d00f297b99e3b3f185511b66"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:4495be14fec6f57a2f494a68727fdc78",
+            "start": 10615,
+            "end": 10870,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "世克用兮人未動,用爻克世必然歸。占親人在用神章中求之,疏者以應爻為用神,世克用神且無歸志,用神克世近日回家。予試果驗。墓絕空破,歸信杳然,明搖暗動,歸鞭發矣。伏藏才出現之日,動而逢合之日,動化進神不返,用神化退而歸,動逢合有事阻隔,動化鬼在外危災,最怕動而化克,還防卦變反吟。世爻空者行人卽至,用神靜逢休囚空破者且不思歸,動空旺空者實空沖空之月日必歸,惟恐卦變克絕及反吟卦,用神被克被沖者,皆難望其歸也。用神三合,沖開之月日而來。卦逢六沖,行人無定而不返。用爻墓者開墓之日,用爻無病可斷歸期,用爻有病在外不安。",
+            "quote_hash": "d0a0dc07e8796356464f6f60e84100d58648a8eb8095b55cd8f265ca8d3aaa89"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:025c2327b978f89aa31cfb8ef354141e",
+            "start": 10872,
+            "end": 10926,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "野鶴曰:用神墓絕空破受傷,謂之有病。來人問行人在外平安否,須看有病無病。若問歸期,只可看卦象來與不來而斷也。",
+            "quote_hash": "a588ae8499f204d2fc629e6c40214d86d39df76172aae108d70429a5d61db63f"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:2696066b89198dedb604a016a9d62d36",
+            "start": 11032,
+            "end": 11097,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "此卦若問父母平安否,父母卯木日月動爻沖克,必不安矣。今問其來否,不以此斷,只可斷用神伏藏也,克而不來,六合沖亦不來,後果在外平安。",
+            "quote_hash": "18c7918ada563dec23a0ecc8dab9242d60460528aa4dfd75adcb49fd9e9acbf1"
+          }
+        ],
+        "summary": "标题：行人：归期与平安不可互换\n条件：问题是人在外，目标为归来时间或是否平安。\n动作：亲属按六亲、疏者以应；同一候选按 goal=return 或 goal=safety 走不同解释规则。\n限制与例外：候选弱或受克不能在问归期时自动扩写伤亡；只回答用户明确目标。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:04e5257585bc537bd79825c20d5f3eb49bbe1736b88023b54c8240db1a55ae51",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 4,
+          "vector": 1
+        },
+        "rrf_score": 0.032018442622950824
+      },
+      {
+        "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+        "entity_id": "YS-OC-06",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:988345fe1279e1b8d4f8bd0072605d1c",
+            "start": 10242,
+            "end": 10358,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "子孫爻;占子孫、占女、女婿、侄、甥、門生凡在我子孫輩中皆以子孫爻為用神。占忠臣、良將、醫藥、僧、道、兵卒皆以子孫爻為用神。占六畜、禽獸亦以子孫爻為用神。子孫福德之神。為制鬼之神、為解憂之神、為剝官之神,諸事見之為喜,獨占功名者忌之。",
+            "quote_hash": "447a2b964c4b459305f3ac05afe76ac1727c0356998557f5e40a3726dafbf401"
+          }
+        ],
+        "summary": "标题：子孙类：晚辈与门生\n条件：目标为子女、孙辈、侄甥、女婿、门生等明列对象。\n动作：返回 category=子孙；记录具体关系，不仅存“晚辈”。\n限制与例外：不能仅凭年龄小判断关系；与对象无亲属或师生关系时不可自动套用。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 3,
+          "vector": 3
+        },
+        "rrf_score": 0.031746031746031744
+      },
+      {
+        "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+        "entity_id": "YS-TO-05",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": "passage:ed177640ac6ce423a7b0596a7486d2eb",
+            "start": 16991,
+            "end": 17065,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "父爻旺相,就而正焉。父母爻旣為師長,又為詩書。延師受教,卽以此爻為用神,宜旺相或臨日月及動而化吉。如若休囚空破絕及動而化凶,有素食之譏,無師資之益。",
+            "quote_hash": "ee8a7526f6151e89df70850644ea01a0083a5553e1b5e34665cf2a5cc09f8efb"
+          },
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": "passage:be1cd7b86bf6c0202a9ab727270e939a",
+            "start": 17067,
+            "end": 17119,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "世位相生,博約善誘。父旺生合世爻,成人有德,若克世爻,而世爻得地者,有責成之功。世若休囚,必受師尊之累。",
+            "quote_hash": "4f89e676575a19c1275c0bc5cf63575a9b50c7961c0ee5ff43663a6fe84fc611"
+          }
+        ],
+        "summary": "标题：延师：父母为师长与诗书\n条件：问题明确为请老师或从师学习。\n动作：父母标记主候选；世爻标记求学者；原文支持师长和诗书含义。\n限制与例外：课程、学校、证书、考试录取不是同一目标，须另审映射；不自动用本规则覆盖考试。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 2,
+          "vector": 5
+        },
+        "rrf_score": 0.0315136476426799
+      },
+      {
+        "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+        "entity_id": "YS-TO-03",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:c36f0601ee618d33d660f0f759c30b05",
+            "start": 98,
+            "end": 227,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "野鶴曰:見貴有兩間也,為名者用官,為利者用財,皆宜持世及生合世爻為吉,如逢空破,墓絕及動而變凶者,徒勞奔馳之力耳。倘若世爻化鬼化克及隨墓助傷者,更不宜行,若非到彼之凶,定在中途遇禍,凡謁貴者同斷。世動遇空,身興遇破,世動化空破者,勿曰不吉,乃應到彼之月日也。",
+            "quote_hash": "1cca8c6cc37d81f3c3b8ef87bd5ab14a3b2ee044db607a05158d4bca03bf1149"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:f2b1452a2285905c1d8badb86d955796",
+            "start": 398,
+            "end": 466,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "為名宜父動,因利忌兄興。凡與謁貴旣得世與官星相合相生,必然得見,若為名利,須宜另占,不可此卦而斷之,為名者宜父官兩旺,為利者宜財福兩旺。",
+            "quote_hash": "d010d5fef78d3546439b208b09179539b76ff1ab06a7d442bf8b856a3d94d519"
+          }
+        ],
+        "summary": "标题：谒贵：为名与为利分开\n条件：问题是见贵人，且实际目的明确。\n动作：为名取官，为利取财；见面能否、名利能否分别作为目标，拒绝凭见面成功推出得利。\n限制与例外：原文也提示另占名利；现代“见客户”仅可作为审核后的映射，不直接等于谒贵。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 3,
+          "vector": 4
+        },
+        "rrf_score": 0.03149801587301587
+      },
+      {
+        "entity_revision_id": "entity-revision:3aaa44b95247e81011f41ae7d99e12b9e57d14a4e8110931d247c03fe88330e2",
+        "entity_id": "YS-OC-05",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:ec0fc85c58f0fe2a88c5e7bc8fd1f647",
+            "start": 10187,
+            "end": 10240,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "妻財爻;占妻妾、婢、僕、役,我驅使之人皆以要財爻為用神。占貨財、珠寶、倉庫一切使用之財物亦以妻財爻為用神。",
+            "quote_hash": "9e506d1ae00761c1ecbb4f08128d34d0eab164be25cfcc6ffd7ee6fc48e3ccde"
+          }
+        ],
+        "summary": "标题：妻财类：妻与财物\n条件：目标为妻、财货、珠宝等明确对象。\n动作：返回 category=妻财；人物目标与钱物目标分别标记。\n限制与例外：古代婢仆身份不可直接映射现代雇员；原文“要財”为疑似错字，保留原文，不扩大自动匹配。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:3aaa44b95247e81011f41ae7d99e12b9e57d14a4e8110931d247c03fe88330e2",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 6,
+          "vector": 2
+        },
+        "rrf_score": 0.03128054740957967
+      },
+      {
+        "entity_revision_id": "entity-revision:5b8748efc36106d5107841c3b055dbce83ddb9e91782472d5523614b4ed4c4d5",
+        "entity_id": "YS-TO-01",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:007053bac5ad5048154689276db349f3",
+            "start": 4774,
+            "end": 5190,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "覺子曰:男家占女,不拘父母親朋而代占者,無不以財為用。女家占男,皆以官為用。用官者,官有生扶。用財者,財爻旺相,卽許婚。今見古今諸書文,以財旺傷克父母爻,不知宜財之旺而為吉也?宜財不旺而為吉也?或曰:黃金策云,翁姑不睦,皆因妻位交重。海底眼曰:財動喪雙親。易冒亦曰:妻財動父母參商。俱以財動傷克父母,未說旺也。予曰:動能傷父母,旺則不能傷耶?假令春天占卦,財爻屬木,謂之女命旺而可取,但父母爻定然屬土,如此當權得令之財爻不克休囚之父母耶?何必曰動?殊不知者人言動而不言旺者,正恐後人駁論,所以不言其旺,不得己而言動也,豈知亦被看破。或曰:據爾之論,何以為法?予曰:分占之法也。先要財官旺相,旣得吉卦,再占妨克父母,是其法也。黃金策專以應為妻位,易冒亦以應為妻,欲其旺相乃為賢良發福之女,又以應為女家父母,謂之應爻旺相,必是富貴之家,若休囚必宅貧寒之宅。執此論,則旺相賢良之女皆出于富貴之家?種種悖謬,予不知何以千百年來竟無一人道破。",
+            "quote_hash": "804a2e455ab558c9e21c49af4fcb8a563e38e5d8d7251a84951c4dd243951bde"
+          }
+        ],
+        "summary": "标题：婚姻代占按所问一方取财官\n条件：男家问女方或女家问男方，且处于原文婚姻语境。\n动作：男家问女以财、女家问男以官；代问者是父母亲朋不自动改取父母或兄弟。\n限制与例外：现代性别与关系不能硬套，无法对应时请求人工映射；只定位角色，不输出价值判断。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:5b8748efc36106d5107841c3b055dbce83ddb9e91782472d5523614b4ed4c4d5",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 7,
+          "vector": 3
+        },
+        "rrf_score": 0.030798389007344232
+      },
+      {
+        "entity_revision_id": "entity-revision:6680a6463b9ea4214354f7631c45538fa62975358b65b427135d08e90eb2d213",
+        "entity_id": "final-case:192-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:192-1",
+          "case_group_id": "case-group:192",
+          "reading_id": "reading:192-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "missing",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 9094,
+            "end": 9370,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "如子月乙亥日占妻孕平安否得豐之小過卦\n\n官鬼戌土⚋  官鬼戌土⚋\n\n父母申金⚋世 父母申金⚋\n\n妻財午火⚊  妻財午火⚊\n\n兄弟亥水⚊  父母申金⚊\n\n官鬼丑土⚋應 妻財午火⚋\n\n子孫卯木○  官鬼辰土⚋\n\n斷曰:午火妻財臨月破,又被亥日克之,冬天之火囚被克,全無生扶,命之難保。彼曰:卯木子孫,動而生火,何謂全無生扶?予曰:卯木子孫動而變鬼,神曰:母子皆喪。非生火之卯木也。斷卦者須以知機,會神之意。彼又曰:財𨿽不旺,卯木子孫得子月亥日以生之,何謂子亦難保。予曰:變鬼之子孫,縱臨日月亦無益矣。\n\n卦得六沖,子旺財彊終是喜。爻逢六合,財空子破亦為憂。",
+            "quote_hash": "6f09437bb893f3c729c92969dec602beb9ddd404892afc6cc7a58afc13cdc5f4"
+          }
+        ],
+        "summary": "如子月乙亥日占妻孕平安否",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 2,
+          "vector": 2
+        },
+        "rrf_score": 0.03225806451612903
+      },
+      {
+        "entity_revision_id": "entity-revision:bd902d46955c8515fb35a5e907ad1cc1b6cc2a080ca8b8a55a7774e7c681aa87",
+        "entity_id": "final-case:179-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:179-1",
+          "case_group_id": "case-group:179",
+          "reading_id": "reading:179-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "present",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 229,
+            "end": 754,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "如申月丁卯日占出行謁見貴人得同人\n\n子孫戌土⚊應\n\n妻財申金⚊\n\n兄弟午火⚊\n\n官鬼亥水⚊世\n\n子孫丑土⚋\n\n父母卯木⚊\n\n斷曰:官星持世而空,出亥日得見,官府財利如心,果于出空之日見官,財利得意,月建財爻生世之故耳,官世相合,財動相生,財持世,官無缺陷,再得日月照臨,彼此緣投有幸。日月照臨者,日月生世生財,或世爻財爻而臨日月是也。\n\n為名宜父動,因利忌兄興。凡與謁貴旣得世與官星相合相生,必然得見,若為名利,須宜另占,不可此卦而斷之,為名者宜父官兩旺,為利者宜財福兩旺。\n\n六合六沖須看用,反吟化退枉奔馳。爻逢六合亦要用神旺相,世與財官相合乃為吉兆,卦逢六沖必須用神受克失陷始作凶徵。卦得反吟及世動化退多見難于行動,勉彊而去,空返而歸。\n\n貴人謁貴宜世應以相生,平人見貴宜官貴而相合。貴人謁貴人,宜于世應相合相生,平人見貴人,宜官貴相合相生及官星持世\n\n覺子曰:有心而問見貴求名者,官星持世生世必得官。有心問謁貴者,官星生世合世而得見,切勿以此得見貴人之官星換作成名而斷也。\n\n貴人謁貴,世應若相沖克,財伏而空,去之何益?\n\n平人見貴,官克世世變鬼變克更凶。平人見貴,官克世變鬼變克勿去,去則須防不測,財官生世合世為吉。凡出行求財謁貴出行章參看。",
+            "quote_hash": "1463fef24de958f46191e48af16655ec5ddce7fef7b6de261c021b46429bf25b"
+          }
+        ],
+        "summary": "如申月丁卯日占出行謁見貴人",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 25
+        },
+        "rrf_score": 0.02815814850530376
+      },
+      {
+        "entity_revision_id": "entity-revision:023508f41583b2ad9988e8c0d20acfbc9af4232217d379d7847c3450bb3992fc",
+        "entity_id": "final-case:198-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:198-1",
+          "case_group_id": "case-group:198",
+          "reading_id": "reading:198-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "present",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 11566,
+            "end": 11957,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "亥月甲子日占夫在外還往他省去否得大壯之大過\n\n子孫申金ㄨ  子孫酉金⚊\n\n父母午火⚊世 妻財亥水⚊\n\n斷曰:妻占夫官為用神,申動克之,寅木夫爻受克不往他處去矣。不日必回。彼曰:何以其回也。予曰:日月生扶,夫生世爻必有歸志。問曰:何日可到。予曰:巳日必到,應巳日者,合住申金之日也。果于巳日到。或曰:用爻有病,莫問歸期,此卦申金化進神以克寅木,如何許回?予曰:彼問夫之平安,卽以不利斷之,今加往他處去否,夫爻受到制,不往他鄕,斷卦者各有取用耳。\n\n予于戌月丙戌日由江右登舟占一路平安否得蠱之巽\n\n兄弟寅木⚊應 兄弟卯木⚊\n\n父母子水ㄨ  子孫巳火⚊\n\n妻財戌土⚋  妻財未土⚋\n\n予疑酉金鬼爻持世,一路憂疑之象,初不知風阻之說也,及至戊子日,風雨大作,舟泊南康,始悟此卦,子水父動,子日之風雨也,見其化出巳火子孫,卽知巳日方晴,果泊五日,巳日天晴得風順矣,自此始悟子孫乃行舟之順風也。",
+            "quote_hash": "f0e19a5fce8d7672b529a71e6b17cfa5bcf3d7f23f2bd4bf93de5401954f47a9"
+          }
+        ],
+        "summary": "亥月甲子日占夫在外還往他省去否",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "vector": 1
+        },
+        "rrf_score": 0.01639344262295082
+      },
+      {
+        "entity_revision_id": "entity-revision:01a7e900a85af2530c576f9cc31960d3b08639ff4228fc1b907733a29daa1d3f",
+        "entity_id": "final-case:153-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:153-1",
+          "case_group_id": "case-group:153",
+          "reading_id": "reading:153-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "missing",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": null,
+            "start": 13610,
+            "end": 14065,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "酉月辛巳日占夫婦將來和俁否?得泰卦\n\n子孫酉金⚋應\n\n妻財亥水⚋\n\n兄弟辰土⚊世\n\n兄爻持世以克妻財,幸財爻亥水酉金生之,財旺難于克害。彼曰:目下不和,將來和好否?予曰:巳日沖動亥水,又臨驛馬,妻財臨馬而暗動,心去難畱,生離之象。此人自此之彼,常為此事而占,十有餘次,若非兄爻持世,定遇財化退神,後竟生離。黃金策:世為一生之本,應為百歲之妻,此卦世應相生,如鮑宣娶恆氏之斷者,失千里也。\n\n動妻旺相,續弦堪許白頭。卦中財爻多現,若分正庶者,自當以應爻臨財而作正妻之位也,倘被日月動爻沖克及動而化凶,乃結髮之妻傷也。若得他爻之財旺相、或動而化吉及他爻變出之旺相,相生合世爻者,及再醮之事反遂白頭。如若財爻不臨于應,又以正卦之財為正妻,之卦之財為再娶。\n\n妻財克身,非刑傷必然妒悍。妻財克世,世若休囚空破、或墓絕、或動而變凶、或隨鬼入墓,但逢一者天命夭亡。旺財克世,世爻得地者,𨿽無刑傷,必遭妒悍。\n\n應財生世,非內助卽獲外財。卦中但遇財爻生合世爻,亦不可只以和美斷之,間有應在得妻家之財力也,否則內助必善于持家。",
+            "quote_hash": "92c489594b2106a035e102cbf1c1622b719aad3d45dfe62dce6b5697d383c3f2"
+          }
+        ],
+        "summary": "酉月辛巳日占夫婦將來和俁否?",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "vector": 3
+        },
+        "rrf_score": 0.015873015873015872
+      }
+    ],
+    "counter_evidence": [],
+    "review_candidates": [],
+    "gaps": [],
+    "clarification": [],
+    "case_support_available": true,
+    "retrieval_trace": [
+      {
+        "query_id": "q1",
+        "embedding_request": true,
+        "usage": {
+          "prompt_tokens": 25,
+          "total_tokens": 25
+        },
+        "round": 0
+      },
+      {
+        "query_id": "q1",
+        "lane": "rule",
+        "eligible_views": 13,
+        "keyword_hits": 13,
+        "round": 0
+      },
+      {
+        "query_id": "q2",
+        "embedding_request": true,
+        "usage": {
+          "prompt_tokens": 25,
+          "total_tokens": 25
+        },
+        "round": 0
+      },
+      {
+        "query_id": "q2",
+        "lane": "rule",
+        "eligible_views": 8,
+        "keyword_hits": 8,
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:64a793448c9412b0ac4e22850db6c54ea91457d33b9de484fb1928d279b03dd9"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:a4c20a7022ca7f77e254317790ecb6ab1a64b1a05760d79ac20de244269bacae"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:55ec2dd5ec361d93985c70e00960a596bb9d9cc9b200005b6b831732398be603"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:602d08a6479c6199be0e1a1964a51d20f0123a05dcb4b53511435aa625fbce56"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:45f0bd47854ca8fdaaca027d1ba03ab8902b09384bd110d5f3728d3f736811b2"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:bac3df55d38d2db1697933b2fd4d6bf9300349384fb39b01034e12da1540ef98"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:bf146ac7f540cb8998475adf7299a51b985c850f5797553434194ef9e9db3d21"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:fc53758528e8fe3ff91aa84dd90aca6eae9161d529fb145d0c6bec299955a986"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:98897d53615cdfeb25da578d0c8c66377656c6f2a4ed95dfdbd851afb8bfff7b"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:a03b8ca40ab04c143aeac7a721b9c22bcf4d3c2d1307f618fd691974bae6778f"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:c98832f628dea42c826f7c1a09942991bf830d2165083f571fbb246fa1ab016e"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:aa0012ac5db345fc19385db3f1b7ff7fccc7c56876dbbb490b91d752bc2dc132"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "rule",
+        "entity_revision_ids": [
+          "entity-revision:92982551826420b6a5755ad0cec3c8e5c45d01bea7c36049713f15903a141a25"
+        ],
+        "round": 0
+      },
+      {
+        "query_id": "q3",
+        "embedding_request": true,
+        "usage": {
+          "prompt_tokens": 37,
+          "total_tokens": 37
+        },
+        "round": 0
+      },
+      {
+        "query_id": "q3",
+        "lane": "case",
+        "eligible_views": 207,
+        "keyword_hits": 4,
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:11d63a02fd208213328e9dff78ff1d482e0b60f4f71c770c3d12e741230fd9b6"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:7bcda67e1374d2fc542ac4ee44431f81f2ea4c5457b9886d6a480aea3700778d"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:e653850b086fe882da72b0f70eb03b90f9ffd4262776d89599b5ec7973d2c1e3"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:a004353353a0652bebb646c099aaa183a3f0c73e6729c34a7412e402b5f5a02d"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:eaf8ee862a5ddd74c392778383576164a2b747103bbc9bfb94a7ea9a85762842"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:bd62af5d3f33d9b3fe3ac0c7d425b6eaa43ab9029c6ec490e914e445612cb6f1"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:bac4f04d5ab76217b2315781ef8d1bb1f5f68800da3ffafa94bf5aeb145aefd6"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:3888a9f777c818dd9932baace695fac1b4628b4d4ac8e914c148489652afd723"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:03af506fb3d4b79dd49e7546ccda2c930a62f891fc5f80a76856026648ef9b8c"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:6b6926c7e3b8a8640868e614a3dd661ed2fc10d600fcc6ee0ec662a47ffa1b82"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:2a0d43f4760bb1f199c3bff1029900ed41b96a6a810eaf6d16573631bce85646"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:34ff4ad4bfd05c25580c3fee49df147d7dab69caa1a005235553ab41293fce8d"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:514da63646a846e3b0378f5d7883661866f4c624b5c9e8c088b95b8823414964"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:8e00e8cef86bd47bf0b63882549e475c1a08da21586a7bbf7d6e3b7f92dbc80f"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:d0d3a396b3779682fed131bd5fbf7ce6bc55c150aa8ba72e92d94773c7a0807d"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:d69ba9e5098b751fdc900d449348865b0dbe88daa9c20133a2445f53cefae3a2"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:b5469025b8a59ce78bc721eccb4934c94fd5673f22cd2a4127f462de11e126a7"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:3d6dba9981640d3be6c8a812f73b1872b298c1952bf96c1a43a01da8a2d11141"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:a4518740cdfd3cb71eac4a394c755f81117a328c7a85a09cb5f01771c1ba9dcb"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:f4a019df90340887085770e9e39dbcd90abe77b09a59feca45d8f563de0fdcd7"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:e64e3a8b62b4b60d9fb9b8191ce8cee84a816bf327354226b441cd0332a7e0aa"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:f4e16bc74444733dc383c566134c6cb475ec13df2ce3ac1c38824d15f9bb299c"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:b033fc72fd010e62b513093105ae34ed3d58dd8b91dd36a5b5f4c0cd253910f6"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:95e97f637b807a804f1682d1b3255787cef85aeffe327e93e7ed647c85ea7ae7"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:fb332c2669b08f72a2b1e44e46dd102767cf305945ccc9252654d9e83cee12a1"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:b3e964d9a01102ddbc62c8affc4c1bff5ba73c1408cf6b44e276f0e4e03c9e07"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:bb304c59840bc0856f2c0d8bd0a0d89c0a6e761235c327ab9f9ff9d139d723e1"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:59d86ae15824842c451308c470f68f400ddf27711cfbd9c793ebb15d2316c184"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:8f4d9dadf85c1fe2e15228a419cc69db280a75b1fccc26fadd0162fa81c19edb"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:9291a4b48de32e8419f65dea1a4a25537686c7cb6f27a5956441a9dac4091474"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:39f29c3fc8558485e5bafb407a87b6d719b0fd7af35680dfa53ef26865cdea82"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:bbba97428c5e32660a4126f0c7f121306c5f2be0dace002c8de466a6a772ec7e"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:53a7ff4938f38b3e1a04ccced6479cc877be39d32ebcf7cb14c5bb542d593c1a"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:a6721f98996e52a07f171667387b72cd57522547bab13387010e66e9b5536c5e"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:2642dcbd651852cf5e063f3e49b7141a79edb5b207939bad59a2a8c059f55e20"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:50310ac034070525c396754cdf46bc71fff218f20e66eddc4de8928dbf04f681"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:f8ae6d53e8e5cffd57f2d07381eba6bebfe6d3c38a2001885220791497b16e94"
+        ],
+        "round": 0
+      },
+      {
+        "reason": "RANKING_CUTOFF",
+        "lane": "case",
+        "entity_revision_ids": [
+          "entity-revision:1c543f86fae5ddd380f99d384aa2b2294968d36242654ae31b4c0cd667eac757"
+        ],
+        "round": 0
+      }
+    ],
+    "tokenizer_version": "cjk-bigram-v1",
+    "status": "evidence_insufficient",
+    "interpretation_contract": {
+      "recast_allowed": false,
+      "calculate_missing_core_facts": false,
+      "copy_case_outcome": false,
+      "strong_conclusion_allowed": false,
+      "model_reasoning_allowed": true,
+      "model_selection_allowed": true
+    },
+    "reasoning_evidence": [
+      {
+        "entity_revision_id": "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6",
+        "entity_id": "YS-OC-03",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:48dae958bd52d87414f0aca5a0fb383d",
+            "start": 10016,
+            "end": 10075,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "官鬼爻:占功名、官府、雷霆鬼神、妻占夫皆以官鬼爻為用神。占亂臣賊盜邪崇也以官鬼爻為用神,物類亦多,一切拘束我身者是也。",
+            "quote_hash": "4f5e24c7ee646d04c8ef30916e5d625303bba36bfd88316ee0463723f2f0ad91"
+          }
+        ],
+        "summary": "标题：官鬼类：功名、官府与妻问夫\n条件：目标为功名、官府，或关系明确为妻子问丈夫。\n动作：返回 category=官鬼，并区分目标是职位、机构还是人物。\n限制与例外：不把所有男性、上司、男朋友直接等同丈夫；现代关系另审。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 1
+        },
+        "rrf_score": 0.03278688524590164
+      },
+      {
+        "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+        "entity_id": "YS-TO-06",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:096f6539fc63fc59ea1f3e92b76da345",
+            "start": 23834,
+            "end": 23938,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "與六親同居用六親,與外人同居看應爻。世為己,應為人,世應相合相生,日月動爻生合世應者,彼此俱祥。克世我遭喪,克應他遭害,世克應,他畏于我,應克世我被他欺,刑沖者同。與六親同居,宜于財興用神相生,不宜相沖相克。",
+            "quote_hash": "1dc299679210e8f0e22868c58e2b060a5ba5e38502f968f5976d74b8596b783f"
+          }
+        ],
+        "summary": "标题：同居：亲属与外人分流\n条件：问题明确为与某人同居或共同居住，关系明确。\n动作：与六亲同居调用相应六亲；与外人同居看应；保留世为自身。\n限制与例外：不以“同居”词自动判定婚姻或恋爱关系。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:b565318a4b4ac583f45415faf186415870f02007213b902a093600aa801d7568",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 2
+        },
+        "rrf_score": 0.03252247488101534
+      },
+      {
+        "entity_revision_id": "entity-revision:04e5257585bc537bd79825c20d5f3eb49bbe1736b88023b54c8240db1a55ae51",
+        "entity_id": "YS-TO-04",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:84254843b76e5c72a91d762b2f5c0b03",
+            "start": 10551,
+            "end": 10613,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "問行人之歸期,有遠有近,遠則應月,近則應日,亦有去久,若在日下當歸,又可以日斷也。問行人之否泰,另占一卦,不可一卦而兼斷也。",
+            "quote_hash": "3178588adfdf793c3a14f678ab60eecf17a12696d00f297b99e3b3f185511b66"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:4495be14fec6f57a2f494a68727fdc78",
+            "start": 10615,
+            "end": 10870,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "世克用兮人未動,用爻克世必然歸。占親人在用神章中求之,疏者以應爻為用神,世克用神且無歸志,用神克世近日回家。予試果驗。墓絕空破,歸信杳然,明搖暗動,歸鞭發矣。伏藏才出現之日,動而逢合之日,動化進神不返,用神化退而歸,動逢合有事阻隔,動化鬼在外危災,最怕動而化克,還防卦變反吟。世爻空者行人卽至,用神靜逢休囚空破者且不思歸,動空旺空者實空沖空之月日必歸,惟恐卦變克絕及反吟卦,用神被克被沖者,皆難望其歸也。用神三合,沖開之月日而來。卦逢六沖,行人無定而不返。用爻墓者開墓之日,用爻無病可斷歸期,用爻有病在外不安。",
+            "quote_hash": "d0a0dc07e8796356464f6f60e84100d58648a8eb8095b55cd8f265ca8d3aaa89"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:025c2327b978f89aa31cfb8ef354141e",
+            "start": 10872,
+            "end": 10926,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "野鶴曰:用神墓絕空破受傷,謂之有病。來人問行人在外平安否,須看有病無病。若問歸期,只可看卦象來與不來而斷也。",
+            "quote_hash": "a588ae8499f204d2fc629e6c40214d86d39df76172aae108d70429a5d61db63f"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:2696066b89198dedb604a016a9d62d36",
+            "start": 11032,
+            "end": 11097,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "此卦若問父母平安否,父母卯木日月動爻沖克,必不安矣。今問其來否,不以此斷,只可斷用神伏藏也,克而不來,六合沖亦不來,後果在外平安。",
+            "quote_hash": "18c7918ada563dec23a0ecc8dab9242d60460528aa4dfd75adcb49fd9e9acbf1"
+          }
+        ],
+        "summary": "标题：行人：归期与平安不可互换\n条件：问题是人在外，目标为归来时间或是否平安。\n动作：亲属按六亲、疏者以应；同一候选按 goal=return 或 goal=safety 走不同解释规则。\n限制与例外：候选弱或受克不能在问归期时自动扩写伤亡；只回答用户明确目标。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:04e5257585bc537bd79825c20d5f3eb49bbe1736b88023b54c8240db1a55ae51",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 4,
+          "vector": 1
+        },
+        "rrf_score": 0.032018442622950824
+      },
+      {
+        "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+        "entity_id": "YS-OC-06",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:988345fe1279e1b8d4f8bd0072605d1c",
+            "start": 10242,
+            "end": 10358,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "子孫爻;占子孫、占女、女婿、侄、甥、門生凡在我子孫輩中皆以子孫爻為用神。占忠臣、良將、醫藥、僧、道、兵卒皆以子孫爻為用神。占六畜、禽獸亦以子孫爻為用神。子孫福德之神。為制鬼之神、為解憂之神、為剝官之神,諸事見之為喜,獨占功名者忌之。",
+            "quote_hash": "447a2b964c4b459305f3ac05afe76ac1727c0356998557f5e40a3726dafbf401"
+          }
+        ],
+        "summary": "标题：子孙类：晚辈与门生\n条件：目标为子女、孙辈、侄甥、女婿、门生等明列对象。\n动作：返回 category=子孙；记录具体关系，不仅存“晚辈”。\n限制与例外：不能仅凭年龄小判断关系；与对象无亲属或师生关系时不可自动套用。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:d9592a53cc6af43c94c8190d18aa992c0be30cc6bc27d8337f146961bf03d967",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 3,
+          "vector": 3
+        },
+        "rrf_score": 0.031746031746031744
+      },
+      {
+        "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+        "entity_id": "YS-TO-05",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": "passage:ed177640ac6ce423a7b0596a7486d2eb",
+            "start": 16991,
+            "end": 17065,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "父爻旺相,就而正焉。父母爻旣為師長,又為詩書。延師受教,卽以此爻為用神,宜旺相或臨日月及動而化吉。如若休囚空破絕及動而化凶,有素食之譏,無師資之益。",
+            "quote_hash": "ee8a7526f6151e89df70850644ea01a0083a5553e1b5e34665cf2a5cc09f8efb"
+          },
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": "passage:be1cd7b86bf6c0202a9ab727270e939a",
+            "start": 17067,
+            "end": 17119,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "世位相生,博約善誘。父旺生合世爻,成人有德,若克世爻,而世爻得地者,有責成之功。世若休囚,必受師尊之累。",
+            "quote_hash": "4f89e676575a19c1275c0bc5cf63575a9b50c7961c0ee5ff43663a6fe84fc611"
+          }
+        ],
+        "summary": "标题：延师：父母为师长与诗书\n条件：问题明确为请老师或从师学习。\n动作：父母标记主候选；世爻标记求学者；原文支持师长和诗书含义。\n限制与例外：课程、学校、证书、考试录取不是同一目标，须另审映射；不自动用本规则覆盖考试。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:bbf04285adb83d2d99446d62f576317617e28e79accb4dd3f571afe54c6d8368",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 2,
+          "vector": 5
+        },
+        "rrf_score": 0.0315136476426799
+      },
+      {
+        "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+        "entity_id": "YS-TO-03",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:c36f0601ee618d33d660f0f759c30b05",
+            "start": 98,
+            "end": 227,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "野鶴曰:見貴有兩間也,為名者用官,為利者用財,皆宜持世及生合世爻為吉,如逢空破,墓絕及動而變凶者,徒勞奔馳之力耳。倘若世爻化鬼化克及隨墓助傷者,更不宜行,若非到彼之凶,定在中途遇禍,凡謁貴者同斷。世動遇空,身興遇破,世動化空破者,勿曰不吉,乃應到彼之月日也。",
+            "quote_hash": "1cca8c6cc37d81f3c3b8ef87bd5ab14a3b2ee044db607a05158d4bca03bf1149"
+          },
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:f2b1452a2285905c1d8badb86d955796",
+            "start": 398,
+            "end": 466,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "為名宜父動,因利忌兄興。凡與謁貴旣得世與官星相合相生,必然得見,若為名利,須宜另占,不可此卦而斷之,為名者宜父官兩旺,為利者宜財福兩旺。",
+            "quote_hash": "d010d5fef78d3546439b208b09179539b76ff1ab06a7d442bf8b856a3d94d519"
+          }
+        ],
+        "summary": "标题：谒贵：为名与为利分开\n条件：问题是见贵人，且实际目的明确。\n动作：为名取官，为利取财；见面能否、名利能否分别作为目标，拒绝凭见面成功推出得利。\n限制与例外：原文也提示另占名利；现代“见客户”仅可作为审核后的映射，不直接等于谒贵。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:4577e497af9044666daa53e952b147e6c71301218e7b97e02f12c23ee72db7a5",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 3,
+          "vector": 4
+        },
+        "rrf_score": 0.03149801587301587
+      },
+      {
+        "entity_revision_id": "entity-revision:3aaa44b95247e81011f41ae7d99e12b9e57d14a4e8110931d247c03fe88330e2",
+        "entity_id": "YS-OC-05",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:e3eac845e75059ebdfb8788e0c59d62c",
+            "passage_id": "passage:ec0fc85c58f0fe2a88c5e7bc8fd1f647",
+            "start": 10187,
+            "end": 10240,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=950329",
+            "quote": "妻財爻;占妻妾、婢、僕、役,我驅使之人皆以要財爻為用神。占貨財、珠寶、倉庫一切使用之財物亦以妻財爻為用神。",
+            "quote_hash": "9e506d1ae00761c1ecbb4f08128d34d0eab164be25cfcc6ffd7ee6fc48e3ccde"
+          }
+        ],
+        "summary": "标题：妻财类：妻与财物\n条件：目标为妻、财货、珠宝等明确对象。\n动作：返回 category=妻财；人物目标与钱物目标分别标记。\n限制与例外：古代婢仆身份不可直接映射现代雇员；原文“要財”为疑似错字，保留原文，不扩大自动匹配。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:3aaa44b95247e81011f41ae7d99e12b9e57d14a4e8110931d247c03fe88330e2",
+          "rule_type": "object_classification",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "object_classification",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 6,
+          "vector": 2
+        },
+        "rrf_score": 0.03128054740957967
+      },
+      {
+        "entity_revision_id": "entity-revision:5b8748efc36106d5107841c3b055dbce83ddb9e91782472d5523614b4ed4c4d5",
+        "entity_id": "YS-TO-01",
+        "kind": "rule",
+        "usage": "rule_reasoning",
+        "case_context": null,
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": "passage:007053bac5ad5048154689276db349f3",
+            "start": 4774,
+            "end": 5190,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "覺子曰:男家占女,不拘父母親朋而代占者,無不以財為用。女家占男,皆以官為用。用官者,官有生扶。用財者,財爻旺相,卽許婚。今見古今諸書文,以財旺傷克父母爻,不知宜財之旺而為吉也?宜財不旺而為吉也?或曰:黃金策云,翁姑不睦,皆因妻位交重。海底眼曰:財動喪雙親。易冒亦曰:妻財動父母參商。俱以財動傷克父母,未說旺也。予曰:動能傷父母,旺則不能傷耶?假令春天占卦,財爻屬木,謂之女命旺而可取,但父母爻定然屬土,如此當權得令之財爻不克休囚之父母耶?何必曰動?殊不知者人言動而不言旺者,正恐後人駁論,所以不言其旺,不得己而言動也,豈知亦被看破。或曰:據爾之論,何以為法?予曰:分占之法也。先要財官旺相,旣得吉卦,再占妨克父母,是其法也。黃金策專以應為妻位,易冒亦以應為妻,欲其旺相乃為賢良發福之女,又以應為女家父母,謂之應爻旺相,必是富貴之家,若休囚必宅貧寒之宅。執此論,則旺相賢良之女皆出于富貴之家?種種悖謬,予不知何以千百年來竟無一人道破。",
+            "quote_hash": "804a2e455ab558c9e21c49af4fcb8a563e38e5d8d7251a84951c4dd243951bde"
+          }
+        ],
+        "summary": "标题：婚姻代占按所问一方取财官\n条件：男家问女方或女家问男方，且处于原文婚姻语境。\n动作：男家问女以财、女家问男以官；代问者是父母亲朋不自动改取父母或兄弟。\n限制与例外：现代性别与关系不能硬套，无法对应时请求人工映射；只定位角色，不输出价值判断。",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "reason": "RULE_NOT_EXECUTABLE",
+          "missing_fields": []
+        },
+        "action_ast": null,
+        "rule_contract": {
+          "entity_revision_id": "entity-revision:5b8748efc36106d5107841c3b055dbce83ddb9e91782472d5523614b4ed4c4d5",
+          "rule_type": "topic_override",
+          "method_profile_id": "zengshan-single-cast-v1",
+          "conditions_ast": null,
+          "action_ast": null,
+          "exceptions_ast": null,
+          "conflict_group_ids": [],
+          "executable": false
+        },
+        "rule_type": "topic_override",
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 7,
+          "vector": 3
+        },
+        "rrf_score": 0.030798389007344232
+      },
+      {
+        "entity_revision_id": "entity-revision:6680a6463b9ea4214354f7631c45538fa62975358b65b427135d08e90eb2d213",
+        "entity_id": "final-case:192-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:192-1",
+          "case_group_id": "case-group:192",
+          "reading_id": "reading:192-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "missing",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 9094,
+            "end": 9370,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "如子月乙亥日占妻孕平安否得豐之小過卦\n\n官鬼戌土⚋  官鬼戌土⚋\n\n父母申金⚋世 父母申金⚋\n\n妻財午火⚊  妻財午火⚊\n\n兄弟亥水⚊  父母申金⚊\n\n官鬼丑土⚋應 妻財午火⚋\n\n子孫卯木○  官鬼辰土⚋\n\n斷曰:午火妻財臨月破,又被亥日克之,冬天之火囚被克,全無生扶,命之難保。彼曰:卯木子孫,動而生火,何謂全無生扶?予曰:卯木子孫動而變鬼,神曰:母子皆喪。非生火之卯木也。斷卦者須以知機,會神之意。彼又曰:財𨿽不旺,卯木子孫得子月亥日以生之,何謂子亦難保。予曰:變鬼之子孫,縱臨日月亦無益矣。\n\n卦得六沖,子旺財彊終是喜。爻逢六合,財空子破亦為憂。",
+            "quote_hash": "6f09437bb893f3c729c92969dec602beb9ddd404892afc6cc7a58afc13cdc5f4"
+          }
+        ],
+        "summary": "如子月乙亥日占妻孕平安否",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 2,
+          "vector": 2
+        },
+        "rrf_score": 0.03225806451612903
+      },
+      {
+        "entity_revision_id": "entity-revision:bd902d46955c8515fb35a5e907ad1cc1b6cc2a080ca8b8a55a7774e7c681aa87",
+        "entity_id": "final-case:179-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:179-1",
+          "case_group_id": "case-group:179",
+          "reading_id": "reading:179-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "present",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 229,
+            "end": 754,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "如申月丁卯日占出行謁見貴人得同人\n\n子孫戌土⚊應\n\n妻財申金⚊\n\n兄弟午火⚊\n\n官鬼亥水⚊世\n\n子孫丑土⚋\n\n父母卯木⚊\n\n斷曰:官星持世而空,出亥日得見,官府財利如心,果于出空之日見官,財利得意,月建財爻生世之故耳,官世相合,財動相生,財持世,官無缺陷,再得日月照臨,彼此緣投有幸。日月照臨者,日月生世生財,或世爻財爻而臨日月是也。\n\n為名宜父動,因利忌兄興。凡與謁貴旣得世與官星相合相生,必然得見,若為名利,須宜另占,不可此卦而斷之,為名者宜父官兩旺,為利者宜財福兩旺。\n\n六合六沖須看用,反吟化退枉奔馳。爻逢六合亦要用神旺相,世與財官相合乃為吉兆,卦逢六沖必須用神受克失陷始作凶徵。卦得反吟及世動化退多見難于行動,勉彊而去,空返而歸。\n\n貴人謁貴宜世應以相生,平人見貴宜官貴而相合。貴人謁貴人,宜于世應相合相生,平人見貴人,宜官貴相合相生及官星持世\n\n覺子曰:有心而問見貴求名者,官星持世生世必得官。有心問謁貴者,官星生世合世而得見,切勿以此得見貴人之官星換作成名而斷也。\n\n貴人謁貴,世應若相沖克,財伏而空,去之何益?\n\n平人見貴,官克世世變鬼變克更凶。平人見貴,官克世變鬼變克勿去,去則須防不測,財官生世合世為吉。凡出行求財謁貴出行章參看。",
+            "quote_hash": "1463fef24de958f46191e48af16655ec5ddce7fef7b6de261c021b46429bf25b"
+          }
+        ],
+        "summary": "如申月丁卯日占出行謁見貴人",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "keyword": 1,
+          "vector": 25
+        },
+        "rrf_score": 0.02815814850530376
+      },
+      {
+        "entity_revision_id": "entity-revision:023508f41583b2ad9988e8c0d20acfbc9af4232217d379d7847c3450bb3992fc",
+        "entity_id": "final-case:198-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:198-1",
+          "case_group_id": "case-group:198",
+          "reading_id": "reading:198-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "present",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:bb8f346e0a687b00ea1f80824fb3bcce",
+            "passage_id": null,
+            "start": 11566,
+            "end": 11957,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=52651",
+            "quote": "亥月甲子日占夫在外還往他省去否得大壯之大過\n\n子孫申金ㄨ  子孫酉金⚊\n\n父母午火⚊世 妻財亥水⚊\n\n斷曰:妻占夫官為用神,申動克之,寅木夫爻受克不往他處去矣。不日必回。彼曰:何以其回也。予曰:日月生扶,夫生世爻必有歸志。問曰:何日可到。予曰:巳日必到,應巳日者,合住申金之日也。果于巳日到。或曰:用爻有病,莫問歸期,此卦申金化進神以克寅木,如何許回?予曰:彼問夫之平安,卽以不利斷之,今加往他處去否,夫爻受到制,不往他鄕,斷卦者各有取用耳。\n\n予于戌月丙戌日由江右登舟占一路平安否得蠱之巽\n\n兄弟寅木⚊應 兄弟卯木⚊\n\n父母子水ㄨ  子孫巳火⚊\n\n妻財戌土⚋  妻財未土⚋\n\n予疑酉金鬼爻持世,一路憂疑之象,初不知風阻之說也,及至戊子日,風雨大作,舟泊南康,始悟此卦,子水父動,子日之風雨也,見其化出巳火子孫,卽知巳日方晴,果泊五日,巳日天晴得風順矣,自此始悟子孫乃行舟之順風也。",
+            "quote_hash": "f0e19a5fce8d7672b529a71e6b17cfa5bcf3d7f23f2bd4bf93de5401954f47a9"
+          }
+        ],
+        "summary": "亥月甲子日占夫在外還往他省去否",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "vector": 1
+        },
+        "rrf_score": 0.01639344262295082
+      },
+      {
+        "entity_revision_id": "entity-revision:01a7e900a85af2530c576f9cc31960d3b08639ff4228fc1b907733a29daa1d3f",
+        "entity_id": "final-case:153-1",
+        "kind": "case",
+        "usage": "analogy_only",
+        "case_context": {
+          "final_case_id": "final-case:153-1",
+          "case_group_id": "case-group:153",
+          "reading_id": "reading:153-1",
+          "question_status": "present",
+          "chart_status": "present",
+          "judgment_status": "present",
+          "outcome_status": "missing",
+          "remaining_issues": [],
+          "method_profile_id": null
+        },
+        "source_quotes": [
+          {
+            "source_revision_id": "source-revision:8f60a3b5ad0a7e049e64db5b9101b7be",
+            "passage_id": null,
+            "start": 13610,
+            "end": 14065,
+            "offset_unit": "unicode_codepoint",
+            "url": "https://ctext.org/wiki.pl?if=en&chapter=398174",
+            "quote": "酉月辛巳日占夫婦將來和俁否?得泰卦\n\n子孫酉金⚋應\n\n妻財亥水⚋\n\n兄弟辰土⚊世\n\n兄爻持世以克妻財,幸財爻亥水酉金生之,財旺難于克害。彼曰:目下不和,將來和好否?予曰:巳日沖動亥水,又臨驛馬,妻財臨馬而暗動,心去難畱,生離之象。此人自此之彼,常為此事而占,十有餘次,若非兄爻持世,定遇財化退神,後竟生離。黃金策:世為一生之本,應為百歲之妻,此卦世應相生,如鮑宣娶恆氏之斷者,失千里也。\n\n動妻旺相,續弦堪許白頭。卦中財爻多現,若分正庶者,自當以應爻臨財而作正妻之位也,倘被日月動爻沖克及動而化凶,乃結髮之妻傷也。若得他爻之財旺相、或動而化吉及他爻變出之旺相,相生合世爻者,及再醮之事反遂白頭。如若財爻不臨于應,又以正卦之財為正妻,之卦之財為再娶。\n\n妻財克身,非刑傷必然妒悍。妻財克世,世若休囚空破、或墓絕、或動而變凶、或隨鬼入墓,但逢一者天命夭亡。旺財克世,世爻得地者,𨿽無刑傷,必遭妒悍。\n\n應財生世,非內助卽獲外財。卦中但遇財爻生合世爻,亦不可只以和美斷之,間有應在得妻家之財力也,否則內助必善于持家。",
+            "quote_hash": "92c489594b2106a035e102cbf1c1622b719aad3d45dfe62dce6b5697d383c3f2"
+          }
+        ],
+        "summary": "酉月辛巳日占夫婦將來和俁否?",
+        "condition_evaluation": "unknown",
+        "condition_details": {
+          "value": "unknown",
+          "missing_fields": [
+            "reviewed_case_question_context"
+          ],
+          "direct_analogy": false
+        },
+        "action_ast": null,
+        "rule_contract": null,
+        "rule_type": null,
+        "conflict_group_ids": [],
+        "not_for_interpretation": false,
+        "channel_ranks": {
+          "vector": 3
+        },
+        "rrf_score": 0.015873015873015872
+      }
+    ],
+    "reasoning_mode": "llm_source_reasoning"
+  },
+  "hybrid_interpretation": {
+    "status": "generated",
+    "readings": [
+      {
+        "text": "本次占问为妻子询问丈夫出行平安与否。根据古籍规则记载：“妻占夫皆以官鬼爻為用神”，即妻子占问丈夫相关事项，应选取卦中的官鬼爻作为分析核心（用神）。",
+        "evidence_ids": [
+          "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+        ]
+      },
+      {
+        "text": "在本卦盘面中，第四爻（main:4）的六亲属性为“官鬼”，且位于本卦之中。基于上述规则与盘面事实，确定此爻为本次占问的用神，代表您的丈夫。",
+        "evidence_ids": [
+          "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+        ]
+      }
+    ],
+    "analysis": {
+      "question_understanding": {
+        "subject": "丈夫",
+        "relation": "丈夫",
+        "goal": "是否平安",
+        "missing_information": []
+      },
+      "candidates": [
+        {
+          "candidate_id": "cand_officials_main_4",
+          "role": "officials",
+          "origin": "main",
+          "line_refs": [
+            "main:4"
+          ],
+          "evidence_ids": [
+            "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+          ],
+          "reason": "依据古籍规则，妻子占问丈夫之事，应以官鬼爻为用神。本卦第四爻为官鬼，符合角色定义。",
+          "conditions": [
+            {
+              "condition": "提问人为妻子，问事对象为丈夫",
+              "status": "met",
+              "fact_refs": [
+                "question.subject_relation"
+              ],
+              "evidence_ids": [
+                "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+              ]
+            },
+            {
+              "condition": "本卦中存在官鬼爻",
+              "status": "met",
+              "fact_refs": [
+                "main:4.kin"
+              ],
+              "evidence_ids": [
+                "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+              ]
+            }
+          ],
+          "known_facts": [
+            {
+              "fact_ref": "question.subject_relation",
+              "value": "丈夫"
+            },
+            {
+              "fact_ref": "main:4.kin",
+              "value": "officials"
+            }
+          ],
+          "missing_conditions": [],
+          "exceptions": []
+        }
+      ],
+      "selection": {
+        "candidate_id": "cand_officials_main_4",
+        "line_ref": "main:4",
+        "evidence_ids": [
+          "entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6"
+        ],
+        "reason": "事实与规则证据充分：用户明确为妻子问丈夫，古籍规则明确指出此类情况取官鬼爻为用神，且本卦第四爻确认为官鬼，条件全部满足，无关键缺失或分歧。"
+      },
+      "uncertainties": []
+    },
+    "validation": "references_and_core_facts",
+    "message": "以下为模型依据原文作出的候选用神分析；已校验引用与结构化盘面事实，未由规则引擎证明取用正确。",
+    "attempts": [
+      {
+        "attempt": 1,
+        "status": "accepted",
+        "raw_output": "{\n  \"chart_hash\": \"ec43e961eca3396f5ac1259cf1d45173f2ac3269d7f0ba27249ca2e21ae55171\",\n  \"method_profile_id\": \"zengshan-single-cast-v1\",\n  \"question_understanding\": {\n    \"subject\": \"丈夫\",\n    \"relation\": \"丈夫\",\n    \"goal\": \"是否平安\",\n    \"missing_information\": []\n  },\n  \"candidates\": [\n    {\n      \"candidate_id\": \"cand_officials_main_4\",\n      \"role\": \"officials\",\n      \"origin\": \"main\",\n      \"line_refs\": [\n        \"main:4\"\n      ],\n      \"evidence_ids\": [\n        \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n      ],\n      \"reason\": \"依据古籍规则，妻子占问丈夫之事，应以官鬼爻为用神。本卦第四爻为官鬼，符合角色定义。\",\n      \"conditions\": [\n        {\n          \"condition\": \"提问人为妻子，问事对象为丈夫\",\n          \"status\": \"met\",\n          \"fact_refs\": [\n            \"question.subject_relation\"\n          ],\n          \"evidence_ids\": [\n            \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n          ]\n        },\n        {\n          \"condition\": \"本卦中存在官鬼爻\",\n          \"status\": \"met\",\n          \"fact_refs\": [\n            \"main:4.kin\"\n          ],\n          \"evidence_ids\": [\n            \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n          ]\n        }\n      ],\n      \"missing_conditions\": [],\n      \"exceptions\": []\n    }\n  ],\n  \"selection\": {\n    \"candidate_id\": \"cand_officials_main_4\",\n    \"line_ref\": \"main:4\",\n    \"evidence_ids\": [\n      \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n    ],\n    \"reason\": \"事实与规则证据充分：用户明确为妻子问丈夫，古籍规则明确指出此类情况取官鬼爻为用神，且本卦第四爻确认为官鬼，条件全部满足，无关键缺失或分歧。\"\n  },\n  \"uncertainties\": [],\n  \"readings\": [\n    {\n      \"text\": \"本次占问为妻子询问丈夫出行平安与否。根据古籍规则记载：“妻占夫皆以官鬼爻為用神”，即妻子占问丈夫相关事项，应选取卦中的官鬼爻作为分析核心（用神）。\",\n      \"evidence_ids\": [\n        \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n      ]\n    },\n    {\n      \"text\": \"在本卦盘面中，第四爻（main:4）的六亲属性为“官鬼”，且位于本卦之中。基于上述规则与盘面事实，确定此爻为本次占问的用神，代表您的丈夫。\",\n      \"evidence_ids\": [\n        \"entity-revision:dcb91c9880acba471d2645efc1d767b3cfbf0f7fa328377fcdbaa49a6fa617b6\"\n      ]\n    }\n  ]\n}",
+        "errors": []
+      }
+    ]
+  }
+}

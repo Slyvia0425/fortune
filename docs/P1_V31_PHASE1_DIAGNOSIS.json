@@ -1,0 +1,36 @@
+{
+  "scope": "Phase 1: no production logic changes",
+  "call_chain": {
+    "system_prompt": "lib/server/analysis-planner-llm.ts:P1_PROMPT",
+    "payload": "lib/server/analysis-planner-llm.ts:planAnalysisTasksImpl inline input",
+    "required_coverage": "lib/divination/analysis-plan.ts:taskRequirements",
+    "taxonomy": "lib/divination/topic-taxonomy.ts:TOPICS/KIND_TOPICS",
+    "facts": "lib/divination/analysis-facts.ts:extractAnalysisFacts; P1 receives the whole catalog",
+    "validator": "lib/divination/analysis-plan.ts:validateAnalysisPlan",
+    "fallback": "lib/divination/analysis-plan.ts:minimumAnalysisPlan",
+    "retry": "two calls with only errorCode, no previous plan or field-level issues"
+  },
+  "failures": [
+    {
+      "code": "PLAN_REQUIRED_COVERAGE_MISSING",
+      "branch": "mandatory role/transformation/true month_break/day_clash/xun_empty/selected hidden refs must each appear in correct-kind non-optional tasks",
+      "actual": "First reply T2 includes main:3 month_break and day_clash under role_condition, not month_day_effect",
+      "relationships": "Listed in required_coverage but NOT required by the legacy coverage validator; do not mechanically make inverse pairs separate mandatory tasks"
+    },
+    {
+      "code": "PLAN_CONDITION_UNSUPPORTED",
+      "branch": "month_day_effect requires at least one selected month_break/day_clash/xun_empty fact with value === true",
+      "actual": "Second reply tasks[5] T6 references valid main:5 month_seasonal_label=相, which this branch does not accept",
+      "not_a_keyword_error": true
+    }
+  ],
+  "other_findings": [
+    "Topic and kind-topic checks were removed on an earlier explicit request; V3.1 now requires restoring them.",
+    "Direction guard only covers a conservative surface grammar, not arbitrary semantic correctness.",
+    "Legacy prejudgment check misses phrases such as 极凶 and has no distinction between hypotheses and asserted premises.",
+    "P1 receives no Core calendar; timing only has a boolean.",
+    "Q1 of the saved job case has no actors/subject, so the existing role resolver uses its legacy compatibility path. This P1 change must not add a role-model node or silently change the frozen question."
+  ],
+  "fixture": "tests/fixtures/p1-v31-history.json",
+  "history_untouched": true
+}

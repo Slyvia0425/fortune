@@ -1,0 +1,1385 @@
+{
+  "source_trace": "4e17159e-028a-4668-a59c-190b12878d0c",
+  "chart_id": "277f4861-5114-4257-a7e1-0927b6bdca84",
+  "chart_hash": "542bd53dc51d7f767abb33fe5169e90218395228cdfc8675811cb01c89d62462",
+  "core": {
+    "calendar": {
+      "calendar_time": "2026-10-15T21:50:23.095619+08:00",
+      "calendar_timezone": "Asia/Shanghai",
+      "day_branch": "戌",
+      "day_ganzhi": "壬戌",
+      "day_rollover": "00:00",
+      "day_stem": "壬",
+      "display_time": "2026-10-15T21:50:23.095619+08:00",
+      "display_timezone": "Asia/Hong_Kong",
+      "empty_branches": [
+        "子",
+        "丑"
+      ],
+      "month_branch": "戌",
+      "month_ganzhi": "戊戌",
+      "month_rollover": "exact_jie",
+      "policy_id": "shanghai-jie-midnight-water-earth-v1",
+      "provider": "lunar-python==1.4.8",
+      "true_solar_time": false,
+      "xun_start": "甲寅",
+      "year_ganzhi": "丙午"
+    },
+    "capability_gaps": [],
+    "core_version": "liuyao-decoration-v1",
+    "hidden_lines": [
+      {
+        "age": "young",
+        "branch": "午",
+        "element": "火",
+        "flying_line_ref": "main:4",
+        "flying_to_hidden": {
+          "clash": false,
+          "combine": false,
+          "element_relation": "controls",
+          "same_branch": false
+        },
+        "ganzhi": "庚午",
+        "kin": "offspring",
+        "kin_basis": "primary_palace",
+        "kin_name": "子孙",
+        "moving": false,
+        "position": 4,
+        "position_role": null,
+        "ref": "hidden:4",
+        "six_spirit": "勾陈",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "墓",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generated_by",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "墓",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generated_by",
+            "same_branch": false
+          },
+          "month_seasonal_label": "休",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "usability_status": "requires_rule_evaluation",
+        "usable": null,
+        "yin_yang": "yang",
+        "yin_yang_value": 7
+      }
+    ],
+    "hidden_lines_complete": true,
+    "interpretation_limits": [
+      "overall_strength_requires_rules",
+      "hidden_usability_requires_rules"
+    ],
+    "main_lines": [
+      {
+        "age": "young",
+        "branch": "子",
+        "element": "水",
+        "ganzhi": "庚子",
+        "kin": "parents",
+        "kin_basis": "primary_palace",
+        "kin_name": "父母",
+        "moving": false,
+        "position": 1,
+        "position_role": null,
+        "ref": "main:1",
+        "six_spirit": "玄武",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_seasonal_label": "死",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": true
+        },
+        "transformation": null,
+        "yin_yang": "yang",
+        "yin_yang_value": 7
+      },
+      {
+        "age": "young",
+        "branch": "寅",
+        "element": "木",
+        "ganzhi": "庚寅",
+        "kin": "siblings",
+        "kin_basis": "primary_palace",
+        "kin_name": "兄弟",
+        "moving": false,
+        "position": 2,
+        "position_role": null,
+        "ref": "main:2",
+        "six_spirit": "青龙",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "养",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controlled_by",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "养",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controlled_by",
+            "same_branch": false
+          },
+          "month_seasonal_label": "囚",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "transformation": null,
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      },
+      {
+        "age": "young",
+        "branch": "辰",
+        "element": "土",
+        "ganzhi": "庚辰",
+        "kin": "wealth",
+        "kin_basis": "primary_palace",
+        "kin_name": "妻财",
+        "moving": false,
+        "position": 3,
+        "position_role": "self",
+        "ref": "main:3",
+        "six_spirit": "朱雀",
+        "stem": "庚",
+        "strength": {
+          "day_clash": true,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": true,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_break": true,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": true,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_seasonal_label": "旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "transformation": null,
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      },
+      {
+        "age": "young",
+        "branch": "亥",
+        "element": "水",
+        "ganzhi": "丁亥",
+        "kin": "parents",
+        "kin_basis": "primary_palace",
+        "kin_name": "父母",
+        "moving": false,
+        "position": 4,
+        "position_role": null,
+        "ref": "main:4",
+        "six_spirit": "勾陈",
+        "stem": "丁",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_seasonal_label": "死",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "transformation": null,
+        "yin_yang": "yang",
+        "yin_yang_value": 7
+      },
+      {
+        "age": "old",
+        "branch": "酉",
+        "element": "金",
+        "ganzhi": "丁酉",
+        "kin": "officials",
+        "kin_basis": "primary_palace",
+        "kin_name": "官鬼",
+        "moving": true,
+        "position": 5,
+        "position_role": null,
+        "ref": "main:5",
+        "six_spirit": "螣蛇",
+        "stem": "丁",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "衰",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generates",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "衰",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generates",
+            "same_branch": false
+          },
+          "month_seasonal_label": "相",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "transformation": {
+          "life_stage_at_changed_branch": "临官",
+          "line_ref": "transformed:5",
+          "return_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          }
+        },
+        "yin_yang": "yang",
+        "yin_yang_value": 9
+      },
+      {
+        "age": "young",
+        "branch": "未",
+        "element": "土",
+        "ganzhi": "丁未",
+        "kin": "wealth",
+        "kin_basis": "primary_palace",
+        "kin_name": "妻财",
+        "moving": false,
+        "position": 6,
+        "position_role": "response",
+        "ref": "main:6",
+        "six_spirit": "白虎",
+        "stem": "丁",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_seasonal_label": "旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "transformation": null,
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      }
+    ],
+    "main_lines_complete": true,
+    "moving_line_interactions": [
+      {
+        "clash": false,
+        "combine": false,
+        "element_relation": "generates",
+        "same_branch": false,
+        "source_ref": "main:5",
+        "target_ref": "main:1"
+      },
+      {
+        "clash": false,
+        "combine": false,
+        "element_relation": "controls",
+        "same_branch": false,
+        "source_ref": "main:5",
+        "target_ref": "main:2"
+      },
+      {
+        "clash": false,
+        "combine": true,
+        "element_relation": "generated_by",
+        "same_branch": false,
+        "source_ref": "main:5",
+        "target_ref": "main:3"
+      },
+      {
+        "clash": false,
+        "combine": false,
+        "element_relation": "generates",
+        "same_branch": false,
+        "source_ref": "main:5",
+        "target_ref": "main:4"
+      },
+      {
+        "clash": false,
+        "combine": false,
+        "element_relation": "generated_by",
+        "same_branch": false,
+        "source_ref": "main:5",
+        "target_ref": "main:6"
+      }
+    ],
+    "palace": {
+      "element": "木",
+      "response_position": 6,
+      "self_position": 3,
+      "stage": "归魂",
+      "trigram": "震"
+    },
+    "transformed_lines": [
+      {
+        "age": "young",
+        "branch": "子",
+        "element": "水",
+        "ganzhi": "庚子",
+        "kin": "parents",
+        "kin_basis": "primary_palace",
+        "kin_name": "父母",
+        "moving": false,
+        "position": 1,
+        "position_role": null,
+        "ref": "transformed:1",
+        "six_spirit": "玄武",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controls",
+            "same_branch": false
+          },
+          "month_seasonal_label": "死",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": true
+        },
+        "yin_yang": "yang",
+        "yin_yang_value": 7
+      },
+      {
+        "age": "young",
+        "branch": "寅",
+        "element": "木",
+        "ganzhi": "庚寅",
+        "kin": "siblings",
+        "kin_basis": "primary_palace",
+        "kin_name": "兄弟",
+        "moving": false,
+        "position": 2,
+        "position_role": null,
+        "ref": "transformed:2",
+        "six_spirit": "青龙",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "养",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controlled_by",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "养",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "controlled_by",
+            "same_branch": false
+          },
+          "month_seasonal_label": "囚",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      },
+      {
+        "age": "young",
+        "branch": "辰",
+        "element": "土",
+        "ganzhi": "庚辰",
+        "kin": "wealth",
+        "kin_basis": "primary_palace",
+        "kin_name": "妻财",
+        "moving": false,
+        "position": 3,
+        "position_role": null,
+        "ref": "transformed:3",
+        "six_spirit": "朱雀",
+        "stem": "庚",
+        "strength": {
+          "day_clash": true,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": true,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_break": true,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": true,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": false
+          },
+          "month_seasonal_label": "旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      },
+      {
+        "age": "young",
+        "branch": "午",
+        "element": "火",
+        "ganzhi": "庚午",
+        "kin": "offspring",
+        "kin_basis": "primary_palace",
+        "kin_name": "子孙",
+        "moving": false,
+        "position": 4,
+        "position_role": null,
+        "ref": "transformed:4",
+        "six_spirit": "勾陈",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "墓",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generated_by",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "墓",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generated_by",
+            "same_branch": false
+          },
+          "month_seasonal_label": "休",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "yin_yang": "yang",
+        "yin_yang_value": 7
+      },
+      {
+        "age": "young",
+        "branch": "申",
+        "element": "金",
+        "ganzhi": "庚申",
+        "kin": "officials",
+        "kin_basis": "primary_palace",
+        "kin_name": "官鬼",
+        "moving": false,
+        "position": 5,
+        "position_role": null,
+        "ref": "transformed:5",
+        "six_spirit": "螣蛇",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "衰",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generates",
+            "same_branch": false
+          },
+          "month_break": false,
+          "month_life_stage": "衰",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "generates",
+            "same_branch": false
+          },
+          "month_seasonal_label": "相",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      },
+      {
+        "age": "young",
+        "branch": "戌",
+        "element": "土",
+        "ganzhi": "庚戌",
+        "kin": "wealth",
+        "kin_basis": "primary_palace",
+        "kin_name": "妻财",
+        "moving": false,
+        "position": 6,
+        "position_role": null,
+        "ref": "transformed:6",
+        "six_spirit": "白虎",
+        "stem": "庚",
+        "strength": {
+          "day_clash": false,
+          "day_life_stage": "冠带",
+          "day_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": true
+          },
+          "month_break": false,
+          "month_life_stage": "冠带",
+          "month_relation": {
+            "clash": false,
+            "combine": false,
+            "element_relation": "same",
+            "same_branch": true
+          },
+          "month_seasonal_label": "旺",
+          "overall_strength": null,
+          "overall_strength_status": "requires_contextual_rule_evaluation",
+          "policy_id": "shanghai-jie-midnight-water-earth-v1",
+          "xun_empty": false
+        },
+        "yin_yang": "yin",
+        "yin_yang_value": 8
+      }
+    ],
+    "transformed_lines_complete": true
+  },
+  "confirmed_question": {
+    "confirmation_id": "26b03069-0729-4413-ba66-d32ee6e7bc29",
+    "confirmed_at": "2026-10-15T13:50:22.830071+00:00",
+    "context": {
+      "exclusions": [],
+      "initiator": null,
+      "known_facts": [],
+      "number_provider": null,
+      "perspective_person": null,
+      "process_stage": null,
+      "relationships": [],
+      "target_entities": [],
+      "time_expression": "未来三个月"
+    },
+    "normalized_question": "我未来三个月能否找到工作入职",
+    "numbers": [
+      2,
+      4,
+      5
+    ],
+    "question_analysis": {
+      "actors": [],
+      "current_state": null,
+      "current_state_evidence": null,
+      "domain": "career",
+      "event_type": "new_job",
+      "explicit_context": [],
+      "issue_count": 1,
+      "issues": [],
+      "normalized_question": "我未来三个月能否找到工作入职",
+      "prompt_version": "q1-precheck-v1",
+      "question_type": "outcome",
+      "raw_event_description": "我未来三个月能否找到工作入职",
+      "relationships": [],
+      "status": "valid",
+      "subject_actor_id": null,
+      "target_state": "找到工作入职",
+      "target_state_evidence": {
+        "end": 14,
+        "source_id": "question",
+        "start": 8,
+        "text": "找到工作入职"
+      },
+      "taxonomy_version": "single-question-taxonomy-v1",
+      "time_constraint": {
+        "evidence": {
+          "end": 6,
+          "source_id": "question",
+          "start": 1,
+          "text": "未来三个月"
+        },
+        "expression": "未来三个月",
+        "kind": "duration"
+      },
+      "version": "single-question-analysis-v4"
+    },
+    "question_hash": "86c40ca8eb6a5e549a28b6b1825e8c92285e6d2445d09b34c8ff17041cf2419d",
+    "source": "explicit_user_action",
+    "state": "confirmed",
+    "timezone": "Asia/Hong_Kong",
+    "version": "confirmed-question-v1"
+  },
+  "question_context": {
+    "ambiguities": [],
+    "assumptions": [],
+    "domain": "career",
+    "event_type": "new_job",
+    "exclusions": [],
+    "goal": {
+      "provenance": "model_inference",
+      "value": "确认未来三个月内能否找到工作并入职",
+      "verification_status": "extracted"
+    },
+    "goal_groups": [
+      "确认未来三个月内能否找到工作并入职"
+    ],
+    "initiator": {
+      "provenance": "unknown",
+      "value": null,
+      "verification_status": "unknown"
+    },
+    "known_facts": [],
+    "number_provider": {
+      "provenance": "unknown",
+      "value": null,
+      "verification_status": "unknown"
+    },
+    "parser_status": "parsed",
+    "perspective_person": {
+      "provenance": "unknown",
+      "value": null,
+      "verification_status": "unknown"
+    },
+    "process_stage": {
+      "provenance": "unknown",
+      "value": null,
+      "verification_status": "unknown"
+    },
+    "question_kind": {
+      "provenance": "model_inference",
+      "value": "feasibility",
+      "verification_status": "extracted"
+    },
+    "question_type": "outcome",
+    "raw_question": "我未来三个月能否找到工作入职",
+    "relationships": [],
+    "target_entities": [],
+    "time_expression": {
+      "evidence": {
+        "end_offset_exclusive": 6,
+        "start_offset": 1,
+        "text": "未来三个月"
+      },
+      "provenance": "user_explicit",
+      "value": "未来三个月",
+      "verification_status": "extracted"
+    },
+    "topic_candidates": []
+  },
+  "input": {
+    "question_analysis": {
+      "version": "single-question-analysis-v4",
+      "taxonomy_version": "single-question-taxonomy-v1",
+      "prompt_version": "q1-precheck-v1",
+      "status": "valid",
+      "issue_count": 1,
+      "issues": [],
+      "normalized_question": "我未来三个月能否找到工作入职",
+      "domain": "career",
+      "event_type": "new_job",
+      "raw_event_description": "我未来三个月能否找到工作入职",
+      "question_type": "outcome",
+      "subject_actor_id": null,
+      "actors": [],
+      "relationships": [],
+      "current_state": null,
+      "current_state_evidence": null,
+      "target_state": "找到工作入职",
+      "target_state_evidence": {
+        "source_id": "question",
+        "start": 8,
+        "end": 14,
+        "text": "找到工作入职"
+      },
+      "time_constraint": {
+        "kind": "duration",
+        "expression": "未来三个月",
+        "evidence": {
+          "source_id": "question",
+          "start": 1,
+          "end": 6,
+          "text": "未来三个月"
+        }
+      },
+      "explicit_context": []
+    },
+    "validated_use_roles": {
+      "rules_version": "fixed-use-branches-v1",
+      "chart_hash": "542bd53dc51d7f767abb33fe5169e90218395228cdfc8675811cb01c89d62462",
+      "status": "generated",
+      "primary": {
+        "role": "officials",
+        "meaning": "代表工作职位、功名、入职机会",
+        "rule_id": "career",
+        "reason": "用户询问未来三个月能否找到工作并入职，属于求职类问题。依据 fixed_rules 中的 'career' 规则，问功名职位可取官鬼为用神，且明确说明现代求职是古代功名取用的工程类比。",
+        "main_line_refs": [
+          "main:5"
+        ],
+        "hidden_line_refs": [],
+        "location_status": "main"
+      },
+      "auxiliary": [
+        {
+          "role": "self",
+          "meaning": "代表求测者本人，用于观察自身状态与职位的关联",
+          "rule_id": "career",
+          "reason": "依据 'career' 规则，问功名职位时，世爻（self）用于观察自己，是必要的辅助角色以判断自身能否胜任或获得该职位。",
+          "main_line_refs": [
+            "main:3"
+          ],
+          "hidden_line_refs": [],
+          "location_status": "main"
+        }
+      ],
+      "missing_information": [],
+      "uncertainties": []
+    },
+    "fact_catalog": {
+      "version": "analysis-facts-v1",
+      "chart_hash": "542bd53dc51d7f767abb33fe5169e90218395228cdfc8675811cb01c89d62462",
+      "roles_version": "fixed-use-branches-v1",
+      "facts": [
+        {
+          "fact_id": "fact_4523c931e4b8532b02ef4cc2",
+          "type": "role_binding",
+          "subject_ref": "main:5",
+          "value": {
+            "role": "officials",
+            "priority": "primary",
+            "rule_id": "career"
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        },
+        {
+          "fact_id": "fact_03dadfb6d00ab0f99012a3f9",
+          "type": "role_binding",
+          "subject_ref": "main:3",
+          "value": {
+            "role": "self",
+            "priority": "auxiliary",
+            "rule_id": "career"
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        },
+        {
+          "fact_id": "fact_dc7edbd9e7cfbc1dd57254fa",
+          "type": "moving",
+          "subject_ref": "main:1",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_df46e1885b2f26ec6ab39740",
+          "type": "month_break",
+          "subject_ref": "main:1",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_715163284d4d48d02a48d03c",
+          "type": "day_clash",
+          "subject_ref": "main:1",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_3164df4fc71063562f8b776b",
+          "type": "xun_empty",
+          "subject_ref": "main:1",
+          "value": true,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_aad41cbc4843ad9fda802af9",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:1",
+          "value": "死",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_5307efdfb33cbd2829b5409f",
+          "type": "moving",
+          "subject_ref": "main:2",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_bce10ee3c2e1dc63b590a6bb",
+          "type": "month_break",
+          "subject_ref": "main:2",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_f0fbe379e2cd433926636825",
+          "type": "day_clash",
+          "subject_ref": "main:2",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_f6d3dd925a0f8b96c068e631",
+          "type": "xun_empty",
+          "subject_ref": "main:2",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_acd38b316245b19898cc0ecd",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:2",
+          "value": "囚",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_5bd03efcf1049864b42f0a63",
+          "type": "moving",
+          "subject_ref": "main:3",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_89eaf74d054d4d24d3281f7d",
+          "type": "month_break",
+          "subject_ref": "main:3",
+          "value": true,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_aeb2aef87aad61fc2a6137ea",
+          "type": "day_clash",
+          "subject_ref": "main:3",
+          "value": true,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_049b18afe7eb1b9fd9e02be3",
+          "type": "xun_empty",
+          "subject_ref": "main:3",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_3b1a5a951342ea337a390248",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:3",
+          "value": "旺",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_9506acd04a18c0c0a7dab820",
+          "type": "moving",
+          "subject_ref": "main:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_f7a15059612c73a900322fa7",
+          "type": "month_break",
+          "subject_ref": "main:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_5de79acb09a115923c2f703f",
+          "type": "day_clash",
+          "subject_ref": "main:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_9a4de785b298f627fb8f9b5c",
+          "type": "xun_empty",
+          "subject_ref": "main:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_9355dd00bcb6c33f55efca90",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:4",
+          "value": "死",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_c578f94985fada44da00a8a1",
+          "type": "moving",
+          "subject_ref": "main:5",
+          "value": true,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_d3e94bdc7773eb7d5992e9dc",
+          "type": "month_break",
+          "subject_ref": "main:5",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_4cc31afff05d3f9662a55a2c",
+          "type": "day_clash",
+          "subject_ref": "main:5",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_5ed094367f54a6c5a09c7a35",
+          "type": "xun_empty",
+          "subject_ref": "main:5",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_c3c8e0cc561b23e6ff0fc942",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:5",
+          "value": "相",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_04ed2fd01bded053569666f2",
+          "type": "transformation",
+          "subject_ref": "main:5",
+          "object_ref": "transformed:5",
+          "value": {
+            "from_branch": "酉",
+            "to_branch": "申",
+            "from_element": "金",
+            "to_element": "金",
+            "changed_kin": "officials"
+          },
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_8985a3460b89afb9ff19db8e",
+          "type": "moving",
+          "subject_ref": "main:6",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_b47477ece7f72c3c3ccee23f",
+          "type": "month_break",
+          "subject_ref": "main:6",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_f7920b70fa3a419de8235d05",
+          "type": "day_clash",
+          "subject_ref": "main:6",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_e356d752e79cd5d92bc3f5d8",
+          "type": "xun_empty",
+          "subject_ref": "main:6",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_c693d857f24a6ac121371f25",
+          "type": "month_seasonal_label",
+          "subject_ref": "main:6",
+          "value": "旺",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_a432e42a812570bf129c78e1",
+          "type": "moving",
+          "subject_ref": "hidden:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_616f747e049882234d1710a1",
+          "type": "month_break",
+          "subject_ref": "hidden:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_04b7c76becaa8fa367e2829e",
+          "type": "day_clash",
+          "subject_ref": "hidden:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_36e28fb0b205b446e4c48e57",
+          "type": "xun_empty",
+          "subject_ref": "hidden:4",
+          "value": false,
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_d9328f57f1bba0a1932f5348",
+          "type": "month_seasonal_label",
+          "subject_ref": "hidden:4",
+          "value": "休",
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_9bcf5d07f6523a418fc82b37",
+          "type": "hidden_location",
+          "subject_ref": "hidden:4",
+          "value": {
+            "flying_line_ref": "main:4",
+            "usability_status": "requires_rule_evaluation"
+          },
+          "source": "frozen_core"
+        },
+        {
+          "fact_id": "fact_0ecc0118121d2ce9511a59b3",
+          "type": "line_relationship",
+          "subject_ref": "main:3",
+          "object_ref": "main:5",
+          "value": {
+            "relation_id": "relation_3a3db0e9a64f911063f77aea",
+            "source_element": "土",
+            "target_element": "金",
+            "element_relation": "generates",
+            "same_branch": false,
+            "clash": false,
+            "combine": true
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        },
+        {
+          "fact_id": "fact_2fb97c060e86ea20110bf035",
+          "type": "line_relationship",
+          "subject_ref": "main:5",
+          "object_ref": "main:3",
+          "value": {
+            "relation_id": "relation_1eeccb839d8ccf991997618d",
+            "source_element": "金",
+            "target_element": "土",
+            "element_relation": "generated_by",
+            "same_branch": false,
+            "clash": false,
+            "combine": true
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        },
+        {
+          "fact_id": "fact_0255d0b0a1a29a19f3b9dc7b",
+          "type": "line_relationship",
+          "subject_ref": "main:5",
+          "object_ref": "transformed:5",
+          "value": {
+            "relation_id": "relation_ffd11cc3cb35acd94125a8a4",
+            "source_element": "金",
+            "target_element": "金",
+            "element_relation": "same_element",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        },
+        {
+          "fact_id": "fact_2e3233f3938f61df1c021f90",
+          "type": "line_relationship",
+          "subject_ref": "transformed:5",
+          "object_ref": "main:5",
+          "value": {
+            "relation_id": "relation_61b8c7b1ed8e3cfb154bde91",
+            "source_element": "金",
+            "target_element": "金",
+            "element_relation": "same_element",
+            "same_branch": false,
+            "clash": false,
+            "combine": false
+          },
+          "source": "derived_verified",
+          "derivation_version": "directed-core-relations-pr65-v1"
+        }
+      ]
+    },
+    "allowed_task_kinds": [
+      "role_condition",
+      "moving_transformation",
+      "month_day_effect",
+      "line_relationship",
+      "hidden_condition",
+      "timing"
+    ],
+    "allowed_topics": {
+      "use_role": {
+        "label": "取用角色",
+        "terms": [
+          "用神",
+          "取用"
+        ]
+      },
+      "self_response": {
+        "label": "世应关系",
+        "terms": [
+          "世爻",
+          "应爻",
+          "世应"
+        ]
+      },
+      "moving_line": {
+        "label": "动静",
+        "terms": [
+          "动爻",
+          "静爻",
+          "发动"
+        ]
+      },
+      "transformation": {
+        "label": "动变",
+        "terms": [
+          "动变",
+          "变爻"
+        ]
+      },
+      "advance_retreat": {
+        "label": "进退神定义",
+        "terms": [
+          "进退神",
+          "进神",
+          "退神"
+        ]
+      },
+      "month_break": {
+        "label": "月破",
+        "terms": [
+          "月破",
+          "月建"
+        ]
+      },
+      "day_month": {
+        "label": "日月作用",
+        "terms": [
+          "日辰",
+          "月建"
+        ]
+      },
+      "xun_empty": {
+        "label": "旬空",
+        "terms": [
+          "旬空",
+          "空亡"
+        ]
+      },
+      "day_clash": {
+        "label": "日冲",
+        "terms": [
+          "日冲",
+          "日辰"
+        ]
+      },
+      "hidden_spirit": {
+        "label": "伏神条件",
+        "terms": [
+          "伏神",
+          "飞神"
+        ]
+      },
+      "generation_restriction": {
+        "label": "生克关系",
+        "terms": [
+          "生克",
+          "生扶",
+          "克制"
+        ]
+      },
+      "timing": {
+        "label": "应期前提",
+        "terms": [
+          "应期",
+          "应期条件"
+        ]
+      },
+      "officials": {
+        "label": "官鬼",
+        "terms": [
+          "官鬼"
+        ]
+      },
+      "wealth": {
+        "label": "妻财",
+        "terms": [
+          "妻财"
+        ]
+      },
+      "parents": {
+        "label": "父母",
+        "terms": [
+          "父母"
+        ]
+      },
+      "siblings": {
+        "label": "兄弟",
+        "terms": [
+          "兄弟"
+        ]
+      },
+      "offspring": {
+        "label": "子孙",
+        "terms": [
+          "子孙"
+        ]
+      }
+    },
+    "kind_topics": {
+      "role_condition": [
+        "use_role",
+        "self_response",
+        "officials",
+        "wealth",
+        "parents",
+        "siblings",
+        "offspring"
+      ],
+      "moving_transformation": [
+        "moving_line",
+        "transformation",
+        "advance_retreat"
+      ],
+      "month_day_effect": [
+        "month_break",
+        "day_month",
+        "xun_empty",
+        "day_clash"
+      ],
+      "line_relationship": [
+        "self_response",
+        "generation_restriction"
+      ],
+      "hidden_condition": [
+        "hidden_spirit"
+      ],
+      "timing": [
+        "timing"
+      ]
+    },
+    "required_coverage": {
+      "role": [
+        "fact_4523c931e4b8532b02ef4cc2"
+      ],
+      "moving": [
+        "fact_04ed2fd01bded053569666f2"
+      ],
+      "conditions": [
+        "fact_89eaf74d054d4d24d3281f7d",
+        "fact_aeb2aef87aad61fc2a6137ea"
+      ],
+      "hidden": [],
+      "relationships": [
+        "fact_0ecc0118121d2ce9511a59b3",
+        "fact_2fb97c060e86ea20110bf035",
+        "fact_0255d0b0a1a29a19f3b9dc7b"
+      ],
+      "timing": true
+    },
+    "max_tasks": 7
+  },
+  "attempts": [
+    {
+      "raw_output": "{\"tasks\":[{\"task_id\":\"T1\",\"kind\":\"role_condition\",\"fact_refs\":[\"fact_4523c931e4b8532b02ef4cc2\"],\"topic_ids\":[\"use_role\",\"officials\"],\"retrieval_question\":\"在求职入职类占事中，官鬼爻作为用神代表职位的具体吉凶判断标准是什么？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"已确认 main:5 为官鬼用神，需明确其作为工作机会的核心断语规则以建立分析基准。\"},{\"task_id\":\"T2\",\"kind\":\"role_condition\",\"fact_refs\":[\"fact_03dadfb6d00ab0f99012a3f9\",\"fact_89eaf74d054d4d24d3281f7d\",\"fact_aeb2aef87aad61fc2a6137ea\"],\"topic_ids\":[\"self_response\"],\"retrieval_question\":\"世爻同时遭遇月破与日冲（即月破日冲并见）时，传统理论如何界定其‘散’或‘败’的状态及对求测者自身能力的影响？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"世爻 main:3 存在月破和日冲事实，这是判断求测者当前状态能否承载官鬼的关键条件。\"},{\"task_id\":\"T3\",\"kind\":\"moving_transformation\",\"fact_refs\":[\"fact_c578f94985fada44da00a8a1\",\"fact_04ed2fd01bded053569666f2\"],\"topic_ids\":[\"transformation\",\"advance_retreat\"],\"retrieval_question\":\"官鬼爻发动由酉金变申金，符合同五行化退神的定义吗？其成立条件及对职位机会的吉凶含义为何？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"用神 main:5 发动且变爻为同五行地支，需核验是否构成‘化退’以判断机会是增强还是减弱。\"},{\"task_id\":\"T4\",\"kind\":\"line_relationship\",\"fact_refs\":[\"fact_0ecc0118121d2ce9511a59b3\",\"fact_2fb97c060e86ea20110bf035\"],\"topic_ids\":[\"generation_restriction\"],\"retrieval_question\":\"在世爻月破日冲的虚弱状态下，世爻生助用神（土生金）的关系是视为‘累赘’还是‘有情’？\",\"depends_on\":[],\"priority\":\"high\",\"why_needed\":\"世爻与用神存在相生关系，但世爻状态极差，需理论支持来判断此相生关系的实际效力。\"},{\"task_id\":\"T5\",\"kind\":\"month_day_effect\",\"fact_refs\":[\"fact_3164df4fc71063562f8b776b\"],\"topic_ids\":[\"xun_empty\"],\"retrieval_question\":\"初爻旬空对全卦气机或特定六亲是否有特殊影响，尤其在问事时间跨度为三个月的情况下？\",\"depends_on\":[],\"priority\":\"optional\",\"why_needed\":\"初爻 main:1 旬空，虽非直接用神或世爻，但需确认其是否为关键原神或忌神空亡从而影响全局。\"},{\"task_id\":\"T6\",\"kind\":\"timing\",\"fact_refs\":[\"fact_c578f94985fada44da00a8a1\",\"fact_04ed2fd01bded053569666f2\"],\"topic_ids\":[\"timing\"],\"retrieval_question\":\"用神发动化退且问事限定期为三个月时，应期理论中关于‘退神’填实或值令的时间判断原则是什么？\",\"depends_on\":[],\"priority\":\"high\",\"why_needed\":\"用户明确询问‘未来三个月’，若确认为化退，需依据应期理论判断事情发生或失败的时间窗口。\"}]}",
+      "raw_sha256": "fe00dae9620549c3ee1a159e02825f10608787ed6415592d85e3feaf5cd11476",
+      "original_error": "PLAN_REQUIRED_COVERAGE_MISSING"
+    },
+    {
+      "raw_output": "{\"tasks\":[{\"task_id\":\"T1\",\"kind\":\"role_condition\",\"fact_refs\":[\"fact_4523c931e4b8532b02ef4cc2\"],\"topic_ids\":[\"use_role\",\"officials\"],\"retrieval_question\":\"在求职占事中，官鬼爻作为用神代表职位的具体含义及判断入职的核心标准是什么？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"必须明确用神（官鬼）在求职语境下的具体断法定义，作为分析能否找到工作的理论基石。\"},{\"task_id\":\"T2\",\"kind\":\"role_condition\",\"fact_refs\":[\"fact_03dadfb6d00ab0f99012a3f9\"],\"topic_ids\":[\"self_response\"],\"retrieval_question\":\"世爻在求职卦中代表求测者自身状态，其旺衰与受克对获得职位的具体影响规则是什么？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"需确立世爻（求测者）的状态判定标准，以评估自身是否具备胜任或获得该职位的条件。\"},{\"task_id\":\"T3\",\"kind\":\"month_day_effect\",\"fact_refs\":[\"fact_89eaf74d054d4d24d3281f7d\",\"fact_aeb2aef87aad61fc2a6137ea\"],\"topic_ids\":[\"month_break\",\"day_clash\"],\"retrieval_question\":\"世爻同时遭遇月破和日冲（即月破日冲）时，传统理论中如何界定其‘散’或‘彻底无用’的成立条件与例外？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"事实显示世爻同时存在月破和日冲，这是极凶的特殊状态，必须检索该组合下世爻是否还有救应的严格理论界限。\"},{\"task_id\":\"T4\",\"kind\":\"moving_transformation\",\"fact_refs\":[\"fact_04ed2fd01bded053569666f2\",\"fact_c578f94985fada44da00a8a1\"],\"topic_ids\":[\"transformation\",\"advance_retreat\"],\"retrieval_question\":\"用神官鬼爻发动由酉金变申金，同五行地支变化是否构成‘退神’，其判定依据及对吉凶的具体影响是什么？\",\"depends_on\":[],\"priority\":\"critical\",\"why_needed\":\"用神发动且地支由酉变申，需核验是否属于化退神，这将直接决定职位机会是增强还是消退。\"},{\"task_id\":\"T5\",\"kind\":\"line_relationship\",\"fact_refs\":[\"fact_0ecc0118121d2ce9511a59b3\",\"fact_2fb97c060e86ea20110bf035\"],\"topic_ids\":[\"generation_restriction\"],\"retrieval_question\":\"世爻生助用神（土生金）的关系在求职卦中是代表‘我去求职’的主动行为，还是代表‘泄气’导致自身无力？\",\"depends_on\":[],\"priority\":\"high\",\"why_needed\":\"世爻与用神存在相生关系，需明确这种生向在求职特定场景下是吉是凶，以及是否加剧世爻本身的虚弱。\"},{\"task_id\":\"T6\",\"kind\":\"month_day_effect\",\"fact_refs\":[\"fact_c3c8e0cc561b23e6ff0fc942\"],\"topic_ids\":[\"day_month\"],\"retrieval_question\":\"用神官鬼爻在月令处于‘相’的状态，其旺相程度是否足以抵抗动爻化退或其他不利因素？\",\"depends_on\":[],\"priority\":\"high\",\"why_needed\":\"用神虽动变，但在月令得气，需确认月令旺相对用神最终吉凶权重的具体修正作用。\"},{\"task_id\":\"T7\",\"kind\":\"timing\",\"fact_refs\":[\"fact_04ed2fd01bded053569666f2\"],\"topic_ids\":[\"timing\"],\"retrieval_question\":\"若卦象显示事情有成败趋势，针对‘未来三个月’的时间约束，应期理论中如何界定事件发生的有效时间窗口？\",\"depends_on\":[],\"priority\":\"optional\",\"why_needed\":\"用户明确询问未来三个月内结果，需在理论层面了解应期判定的时间范围规则，以匹配用户的时间约束。\"}]}",
+      "raw_sha256": "afd057cc769a065aec722fa17f06f0a8f215387d0d25b20e641d7187138976cc",
+      "original_error": "PLAN_CONDITION_UNSUPPORTED"
+    }
+  ]
+}

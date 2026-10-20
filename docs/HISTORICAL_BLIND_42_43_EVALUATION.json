@@ -1,0 +1,58 @@
+{
+  "phase": "post-model-output manual image comparison; never loaded by model scripts",
+  "date": "2026-10-17 Asia/Hong_Kong",
+  "test_kind": "offline historical chart + real source retrieval + real full/integrity PR6, not production end-to-end acceptance",
+  "model": "Qwen3.5-397B-A17B",
+  "prompt": "reasoning-full-generation-v1",
+  "scope": {"no_production_rule_changes": true, "no_official_frozen_database_writes": true, "no_current_date_cast": true, "year_hour_and_Gregorian_date": "unknown/null", "fixed_roles": "Existing response branch for hiring; litigation branch for lawsuit; explicit offline fixtures, not acceptance of an R1 model decision", "planner": "Neutral offline task fixture, not acceptance of production P1 or Q1", "retrieval": "Two program-compiled theory-only rounds; no Gap Analyzer model; both accumulated snapshots validated", "contamination": "No selected passage matched conservative same-case/background cues; all candidates preserved; both had zero exclusions. Different historical examples in theoretical passages remain and are explicitly audited for misapplication. Pretraining familiarity cannot be excluded."},
+  "case42": {
+    "directory": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792217539652/case-42",
+    "earlier_preflight_failure": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792217505133/case-42/error.json",
+    "status": "reasoning_failed", "elapsed_ms": 61467, "model_calls": 2, "call_elapsed_ms": [34212,25262], "evidence_count": 8,
+    "failure": "Both attempts had unexpected root limitations outside explainer; schema rejected before reference checks. Last draft also cited non-existent E40. Complete prose exported explicitly as failed raw model draft, never promoted to success.",
+    "production_boundary": "Recruitment subject contract rejected this fixture with QUESTION_HIRING_SUBJECT_INVALID. The original question also semantically contains hiring decision, intention and timing; actual multi-issue precheck results are preserved, not assumed. Q1 was not bypassed in production.",
+    "comparison": [
+      {"item":"能力可考虑", "reference":"此人具备专业能力，可以考虑", "model":"对方才干出众、能力强", "classification":"一致", "note":"仅为推断观点一致，不是能力事实验证"},
+      {"item":"聘用结果", "reference":"最终能谈拢，达成聘用", "model":"风险较大，建议重新评估是否非此人不可", "classification":"相反", "note":"结果倾向明显不同，图片并非事实真值"},
+      {"item":"对方意愿", "reference":"观望权衡，不会爽快答应", "model":"有意愿，但强硬且难管理", "classification":"部分一致", "note":"条件性有交集，未识别观望，额外推断强势和管理难度"},
+      {"item":"合同和职责", "reference":"重合同、岗位权责及规范", "model":"审查合约、职权及解约条款", "classification":"部分一致", "note":"建议相似，模型用反客为主风险解释，不能当对方已知心理"},
+      {"item":"老板顾虑", "reference":"本人思虑重，重岗位规划和用人风险", "model":"被动、难驾驭对方", "classification":"模型未提及", "note":"未正面分析参考所说的本人反复权衡"},
+      {"item":"先难后易", "reference":"有阻滞但最终可落地", "model":"强调反复、难落实和长期稳定性风险", "classification":"相反"},
+      {"item":"宣布择日", "reference":"优先子日、亥日；避巳午日", "model":"推迟下月或待冲去变爻子水，未给子亥优先", "classification":"模型未提及", "note":"冲子通常指午，与参考避午存在潜在冲突；年月不详不能比较绝对公历日期，也不能把下个月具体化"},
+      {"item":"世爻状态", "reference":"初爻父母子水，月克日生", "model":"世子水得日生、受应土克", "classification":"部分一致", "note":"正确识别初爻和日生，未完整呈现月克"},
+      {"item":"应爻状态", "reference":"四爻未土临月建", "model":"未土临月建且得酉日生扶", "classification":"部分一致", "note":"月建正确；酉金不生未土，实际未土生酉金，模型额外写反日爻生克"},
+      {"item":"世应生克方向", "reference":"世子水克应未土，己方主动", "model":"应未土克世子水", "classification":"参考自身待核验", "note":"五行土克水，程序是应克世；此项不能因模型与图片相反而判模型错。图片自身方向写反。是否主动不能仅由此证明"},
+      {"item":"五爻动变", "reference":"子孙巳火化父母子水回头克", "model":"五爻辛巳化丙子，水回克火", "classification":"一致", "note":"截图将五爻写己巳；项目巽外卦纳甲为辛巳，记录差异，不迎合修改程序"},
+      {"item":"伏官鬼", "reference":"酉金伏三爻辰土下，月生日助，职位实质有效", "model":"飞神旺所以伏神难出，聘用暂难落地", "classification":"相反", "note":"程序飞辰土生伏酉金且辰酉合，引用原文也把得飞神生列有用条件。仅因飞旺判难出，忽略生克方向"}
+    ]
+  },
+  "case43": {
+    "directory": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/historical-blind-1792217505133/case-43",
+    "status": "complete", "validation_mode": "integrity", "elapsed_ms": 37801, "model_calls": 1, "call_elapsed_ms": [34683], "evidence_count": 8,
+    "comparison": [
+      {"item":"全胜倾向", "reference":"全胜困难但不是绝境", "model":"大方向吉利，赢得诉讼或有利和解", "classification":"相反", "note":"和解选项有交集，整体胜负倾向却明显不同；不评判未提供的维持原判背景"},
+      {"item":"调解与部分利益", "reference":"可争取调解、保住部分诉求", "model":"有利和解、可申请调解", "classification":"部分一致", "note":"模型更乐观，没有优先保住部分利益的风险权衡"},
+      {"item":"游魂多动反复", "reference":"游魂、多爻动，变数多", "model":"四动、变幻莫测、可能周折", "classification":"部分一致", "note":"未提游魂或蒙的迷惑判断，正确数出三四五六爻动"},
+      {"item":"世爻定位", "reference":"四爻父母亥水持世", "model":"父母丁亥持世，文书口舌", "classification":"一致"},
+      {"item":"世受月日及旺土动克", "reference":"世亥水受未月戌日克及旺土动克", "model":"承认月日土克水，但以动金通关判官方保护", "classification":"部分一致", "note":"模型漏掉上爻未土动克和四爻亥化戌土回头克的重要制约；金生水结构存在，不等于法官支持"},
+      {"item":"应爻状态", "reference":"丑土月破，但有旺财土动扶", "model":"应丑土旺于月建，且生合世亥水", "classification":"相反", "note":"未丑相冲为月破；丑土克亥水而非生亥水，且丑亥不是六合。模型误读冻结状态与方向"},
+      {"item":"官鬼受制与墓", "reference":"官鬼受子孙制且入墓", "model":"三爻酉金化午火回头克，但解作有利反转；未提入墓", "classification":"部分一致", "note":"结构回头克正确，结论解释相反；入墓有效性仍须规则条件，不把参考判断当无误事实"},
+      {"item":"兄弟助力", "reference":"兄弟透出带来助力", "model":"未讨论兄弟助力", "classification":"模型未提及", "note":"上爻化寅木兄弟是程序事实，助力是否有效另须核验；律师/有利证词只是类比，不是已知背景"},
+      {"item":"伏神身份", "reference":"未将伏子孙写成寅木", "model":"伏神子孙寅木旬空且受飞神克", "classification":"参考自身待核验", "note":"此处为额外独立事实审计，不是参考命中项：寅木是伏兄弟且飞亥水生；伏子孙为午火、不旬空、受飞亥水克，模型串混了两条伏神"},
+      {"item":"原判、二审与新证据", "reference":"图片补充原判、二审、对方新证据", "model":"说原本不利的官方裁决或压力，并假设如新证据", "classification":"参考自身待核验", "note":"这些不在原题，全部排除出命中项。模型的旧裁决暗示无输入依据；如新证据是模型自行举例，非已知事实，更不是检索泄露证明"},
+      {"item":"8月14日", "reference":"图片将X写为14", "model":"只写8月，未补14", "classification":"参考自身待核验", "note":"不能把参考补充的日期当模型应命中项；无年份和X的确值，无法核对开庭日干支或绝对择日"},
+      {"item":"财务争议、对方心理", "reference":"无原始问事背景支持", "model":"财务往来记录、对方无意决裂、法官保护我方", "classification":"参考自身待核验", "note":"独立审计：模型将六亲类比扩写为现实情节/心理，没有用户事实支持"}
+    ]
+  },
+  "citation_audit": [
+    {"case":42,"issue":"E40不存在；正文其他引用不能因此被自动认作可靠。schema失败在前，没有交付正式解释"},
+    {"case":42,"issue":"E7明确包含伏神得飞神生为有用条件，模型却把飞神旺概括成必难出；与本盘辰土生酉金方向不符"},
+    {"case":42,"issue":"E4警告不可舍用神只执独发判应期，不能直接证明下月或冲子即适合宣布"},
+    {"case":43,"issue":"正式正文[1]实际是聘用篇应为用神的原文，被套为诉讼对方支持我方，领域/角色适用错配"},
+    {"case":43,"issue":"[2]泛论日月太岁，并不支持法官态度保护我方；[3]可说明变爻作用本位，但不能证明会出现新证据或有利裁决"},
+    {"case":43,"issue":"[4]是伏神条件原文；模型把子孙午火、兄弟寅木的身份空亡和飞伏生克混合，属于盘面误读，不只是解释观点差异"}
+  ],
+  "verification": {"typecheck":"passed", "tests_passed":466, "tests_skipped":8, "test_files_passed":32, "new_historical_core_tests":2, "production_code_changes_this_task":0},
+  "files_per_case": {"00-input.json":"Only explicit allowed sample inputs", "01-core.json":"Program chart from explicit historical month/day; unknown absolute time remains null", "02-support-boundary.json":"Q1/fixture support boundary", "03-planner-fixture.json":"Offline question/role/task fixture and deterministic facts", "04-retrieval-input.json":"Actual compiled two-round retrieval inputs", "05-retrieval-raw.json":"All raw selected source candidates", "06-contamination-audit.json":"Pre-call contamination check", "07-context.json":"Actual validated reasoning context", "08-reasoning-input.json":"Actual PR6 builder output", "09-result.json":"Actual stage status and result", "10-complete-output.txt":"Case43 complete rendered text", "10-failed-model-draft.txt":"Case42 last real draft, explicitly failed", "11-all-nodes.json":"Exact stage and model inputs/outputs including repair", "12-request-reference-audit.json":"Request hashes, forbidden input marker checks, invalid refs and actual calendar"},
+  "overall": "Both generated substantial prose, but quality blind test is not accepted. Case42 failed schema/reference delivery; case43 passed integrity only while containing serious fact-direction and applicability errors. The reference itself contains errors and added context; no simplistic accuracy percentage is reported. No production semantic guard was changed to chase agreement."
+}

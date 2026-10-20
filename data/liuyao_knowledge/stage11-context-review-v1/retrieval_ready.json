@@ -1,0 +1,26 @@
+{
+  "release_id": "source-release:073dc5fb09ae986ac588a39c635ab51a09d8ddf10b9a798cf3b3126d633d3341",
+  "verification": {
+    "probe_distances": [
+      1.0202906923773014e-06,
+      1.0335372347958227e-06,
+      1.0019136982286625e-06
+    ],
+    "baseline_created_at": "2026-10-10T11:37:30.128940+00:00",
+    "verified_operational_profile": true,
+    "fixed_weight_revision_available": false
+  },
+  "embedding": {
+    "completed": 99,
+    "cached": 575,
+    "failed": 0,
+    "blocked": 0,
+    "total_jobs": 674,
+    "accounting_closed": true,
+    "post_build_probe_distances": [
+      1.0202906923773014e-06,
+      1.0335372347958227e-06,
+      1.0019136982286625e-06
+    ]
+  }
+}

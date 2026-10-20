@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-17 Asia/Hong_Kong",
+  "status": "single_live_replay_complete_not_semantically_validated",
+  "configuration": {"default": "full", "rollback": "LIUYAO_REASONING_MODE=strict", "validation_mode": "integrity", "prompt": "reasoning-full-generation-v1", "node_budget_ms": 120000, "max_output_tokens": 4500},
+  "fixes": ["Fixed missing map expression delimiter in reasoning-input.ts", "Fixed TypeScript assessment union narrowing using explicit never-return branch", "Separated full integrity compiler from retained strict semantic validator", "Mode-isolated input, checkpoint and interpretation version identities", "Full mode never uses conservativeExplainer or partial salvage as successful final output", "Export audit explicitly discloses disabled semantic verification"],
+  "checks_retained": ["Frozen question/chart identity", "Program-derived use-role and fact catalog consistency", "Evidence snapshot provenance", "Task/fact/evidence IDs and task ownership", "Canonical observations and real source citation contents", "Schema and one bounded repair; no blind timeout retry", "Private owner isolation and fresh knowledge identity"],
+  "checks_paused": ["Prose relationship-direction NLP", "Rule applicability and source semantic entailment", "Derived advance/retreat judgment restriction", "Conclusion strength inferred from per-task status", "Required condition/exception/gap classification and complete finding coverage"],
+  "modified_files": ["lib/divination/full-reasoning.ts", "lib/divination/structured-reasoning.ts", "lib/divination/explainer-report.ts", "lib/divination/reasoning-input.ts", "lib/divination/reasoning-output.ts", "lib/divination/explainer-prompt.ts", "lib/server/reasoning-config.ts", "lib/server/structured-reasoning-llm.ts", "lib/server/reasoning-stage.ts", "app/divination/interpretation-panel.tsx", "scripts/export-explainer-replay.mjs", "tests/full-reasoning.test.ts", "tests/pr6-production.test.ts", "tests/structured-reasoning.test.ts", "tests/analysis-plan-route.test.ts"],
+  "replay": {
+    "directory": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/job-entry-245-replay-1792166788907",
+    "source": "/Users/chenxiaohe/Desktop/nus-iss/fortune/.runtime/evals/job-245-live-1792158318352",
+    "question": "我三个月内能否找到工作",
+    "chart_id": "dc9c1f75-9a17-4ebb-98bd-9ad54d0bd830",
+    "chart_hash": "7e919f0b0a22e99aa53c178ba6c40b7d60350f398311a6ccb805a211608e9fc4",
+    "chart": "泽雷随五爻动变震为雷", "frozen_unchanged": true, "no_recast": true,
+    "analysis_status": "complete", "assessment": "conditional", "report_generation_mode": "model", "validation_mode": "integrity",
+    "interpret_elapsed_ms": 87567, "reasoning_elapsed_ms": 53937,
+    "all_trace_model_calls": 3, "planner_model_calls": 0, "reasoning_model_calls": 2, "writer_model_calls": 0,
+    "reasoning_attempts": [
+      {"elapsed_ms": 30314, "outcome": "invalid_reference", "code": "REASONING_EVIDENCE_INVALID", "input_tokens": 11252, "output_tokens": 1028, "output_chars": 1863},
+      {"elapsed_ms": 23616, "outcome": "accepted", "input_tokens": 12388, "output_tokens": 1031, "output_chars": 1877}
+    ],
+    "model": "Qwen3.5-397B-A17B", "evidence_count": 10, "rounds": 2, "claims": 7, "citations": 7,
+    "files": ["summary.json", "3-interpret.json", "interpret-nodes.json", "planner-input-output.actual.json", "explainer-report.actual.json", "explainer-report.actual.txt", "claim-source-audit.actual.json"]
+  },
+  "verification": {"typecheck": "passed", "tests_passed": 464, "tests_skipped": 8, "test_files_passed": 31, "full_mode_tests_passed": 11, "lint_errors": 0, "existing_lint_warnings": 4, "production_build": "passed", "build_warnings": "Existing broad runtime file tracing and outside-repository package-lock warnings", "development_servers": "restarted successfully on 3000 and 8001", "unreviewed_tasks": 0},
+  "caveat": "Completion certifies only generation and data/reference integrity, not rule correctness or a reliable prediction. The actual text includes model claims such as 化退 and 必能達成; these are preserved as requested, not endorsed or semantically certified. One replay is not a measured reliability rate or P95 benchmark."
+}
