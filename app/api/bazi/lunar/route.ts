@@ -14,7 +14,7 @@ export async function GET(request: Request) {
 
   // Without the Python service there is no lunar calendar to check against;
   // let the form through rather than block it on a check that cannot run.
-  if (!pythonServiceConfigured()) {
+  if (!pythonServiceConfigured("bazi")) {
     return Response.json(
       success<LunarCheck>({ valid: true, solar_date: null, message: null }, {
         system: SYSTEM,
@@ -26,6 +26,7 @@ export async function GET(request: Request) {
 
   try {
     const result = await getPython<LunarCheck>(
+      "bazi",
       `/bazi/lunar-date?date=${encodeURIComponent(date)}&leap=${leap}`,
     );
     return Response.json(success(result, { system: SYSTEM }));

@@ -5,6 +5,6 @@ import { callPython } from "@/lib/server/python-client";
 export async function calculateBazi(
   input: BaziChartRequest,
 ): Promise<{ data: BaziChartResult; warnings: string[] }> {
-  const data = await callPython<BaziChartResult>("/bazi/chart", input);
+  const data = await callPython<BaziChartResult>("bazi", "/bazi/chart", input);
   return { data, warnings: [] };
 }

@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import type { BaziChartResult, ElementKey, TenGod } from "@/lib/contracts/bazi";
+import CollectionButton from "@/app/components/collection-button";
 import {
   BRANCH_LABEL,
   ELEMENT_LABEL,
@@ -12,7 +13,17 @@ import {
 } from "@/lib/bazi/display";
 import { cellNote, chartCells, GENERATING_ORDER, type ChartCell } from "@/lib/bazi/structure";
 import { ElementIcon } from "./element-icon";
+import {
+  chartSourceId,
+  dayMasterText,
+  displayName,
+  personKey,
+  pillarText,
+  sourceEvidence,
+  type BaziProfileActivity,
+} from "./profile-activity";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 // Bar lengths only illustrate the primary/middle/residual ordering; they are
 // not weights used anywhere in the calculation.
@@ -60,6 +71,7 @@ function TimelineRow({
   currentKey?: string;
   onSelect: (key: string) => void;
 }) {
+  const { t } = useI18n();
   return (
     <div className={styles.timeline}>
       <div className={styles.timelineHead}>
@@ -88,7 +100,7 @@ function TimelineRow({
                 <b>{item.branch}</b>
                 <i>{TEN_GOD_LABEL[item.branchTenGod]}</i>
               </span>
-              {item.key === currentKey && <span className={styles.luckNow}>当前</span>}
+              {item.key === currentKey && <span className={styles.luckNow}>{t("当前")}</span>}
             </button>
           );
         })}
@@ -97,7 +109,16 @@ function TimelineRow({
   );
 }
 
-export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warnings: string[] }) {
+export function PillarsStep({
+  chart,
+  warnings,
+  profileActivity,
+}: {
+  chart: BaziChartResult;
+  warnings: string[];
+  profileActivity?: BaziProfileActivity;
+}) {
+  const { t } = useI18n();
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
   const [selectedId, setSelectedId] = useState(dayMaster.id);
@@ -159,8 +180,8 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
     <>
       <div className={styles.header}>
         <div>
-          <h2>四柱排盘</h2>
-          <p className="kicker">规则引擎计算结果</p>
+          <h2>{t("四柱排盘")}</h2>
+          <p className="kicker">{t("规则引擎计算结果")}</p>
           <p className={styles.subline}>
             日主 {STEM_LABEL[chart.day_master.stem]}
             {ELEMENT_LABEL[chart.day_master.element]}
@@ -176,7 +197,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
             <circle cx="8" cy="8" r="6" />
             <path d="M8 4.8V8l2.2 1.6" />
           </svg>
-          时间校准
+          {t("时间校准")}
           <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
             <path d="m4.5 6.5 3.5 3.5 3.5-3.5" />
           </svg>
@@ -206,7 +227,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
           <span className={styles.arrow}>→</span>
           <strong>真太阳时 {time.true_solar_time}</strong>
           {time.crossed_pillar_boundary && <span className={styles.arrow}>|</span>}
-          {time.crossed_pillar_boundary && <span className="notice">校正后跨越了时柱边界</span>}
+          {time.crossed_pillar_boundary && <span className="notice">{t("校正后跨越了时柱边界")}</span>}
           {/* The month pillar is set by a 节; some rules in 1.2 additionally
               split the month at its 中气, so the position within the term is
               shown, not just which month it is. */}
@@ -216,7 +237,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
             距{SOLAR_TERM_LABEL[term.next_term]} {term.days_to_next_term.toFixed(1)} 天
             <span className={styles.arrow}>·</span>
             月令取{SOLAR_TERM_LABEL[term.month_term]}
-            {term.near_boundary && <span className="notice">　接近节气交界，结论对出生时刻较敏感</span>}
+            {term.near_boundary && <span className="notice">　{t("接近节气交界，结论对出生时刻较敏感")}</span>}
           </span>
         </div>
       )}
@@ -271,7 +292,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
           style={{ animationDelay: "360ms" }}
           aria-live="polite"
         >
-          <span className="kicker">注释</span>
+          <span className="kicker">{t("注释")}</span>
           {/* Keyed so the note fades in afresh each time the selection changes. */}
           <div key={selected.id} className={styles.fade} style={{ display: "grid", gap: 12 }}>
             <span className={styles.asideChar}>{selected.char}</span>
@@ -281,12 +302,12 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
             {note.relation && <span className={styles.asideRelation}>{note.relation}</span>}
             <p className={styles.asideBody}>{note.body}</p>
           </div>
-          <span className={styles.asideHint}>点击命盘中任意一字，查看它在命局中的位置与关系。</span>
+          <span className={styles.asideHint}>{t("点击命盘中任意一字，查看它在命局中的位置与关系。")}</span>
         </aside>
       </div>
 
       <div className={styles.legend}>
-        <span>五行色标</span>
+        <span>{t("五行色标")}</span>
         {GENERATING_ORDER.map((element) => (
           <span key={element} className={styles.el} data-element={element}>
             <ElementIcon element={element} />
@@ -294,15 +315,49 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
           </span>
         ))}
         <p className={styles.legendNote}>
-          藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。
+          {t("藏干指地支中所藏的天干，按本气、中气、余气分主次：本气是该地支的主要之气，中气与余气依次为辅，条形长度示意这一主次关系。")}
         </p>
       </div>
+
+      {profileActivity ? (
+        <div className={styles.collectRow}>
+          {/* The chart itself is recorded automatically: the personal agent
+              needs every chart a person has, not only the ones they remembered
+              to bookmark. */}
+          <CollectionButton
+            {...profileActivity}
+            action="calculation"
+            autoRecord
+            evidence={[
+              `公历 ${time.true_solar_time}（真太阳时）`,
+              `节气：${SOLAR_TERM_LABEL[term.current_term]}后 ${term.days_since_term.toFixed(1)} 天`,
+              `起运 ${onset.years} 岁${onset.months > 0 ? ` ${onset.months} 个月` : ""} · ${LUCK_DIRECTION_LABEL[onset.direction]}`,
+              ...sourceEvidence(chart),
+            ]}
+            itemType="bazi_record"
+            label="收藏四柱"
+            module="bazi"
+            sourceId={`${chartSourceId(chart, personKey(profileActivity))}:pillars`}
+            step="pillars"
+            summary={`${displayName(profileActivity)} · 四柱 ${pillarText(chart)}；日主 ${dayMasterText(chart)}。`}
+            tags={["八字", "四柱", "排盘"]}
+            title={`${displayName(profileActivity)} · 八字命盘`}
+            snapshot={{
+              pillars: chart.pillars,
+              resolved_time: chart.resolved_time,
+              solar_term: chart.solar_term,
+              luck_onset: chart.luck_onset,
+              day_master: chart.day_master,
+            }}
+          />
+        </div>
+      ) : null}
 
       {/* 大运：与四柱同属 1.1 的确定性计算，故并入本页；仅展示，不含吉凶判断 */}
       <section className={`${styles.luckBlock} ${styles.rise}`} style={{ animationDelay: "480ms" }}>
         <div className={styles.sectionHead}>
-          <h3>大运</h3>
-          <span>推算结果展示，不含有利与否的判断</span>
+          <h3>{t("大运")}</h3>
+          <span>{t("推算结果展示，不含有利与否的判断")}</span>
         </div>
 
         <p className={styles.legendNote}>
@@ -312,7 +367,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
         </p>
 
         <TimelineRow
-          title="大运"
+          title={t("大运")}
           items={chart.luck_cycles.map((cycle) => ({
             key: String(cycle.start_year),
             top: `${cycle.start_age} 岁起`,
@@ -330,7 +385,7 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
         />
 
         <TimelineRow
-          title="流年"
+          title={t("流年")}
           note={`${selectedCycle.start_year}–${selectedCycle.end_year}　随所选大运变化`}
           items={yearsOfCycle.map((year) => ({
             key: String(year.year),
@@ -346,6 +401,41 @@ export function PillarsStep({ chart, warnings }: { chart: BaziChartResult; warni
           currentKey={String(thisYear)}
           onSelect={setYearKey}
         />
+
+        {profileActivity ? (
+          <div className={styles.collectRow}>
+            <CollectionButton
+              {...profileActivity}
+              action="calculation"
+              evidence={[
+                `起运 ${onset.years} 岁${onset.months > 0 ? ` ${onset.months} 个月` : ""}，${LUCK_DIRECTION_LABEL[onset.direction]}`,
+                ...chart.luck_cycles.map(
+                  (cycle) =>
+                    `${cycle.start_age}–${cycle.end_age} 岁（${cycle.start_year}–${cycle.end_year}）${STEM_LABEL[cycle.stem]}${BRANCH_LABEL[cycle.branch]}`,
+                ),
+              ]}
+              itemType="bazi_luck"
+              label="收藏大运流年"
+              module="bazi"
+              sourceId={`${chartSourceId(chart, personKey(profileActivity))}:luck`}
+              step="luck-cycles"
+              summary={`${displayName(profileActivity)} · 大运 ${chart.luck_cycles
+                .map(
+                  (cycle) =>
+                    `${cycle.start_age}-${cycle.end_age} 岁 ${STEM_LABEL[cycle.stem]}${BRANCH_LABEL[cycle.branch]}`,
+                )
+                .join("；")}；当前 ${chart.current_period.year.year} 年 ${STEM_LABEL[chart.current_period.year.stem]}${BRANCH_LABEL[chart.current_period.year.branch]}。`}
+              tags={["八字", "大运", "流年"]}
+              title={`${displayName(profileActivity)} · 大运与流年`}
+              snapshot={{
+                luck_onset: chart.luck_onset,
+                luck_cycles: chart.luck_cycles,
+                annual_cycles: chart.annual_cycles,
+                current_period: chart.current_period,
+              }}
+            />
+          </div>
+        ) : null}
 
       </section>
     </>

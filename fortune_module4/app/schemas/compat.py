@@ -73,6 +73,7 @@ class CompatEventData(BaseModel):
     event_id: str
     duplicate: bool
     idempotency_key: str | None
+    inference_eligible: bool
 
 
 class CompatNoteData(BaseModel):

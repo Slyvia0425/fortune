@@ -1,9 +1,20 @@
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { BaziChartRequest, BaziChartResult, TraceStep, TraceUse } from "@/lib/contracts/bazi";
+import CollectionButton from "@/app/components/collection-button";
 import { booksOf, drawnEdges, layerSteps } from "@/lib/bazi/chain";
 import { chainJson, chartMarkdown, exportName } from "@/lib/bazi/export";
 import { ExportPreview, type ExportFile } from "./export-preview";
+import {
+  chartSourceId,
+  dayMasterText,
+  displayName,
+  personKey,
+  pillarText,
+  sourceEvidence,
+  type BaziProfileActivity,
+} from "./profile-activity";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * 推导链路: the calculation trace the engine returns, drawn as a flow from the input down to the conclusions. Each box is one
@@ -42,6 +53,7 @@ function tagsOf(step: TraceStep): string[] {
 }
 
 function UseBlock({ use }: { use: TraceUse }) {
+  const { t } = useI18n();
   const source = use.source;
   return (
     <li className={styles.useBlock}>
@@ -49,7 +61,7 @@ function UseBlock({ use }: { use: TraceUse }) {
         <span className={styles.useKind} data-kind={use.kind}>{KIND_LABEL[use.kind]}</span>
         {use.id && <code>{use.id}</code>}
         <strong>{use.title}</strong>
-        {use.derived && <span className={styles.derivedMark}>本项目形式化</span>}
+        {use.derived && <span className={styles.derivedMark}>{t("本项目形式化")}</span>}
       </div>
       {use.detail && <p>{use.detail}</p>}
       {source && (
@@ -57,7 +69,7 @@ function UseBlock({ use }: { use: TraceUse }) {
           《{source.book}》{source.chapter ? ` ${source.chapter}` : ""}
           {source.quotation && `　「${source.quotation}」`}
           {source.kb_url?.startsWith("http") && (
-            <a href={source.kb_url} target="_blank" rel="noreferrer">查看原文 ↗</a>
+            <a href={source.kb_url} target="_blank" rel="noreferrer">{t("查看原文 ↗")}</a>
           )}
         </p>
       )}
@@ -65,7 +77,18 @@ function UseBlock({ use }: { use: TraceUse }) {
   );
 }
 
-export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResult; request: BaziChartRequest; onNavigate: Navigate }) {
+export function ChainStep({
+  chart,
+  request,
+  onNavigate,
+  profileActivity,
+}: {
+  chart: BaziChartResult;
+  request: BaziChartRequest;
+  onNavigate: Navigate;
+  profileActivity?: BaziProfileActivity;
+}) {
+  const { t } = useI18n();
   const steps = chart.calculation_trace;
   const rows = useMemo(() => layerSteps(steps), [steps]);
   const number = new Map(rows.flat().map((id, index) => [id, index + 1]));        // numbered as they are laid out, top to bottom
@@ -116,19 +139,19 @@ export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResu
 
   return (
     <>
-      <h2>推导链路</h2>
-      <p className="kicker">从你输入的出生信息，到每一个结论</p>
+      <h2>{t("推导链路")}</h2>
+      <p className="kicker">{t("从你输入的出生信息，到每一个结论")}</p>
       <p className={styles.subline}>
-        每个方块是一次计算：读自哪些步骤、得出什么、依据哪条规则和哪本书。点开方块看数字和出处。箭头表示数据流向，指向读取它的那一步（窄屏不画箭头，每个方块都写明「读自」哪些步骤）。
+        {t("每个方块是一次计算：读自哪些步骤、得出什么、依据哪条规则和哪本书。点开方块看数字和出处。箭头表示数据流向，指向读取它的那一步（窄屏不画箭头，每个方块都写明「读自」哪些步骤）。")}
       </p>
 
       <div className={styles.exportRow}>
-        <span className={styles.chipLabel}>导出</span>
+        <span className={styles.chipLabel}>{t("导出")}</span>
         <button type="button" className={styles.exportButton} onClick={() => setPreview({ name: exportName(chart, "chain", "json"), mime: "application/json", text: chainJson(chart, request) })}>
-          推导链路（JSON）
+          {t("推导链路（JSON）")}
         </button>
         <button type="button" className={styles.exportButton} onClick={() => setPreview({ name: exportName(chart, "chart", "md"), mime: "text/markdown", text: chartMarkdown(chart, request, new Date().toLocaleString("zh-CN", { hour12: false })) })}>
-          全命盘信息（Markdown）
+          {t("全命盘信息（Markdown）")}
         </button>
       </div>
       {preview && <ExportPreview file={preview} onClose={() => setPreview(null)} />}
@@ -190,7 +213,7 @@ export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResu
                       )}
                       {step.uses.length > 0 && (
                         <>
-                          <h4 className={styles.usesTitle}>依据</h4>
+                          <h4 className={styles.usesTitle}>{t("依据")}</h4>
                           <ul className={styles.uses}>
                             {step.uses.map((use, i) => (
                               <UseBlock key={`${use.id ?? use.title}-${i}`} use={use} />
@@ -211,6 +234,47 @@ export function ChainStep({ chart, request, onNavigate }: { chart: BaziChartResu
           </div>
         ))}
       </div>
+
+      {profileActivity ? (
+        <div className={styles.collectRow}>
+          <CollectionButton
+            {...profileActivity}
+            action="interpretation"
+            evidence={[
+              ...chart.calculation_trace.map((step) => `${step.title}：${step.summary}`),
+              ...chart.calculation_trace.flatMap((step) =>
+                step.uses
+                  .filter((use) => use.id || use.source)
+                  .map((use) =>
+                    [
+                      use.id,
+                      use.title,
+                      use.source
+                        ? `《${use.source.book}》${use.source.chapter ?? ""}${use.source.quotation ? `　「${use.source.quotation}」` : ""}`
+                        : "",
+                    ]
+                      .filter(Boolean)
+                      .join("　"),
+                  ),
+              ),
+              ...sourceEvidence(chart),
+            ]}
+            itemType="bazi_reasoning"
+            label="收藏推导链路"
+            module="bazi"
+            sourceId={`${chartSourceId(chart, personKey(profileActivity))}:chain`}
+            step="chain"
+            summary={`${displayName(profileActivity)} · 四柱 ${pillarText(chart)}；日主 ${dayMasterText(chart)}；推导共 ${chart.calculation_trace.length} 步，引用典籍 ${chart.source_refs.length} 部。`}
+            tags={["八字", "推导链路", "依据"]}
+            title={`${displayName(profileActivity)} · 推导链路与出处`}
+            snapshot={{
+              request,
+              calculation_trace: chart.calculation_trace,
+              source_refs: chart.source_refs,
+            }}
+          />
+        </div>
+      ) : null}
     </>
   );
 }

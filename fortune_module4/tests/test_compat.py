@@ -26,6 +26,7 @@ def test_upstream_event_contract_maps_to_module4(client: TestClient) -> None:
     assert body["session_id"] == "compat-session-001"
     assert body["result"]["accepted"] is True
     assert body["result"]["event_count"] == 1
+    assert body["result"]["inference_eligible"] is False
     assert body["source_refs"] == [
         {"source_id": "source:compat-bazi", "title": "source:compat-bazi"}
     ]
@@ -62,6 +63,7 @@ def test_upstream_event_contract_maps_to_module4(client: TestClient) -> None:
     assert event["system"] == "bazi"
     assert event["payload"]["frontend_module"] == "bazi"
     assert event["payload"]["frontend_event_type"] == "question"
+    assert event["inference_eligible"] is False
 
 
 def test_upstream_note_contract_supports_create_update_and_delete(client: TestClient) -> None:

@@ -26,7 +26,10 @@ services:
       EMBEDDING_PROVIDER: hash
       LLM_PROVIDER: template
     ports:
-      - "8000:8000"
+      # The web app reaches Module 4 at 8003 by default and the Python
+      # algorithm service already owns 8000 on a single-machine deployment.
+      # Override the host side with MODULE4_HOST_PORT when 8003 is taken.
+      - "${MODULE4_HOST_PORT:-8003}:8000"
     depends_on:
       db:
         condition: service_healthy

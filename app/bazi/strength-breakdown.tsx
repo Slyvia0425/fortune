@@ -4,6 +4,7 @@ import { FACTOR_LABEL, PATTERN_LABEL, STRENGTH_LABEL } from "@/lib/bazi/display"
 import { contribution } from "@/lib/bazi/strength";
 import { StrengthDemo } from "./strength-demo";
 import styles from "./bazi-chart.module.css";
+import { useI18n } from "@/lib/i18n";
 
 const SCALE: DayMasterStrength[] = [
   "very_weak",
@@ -14,6 +15,7 @@ const SCALE: DayMasterStrength[] = [
 
 /** 日主强弱 · 判断依据: the five factors and what each adds to the weighted total, where that lands on the four strengths, and the special-pattern checks. */
 export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; delay: string }) {
+  const { t } = useI18n();
   // Which factor row is expanded; null when all are collapsed.
   const [openFactor, setOpenFactor] = useState<string | null>(null);
   const [demoOpen, setDemoOpen] = useState(false);
@@ -29,16 +31,16 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
   return (
     <section id="sec-strength" className={`${styles.section} ${styles.rise}`} style={{ animationDelay: delay }}>
       <div className={styles.sectionHead}>
-        <h3>日主强弱 · 判断依据</h3>
+        <h3>{t("日主强弱 · 判断依据")}</h3>
         {trace.sources.length > 0 && <span>依据 {trace.sources.map((source) => `《${source.title}》`).join("")}</span>}
       </div>
 
       <div className={styles.noteRow}>
         <p className={styles.sectionNote}>
-          每行为「因子程度（0–1）× 权重 = 贡献值」，各行相加即为加权合计。克泄耗是阻力、程度越高越不利，按「（1 − 程度）× 权重」计入。权重由标注案例调优得出，点击任一行查看依据与出处。
+          {t("每行为「因子程度（0–1）× 权重 = 贡献值」，各行相加即为加权合计。克泄耗是阻力、程度越高越不利，按「（1 − 程度）× 权重」计入。权重由标注案例调优得出，点击任一行查看依据与出处。")}
         </p>
         <button type="button" className={styles.demoButton} onClick={() => setDemoOpen(true)}>
-          命盘演示
+          {t("命盘演示")}
         </button>
       </div>
       {demoOpen && <StrengthDemo chart={chart} onClose={() => setDemoOpen(false)} />}
@@ -75,7 +77,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
               </button>
               {open && (
                 <dl className={`${styles.factorDetail} ${styles.fade}`}>
-                  <dt>满足程度</dt>
+                  <dt>{t("满足程度")}</dt>
                   <dd>
                     {factor.scale && factor.level !== null ? (
                       <>
@@ -104,13 +106,13 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
                   </dd>
                   {factor.calculation && (
                     <>
-                      <dt>计算</dt>
+                      <dt>{t("计算")}</dt>
                       <dd>{factor.calculation}</dd>
                     </>
                   )}
                   {(factor.rule_text || source || factor.chapter) && (
                     <>
-                      <dt>依据</dt>
+                      <dt>{t("依据")}</dt>
                       <dd>
                         <div className={styles.basisCard}>
                           {(source || factor.chapter) && (
@@ -130,7 +132,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
                             <div className={styles.basisFoot}>
                               {factor.quotation && <span>“{factor.quotation}”</span>}
                               {factor.kb_url?.startsWith("http") && (
-                                <a href={factor.kb_url} target="_blank" rel="noreferrer">查看原文 ↗</a>
+                                <a href={factor.kb_url} target="_blank" rel="noreferrer">{t("查看原文 ↗")}</a>
                               )}
                             </div>
                           )}
@@ -138,7 +140,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
                       </dd>
                     </>
                   )}
-                  <dt>合计贡献</dt>
+                  <dt>{t("合计贡献")}</dt>
                   <dd>
                     {contribution(factor).formula.replace("×", "× 权重")} = {contribution(factor).value.toFixed(2)}
                   </dd>
@@ -153,7 +155,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15 }}>
           <span>
             加权合计
-            {trace.near_balance && <span className="notice">　接近平衡（强弱不明显），扶抑结论请谨慎参考</span>}
+            {trace.near_balance && <span className="notice">　{t("接近平衡（强弱不明显），扶抑结论请谨慎参考")}</span>}
           </span>
           <strong>{trace.fused_score.toFixed(2)}</strong>
         </div>
@@ -172,7 +174,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
       </div>
 
       <div className={styles.checkList}>
-        <strong style={{ fontSize: 15 }}>特殊格局检查</strong>
+        <strong style={{ fontSize: 15 }}>{t("特殊格局检查")}</strong>
         {checks.length > 0 ? (
           checks.map((check) => (
             <div key={check.pattern} className={styles.checkRow}>
@@ -184,12 +186,12 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
             </div>
           ))
         ) : (
-          <span style={{ fontSize: 14, color: "var(--muted)" }}>未发现需要特殊处理的格局，按常规判定。</span>
+          <span style={{ fontSize: 14, color: "var(--muted)" }}>{t("未发现需要特殊处理的格局，按常规判定。")}</span>
         )}
       </div>
 
       <div className={styles.verdict}>
-        <span>最终判定</span>
+        <span>{t("最终判定")}</span>
         <strong>{STRENGTH_LABEL[trace.final_strength]}</strong>
         <span>
           {override?.triggered

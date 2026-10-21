@@ -1,4 +1,5 @@
 import { AXES, type Axis, type Dms, daysIn, digitsOnly } from "@/lib/bazi/birth-input";
+import { useI18n } from "@/lib/i18n";
 import type { Gender, BirthFormState } from "./use-birth-form";
 
 /** Step 1: the birth form. All state lives in `useBirthForm`; this only draws it. */
@@ -47,11 +48,12 @@ function Unit({ unit, children }: { unit: string; children: React.ReactNode }) {
  * type a nonsense coordinate the way a free-text field allows.
  */
 function DmsField({ axis, value, onChange }: { axis: Axis; value: Dms; onChange: (next: Dms) => void }) {
+  const { t } = useI18n();
   const { name, maxDegrees, hemispheres } = AXES[axis];
   return (
     <div className="field">
       <div className="field-head">
-        <label htmlFor={`${axis}-deg`}>{name}</label>
+        <label htmlFor={`${axis}-deg`}>{t(name)}</label>
       </div>
       <div className="dms-row">
         <select aria-label={`${name}半球`} value={value.hemisphere} onChange={(e) => onChange({ ...value, hemisphere: e.target.value })}>
@@ -71,7 +73,7 @@ function DmsField({ axis, value, onChange }: { axis: Axis; value: Dms; onChange:
           value={value.degrees}
           onChange={(e) => onChange({ ...value, degrees: digitsOnly(e.target.value, maxDegrees) })}
         />
-        <i>度</i>
+        <i>{t("度", undefined, "°")}</i>
         <select aria-label={`${name}分`} value={value.minutes} onChange={(e) => onChange({ ...value, minutes: e.target.value })}>
           {MINUTES.map((m) => (
             <option key={m} value={String(m)}>
@@ -79,7 +81,7 @@ function DmsField({ axis, value, onChange }: { axis: Axis; value: Dms; onChange:
             </option>
           ))}
         </select>
-        <i>分</i>
+        <i>{t("分", undefined, "′")}</i>
       </div>
     </div>
   );
@@ -87,29 +89,30 @@ function DmsField({ axis, value, onChange }: { axis: Axis; value: Dms; onChange:
 
 /** The example row: a random classical case fills the form, and its source and the commentator's words can be shown or folded away. */
 function ClassicCasePicker({ form }: { form: BirthFormState }) {
+  const { t } = useI18n();
   const { classicCase: shown, classicCaseOpen: open } = form;
   return (
     <div className="example-row">
-      <span className="example-label">不知道填什么？看一个典籍命例：</span>
+      <span className="example-label">{t("不知道填什么？看一个典籍命例：")}</span>
       <button type="button" className="example-button" onClick={form.pickClassicCase}>
-        {shown ? "换一个命例" : "随机看一个命例"}
+        {shown ? t("换一个命例") : t("随机看一个命例")}
       </button>
       {shown && (
         <button type="button" className="example-toggle" aria-expanded={open} onClick={() => form.setClassicCaseOpen(!open)}>
-          {open ? "收起说明 ▴" : "展开说明 ▾"}
+          {open ? t("收起说明 ▴") : t("展开说明 ▾")}
         </button>
       )}
       {shown && open && (
         <div className="case-card">
           <div className="case-source">
             《{shown.book}》{shown.chapter.includes(" · ") ? shown.chapter.split(" · ")[1] : shown.chapter} · {shown.speaker}{" "}
-            <a href={shown.kb_url} target="_blank" rel="noreferrer">查看原文</a>
+            <a href={shown.kb_url} target="_blank" rel="noreferrer">{t("查看原文")}</a>
           </div>
           <div className="case-main">
             <div className="case-pillars">{shown.pillars}</div>
             <div className="case-label">{shown.said}</div>
           </div>
-          <p className="case-note">下方已填入一个四柱相同的现代出生时刻（与命例的真实出生时间无关），点「生成命盘」查看排盘与分析。</p>
+          <p className="case-note">{t("下方已填入一个四柱相同的现代出生时刻（与命例的真实出生时间无关），点「生成命盘」查看排盘与分析。")}</p>
         </div>
       )}
     </div>
@@ -117,81 +120,82 @@ function ClassicCasePicker({ form }: { form: BirthFormState }) {
 }
 
 export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; pending: boolean; onSubmit: () => void }) {
+  const { t } = useI18n();
   const { dateParts, timeParts, lunar } = form;
   return (
     <>
-      <h2>出生信息</h2>
-      <p className="panel-intro">输入仅用于本次排盘。出生时间与地点共同决定时柱，请尽量准确。</p>
+      <h2>{t("出生信息")}</h2>
+      <p className="panel-intro">{t("输入仅用于本次排盘。出生时间与地点共同决定时柱，请尽量准确。")}</p>
 
       <ClassicCasePicker form={form} />
 
       <div className="form-grid bazi-form">
         <div className="field">
           <div className="field-head">
-            <label htmlFor="date">出生日期</label>
+            <label htmlFor="date">{t("出生日期")}</label>
             <Segmented
-              label="历法"
+              label={t("历法")}
               value={form.calendar}
               onChange={form.setCalendar}
               options={[
-                { value: "solar", label: "公历" },
-                { value: "lunar", label: "农历" },
+                { value: "solar", label: t("公历") },
+                { value: "lunar", label: t("农历") },
               ]}
             />
           </div>
           {form.calendar === "solar" ? (
             <div className="date-row">
-              <Unit unit="年">
+              <Unit unit={t("年", undefined, "y")}>
                 <input
                   id="date"
                   type="text"
                   inputMode="numeric"
                   maxLength={4}
                   placeholder="1990"
-                  aria-label="年"
+                  aria-label={t("年")}
                   value={dateParts.y}
                   onChange={(e) => form.setDateParts((p) => ({ ...p, y: e.target.value.replace(/\D/g, "").slice(0, 4) }))}
                 />
               </Unit>
               <select
-                aria-label="月"
+                aria-label={t("月")}
                 value={dateParts.m}
                 onChange={(e) => form.setDateParts((p) => ({ ...p, m: e.target.value, d: Number(p.d) > daysIn(p.y, e.target.value) ? "" : p.d }))}
               >
-                <option value="">月</option>
+                <option value="">{t("月")}</option>
                 {MONTHS.map((m) => (
-                  <option key={m} value={String(m)}>{m} 月</option>
+                  <option key={m} value={String(m)}>{t("{month} 月", { month: m })}</option>
                 ))}
               </select>
-              <select aria-label="日" value={dateParts.d} onChange={(e) => form.setDateParts((p) => ({ ...p, d: e.target.value }))}>
-                <option value="">日</option>
+              <select aria-label={t("日")} value={dateParts.d} onChange={(e) => form.setDateParts((p) => ({ ...p, d: e.target.value }))}>
+                <option value="">{t("日")}</option>
                 {Array.from({ length: daysIn(dateParts.y, dateParts.m) }, (_, i) => i + 1).map((d) => (
-                  <option key={d} value={String(d)}>{d} 日</option>
+                  <option key={d} value={String(d)}>{t("{day} 日", { day: d })}</option>
                 ))}
               </select>
             </div>
           ) : (
             <div className="date-row">
-              <Unit unit="年">
+              <Unit unit={t("年", undefined, "y")}>
                 <input
                   id="date"
                   type="text"
                   inputMode="numeric"
                   maxLength={4}
                   placeholder="1990"
-                  aria-label="农历年"
+                  aria-label={t("农历年")}
                   value={lunar.year}
                   onChange={(e) => form.setLunar({ ...lunar, year: e.target.value.replace(/\D/g, "").slice(0, 4) })}
                 />
               </Unit>
-              <select aria-label="农历月" value={lunar.month} onChange={(e) => form.setLunar({ ...lunar, month: e.target.value })}>
+              <select aria-label={t("农历月")} value={lunar.month} onChange={(e) => form.setLunar({ ...lunar, month: e.target.value })}>
                 {MONTHS.map((m) => (
-                  <option key={m} value={String(m)}>{m} 月</option>
+                  <option key={m} value={String(m)}>{t("{month} 月", { month: m })}</option>
                 ))}
               </select>
-              <select aria-label="农历日" value={lunar.day} onChange={(e) => form.setLunar({ ...lunar, day: e.target.value })}>
+              <select aria-label={t("农历日")} value={lunar.day} onChange={(e) => form.setLunar({ ...lunar, day: e.target.value })}>
                 {Array.from({ length: 30 }, (_, i) => i + 1).map((d) => (
-                  <option key={d} value={String(d)}>{d} 日</option>
+                  <option key={d} value={String(d)}>{t("{day} 日", { day: d })}</option>
                 ))}
               </select>
             </div>
@@ -199,7 +203,7 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
           {form.calendar === "lunar" && (
             <label className="leap-check">
               <input type="checkbox" checked={form.isLeapMonth} onChange={(e) => form.setIsLeapMonth(e.target.checked)} />
-              <span>出生于闰月（不确定可不勾选）</span>
+              <span>{t("出生于闰月（不确定可不勾选）")}</span>
             </label>
           )}
           {form.lunarMessage && (
@@ -207,34 +211,34 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
               {form.lunarMessage}
             </small>
           )}
-          {form.lunarCheck?.valid && form.lunarCheck.solar_date && <small className="field-note">对应公历 {form.lunarCheck.solar_date}</small>}
+          {form.lunarCheck?.valid && form.lunarCheck.solar_date && <small className="field-note">{t("对应公历 {date}", { date: form.lunarCheck.solar_date })}</small>}
         </div>
 
         <div className="field">
           <div className="field-head">
-            <label htmlFor="time">出生时间</label>
-            <span className="field-hint">24 小时制</span>
+            <label htmlFor="time">{t("出生时间")}</label>
+            <span className="field-hint">{t("24 小时制")}</span>
           </div>
           <div className="time-row">
-            <Unit unit="时">
+            <Unit unit={t("时", undefined, "h")}>
               <input
                 id="time"
                 type="text"
                 inputMode="numeric"
                 maxLength={2}
                 placeholder="13"
-                aria-label="时"
+                aria-label={t("时")}
                 value={timeParts.h}
                 onChange={(e) => form.setTimeParts((p) => ({ ...p, h: digitsOnly(e.target.value, 23) }))}
               />
             </Unit>
-            <Unit unit="分">
+            <Unit unit={t("分", undefined, "min")}>
               <input
                 type="text"
                 inputMode="numeric"
                 maxLength={2}
                 placeholder="30"
-                aria-label="分"
+                aria-label={t("分")}
                 value={timeParts.min}
                 onChange={(e) => form.setTimeParts((p) => ({ ...p, min: digitsOnly(e.target.value, 59) }))}
               />
@@ -244,14 +248,14 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
 
         <div className="field">
           <div className="field-head">
-            <label htmlFor="city">出生地点</label>
+            <label htmlFor="city">{t("出生地点")}</label>
             <Segmented
-              label="地点输入方式"
+              label={t("地点输入方式")}
               value={form.placeMode}
               onChange={form.setPlaceMode}
               options={[
-                { value: "dropdown", label: "选城市" },
-                { value: "manual_coordinates", label: "填经纬度" },
+                { value: "dropdown", label: t("选城市") },
+                { value: "manual_coordinates", label: t("填经纬度") },
               ]}
             />
           </div>
@@ -259,7 +263,7 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
             id="city"
             type="text"
             autoComplete="off"
-            placeholder="输入城市英文名，如 Shanghai"
+            placeholder={t("输入城市英文名，如 Shanghai")}
             value={form.cityQuery}
             disabled={form.placeMode === "manual_coordinates"}
             onChange={(e) => form.typeCity(e.target.value)}
@@ -283,27 +287,31 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
           {form.placeMode === "dropdown" && (
             <small className="field-note">
               {form.city
-                ? `已选：${form.city.name}（${form.city.country_code}），经度 ${form.city.longitude.toFixed(2)}°`
+                ? t("已选：{city}（{country}），经度 {longitude}°", {
+                    city: form.city.name,
+                    country: form.city.country_code,
+                    longitude: form.city.longitude.toFixed(2),
+                  })
                 : form.cityLoading
-                  ? "搜索中…"
-                  : "城市数据来自 GeoNames，暂只支持英文名；找不到可切换到「填经纬度」。"}
+                  ? t("搜索中…")
+                  : t("城市数据来自 GeoNames，暂只支持英文名；找不到可切换到「填经纬度」。")}
             </small>
           )}
         </div>
 
         <div className="field">
           <div className="field-head">
-            <label>性别</label>
-            <span className="field-hint">用于大运顺逆</span>
+            <label>{t("性别")}</label>
+            <span className="field-hint">{t("用于大运顺逆")}</span>
           </div>
           <Segmented<Gender>
             block
-            label="性别"
+            label={t("性别")}
             value={form.gender}
             onChange={form.setGender}
             options={[
-              { value: "female", label: "女" },
-              { value: "male", label: "男" },
+              { value: "female", label: t("女") },
+              { value: "male", label: t("男") },
             ]}
           />
         </div>
@@ -315,10 +323,10 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
           </>
         )}
 
-        <p className="form-note">提示：真太阳时、节气交界与历法校准会影响专业排盘。结果仅供传统文化学习与参考，不用于现实决策。</p>
+        <p className="form-note">{t("提示：真太阳时、节气交界与历法校准会影响专业排盘。结果仅供传统文化学习与参考，不用于现实决策。")}</p>
         {form.notice && <p className="notice">{form.notice}</p>}
         <button className="button button-primary" disabled={pending} onClick={onSubmit}>
-          {pending ? "排盘中……" : "生成命盘"}
+          {pending ? t("排盘中……") : t("生成命盘")}
         </button>
       </div>
     </>

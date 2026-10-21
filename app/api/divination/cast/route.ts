@@ -1,4 +1,5 @@
 import type { DivinationCastResult } from "@/lib/contracts/divination";
+import { enrichDivinationReading } from "@/lib/divination/reading";
 import { failure, record, success } from "@/lib/contracts/api";
 import { callHybrid, HybridServiceError } from "@/lib/server/liuyao-hybrid";
 import { UUID_PATTERN } from "@/lib/server/question-confirmation";
@@ -13,6 +14,6 @@ async function handlePost(request: Request) {
   }
   try{
     const data=await callHybrid<DivinationCastResult>("cast",{confirmation_id:body.confirmation_id,request_id:body.request_id});
-    return Response.json(success(data,{system:"divination-cast-v4",sessionId:data.core_receipt?.request_id}));
+    const enriched=data.primary&&data.mutual&&data.transformed?enrichDivinationReading(data):data;return Response.json(success(enriched,{system:"divination-cast-v4",sessionId:data.core_receipt?.request_id}));
   }catch(error){return failure("divination-cast-v4","CAST_SERVICE_ERROR",error instanceof HybridServiceError?error.message:"起卦未完成，请使用原确认记录重试。",undefined,error instanceof HybridServiceError?error.status:502);}
 }

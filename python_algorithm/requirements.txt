@@ -6,7 +6,9 @@ pydantic>=2.9
 # Testing
 pytest>=8.0
 lunar-python>=1.4     # lunar<->solar dates (T9) and the cross-validation oracle in bazi/validation
-timezonefinder>=6.5   # coordinates -> IANA timezone (T5)
+timezonefinder>=9.0.0 # coordinates -> IANA timezone (T5)
 ephem>=4.1            # solar longitude for solar terms (T8)
 numpy>=1.26         # fusion arithmetic (shared with the calibration)
+tzdata>=2025.1        # zoneinfo data on platforms that ship without a full tz database
+httpx>=0.27,<1        # required by starlette's TestClient
 httpx2>=2.13          # required by starlette's TestClient

@@ -2,7 +2,7 @@
  * Romanised contract keys → Chinese display names.
  *
  * The contract speaks `jia` / `zi` / `direct_wealth`; the UI shows 甲 / 子 / 正财.
- * bazi_service/app/models/enums.py holds the same maps for the Python side —
+ * python_algorithm/bazi/models/enums.py holds the same maps for the Python side —
  * if you add a key to one, add it to the other.
  */
 

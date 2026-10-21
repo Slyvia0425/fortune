@@ -1,4 +1,35 @@
-import type {Metadata} from "next";import Link from "next/link";import AuthControls from "./components/auth-controls";import "./globals.css";
-export const metadata:Metadata={title:{default:"知命 · 东方术数知识系统",template:"%s · 知命"},description:"可追溯、可解释的传统术数知识服务平台。"};
-const nav=[{href:"/bazi",label:"八字"},{href:"/divination",label:"易卦"},{href:"/guanyin",label:"灵签"},{href:"/knowledge",label:"典籍"},{href:"/library",label:"藏书"}];
-export default function RootLayout({children}:LayoutProps<"/">){return <html lang="zh-CN"><body><header className="site-header"><div className="nav-shell"><Link className="brand" href="/"><span className="brand-seal">知</span><span><b>知命</b><small>FORTUNE MASTER</small></span></Link><nav aria-label="主导航">{nav.map(item=><Link href={item.href} key={item.href}>{item.label}</Link>)}</nav><Link className="library-link" href="/library">我的藏书</Link><AuthControls/></div></header>{children}<footer className="site-footer"><div className="page-shell"><div className="brand footer-brand"><span className="brand-seal">知</span><span><b>知命</b><small>FORTUNE MASTER</small></span></div><p>传统文化学习与知识探索工具。内容不构成医疗、法律或投资建议。</p><p>规则为骨，典籍为据，语言为桥。</p></div></footer></body></html>}
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { LocaleProvider } from "@/lib/i18n";
+import { htmlLang } from "@/lib/i18n/locale";
+import { siteLocale } from "@/lib/i18n/server";
+import { translate } from "@/lib/i18n/translate";
+import SiteFooter from "./components/site-footer";
+import SiteHeader from "./components/site-header";
+import "./globals.css";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await siteLocale();
+  return {
+    title: {
+      default: translate(locale, "知命 · 东方术数知识系统"),
+      template: translate(locale, "%s · 知命"),
+    },
+    description: translate(locale, "可追溯、可解释的传统术数知识服务平台。"),
+  };
+}
+
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await siteLocale();
+  return (
+    <html lang={htmlLang(locale)}>
+      <body>
+        <LocaleProvider initialLocale={locale}>
+          <SiteHeader />
+          {children}
+          <SiteFooter />
+        </LocaleProvider>
+      </body>
+    </html>
+  );
+}

@@ -5,6 +5,7 @@ import type { ApiEnvelope } from "@/lib/contracts/api";
 import type { DivinationCastResult, HexagramView } from "@/lib/contracts/divination";
 import type { HexagramEvidenceResult } from "@/lib/contracts/knowledge";
 import styles from "./hexagram-evolution.module.css";
+import { useI18n } from "@/lib/i18n";
 
 type NodeKey = "primary" | "mutual" | "transformed";
 type Selection = { node: NodeKey; line?: number };
@@ -161,13 +162,14 @@ async function requestEvidence(number: number, line?: number, signal?: AbortSign
 }
 
 function EvidencePanel({ state, line }: { state: EvidenceState; line?: number }) {
+  const { t } = useI18n();
   if (state.status === "loading") {
-    return <div className={styles.evidenceNotice}>正在核对知识库原文与出处…</div>;
+    return <div className={styles.evidenceNotice}>{t("正在核对知识库原文与出处…")}</div>;
   }
   if (state.status === "missing" || !state.data) {
     return (
       <div className={styles.evidenceMissing} role="status">
-        <strong>资料缺失</strong>
+        <strong>{t("资料缺失")}</strong>
         <p>{state.message ?? "现有知识库未提供对应资料，系统不会生成替代原文。"}</p>
       </div>
     );
@@ -178,8 +180,8 @@ function EvidencePanel({ state, line }: { state: EvidenceState; line?: number })
   if (!evidence) {
     return (
       <div className={styles.evidenceMissing} role="status">
-        <strong>资料缺失</strong>
-        <p>现有知识库未收录该爻资料，系统不会生成替代原文。</p>
+        <strong>{t("资料缺失")}</strong>
+        <p>{t("现有知识库未收录该爻资料，系统不会生成替代原文。")}</p>
       </div>
     );
   }
@@ -187,25 +189,25 @@ function EvidencePanel({ state, line }: { state: EvidenceState; line?: number })
   return (
     <div className={styles.evidencePanel}>
       <div className={styles.evidenceHeading}>
-        <span>古籍依据</span>
+        <span>{t("古籍依据")}</span>
         <strong>{lineEvidence?.label ?? `${state.data.symbol} ${state.data.name}卦辞`}</strong>
       </div>
       <section>
-        <h4>原文</h4>
+        <h4>{t("原文")}</h4>
         <p className={styles.originalText}>{evidence.original}</p>
       </section>
       <section>
-        <h4>译注</h4>
-        {evidence.commentary.length ? evidence.commentary.map((item, index) => <p key={index}>{item}</p>) : <p>现有资料未提供可核验注释。</p>}
+        <h4>{t("译注")}</h4>
+        {evidence.commentary.length ? evidence.commentary.map((item, index) => <p key={index}>{item}</p>) : <p>{t("现有资料未提供可核验注释。")}</p>}
         {evidence.translation_en ? (
           <details>
-            <summary>查看资料所附英文译文</summary>
+            <summary>{t("查看资料所附英文译文")}</summary>
             <p lang="en">{evidence.translation_en}</p>
           </details>
         ) : null}
       </section>
       <section>
-        <h4>来源</h4>
+        <h4>{t("来源")}</h4>
         <ul className={styles.sourceList}>
           {state.data.sources.map((source) => (
             <li key={source.source_id}>
@@ -220,6 +222,7 @@ function EvidencePanel({ state, line }: { state: EvidenceState; line?: number })
 }
 
 export default function HexagramEvolution({ result }: { result: DivinationCastResult }) {
+  const { t } = useI18n();
   const [selection, setSelection] = useState<Selection>({ node: "primary" });
   const [evidence, setEvidence] = useState<EvidenceState>({ status: "loading", data: null });
   const requestId = useRef(0);
@@ -268,10 +271,10 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
       <header className={styles.heading}>
         <div>
           <p className={styles.eyebrow}>DETERMINISTIC EVOLUTION</p>
-          <h3 id="hexagram-evolution-title">卦象演化</h3>
-          <p>点击卦象或任意一爻，查看推演结构与变化依据。</p>
+          <h3 id="hexagram-evolution-title">{t("卦象演化")}</h3>
+          <p>{t("点击卦象或任意一爻，查看推演结构与变化依据。")}</p>
         </div>
-        <span className={styles.ruleBadge}><i /> 固定规则计算</span>
+        <span className={styles.ruleBadge}><i /> {t("固定规则计算")}</span>
       </header>
 
       <div className={styles.stage}>
@@ -324,28 +327,28 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
 
           <dl className={styles.trigramDetails}>
             <div>
-              <dt>上卦</dt>
+              <dt>{t("上卦")}</dt>
               <dd>{upper.symbol} {upper.image} · {ELEMENT_LABEL[upper.element]}</dd>
             </div>
             <div>
-              <dt>下卦</dt>
+              <dt>{t("下卦")}</dt>
               <dd>{lower.symbol} {lower.image} · {ELEMENT_LABEL[lower.element]}</dd>
             </div>
             <div>
-              <dt>五行关系</dt>
+              <dt>{t("五行关系")}</dt>
               <dd>{elementRelation(upper.element, lower.element)}</dd>
             </div>
           </dl>
         </div>
 
         <div className={styles.interpretationPanel}>
-          <p className={styles.panelLabel}>解释分层</p>
+          <p className={styles.panelLabel}>{t("解释分层")}</p>
           <div>
-            <span>规则结果</span>
+            <span>{t("规则结果")}</span>
             <p>{result.traditional_meaning}</p>
           </div>
           <div>
-            <span>情境说明</span>
+            <span>{t("情境说明")}</span>
             <p>{result.contextual_interpretation}</p>
           </div>
           <EvidencePanel state={evidence} line={selection.line} />

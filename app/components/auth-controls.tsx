@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { AuthUser } from "@/lib/auth/types";
+import { useI18n } from "@/lib/i18n";
 
 export default function AuthControls() {
+  const { t } = useI18n();
   const router = useRouter();
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined);
 
@@ -29,7 +31,7 @@ export default function AuthControls() {
     router.refresh();
   }
 
-  if (user === undefined) return <span className="auth-loading" aria-label="正在读取登录状态" />;
-  if (!user) return <Link className="auth-link" href="/account">登录</Link>;
-  return <div className="auth-user"><Link href="/account">{user.display_name}</Link><button type="button" onClick={logout}>退出</button></div>;
+  if (user === undefined) return <span className="auth-loading" aria-label={t("正在读取登录状态")} />;
+  if (!user) return <Link className="auth-link" href="/account">{t("登录")}</Link>;
+  return <div className="auth-user"><Link href="/account">{user.display_name}</Link><button type="button" onClick={logout}>{t("退出")}</button></div>;
 }

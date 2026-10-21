@@ -19,7 +19,11 @@ export async function POST(request: Request) {
   if (response.ok && result) {
     (await cookies()).set(AUTH_COOKIE, result.session_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      // A cookie marked Secure is dropped over plain HTTP, so signing in would
+      // silently fail until a domain and TLS exist. FORTUNE_COOKIE_SECURE=false
+      // is the explicit opt-out for an HTTP-only deployment; unset means the
+      // production default.
+      secure: process.env.NODE_ENV === "production" && process.env.FORTUNE_COOKIE_SECURE !== "false",
       sameSite: "lax",
       path: "/",
       expires: new Date(result.expires_at),

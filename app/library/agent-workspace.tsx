@@ -2,10 +2,13 @@
 
 import {
   Bookmark,
+  Check,
   Database,
   Download,
   ExternalLink,
   FileText,
+  History,
+  MessageSquare,
   NotebookPen,
   Pencil,
   Plus,
@@ -15,30 +18,38 @@ import {
   ShieldCheck,
   Tags,
   Trash2,
+  Users,
   X,
 } from "lucide-react";
+import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/lib/i18n";
+import BackNavigation from "@/app/components/back-navigation";
 
 import KnowledgeAgent from "./knowledge-agent";
-import BackNavigation from "../components/back-navigation";
 import { Module4ApiError, module4Api } from "@/lib/module4/api";
 import type {
   CollectionDraft,
   CollectionItem,
   NoteDraft,
   NoteItem,
+  PersonProfile,
   PrivacySettings,
+  SessionHistoryEvent,
+  SessionHistoryItem,
   TagItem,
 } from "@/lib/module4/types";
 import type { AuthUser } from "@/lib/auth/types";
 
-type TabId = "all" | "sources" | "readings" | "notes";
+type TabId = "all" | "sources" | "readings" | "history" | "notes" | "profiles";
 
 const emptyCollectionDraft: CollectionDraft = {
   itemType: "knowledge_item",
   sourceId: "",
   title: "",
   sourceUrl: "",
+  category: "knowledge",
+  tags: "",
 };
 
 const emptyNoteDraft: NoteDraft = {
@@ -52,9 +63,111 @@ const emptyNoteDraft: NoteDraft = {
 const tabs: Array<{ id: TabId; label: string }> = [
   { id: "all", label: "全部收藏" },
   { id: "sources", label: "典籍原文" },
-  { id: "readings", label: "卦象签文" },
+  { id: "readings", label: "术数记录" },
+  { id: "history", label: "会话历史" },
   { id: "notes", label: "个人笔记" },
+  { id: "profiles", label: "人物档案" },
 ];
+
+const categoryOptions: Array<{ value: string; label: string }> = [
+  { value: "all", label: "全部分类" },
+  { value: "knowledge", label: "典籍" },
+  { value: "bazi", label: "八字" },
+  { value: "divination", label: "易卦" },
+  { value: "guanyin", label: "灵签" },
+  { value: "manual", label: "手动收藏" },
+  { value: "other", label: "其他" },
+];
+
+const profileRelationOptions = ["本人", "家人", "亲友", "客户", "研究案例", "其他"];
+
+const profileStemLabels: Record<string, string> = {
+  jia: "甲",
+  yi: "乙",
+  bing: "丙",
+  ding: "丁",
+  wu: "戊",
+  ji: "己",
+  geng: "庚",
+  xin: "辛",
+  ren: "壬",
+  gui: "癸",
+};
+
+const profileBranchLabels: Record<string, string> = {
+  zi: "子",
+  chou: "丑",
+  yin: "寅",
+  mao: "卯",
+  chen: "辰",
+  si: "巳",
+  wu_branch: "午",
+  wei: "未",
+  shen: "申",
+  you: "酉",
+  xu: "戌",
+  hai: "亥",
+};
+
+const profileElementLabels: Record<string, string> = {
+  wood: "木",
+  fire: "火",
+  earth: "土",
+  metal: "金",
+  water: "水",
+};
+
+const profileStrengthLabels: Record<string, string> = {
+  very_strong: "明显偏强",
+  strong: "偏强",
+  balanced: "相对平衡",
+  weak: "偏弱",
+  somewhat_weak: "偏弱",
+  very_weak: "明显偏弱",
+};
+
+function parseTags(value: string): string[] {
+  return [...new Set(value.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean))];
+}
+
+function categoryOf(item: CollectionItem): string {
+  const metadataCategory = item.source_metadata?.category;
+  const metadataModule = item.source_metadata?.module;
+  if (typeof item.category === "string" && item.category.trim()) return item.category.trim();
+  if (typeof metadataCategory === "string" && metadataCategory.trim()) {
+    return metadataCategory.trim();
+  }
+  if (typeof metadataModule === "string" && metadataModule.trim()) return metadataModule.trim();
+  return "other";
+}
+
+function categoryLabel(value: string): string {
+  return categoryOptions.find((option) => option.value === value)?.label ?? value;
+}
+
+function tagsOf(item: CollectionItem): string[] {
+  if (item.tags?.length) return item.tags;
+  const raw = item.source_metadata?.tags;
+  return Array.isArray(raw) ? raw.map((tag) => String(tag)) : [];
+}
+
+function collectionSummary(item: CollectionItem): string {
+  const summary = item.source_metadata?.summary;
+  return typeof summary === "string" ? summary : "";
+}
+
+function isSourceItemType(value: string): boolean {
+  return value === "knowledge_item" || value.startsWith("knowledge_");
+}
+
+function isReadingItemType(value: string): boolean {
+  return (
+    value.startsWith("divination") ||
+    value.startsWith("sign") ||
+    value.startsWith("bazi") ||
+    ["divination", "sign", "hexagram"].includes(value)
+  );
+}
 
 function formatDate(value: string): string {
   return new Intl.DateTimeFormat("zh-CN", {
@@ -62,6 +175,57 @@ function formatDate(value: string): string {
     month: "2-digit",
     day: "2-digit",
   }).format(new Date(value));
+}
+
+function formatDateTime(value: string): string {
+  return new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
+function sessionSystemLabel(value: string): string {
+  const labels: Record<string, string> = {
+    bazi: "八字分析",
+    divination: "智能问卦",
+    sign: "观音灵签",
+    knowledge: "典籍检索",
+  };
+  return labels[value] ?? value;
+}
+
+function conversationContent(event: SessionHistoryEvent): string {
+  const value = event.payload.content;
+  return typeof value === "string" ? value : "";
+}
+
+function isConversationEvent(event: SessionHistoryEvent): boolean {
+  return [
+    "conversation.message",
+    "module2a.chat.user_message",
+    "module2a.chat.assistant_message",
+  ].includes(event.event_type);
+}
+
+function conversationRole(event: SessionHistoryEvent): string {
+  const value = event.payload.role;
+  return value === "user" || value === "assistant" ? value : "system";
+}
+
+function historyEventLabel(event: SessionHistoryEvent): string {
+  const labels: Record<string, string> = {
+    "conversation.message": "对话记录",
+    "module2a.chat.user_message": "用户消息",
+    "module2a.chat.assistant_message": "助手回复",
+    "module1.chart.completed": "八字排盘完成",
+    "module2a.divination.completed": "起卦完成",
+    "feedback.submitted": "用户反馈",
+    "knowledge.item.opened": "阅读典籍",
+  };
+  return labels[event.event_type] ?? event.event_type;
 }
 
 function sourceUrl(item: CollectionItem): string | null {
@@ -72,11 +236,84 @@ function sourceUrl(item: CollectionItem): string | null {
 function itemTypeLabel(value: string): string {
   const labels: Record<string, string> = {
     knowledge_item: "典籍",
+    knowledge_passage: "原文段落",
+    knowledge_concept: "图谱概念",
+    knowledge_term: "术语",
+    knowledge_search: "典籍检索",
+    knowledge_reading: "典籍原文",
     divination: "卦象",
     sign: "签文",
     personal_note: "笔记",
+    divination_question: "问卦所问",
+    divination_record: "卦象记录",
+    divination_reading: "卦辞依据",
+    divination_chat: "问卦对话",
+    sign_question: "求签所问",
+    sign_record: "灵签签文",
+    bazi_input: "出生信息",
+    bazi_record: "八字命盘",
+    bazi_analysis: "五行十神",
+    bazi_luck: "大运流年",
+    bazi_advisory: "方向依据",
   };
   return labels[value] || value;
+}
+
+function sourceNeedsReview(item: CollectionItem): boolean {
+  return item.source_metadata?.saved_from === "module3" &&
+    item.source_metadata?.source_version !== "knowledge-corpus-v2";
+}
+
+function announceCollectionChange(): void {
+  window.dispatchEvent(new Event("fortune:collections-changed"));
+  if ("BroadcastChannel" in window) {
+    const channel = new BroadcastChannel("fortune:collections-changed");
+    channel.postMessage("refresh");
+    channel.close();
+  }
+}
+
+function profilePillars(profile: PersonProfile): string {
+  const pillars = profile.chart_snapshot?.pillars;
+  if (!Array.isArray(pillars)) return "尚未保存完整命盘";
+  return pillars
+    .map((pillar) => {
+      if (!pillar || typeof pillar !== "object") return "";
+      const item = pillar as Record<string, unknown>;
+      const stem = String(item.stem || "");
+      const branch = String(item.branch || "");
+      return `${profileStemLabels[stem] || stem}${profileBranchLabels[branch] || branch}`;
+    })
+    .filter(Boolean)
+    .join(" ");
+}
+
+function profileChartNote(profile: PersonProfile): string {
+  const elements = profile.chart_snapshot?.elements;
+  const dayMaster = profile.chart_snapshot?.day_master;
+  const elementText =
+    elements && typeof elements === "object"
+      ? Object.entries(elements as Record<string, unknown>)
+          .slice(0, 5)
+          .map(([key, value]) => `${profileElementLabels[key] || key} ${value}`)
+          .join(" · ")
+      : "";
+  const dayMasterRecord =
+    dayMaster && typeof dayMaster === "object"
+      ? (dayMaster as Record<string, unknown>)
+      : {};
+  const dayMasterStem = String(dayMasterRecord.stem || "");
+  const dayMasterElement = String(dayMasterRecord.element || "");
+  const dayMasterText = `${
+    profileStemLabels[dayMasterStem] || dayMasterStem
+  }${profileElementLabels[dayMasterElement] || dayMasterElement}`;
+  const strength =
+    typeof dayMasterRecord.strength === "string" ? dayMasterRecord.strength : "";
+  const strengthLabel = profileStrengthLabels[strength] || strength;
+  return (
+    [dayMasterText, strengthLabel, elementText].filter(Boolean).join(" · ") ||
+    "档案已建立，等待完整命盘记录。"
+  );
 }
 
 function messageFrom(error: unknown): string {
@@ -87,10 +324,16 @@ function messageFrom(error: unknown): string {
 }
 
 export default function LibraryWorkspace({ user }: { user: AuthUser }) {
+  const { t } = useI18n();
   const activeUser = user.id;
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [notes, setNotes] = useState<NoteItem[]>([]);
   const [tagItems, setTagItems] = useState<TagItem[]>([]);
+  const [profiles, setProfiles] = useState<PersonProfile[]>([]);
+  const [sessions, setSessions] = useState<SessionHistoryItem[]>([]);
+  const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null);
+  const [sessionEvents, setSessionEvents] = useState<SessionHistoryEvent[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [privacy, setPrivacy] = useState<PrivacySettings | null>(null);
   const [activeTab, setActiveTab] = useState<TabId>("all");
   const [query, setQuery] = useState("");
@@ -105,6 +348,17 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     useState<CollectionDraft>(emptyCollectionDraft);
   const [noteDraft, setNoteDraft] = useState<NoteDraft>(emptyNoteDraft);
   const [tagName, setTagName] = useState("");
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeTagFilter, setActiveTagFilter] = useState<string | null>(null);
+  const [collectionEdit, setCollectionEdit] = useState<CollectionItem | null>(null);
+  const [editCategory, setEditCategory] = useState("knowledge");
+  const [editTags, setEditTags] = useState("");
+  const [renamingTagId, setRenamingTagId] = useState<string | null>(null);
+  const [tagRenameDraft, setTagRenameDraft] = useState("");
+  const [profileEdit, setProfileEdit] = useState<PersonProfile | null>(null);
+  const [profileEditName, setProfileEditName] = useState("");
+  const [profileEditRelation, setProfileEditRelation] = useState("其他");
+  const [profileEditTags, setProfileEditTags] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -113,17 +367,31 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       setLoading(true);
       setError(null);
       try {
-        const [nextCollections, nextNotes, nextTags, nextPrivacy] = await Promise.all([
+        const [
+          nextCollections,
+          nextNotes,
+          nextTags,
+          nextPrivacy,
+          nextProfiles,
+          nextSessions,
+        ] = await Promise.all([
           module4Api.listCollections(activeUser),
           module4Api.listNotes(activeUser),
           module4Api.listTags(activeUser),
           module4Api.getPrivacy(activeUser),
+          module4Api.listPersonProfiles(activeUser),
+          module4Api.listSessions(activeUser),
         ]);
         if (!cancelled) {
           setCollections(nextCollections);
           setNotes(nextNotes);
           setTagItems(nextTags);
           setPrivacy(nextPrivacy);
+          setProfiles(nextProfiles);
+          setSessions(nextSessions);
+          const firstSessionId = nextSessions[0]?.session_id ?? null;
+          setSelectedSessionId((current) => current ?? firstSessionId);
+          setHistoryLoading(Boolean(firstSessionId));
         }
       } catch (loadError) {
         if (!cancelled) {
@@ -147,20 +415,30 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     return collections.filter((item) => {
       const tabMatch =
         activeTab === "all" ||
-        activeTab === "sources" ||
-        (activeTab === "readings" && ["divination", "sign", "hexagram"].includes(item.item_type));
+        (activeTab === "sources" && isSourceItemType(item.item_type)) ||
+        (activeTab === "readings" && isReadingItemType(item.item_type));
       if (!tabMatch) return false;
+      if (activeCategory !== "all" && categoryOf(item) !== activeCategory) return false;
+      if (activeTagFilter && !tagsOf(item).includes(activeTagFilter)) return false;
       if (!normalizedQuery) return true;
-      return [item.title, item.source_id, item.item_type]
+      return [
+        item.title,
+        item.source_id,
+        item.item_type,
+        categoryLabel(categoryOf(item)),
+        collectionSummary(item),
+        ...tagsOf(item),
+      ]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(normalizedQuery));
     });
-  }, [activeTab, collections, query]);
+  }, [activeCategory, activeTab, activeTagFilter, collections, query]);
 
   const filteredNotes = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
     return notes.filter((note) => {
       if (activeTab === "all" || activeTab === "notes") {
+        if (activeTagFilter && !note.tags.includes(activeTagFilter)) return false;
         if (!normalizedQuery) return true;
         return [note.title, note.body, note.source_id, ...note.tags]
           .filter(Boolean)
@@ -168,25 +446,133 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       }
       return false;
     });
-  }, [activeTab, notes, query]);
+  }, [activeTab, activeTagFilter, notes, query]);
 
-  const hasVisibleItems = filteredCollections.length + filteredNotes.length > 0;
+  const filteredProfiles = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return profiles.filter((profile) => {
+      if (activeTagFilter && !profile.tags.includes(activeTagFilter)) return false;
+      if (!normalizedQuery) return true;
+      return [
+        profile.name,
+        profile.relation,
+        profile.birth_date,
+        profile.birth_time,
+        profilePillars(profile),
+        profileChartNote(profile),
+        ...profile.tags,
+      ]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(normalizedQuery));
+    });
+  }, [activeTagFilter, profiles, query]);
+
+  const filteredSessions = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return sessions.filter((session) => {
+      if (!normalizedQuery) return true;
+      return [
+        session.title,
+        session.session_id,
+        sessionSystemLabel(session.system),
+        session.last_message_preview,
+      ]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(normalizedQuery));
+    });
+  }, [query, sessions]);
+
+  useEffect(() => {
+    if (!selectedSessionId) return;
+    let cancelled = false;
+    module4Api
+      .getSessionEvents(activeUser, selectedSessionId)
+      .then((events) => {
+        if (!cancelled) setSessionEvents(events);
+      })
+      .catch((historyError) => {
+        if (!cancelled) setError(messageFrom(historyError));
+      })
+      .finally(() => {
+        if (!cancelled) setHistoryLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeUser, selectedSessionId]);
+
+  const profileRecordCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const item of collections) {
+      const metadata = item.source_metadata || {};
+      const profileId = typeof metadata.profile_id === "string" ? metadata.profile_id : "";
+      const personName = typeof metadata.person_name === "string" ? metadata.person_name : "";
+      if (profileId) counts.set(profileId, (counts.get(profileId) ?? 0) + 1);
+      if (personName) counts.set(personName, (counts.get(personName) ?? 0) + 1);
+    }
+    return counts;
+  }, [collections]);
+
+  const tagUsage = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const item of collections) {
+      for (const tag of tagsOf(item)) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    for (const note of notes) {
+      for (const tag of note.tags) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }, [collections, notes]);
+
+  const tagRows = useMemo(() => {
+    const rows = new Map<string, TagItem>();
+    for (const tag of tagItems) rows.set(tag.name, tag);
+    for (const [name, count] of tagUsage) {
+      if (!rows.has(name)) {
+        rows.set(name, {
+          tag_id: `local:${name}`,
+          name,
+          usage_count: count,
+          created_at: "",
+        });
+      }
+    }
+    return [...rows.values()].sort(
+      (left, right) =>
+        (tagUsage.get(right.name) ?? right.usage_count ?? 0) -
+          (tagUsage.get(left.name) ?? left.usage_count ?? 0) ||
+        left.name.localeCompare(right.name),
+    );
+  }, [tagItems, tagUsage]);
+
+  const hasVisibleItems =
+    filteredCollections.length +
+      filteredNotes.length +
+      filteredProfiles.length +
+      filteredSessions.length >
+    0;
 
   async function refreshPersonalData(successMessage: string) {
     setBusy(true);
     setError(null);
     setNotice(null);
     try {
-      const [nextCollections, nextNotes, nextTags, nextPrivacy] = await Promise.all([
+      const [nextCollections, nextNotes, nextTags, nextPrivacy, nextProfiles] = await Promise.all([
         module4Api.listCollections(activeUser),
         module4Api.listNotes(activeUser),
         module4Api.listTags(activeUser),
         module4Api.getPrivacy(activeUser),
+        module4Api.listPersonProfiles(activeUser),
       ]);
       setCollections(nextCollections);
       setNotes(nextNotes);
       setTagItems(nextTags);
       setPrivacy(nextPrivacy);
+      setProfiles(nextProfiles);
       setNotice(successMessage);
     } catch (refreshError) {
       setError(messageFrom(refreshError));
@@ -201,6 +587,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     setError(null);
     try {
       await module4Api.createCollection(activeUser, collectionDraft);
+      announceCollectionChange();
       setCollectionDraft(emptyCollectionDraft);
       setShowCollectionForm(false);
       await refreshPersonalData("收藏已保存");
@@ -230,9 +617,34 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     setBusy(true);
     try {
       await module4Api.deleteCollection(activeUser, item.collection_id);
+      announceCollectionChange();
       await refreshPersonalData("收藏已删除");
     } catch (deleteError) {
       setError(messageFrom(deleteError));
+      setBusy(false);
+    }
+  }
+
+  function openCollectionEditor(item: CollectionItem) {
+    setCollectionEdit(item);
+    setEditCategory(categoryOf(item));
+    setEditTags(tagsOf(item).join(", "));
+  }
+
+  async function submitCollectionEdit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!collectionEdit) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await module4Api.updateCollection(activeUser, collectionEdit.collection_id, {
+        category: editCategory,
+        tags: parseTags(editTags),
+      });
+      setCollectionEdit(null);
+      await refreshPersonalData("分类与标签已更新");
+    } catch (updateError) {
+      setError(messageFrom(updateError));
       setBusy(false);
     }
   }
@@ -263,13 +675,95 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
     }
   }
 
+  function startTagRename(tag: TagItem) {
+    setRenamingTagId(tag.tag_id);
+    setTagRenameDraft(tag.name);
+  }
+
+  async function submitTagRename(event: FormEvent<HTMLFormElement>, tag: TagItem) {
+    event.preventDefault();
+    const nextName = tagRenameDraft.trim();
+    if (!nextName || nextName === tag.name) {
+      setRenamingTagId(null);
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    try {
+      await module4Api.renameTag(activeUser, tag.tag_id, nextName);
+      if (activeTagFilter === tag.name) {
+        setActiveTagFilter(nextName);
+      }
+      setRenamingTagId(null);
+      await refreshPersonalData("标签已重命名");
+    } catch (renameError) {
+      setError(messageFrom(renameError));
+      setBusy(false);
+    }
+  }
+
   async function removeTag(tag: TagItem) {
+    const usage = tagUsage.get(tag.name) ?? tag.usage_count ?? 0;
+    const confirmed = window.confirm(
+      `删除标签“${tag.name}”？它会从 ${usage} 条收藏或笔记中移除，公共资料不受影响。`,
+    );
+    if (!confirmed) return;
+    if (tag.tag_id.startsWith("local:")) {
+      setError("该标签尚未写入标签库，请先在对应收藏或笔记中移除。");
+      return;
+    }
     setBusy(true);
     try {
       await module4Api.deleteTag(activeUser, tag.tag_id);
+      if (activeTagFilter === tag.name) {
+        setActiveTagFilter(null);
+      }
       await refreshPersonalData("标签已删除");
     } catch (tagError) {
       setError(messageFrom(tagError));
+      setBusy(false);
+    }
+  }
+
+  function openProfileEditor(profile: PersonProfile) {
+    setProfileEdit(profile);
+    setProfileEditName(profile.name);
+    setProfileEditRelation(profile.relation || "其他");
+    setProfileEditTags(profile.tags.join(", "));
+  }
+
+  async function submitProfileEdit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!profileEdit) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await module4Api.updatePersonProfile(activeUser, profileEdit.profile_id, {
+        name: profileEditName,
+        relation: profileEditRelation,
+        tags: parseTags(profileEditTags),
+      });
+      setProfileEdit(null);
+      await refreshPersonalData("人物档案已更新");
+    } catch (profileError) {
+      setError(messageFrom(profileError));
+      setBusy(false);
+    }
+  }
+
+  async function removeProfile(profile: PersonProfile) {
+    const confirmed = window.confirm(
+      `删除人物档案“${profile.name}”？只删除档案名称和命盘摘要，不删除已保存的收藏记录。`,
+    );
+    if (!confirmed) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await module4Api.deletePersonProfile(activeUser, profile.profile_id);
+      if (profileEdit?.profile_id === profile.profile_id) setProfileEdit(null);
+      await refreshPersonalData("人物档案已删除");
+    } catch (profileError) {
+      setError(messageFrom(profileError));
       setBusy(false);
     }
   }
@@ -321,6 +815,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       setCollections([]);
       setNotes([]);
       setTagItems([]);
+      setProfiles([]);
     } catch (deleteError) {
       setError(messageFrom(deleteError));
     } finally {
@@ -334,18 +829,20 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
         <div className="page-shell">
           <BackNavigation current="个人知识库" />
           <p className="kicker">PERSONAL KNOWLEDGE BASE</p>
-          <h1 className="page-title">与你的知识库对话</h1>
-          <p>收藏典籍段落、卦象、签文与个人笔记，再通过知识库智能体检索原文、上下文和来源。</p>
+          <h1 className="page-title">{t("与你的知识库对话")}</h1>
+          <p>{t("收藏典籍段落、卦象、签文与个人笔记，再通过知识库智能体检索原文、上下文和来源。")}</p>
         </div>
       </section>
 
-      <nav className="module4-nav" aria-label="个人知识库模块导航">
+      <nav className="module4-nav" aria-label={t("知命智库模块导航")}>
         <div className="page-shell">
-          <a href="#agent">知识助手</a>
-          <a href="#collections">我的藏书</a>
-          <a href="#notes">知识笔记</a>
-          <a href="#tags">标签</a>
-          <a href="#privacy">数据隐私</a>
+          <a href="#agent">{t("知识助手")}</a>
+          <a href="#profiles">{t("人物档案")}</a>
+          <a href="#history">{t("会话历史")}</a>
+          <a href="#collections">{t("个人收藏")}</a>
+          <a href="#notes">{t("知识笔记")}</a>
+          <a href="#tags">{t("标签")}</a>
+          <a href="#privacy">{t("数据隐私")}</a>
         </div>
       </nav>
 
@@ -355,6 +852,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
         notes={notes}
         onAddCollection={() => setShowCollectionForm(true)}
         onAddNote={() => setShowNoteForm(true)}
+        profiles={profiles}
         tags={tagItems}
         userId={activeUser}
       />
@@ -362,7 +860,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
       <section className="page-shell library-shell" id="collections">
         <div className="library-main">
           <div className="toolbar">
-            <div className="tabs" role="tablist" aria-label="收藏筛选">
+            <div className="tabs" role="tablist" aria-label={t("收藏筛选")}>
               {tabs.map((tab) => (
                 <button
                   aria-selected={activeTab === tab.id}
@@ -372,47 +870,113 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   role="tab"
                   type="button"
                 >
-                  {tab.label}
+                  {t(tab.label)}
                 </button>
               ))}
             </div>
             <div className="toolbar-actions">
-              <button
-                className="button button-secondary"
-                onClick={() => setShowCollectionForm(true)}
-                type="button"
-              >
-                <Plus size={15} /> 收藏来源
-              </button>
-              <button
-                className="button button-primary"
-                onClick={() => setShowNoteForm(true)}
-                type="button"
-              >
-                <NotebookPen size={15} /> 新建笔记
-              </button>
+              {activeTab === "profiles" ? (
+                <Link className="button button-primary" href="/bazi">
+                  <Users size={15} /> {t("前往八字建立档案")}
+                </Link>
+              ) : activeTab === "history" ? (
+                <Link className="button button-primary" href="/divination">
+                  <MessageSquare size={15} /> {t("发起新的问卦")}
+                </Link>
+              ) : (
+                <>
+                  <button
+                    className="button button-secondary"
+                    onClick={() => setShowCollectionForm(true)}
+                    type="button"
+                  >
+                    <Plus size={15} /> {t("收藏来源")}
+                  </button>
+                  <button
+                    className="button button-primary"
+                    onClick={() => setShowNoteForm(true)}
+                    type="button"
+                  >
+                    <NotebookPen size={15} /> {t("新建笔记")}
+                  </button>
+                </>
+              )}
             </div>
           </div>
+
+          {activeTab !== "profiles" && activeTab !== "history" ? <div className="filter-bar">
+            <label>
+              <span>{t("分类")}</span>
+              <select
+                aria-label={t("按分类筛选")}
+                onChange={(event) => setActiveCategory(event.target.value)}
+                value={activeCategory}
+              >
+                {categoryOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {t(option.label)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {activeTagFilter ? (
+              <button
+                className="active-filter"
+                onClick={() => setActiveTagFilter(null)}
+                type="button"
+              >
+                {t("标签：{tag}", { tag: activeTagFilter })} <X size={12} />
+              </button>
+            ) : (
+              <span className="filter-hint">{t("点击收藏或笔记上的标签即可筛选")}</span>
+            )}
+            {activeCategory !== "all" || activeTagFilter ? (
+              <button
+                className="text-button"
+                onClick={() => {
+                  setActiveCategory("all");
+                  setActiveTagFilter(null);
+                }}
+                type="button"
+              >
+                {t("清除筛选")}
+              </button>
+            ) : null}
+          </div> : null}
 
           <div className="summary-strip">
             <div>
               <strong>{collections.length}</strong>
-              <span>收藏来源</span>
+              <span>{t("收藏来源")}</span>
             </div>
             <div>
               <strong>{notes.length}</strong>
-              <span>个人笔记</span>
+              <span>{t("个人笔记")}</span>
             </div>
             <div>
               <strong>{tagItems.length}</strong>
-              <span>个人标签</span>
+              <span>{t("个人标签")}</span>
+            </div>
+            <div>
+              <strong>{profiles.length}</strong>
+              <span>{t("人物档案")}</span>
+            </div>
+            <div>
+              <strong>{sessions.length}</strong>
+              <span>{t("会话历史")}</span>
             </div>
             <label className="search-box">
               <Search size={16} />
               <input
-                aria-label="搜索收藏和笔记"
+                aria-label={t("搜索收藏和笔记")}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="搜索标题、正文或来源"
+                placeholder={
+                  activeTab === "profiles"
+                    ? t("搜索人物、分类或命盘")
+                    : activeTab === "history"
+                      ? t("搜索会话主题或最近消息")
+                      : t("搜索标题、正文或来源")
+                }
                 value={query}
               />
             </label>
@@ -422,7 +986,7 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="notice notice-error" role="alert">
               <span>{error}</span>
               <button onClick={() => setReloadKey((value) => value + 1)} type="button">
-                <RefreshCw size={14} /> 重试
+                <RefreshCw size={14} /> {t("重试")}
               </button>
             </div>
           ) : null}
@@ -430,27 +994,195 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
 
           {loading ? (
             <div className="panel empty-state">
-              <p className="kicker">正在读取</p>
-              <h2>载入个人知识库</h2>
+              <p className="kicker">{t("正在读取")}</p>
+              <h2>{t("载入个人收藏")}</h2>
+            </div>
+          ) : activeTab === "history" ? (
+            <div className="history-layout" id="history">
+              <div className="history-list" role="list">
+                {filteredSessions.length ? (
+                  filteredSessions.map((session) => (
+                    <button
+                      className={`history-item ${
+                        selectedSessionId === session.session_id ? "active" : ""
+                      }`}
+                      key={session.session_id}
+                      onClick={() => {
+                        setSessionEvents([]);
+                        setHistoryLoading(true);
+                        setSelectedSessionId(session.session_id);
+                      }}
+                      role="listitem"
+                      type="button"
+                    >
+                      <span className="history-item-icon">
+                        <History size={18} />
+                      </span>
+                      <span className="history-item-body">
+                        <span className="history-item-meta">
+                          <span className="category-badge">
+                            {sessionSystemLabel(session.system)}
+                          </span>
+                          <time>{formatDateTime(session.started_at)}</time>
+                        </span>
+                        <strong>{session.title || t("问卦会话")}</strong>
+                        <span className="history-preview">
+                          {session.last_message_preview || "已保存结构化术数记录"}
+                        </span>
+                        <span className="history-counts">
+                          {session.conversation_count} 条对话 · {session.event_count} 条事件
+                        </span>
+                      </span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="history-empty">
+                    <p className="kicker">{t("尚无会话记录")}</p>
+                    <h2>{t("从第一次问卦开始保存")}</h2>
+                    <p>{t("登录后，在问卦页面发送的消息、助手回复和起卦结果会自动归入这里。")}</p>
+                  </div>
+                )}
+              </div>
+
+              <section className="history-detail">
+                {selectedSessionId ? (
+                  <>
+                    <div className="history-detail-heading">
+                      <div>
+                        <p className="kicker">SESSION TIMELINE</p>
+                        <h2>
+                          {sessions.find((session) => session.session_id === selectedSessionId)
+                            ?.title || t("问卦会话")}
+                        </h2>
+                      </div>
+                      <code>{selectedSessionId.slice(0, 8)}</code>
+                    </div>
+                    <div className="history-timeline">
+                      {historyLoading ? (
+                        <p className="history-loading">{t("正在读取完整记录")}</p>
+                      ) : sessionEvents.length ? (
+                        sessionEvents.map((event) => {
+                          const content = isConversationEvent(event)
+                            ? conversationContent(event)
+                            : "";
+                          const role = conversationRole(event);
+                          return content ? (
+                            <article
+                              className={`history-message ${role}`}
+                              key={event.event_id}
+                            >
+                              <span>{role === "user" ? t("你") : t("问卦助手")}</span>
+                              <p>{content}</p>
+                              <time>{formatDateTime(event.occurred_at)}</time>
+                            </article>
+                          ) : (
+                            <article className="history-event" key={event.event_id}>
+                              <span>{historyEventLabel(event)}</span>
+                              <code>{event.event_type}</code>
+                              <time>{formatDateTime(event.occurred_at)}</time>
+                            </article>
+                          );
+                        })
+                      ) : (
+                        <p className="history-loading">{t("这条会话暂时没有可显示的事件。")}</p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <div className="history-empty compact">
+                    <MessageSquare size={26} />
+                    <h2>{t("选择一条会话")}</h2>
+                    <p>{t("完整消息和结构化结果会在这里按顺序显示。")}</p>
+                  </div>
+                )}
+              </section>
+            </div>
+          ) : activeTab === "profiles" && filteredProfiles.length === 0 ? (
+            <div className="panel empty-state" id="profiles">
+              <p className="kicker">{t("尚无人物档案")}</p>
+              <h2>{t("为不同的命盘建立独立人物名称")}</h2>
+              <p>{t("在八字页面填写人物名称并生成命盘后，姓名、分类、出生信息和完整命盘会保存在这里。")}</p>
+            </div>
+          ) : activeTab === "profiles" ? (
+            <div className="saved-grid" id="profiles">
+              {filteredProfiles.map((profile) => (
+                <article className="saved-item profile-item" key={profile.profile_id}>
+                  <div className="saved-icon">
+                    <Users size={19} />
+                  </div>
+                  <div className="saved-body">
+                    <div className="saved-meta">
+                      <span className="category-badge">{profile.relation || "其他"}</span>
+                      <span>{t("人物档案")}</span>
+                      <time>{formatDate(profile.updated_at)}</time>
+                    </div>
+                    <h2>{profile.name}</h2>
+                    <p className="item-summary">
+                      {profile.birth_date || "未记录日期"} {profile.birth_time || ""} ·{" "}
+                      {profile.calendar === "lunar" ? "农历" : "公历"} · 关联{" "}
+                      {profileRecordCounts.get(profile.profile_id) ??
+                        profileRecordCounts.get(profile.name) ??
+                        0}{" "}
+                      条记录
+                    </p>
+                    <p className="profile-pillars">{profilePillars(profile)}</p>
+                    <p className="profile-chart-note">{profileChartNote(profile)}</p>
+                    {profile.tags.length ? (
+                      <div className="tag-list tag-list-filter">
+                        {profile.tags.map((tag) => (
+                          <button
+                            className={activeTagFilter === tag ? "active" : ""}
+                            key={tag}
+                            onClick={() =>
+                              setActiveTagFilter(activeTagFilter === tag ? null : tag)
+                            }
+                            type="button"
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    ) : null}
+                    <div className="saved-actions">
+                      <button
+                        aria-label={`编辑人物档案 ${profile.name}`}
+                        onClick={() => openProfileEditor(profile)}
+                        title={t("编辑人物档案")}
+                        type="button"
+                      >
+                        <Pencil size={15} />
+                      </button>
+                      <button
+                        aria-label={`删除人物档案 ${profile.name}`}
+                        onClick={() => void removeProfile(profile)}
+                        title={t("删除人物档案")}
+                        type="button"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
           ) : activeTab === "notes" && filteredNotes.length === 0 ? (
             <div className="panel empty-state" id="notes">
-              <p className="kicker">尚无笔记</p>
-              <h2>把思考留在原文旁边</h2>
-              <p>新建的笔记会保留来源标识与标签，并可在个人知识库中检索。</p>
+              <p className="kicker">{t("尚无笔记")}</p>
+              <h2>{t("把思考留在原文旁边")}</h2>
+              <p>{t("新建的笔记会保留来源标识与标签，并可在知命智库中检索。")}</p>
             </div>
           ) : !hasVisibleItems ? (
             <div className="panel empty-state">
-              <p className="kicker">尚无收藏</p>
-              <h2>把值得再读的内容收在这里</h2>
-              <p>收藏内容会保留其来源链接与上下文。</p>
+              <p className="kicker">{t("尚无收藏")}</p>
+              <h2>{t("把值得再读的内容收在这里")}</h2>
+              <p>{t("收藏内容会保留其来源链接与上下文。")}</p>
             </div>
           ) : (
             <div className="saved-grid">
               {filteredCollections.map((item) => (
                 <article className="saved-item" key={item.collection_id}>
                   <div className="saved-icon">
-                    {item.item_type === "knowledge_item" ? (
+                    {isSourceItemType(item.item_type) ? (
                       <Bookmark size={19} />
                     ) : (
                       <FileText size={19} />
@@ -458,21 +1190,52 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   </div>
                   <div className="saved-body">
                     <div className="saved-meta">
+                      <span className="category-badge">{categoryLabel(categoryOf(item))}</span>
                       <span>{itemTypeLabel(item.item_type)}</span>
                       <time>{formatDate(item.created_at)}</time>
                     </div>
+                    {sourceNeedsReview(item) ? <strong className="source-update-badge">{t("来源可能已更新，请返回原文核对")}</strong> : null}
                     <h2>{item.title || item.source_id || "未命名收藏"}</h2>
-                    <p>{item.source_id || item.snapshot_id}</p>
+                    {collectionSummary(item) ? (
+                      <p className="item-summary">{collectionSummary(item)}</p>
+                    ) : null}
+                    <p className="source-link">{item.source_id || item.snapshot_id}</p>
+                    {tagsOf(item).length ? (
+                      <div className="tag-list tag-list-filter">
+                        {tagsOf(item).map((tag) => (
+                          <button
+                            className={activeTagFilter === tag ? "active" : ""}
+                            key={tag}
+                            onClick={() =>
+                              setActiveTagFilter(activeTagFilter === tag ? null : tag)
+                            }
+                            type="button"
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="tag-empty">{t("未添加标签，可在右侧编辑分类与标签")}</p>
+                    )}
                     <div className="saved-actions">
                       {sourceUrl(item) ? (
                         <a href={sourceUrl(item) || "#"} rel="noreferrer" target="_blank">
-                          <ExternalLink size={14} /> 查看来源
+                          <ExternalLink size={14} /> {t("查看来源")}
                         </a>
                       ) : null}
                       <button
-                        aria-label="删除收藏"
+                        aria-label={t("编辑分类和标签")}
+                        onClick={() => openCollectionEditor(item)}
+                        title={t("编辑分类和标签")}
+                        type="button"
+                      >
+                        <Pencil size={15} />
+                      </button>
+                      <button
+                        aria-label={t("删除收藏")}
                         onClick={() => void removeCollection(item)}
-                        title="删除收藏"
+                        title={t("删除收藏")}
                         type="button"
                       >
                         <Trash2 size={15} />
@@ -489,20 +1252,33 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   </div>
                   <div className="saved-body">
                     <div className="saved-meta">
-                      <span>个人笔记</span>
+                      <span>{t("个人笔记")}</span>
                       <time>{formatDate(note.updated_at)}</time>
                     </div>
                     <h2>{note.title || "未命名笔记"}</h2>
                     <p className="note-body">{note.body}</p>
-                    <div className="tag-list">
-                      {note.tags.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
-                    </div>
+                    {note.tags.length ? (
+                      <div className="tag-list tag-list-filter">
+                        {note.tags.map((tag) => (
+                          <button
+                            className={activeTagFilter === tag ? "active" : ""}
+                            key={tag}
+                            onClick={() =>
+                              setActiveTagFilter(activeTagFilter === tag ? null : tag)
+                            }
+                            type="button"
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="tag-empty">{t("未添加标签，可在编辑笔记时填写")}</p>
+                    )}
                     <div className="saved-actions">
                       {note.source_id ? <small>来源 {note.source_id}</small> : null}
                       <button
-                        aria-label="编辑笔记"
+                        aria-label={t("编辑笔记")}
                         onClick={() => {
                           setNoteDraft({
                             noteId: note.note_id,
@@ -514,15 +1290,15 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                           });
                           setShowNoteForm(true);
                         }}
-                        title="编辑笔记"
+                        title={t("编辑笔记")}
                         type="button"
                       >
                         <Pencil size={15} />
                       </button>
                       <button
-                        aria-label="删除笔记"
+                        aria-label={t("删除笔记")}
                         onClick={() => void removeNote(note)}
-                        title="删除笔记"
+                        title={t("删除笔记")}
                         type="button"
                       >
                         <Trash2 size={15} />
@@ -541,37 +1317,89 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <span className="panel-icon"><Tags size={17} /></span>
               <div>
                 <p className="kicker">TAGS</p>
-                <h2>个人标签</h2>
+                <h2>{t("个人标签")}</h2>
               </div>
             </div>
             <form className="inline-form" onSubmit={addTag}>
               <input
-                aria-label="新标签名称"
+                aria-label={t("新标签名称")}
                 onChange={(event) => setTagName(event.target.value)}
-                placeholder="输入标签"
+                placeholder={t("输入标签")}
                 value={tagName}
               />
-              <button aria-label="添加标签" disabled={busy} title="添加标签" type="submit">
+              <button aria-label={t("添加标签")} disabled={busy} title={t("添加标签")} type="submit">
                 <Plus size={15} />
               </button>
             </form>
-            <div className="tag-list tag-list-stacked">
-              {tagItems.length ? (
-                tagItems.map((tag) => (
-                  <span key={tag.tag_id}>
-                    {tag.name}
-                    <button
-                      aria-label={`删除标签 ${tag.name}`}
-                      onClick={() => void removeTag(tag)}
-                      title="删除标签"
-                      type="button"
-                    >
-                      <X size={12} />
-                    </button>
-                  </span>
+            <p className="tag-help">
+              {t("标签在收藏与笔记间同步：点击标签筛选，铅笔重命名，删除会从全部个人内容中移除。")}
+            </p>
+            <div className="tag-list tag-list-stacked tag-manager">
+              {tagRows.length ? (
+                tagRows.map((tag) => (
+                  <div className="tag-row" key={tag.tag_id}>
+                    {renamingTagId === tag.tag_id ? (
+                      <form
+                        className="tag-rename"
+                        onSubmit={(event) => void submitTagRename(event, tag)}
+                      >
+                        <input
+                          aria-label={`重命名标签 ${tag.name}`}
+                          autoFocus
+                          onChange={(event) => setTagRenameDraft(event.target.value)}
+                          value={tagRenameDraft}
+                        />
+                        <button aria-label={t("保存标签名称")} title={t("保存")} type="submit">
+                          <Check size={12} />
+                        </button>
+                        <button
+                          aria-label={t("取消重命名")}
+                          onClick={() => setRenamingTagId(null)}
+                          title={t("取消")}
+                          type="button"
+                        >
+                          <X size={12} />
+                        </button>
+                      </form>
+                    ) : (
+                      <>
+                        <button
+                          className={
+                            activeTagFilter === tag.name ? "tag-filter active" : "tag-filter"
+                          }
+                          onClick={() =>
+                            setActiveTagFilter(activeTagFilter === tag.name ? null : tag.name)
+                          }
+                          type="button"
+                        >
+                          {tag.name}
+                          <small>{tagUsage.get(tag.name) ?? tag.usage_count ?? 0}</small>
+                        </button>
+                        <span className="tag-actions">
+                          <button
+                            aria-label={`重命名标签 ${tag.name}`}
+                            disabled={tag.tag_id.startsWith("local:")}
+                            onClick={() => startTagRename(tag)}
+                            title={t("重命名")}
+                            type="button"
+                          >
+                            <Pencil size={12} />
+                          </button>
+                          <button
+                            aria-label={`删除标签 ${tag.name}`}
+                            onClick={() => void removeTag(tag)}
+                            title={t("删除")}
+                            type="button"
+                          >
+                            <X size={12} />
+                          </button>
+                        </span>
+                      </>
+                    )}
+                  </div>
                 ))
               ) : (
-                <p className="aside-empty">暂无标签</p>
+                <p className="aside-empty">{t("暂无标签")}</p>
               )}
             </div>
           </section>
@@ -581,11 +1409,11 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <span className="panel-icon"><ShieldCheck size={17} /></span>
               <div>
                 <p className="kicker">PRIVACY</p>
-                <h2>数据与隐私</h2>
+                <h2>{t("数据与隐私")}</h2>
               </div>
             </div>
             <div className="identity-form">
-              <label>当前账户</label>
+              <label>{t("当前账户")}</label>
               <strong>{user.display_name}</strong>
               <small>{user.email}</small>
             </div>
@@ -593,8 +1421,8 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
               <div className="privacy-options">
                 <label className="switch-row">
                   <span>
-                    <b>匿名案例</b>
-                    <small>允许去标识化案例进入相似匹配</small>
+                    <b>{t("匿名案例")}</b>
+                    <small>{t("允许去标识化案例进入相似匹配")}</small>
                   </span>
                   <input
                     checked={privacy.allow_anonymous_cases}
@@ -609,8 +1437,8 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 </label>
                 <label className="switch-row">
                   <span>
-                    <b>共享训练</b>
-                    <small>允许用于模型质量改进</small>
+                    <b>{t("共享训练")}</b>
+                    <small>{t("允许用于模型质量改进")}</small>
                   </span>
                   <input
                     checked={privacy.allow_shared_training}
@@ -624,24 +1452,24 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   />
                 </label>
                 <label className="field compact-field">
-                  保留期限
+                  {t("保留期限")}
                   <select
                     onChange={(event) =>
                       void savePrivacy({ ...privacy, retention_policy: event.target.value })
                     }
                     value={privacy.retention_policy}
                   >
-                    <option value="standard">标准</option>
-                    <option value="30_days">30 天</option>
-                    <option value="90_days">90 天</option>
-                    <option value="indefinite">长期保留</option>
+                    <option value="standard">{t("标准")}</option>
+                    <option value="30_days">{t("30 天")}</option>
+                    <option value="90_days">{t("90 天")}</option>
+                    <option value="indefinite">{t("长期保留")}</option>
                   </select>
                 </label>
               </div>
             ) : null}
             <div className="data-actions">
               <button disabled={busy} onClick={() => void exportData()} type="button">
-                <Download size={15} /> 导出数据
+                <Download size={15} /> {t("导出数据")}
               </button>
               <button
                 className="danger-button"
@@ -649,14 +1477,14 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 onClick={() => void deleteAllData()}
                 type="button"
               >
-                <Trash2 size={15} /> 删除全部
+                <Trash2 size={15} /> {t("删除全部")}
               </button>
             </div>
           </section>
 
           <section className="source-note">
             <Database size={17} />
-            <p>来源统一使用 <code>source_id</code> 关联，个人笔记不会改写公共知识内容。</p>
+            <p>{t("来源统一使用")} <code>source_id</code> {t("关联，个人笔记不会改写公共知识内容。")}</p>
           </section>
         </aside>
       </section>
@@ -667,12 +1495,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             <div className="modal-heading">
               <div>
                 <p className="kicker">SAVE SOURCE</p>
-                <h2 id="collection-form-title">收藏来源</h2>
+                <h2 id="collection-form-title">{t("收藏来源")}</h2>
               </div>
               <button
-                aria-label="关闭收藏表单"
+                aria-label={t("关闭收藏表单")}
                 onClick={() => setShowCollectionForm(false)}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -680,26 +1508,46 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </div>
             <form className="form-grid" onSubmit={submitCollection}>
               <label className="field full">
-                标题
+                {t("标题")}
                 <input
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, title: event.target.value })
                   }
-                  placeholder="例如：穷通宝鉴 · 论甲木"
+                  placeholder={t("例如：穷通宝鉴 · 论甲木")}
                   value={collectionDraft.title}
                 />
               </label>
               <label className="field">
-                类型
+                {t("类型")}
                 <select
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, itemType: event.target.value })
                   }
                   value={collectionDraft.itemType}
                 >
-                  <option value="knowledge_item">典籍原文</option>
-                  <option value="divination">卦象</option>
-                  <option value="sign">签文</option>
+                  <option value="knowledge_item">{t("典籍原文")}</option>
+                  <option value="divination">{t("卦象")}</option>
+                  <option value="sign">{t("签文")}</option>
+                  <option value="divination_record">{t("卦象记录")}</option>
+                  <option value="sign_record">{t("灵签签文")}</option>
+                  <option value="bazi_record">{t("八字命盘")}</option>
+                </select>
+              </label>
+              <label className="field">
+                {t("分类")}
+                <select
+                  onChange={(event) =>
+                    setCollectionDraft({ ...collectionDraft, category: event.target.value })
+                  }
+                  value={collectionDraft.category ?? "knowledge"}
+                >
+                  {categoryOptions
+                    .filter((option) => option.value !== "all")
+                    .map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
                 </select>
               </label>
               <label className="field">
@@ -708,13 +1556,13 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, sourceId: event.target.value })
                   }
-                  placeholder="必填"
+                  placeholder={t("必填")}
                   required
                   value={collectionDraft.sourceId}
                 />
               </label>
               <label className="field full">
-                来源链接
+                {t("来源链接")}
                 <input
                   onChange={(event) =>
                     setCollectionDraft({ ...collectionDraft, sourceUrl: event.target.value })
@@ -724,16 +1572,172 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   value={collectionDraft.sourceUrl}
                 />
               </label>
+              <label className="field full">
+                {t("标签")}
+                <input
+                  onChange={(event) =>
+                    setCollectionDraft({ ...collectionDraft, tags: event.target.value })
+                  }
+                  placeholder={t("用逗号分隔，例如：五行, 用神, 重点")}
+                  value={collectionDraft.tags ?? ""}
+                />
+              </label>
               <div className="form-actions full">
                 <button
                   className="button button-secondary"
                   onClick={() => setShowCollectionForm(false)}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存收藏
+                  <Save size={15} /> {t("保存收藏")}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      ) : null}
+
+      {collectionEdit ? (
+        <div className="modal-backdrop" role="presentation">
+          <section
+            aria-labelledby="collection-edit-title"
+            aria-modal="true"
+            className="modal"
+            role="dialog"
+          >
+            <div className="modal-heading">
+              <div>
+                <p className="kicker">CLASSIFY COLLECTION</p>
+                <h2 id="collection-edit-title">{t("编辑分类与标签")}</h2>
+              </div>
+              <button
+                aria-label={t("关闭编辑窗口")}
+                onClick={() => setCollectionEdit(null)}
+                title={t("关闭")}
+                type="button"
+              >
+                <X size={19} />
+              </button>
+            </div>
+            <p className="panel-intro">
+              {collectionEdit.title || collectionEdit.source_id || "未命名收藏"}
+            </p>
+            <form className="form-grid" onSubmit={submitCollectionEdit}>
+              <label className="field full">
+                {t("分类")}
+                <select
+                  onChange={(event) => setEditCategory(event.target.value)}
+                  value={editCategory}
+                >
+                  {categoryOptions
+                    .filter((option) => option.value !== "all")
+                    .map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                </select>
+              </label>
+              <label className="field full">
+                {t("标签")}
+                <input
+                  onChange={(event) => setEditTags(event.target.value)}
+                  placeholder={t("用逗号分隔，例如：五行, 用神, 重点")}
+                  value={editTags}
+                />
+              </label>
+              <div className="form-actions full">
+                <button
+                  className="button button-secondary"
+                  onClick={() => setCollectionEdit(null)}
+                  type="button"
+                >
+                  {t("取消")}
+                </button>
+                <button className="button button-primary" disabled={busy} type="submit">
+                  <Save size={15} /> {t("保存分类与标签")}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      ) : null}
+
+      {profileEdit ? (
+        <div className="modal-backdrop" role="presentation">
+          <section
+            aria-labelledby="profile-edit-title"
+            aria-modal="true"
+            className="modal"
+            role="dialog"
+          >
+            <div className="modal-heading">
+              <div>
+                <p className="kicker">PERSON PROFILE</p>
+                <h2 id="profile-edit-title">{t("编辑人物档案")}</h2>
+              </div>
+              <button
+                aria-label={t("关闭人物档案窗口")}
+                onClick={() => setProfileEdit(null)}
+                title={t("关闭")}
+                type="button"
+              >
+                <X size={19} />
+              </button>
+            </div>
+            <p className="panel-intro">
+              已保存命盘：{profilePillars(profileEdit)}
+            </p>
+            <form className="form-grid" onSubmit={submitProfileEdit}>
+              <label className="field full">
+                {t("人物名称")}
+                <input
+                  onChange={(event) => setProfileEditName(event.target.value)}
+                  required
+                  value={profileEditName}
+                />
+              </label>
+              <label className="field full">
+                {t("档案分类")}
+                <select
+                  onChange={(event) => setProfileEditRelation(event.target.value)}
+                  value={profileEditRelation}
+                >
+                  {profileRelationOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="field full">
+                {t("标签")}
+                <input
+                  onChange={(event) => setProfileEditTags(event.target.value)}
+                  placeholder={t("用逗号分隔，例如：家人, 事业咨询")}
+                  value={profileEditTags}
+                />
+              </label>
+              <div className="form-actions full">
+                <button
+                  className="button button-secondary"
+                  onClick={() => setProfileEdit(null)}
+                  type="button"
+                >
+                  {t("取消")}
+                </button>
+                <button className="button button-primary" disabled={busy} type="submit">
+                  <Save size={15} /> {t("保存人物档案")}
+                </button>
+                <button
+                  className="danger-button"
+                  disabled={busy}
+                  onClick={() => void removeProfile(profileEdit)}
+                  type="button"
+                >
+                  <Trash2 size={15} /> {t("删除档案")}
                 </button>
               </div>
             </form>
@@ -750,12 +1754,12 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                 <h2 id="note-form-title">{noteDraft.noteId ? "编辑笔记" : "新建笔记"}</h2>
               </div>
               <button
-                aria-label="关闭笔记表单"
+                aria-label={t("关闭笔记表单")}
                 onClick={() => {
                   setShowNoteForm(false);
                   setNoteDraft(emptyNoteDraft);
                 }}
-                title="关闭"
+                title={t("关闭")}
                 type="button"
               >
                 <X size={19} />
@@ -763,28 +1767,28 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
             </div>
             <form className="form-grid" onSubmit={submitNote}>
               <label className="field full">
-                标题
+                {t("标题")}
                 <input
                   onChange={(event) => setNoteDraft({ ...noteDraft, title: event.target.value })}
-                  placeholder="笔记标题"
+                  placeholder={t("笔记标题")}
                   value={noteDraft.title}
                 />
               </label>
               <label className="field full">
-                内容
+                {t("内容")}
                 <textarea
                   onChange={(event) => setNoteDraft({ ...noteDraft, body: event.target.value })}
-                  placeholder="记录你的理解、疑问与出处"
+                  placeholder={t("记录你的理解、疑问与出处")}
                   required
                   rows={7}
                   value={noteDraft.body}
                 />
               </label>
               <label className="field">
-                标签
+                {t("标签")}
                 <input
                   onChange={(event) => setNoteDraft({ ...noteDraft, tags: event.target.value })}
-                  placeholder="用英文逗号分隔"
+                  placeholder={t("用逗号分隔，例如：五行, 用神")}
                   value={noteDraft.tags}
                 />
               </label>
@@ -794,19 +1798,19 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   onChange={(event) =>
                     setNoteDraft({ ...noteDraft, sourceId: event.target.value })
                   }
-                  placeholder="可选"
+                  placeholder={t("可选")}
                   value={noteDraft.sourceId}
                 />
               </label>
               <label className="field full">
-                关联收藏
+                {t("关联收藏")}
                 <select
                   onChange={(event) =>
                     setNoteDraft({ ...noteDraft, collectionId: event.target.value })
                   }
                   value={noteDraft.collectionId}
                 >
-                  <option value="">不关联</option>
+                  <option value="">{t("不关联")}</option>
                   {collections.map((item) => (
                     <option key={item.collection_id} value={item.collection_id}>
                       {item.title || item.source_id}
@@ -823,10 +1827,10 @@ export default function LibraryWorkspace({ user }: { user: AuthUser }) {
                   }}
                   type="button"
                 >
-                  取消
+                  {t("取消")}
                 </button>
                 <button className="button button-primary" disabled={busy} type="submit">
-                  <Save size={15} /> 保存笔记
+                  <Save size={15} /> {t("保存笔记")}
                 </button>
               </div>
             </form>

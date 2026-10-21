@@ -3,10 +3,12 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Header
 from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 
 from app.api.deps import DatabaseSession
 from app.core.config import get_settings
 from app.core.errors import AppError
+from app.services.auth import session_user
 from app.schemas.compat import (
     CompatDeleteData,
     CompatEnvelope,
@@ -72,11 +74,38 @@ def _error_response(
     )
 
 
-def _resolve_user_id(header_user_id: str | None, body_user_id: str | None) -> str:
+def _resolve_user_id(
+    header_user_id: str | None,
+    body_user_id: str | None,
+    *,
+    db: Session,
+    authorization: str | None,
+) -> str:
+    """Who a compatibility call writes as.
+
+    These routes predate the account system and read `X-User-Id`, so a
+    signed-in browser reaching them through a bridge was filed under
+    `DEV_USER_ID` instead of its own account. A session wins when one is
+    present; the header stays available only where it is still allowed.
+    """
     settings = get_settings()
+    if authorization and authorization.startswith("Bearer "):
+        user = session_user(db, authorization.removeprefix("Bearer ").strip())
+        if user:
+            return user.id
+        raise AppError("UNAUTHORIZED", "Session is invalid or expired", status_code=401)
+
     header_value = header_user_id.strip() if header_user_id else None
     body_value = body_user_id.strip() if body_user_id else None
 
+    if not settings.allow_legacy_user_header:
+        # Public deployments turn header identity off; without one of the two
+        # the call is anonymous, so it must not be treated as a user at all.
+        raise AppError(
+            "UNAUTHORIZED",
+            "Sign in to use this endpoint; X-User-Id is disabled here",
+            status_code=401,
+        )
     if header_value and body_value and header_value != body_value:
         raise AppError(
             "USER_MISMATCH",
@@ -125,9 +154,12 @@ def compatibility_ingest_event(
     db: DatabaseSession,
     x_user_id: Annotated[str | None, Header(alias="X-User-Id")] = None,
     idempotency_key: Annotated[str | None, Header(alias="X-Idempotency-Key")] = None,
+    authorization: Annotated[str | None, Header()] = None,
 ) -> JSONResponse:
     try:
-        user_id = _resolve_user_id(x_user_id, payload.user_id)
+        user_id = _resolve_user_id(
+            x_user_id, payload.user_id, db=db, authorization=authorization
+        )
         module_name = payload.module.strip().lower()
         event_payload = dict(payload.payload)
         event_payload.setdefault("frontend_module", module_name)
@@ -158,6 +190,7 @@ def compatibility_ingest_event(
             event_id=record.id,
             duplicate=duplicate,
             idempotency_key=effective_key,
+            inference_eligible=record.inference_eligible,
         )
         return _json_response(
             compat_success(
@@ -176,9 +209,12 @@ def compatibility_save_note(
     payload: UpstreamNoteRequest,
     db: DatabaseSession,
     x_user_id: Annotated[str | None, Header(alias="X-User-Id")] = None,
+    authorization: Annotated[str | None, Header()] = None,
 ) -> JSONResponse:
     try:
-        user_id = _resolve_user_id(x_user_id, payload.user_id)
+        user_id = _resolve_user_id(
+            x_user_id, payload.user_id, db=db, authorization=authorization
+        )
 
         if payload.action == "delete":
             if not payload.note_id:
