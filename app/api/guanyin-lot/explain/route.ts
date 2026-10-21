@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   const generationRequest = buildGuanyinLlmGenerationRequest({ question, domain, integration });
   let result: GuanyinLlmGeneration;
   if (integration.status !== "ready") result = { status: "integration_unavailable", request: generationRequest, explanation: null, model: null, warning: "当前签文尚未完成结构化复核，暂不生成扩展解释。" };
-  else if (!guanyinLlmConfigured()) result = { status: "not_configured", request: generationRequest, explanation: null, model: null, warning: "现代解释服务暂不可用，已保留基础解读。" };
+  else if (!guanyinLlmConfigured()) result = { status: "not_configured", request: generationRequest, explanation: null, model: null, warning: null };
   else {
     try {
       const generated = await generateGuanyinExplanation({ question, domain, integration });

@@ -186,7 +186,7 @@ function UserFacingResult({ record }: { record: DrawRecord }) {
     {actions.length > 0 && <section className="user-result-section action-list"><h4>{t("接下来可以怎么做")}</h4><ol>{actions.map((item) => <li key={item}>{item}</li>)}</ol></section>}
     {risks.length > 0 && <section className="user-result-section"><h4>{t("需要留意")}</h4><ul>{risks.map((item) => <li key={item}>{item}</li>)}</ul></section>}
     {generation.status === "pending" && <div className="explanation-progress" role="status"><span aria-hidden="true" /><div><strong>{t("正在整理更贴合问题的现代解释")}</strong><p>{t("你可以先阅读以上结果，完成后会自动补充，不必停留等待。")}</p></div></div>}
-    {generation.status !== "pending" && !explanation && <p className="explanation-fallback">{generation.warning ?? "扩展解释暂不可用，以上基础解读仍然有效。"}</p>}
+    {generation.status === "insufficient_evidence" && !explanation && <p className="explanation-fallback">{t("现有资料不足，只呈现可核实的基础解读。")}</p>}
     <details className="uncertainty-details"><summary>{t("阅读边界与不确定性")}</summary><ul>{uncertainties.map((item) => <li key={item}>{item}</li>)}</ul><p>{explanation?.disclaimer ?? "签文用于传统文化学习与文本理解，不替代现实中的专业判断。"}</p></details>
   </section>;
 }

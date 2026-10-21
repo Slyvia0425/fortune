@@ -43,6 +43,8 @@ export const EN: Record<string, string> = {
   "以规则完成推演，以古籍提供依据，以清晰的现代语言帮助你理解传统文化中的象、数与理。":
     "Rules guide the calculations, classical texts ground the evidence, and clear contemporary language opens the symbols, patterns, and reasoning of the tradition.",
   "静心求一签": "Draw a lot",
+  "入藏书阁": "Enter the library",
+  "打开我的书斋": "Open my reading room",
   "首页功能入口": "Home shortcuts",
   "页面返回": "Back navigation",
   "返回上一页": "Back",
@@ -66,6 +68,7 @@ export const EN: Record<string, string> = {
   "理 · 数 · 识": "pattern · number · reading",
   "四境合一": "Four paths, one system",
   "从推演到求证的完整路径": "From calculation to traceable evidence",
+  "四条路径，各有原文与来处。": "Four paths, each grounded in its own sources.",
   "所有传统原文、规则结果与系统解释均分层呈现。重要决定，请始终结合现实信息与专业意见。":
     "Source texts, rule results, and system explanations are always kept in separate layers. For decisions that matter, weigh real-world facts and professional advice.",
   "壹": "I",
@@ -73,20 +76,28 @@ export const EN: Record<string, string> = {
   "叁": "III",
   "肆": "IV",
   "八字命盘": "BaZi Chart",
+  "排四柱，观五行、十神与岁运。": "Set the four pillars and trace the elements, ten gods, and cycles of time.",
+  "四柱有序 · 推演可查": "Ordered pillars · traceable reasoning",
   "录入出生信息，查看四柱、五行、十神与时运结构。":
     "Enter a birth time to read the four pillars, the five elements, the ten gods, and the luck cycles.",
   "规则计算 · 结构化输出": "Rule-based calculation · structured output",
   "智能占卜": "Divination",
+  "起一卦，察本卦、互卦与变卦。": "Cast once, then read the primary, nuclear, and changed hexagrams.",
+  "卦象分明 · 变爻可考": "Clear figures · changes accounted for",
   "以数字或随机方式起卦，呈现本卦、互卦与变卦。":
     "Cast a hexagram from numbers or at random, and read the primary, nuclear, and changed figures.",
   "六爻演算 · 可复核": "Six-line casting · reproducible",
   "观音灵签": "Guanyin Lots",
+  "求一签，读签诗、原解与典故。": "Draw a lot and read its verse, received commentary, and allusion.",
+  "签诗有本 · 典故有源": "Verses preserved · allusions sourced",
   "从百签数据库中抽取一签，分层阅读签诗与典故。":
     "Draw one of the hundred lots and read verse, commentary, and allusion in separate layers.",
   "百签签库 · 原文保真": "Hundred-lot corpus · verbatim verses",
   "在古籍、注解与现代资料中检索术语和原文依据。":
     "Search terms and evidence across source texts, commentaries, and modern scholarship.",
   "典籍资料 · 来源可溯": "Classical sources · fully traceable",
+  "查术语，也查古籍原文与出处。": "Look up a term, then follow it back to the classical text.",
+  "循名索典 · 据文求义": "Follow the name · read from the source",
   "知识有出处": "Every claim has a source",
   "每一次解释，": "Every explanation",
   "都能回到原文。": "leads back to the text.",
@@ -100,10 +111,16 @@ export const EN: Record<string, string> = {
   "观音灵签资料": "Guanyin lot records",
   "核心功能模块": "core modules",
   "贯通": "Connected",
+  "互证": "Concordance",
+  "规则与原文，相互印证": "Rules tested against the texts",
   "系统把规则计算、传统资料与辅助解释明确区分。资料不足时会说明不确定性，不用生成内容冒充古籍原文。":
     "Rule-based calculation, source material, and generated explanation stay in separate layers. When the material is thin, the system states the uncertainty instead of passing generated text off as a source.",
   "规则推演、传统文献与辅助解读各守其位；资料未足之处，系统会如实说明，不以生成内容代替古籍原文。":
     "Rule-based reasoning, classical sources, and assisted interpretation each retain their place. Where the evidence is incomplete, the system says so plainly and never substitutes generated prose for the original text.",
+  "推演有据，解读有源；资料不足，直言其限。":
+    "Reasoning has evidence, interpretation has a source, and every limit is stated plainly.",
+  "现有资料不足，只呈现可核实的基础解读。":
+    "The available sources are limited, so only the verifiable reading is shown.",
 
   // --- Page headings -------------------------------------------------------
   "四柱排盘": "Four Pillars",

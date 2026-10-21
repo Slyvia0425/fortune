@@ -62,6 +62,49 @@
   .guanyin-page .reasoning-evidence blockquote{padding:11px 12px}
   .guanyin-page .secondary-button{margin-top:20px}
 }
+
+/* Home · quiet classical ornament and clear, single-purpose entrances */
+.home-page{position:relative;overflow:hidden;background:
+  radial-gradient(circle at 10% 8%,rgba(182,145,82,.09),transparent 24rem),
+  linear-gradient(90deg,rgba(23,63,53,.025) 1px,transparent 1px),var(--paper);background-size:auto,72px 72px,auto}
+.home-page .hero:before,.home-page .hero:after{content:"";position:absolute;pointer-events:none}
+.home-page .hero{position:relative}
+.home-page .hero:before{left:-16px;top:74px;width:70px;height:70px;border-left:1px solid rgba(161,59,49,.34);border-top:1px solid rgba(161,59,49,.34)}
+.home-page .hero:after{right:0;bottom:52px;width:116px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.home-page .hero-copy{position:relative}
+.home-page .hero-copy:after{content:"知\A命";white-space:pre;position:absolute;right:16px;top:-28px;padding:8px 10px;border:1px solid rgba(161,59,49,.24);color:rgba(161,59,49,.2);font-size:17px;line-height:1.15;transform:rotate(3deg)}
+.hero-actions .button-primary,.hero-actions .text-link{transition:transform .2s ease,box-shadow .2s ease,color .2s ease,background .2s ease}
+.hero-actions .button-primary:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(23,63,53,.2)}
+.hero-actions .text-link:hover{color:var(--red);transform:translateX(3px)}
+.hero-orbit .orbit-label{cursor:default;pointer-events:none}
+.hero-orbit .orbit-label:hover{background:var(--white);border-color:var(--line);color:var(--jade);box-shadow:0 8px 30px rgba(32,35,28,.08);transform:none}
+.hero-orbit .orbit-label small{opacity:.62;transform:none}
+.home-module-section{position:relative}
+.home-module-section:before{content:"卷";position:absolute;left:-38px;top:118px;color:rgba(161,59,49,.08);font-size:104px;line-height:1}
+.module-card{position:relative;background:rgba(255,253,248,.18)}
+.module-card:before{content:"";position:absolute;left:33px;right:33px;bottom:20px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:0;transform:scaleX(.35);transform-origin:left;transition:.25s ease}
+.module-card:hover:before{opacity:.65;transform:scaleX(1)}
+.module-card:nth-child(1) .module-index{color:#8d493e}.module-card:nth-child(2) .module-index{color:#2f6657}.module-card:nth-child(3) .module-index{color:#9a7138}.module-card:nth-child(4) .module-index{color:#5f594e}
+.ink-section{position:relative;background-color:var(--jade);background-image:radial-gradient(circle at 8% 18%,rgba(217,190,133,.09),transparent 28%),repeating-linear-gradient(135deg,transparent 0 34px,rgba(255,255,255,.018) 35px)}
+.ink-section:before{content:"";position:absolute;inset:18px;border:1px solid rgba(217,190,133,.1);pointer-events:none}
+.evidence-stats strong{letter-spacing:.08em}
+.evidence-note{padding-left:20px;border-left:1px solid rgba(217,190,133,.35)}
+
+/* Account controls · visible hover, press, focus, and restrained loading mark */
+.auth-user button{position:relative;padding:7px 12px;border:1px solid transparent;background:transparent;color:var(--muted);transition:.18s ease}
+.auth-user button:after{content:"↗";display:inline-block;margin-left:5px;font-size:10px;opacity:0;transform:translate(-4px,3px);transition:.18s ease}
+.auth-user button:hover{border-color:rgba(161,59,49,.35);background:rgba(161,59,49,.06);color:var(--red)}
+.auth-user button:hover:after{opacity:1;transform:translate(0,0)}
+.auth-user button:active{transform:translateY(1px);background:rgba(161,59,49,.12)}
+.auth-user button:focus-visible{outline:2px solid rgba(182,145,82,.65);outline-offset:2px}
+.auth-loading{position:relative;width:22px;height:22px;border:1px solid rgba(182,145,82,.35);border-top-color:var(--red);border-radius:50%;box-shadow:inset 0 0 0 5px var(--paper)}
+.auth-loading:after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--gold)}
+
+@media(max-width:600px){
+  .home-page .hero:before,.home-page .hero:after,.home-page .hero-copy:after{display:none}
+  .ink-section:before{inset:8px}
+  .evidence-note{padding-left:12px}
+}
 .auth-link{padding:8px 13px;border:1px solid var(--jade);color:var(--jade);font-size:12px}.auth-loading{width:18px;height:18px;border:1px solid var(--line);border-top-color:var(--jade);border-radius:50%}.auth-user{display:flex;align-items:center;gap:8px;font-size:12px}.auth-user a{color:var(--jade)}.auth-user button{border:0;background:none;color:var(--muted);cursor:pointer}.account-shell{padding-top:55px;padding-bottom:100px}.account-card{width:min(520px,100%);margin:auto;padding:38px;border:1px solid var(--line);background:var(--white)}.account-card h2{font-size:30px;font-weight:500}.account-actions,.account-tabs{display:flex;gap:10px;margin-top:24px}.account-tabs button{flex:1;padding:11px;border:0;border-bottom:1px solid var(--line);background:transparent;cursor:pointer}.account-tabs .active{border-color:var(--red);color:var(--red)}.account-form{display:grid;gap:18px;margin-top:28px}.account-form label{display:grid;gap:8px;font-size:13px}.account-form input{padding:13px;border:1px solid var(--line);background:#fff}.account-form .button{width:100%}
 
 /* Module 3 · Knowledge graph and learning centre */

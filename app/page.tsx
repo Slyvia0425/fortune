@@ -10,8 +10,8 @@ const MODULES = [
     mobileIndex: "八",
     title: "八字命盘",
     mobileTitle: "排八字",
-    text: "录入出生信息，查看四柱、五行、十神与时运结构。",
-    meta: "规则计算 · 结构化输出",
+    text: "排四柱，观五行、十神与岁运。",
+    meta: "四柱有序 · 推演可查",
   },
   {
     href: "/divination",
@@ -19,8 +19,8 @@ const MODULES = [
     mobileIndex: "易",
     title: "智能占卜",
     mobileTitle: "起一卦",
-    text: "以数字或随机方式起卦，呈现本卦、互卦与变卦。",
-    meta: "六爻演算 · 可复核",
+    text: "起一卦，察本卦、互卦与变卦。",
+    meta: "卦象分明 · 变爻可考",
   },
   {
     href: "/guanyin",
@@ -28,8 +28,8 @@ const MODULES = [
     mobileIndex: "签",
     title: "观音灵签",
     mobileTitle: "求一签",
-    text: "从百签数据库中抽取一签，分层阅读签诗与典故。",
-    meta: "百签签库 · 原文保真",
+    text: "求一签，读签诗、原解与典故。",
+    meta: "签诗有本 · 典故有源",
   },
   {
     href: "/knowledge",
@@ -37,15 +37,15 @@ const MODULES = [
     mobileIndex: "典",
     title: "典籍求索",
     mobileTitle: "查典籍",
-    text: "在古籍、注解与现代资料中检索术语和原文依据。",
-    meta: "典籍资料 · 来源可溯",
+    text: "查术语，也查古籍原文与出处。",
+    meta: "循名索典 · 据文求义",
   },
 ];
 
 const STATS = [
   { value: "原典", label: "分层整理，出处可循" },
   { value: "灵签", label: "签诗典故，原貌呈现" },
-  { value: "贯通", label: "推演求证，相互衔接" },
+  { value: "互证", label: "规则与原文，相互印证" },
 ];
 
 export default function Home() {
@@ -92,11 +92,11 @@ export default function Home() {
             </Link>
           </nav>
           <div className="hero-actions">
-            <Link className="button button-primary" href="/guanyin">
-              {t("静心求一签")}
+            <Link className="button button-primary" href="/knowledge?tab=library">
+              {t("入藏书阁")}
             </Link>
-            <Link className="text-link" href="/knowledge">
-              {t("先读一卷典籍")} <span>→</span>
+            <Link className="text-link" href="/library">
+              {t("打开我的书斋")} <span>→</span>
             </Link>
           </div>
         </div>
@@ -107,10 +107,10 @@ export default function Home() {
             <span>象</span>
             <small>{t("理 · 数 · 识")}</small>
           </Link>
-          <Link className="orbit-label label-a" href="/bazi" title={t("进入八字命盘")}>{t("八字")}<small>BAZI</small></Link>
-          <Link className="orbit-label label-b" href="/divination" title={t("进入智能占卜")}>{t("易卦")}<small>I CHING</small></Link>
-          <Link className="orbit-label label-c" href="/guanyin" title={t("进入观音灵签")}>{t("灵签")}<small>LOTS</small></Link>
-          <Link className="orbit-label label-d" href="/knowledge" title={t("进入典籍求索")}>{t("典籍")}<small>TEXTS</small></Link>
+          <span className="orbit-label label-a">{t("八字")}<small>BAZI</small></span>
+          <span className="orbit-label label-b">{t("易卦")}<small>I CHING</small></span>
+          <span className="orbit-label label-c">{t("灵签")}<small>LOTS</small></span>
+          <span className="orbit-label label-d">{t("典籍")}<small>TEXTS</small></span>
         </div>
       </section>
       <section className="page-shell section-block home-module-section">
@@ -121,7 +121,7 @@ export default function Home() {
           </div>
           <p>
             {t(
-              "所有传统原文、规则结果与系统解释均分层呈现。重要决定，请始终结合现实信息与专业意见。",
+              "四条路径，各有原文与来处。",
             )}
           </p>
         </div>
@@ -159,7 +159,7 @@ export default function Home() {
           </div>
           <p className="evidence-note">
             {t(
-              "规则推演、传统文献与辅助解读各守其位；资料未足之处，系统会如实说明，不以生成内容代替古籍原文。",
+              "推演有据，解读有源；资料不足，直言其限。",
             )}
           </p>
         </div>
