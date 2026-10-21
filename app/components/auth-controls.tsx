@@ -33,5 +33,5 @@ export default function AuthControls() {
 
   if (user === undefined) return <span className="auth-loading" aria-label={t("正在读取登录状态")} />;
   if (!user) return <Link className="auth-link" href="/account">{t("登录")}</Link>;
-  return <div className="auth-user"><Link href="/account">{user.display_name}</Link><button type="button" onClick={logout}>{t("退出")}</button></div>;
+  return <div className="auth-user"><Link href="/account">{user.display_name}</Link><button className="auth-logout" type="button" onClick={logout} aria-label={t("退出登录")}><span>{t("退出")}</span><i aria-hidden="true">↗</i></button></div>;
 }

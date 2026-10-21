@@ -97,6 +97,14 @@
 .auth-user button:hover:after{opacity:1;transform:translate(0,0)}
 .auth-user button:active{transform:translateY(1px);background:rgba(161,59,49,.12)}
 .auth-user button:focus-visible{outline:2px solid rgba(182,145,82,.65);outline-offset:2px}
+.auth-user .auth-logout{isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:7px 12px;border:1px solid rgba(161,59,49,.4);color:var(--red);letter-spacing:.12em}
+.auth-user .auth-logout:before{content:"";position:absolute;z-index:-1;inset:0;background:var(--red);transform:translateX(-102%);transition:transform .22s ease}
+.auth-user .auth-logout:after{display:none}
+.auth-user .auth-logout i{font-style:normal;font-size:12px;transition:transform .22s ease}
+.auth-user .auth-logout:hover{border-color:var(--red);color:#fff;box-shadow:0 7px 18px rgba(161,59,49,.18)}
+.auth-user .auth-logout:hover:before{transform:translateX(0)}
+.auth-user .auth-logout:hover i{transform:translate(2px,-2px)}
+.auth-user .auth-logout:active{transform:translateY(1px) scale(.97);box-shadow:none}
 .auth-loading{position:relative;width:22px;height:22px;border:1px solid rgba(182,145,82,.35);border-top-color:var(--red);border-radius:50%;box-shadow:inset 0 0 0 5px var(--paper)}
 .auth-loading:after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--gold)}
 
@@ -348,3 +356,24 @@ html[lang="en"] .evidence-stats strong{font-size:clamp(22px,2.5vw,32px);letter-s
   .subpage .page-hero .page-back-nav,
   .knowledge-hero-copy>.page-back-nav{margin-bottom:14px}
 }
+/* Knowledge navigation · equal rhythm across all four tabs */
+.knowledge-tabs{align-items:stretch}
+.knowledge-tabs button{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:8px;min-height:148px;padding:20px 24px}
+.knowledge-tabs button>b{align-self:center;text-align:left;font-size:12px;line-height:1}
+.knowledge-tabs button>span{display:grid;grid-template-rows:30px 20px 28px;align-content:center;min-width:0}
+.knowledge-tabs button>span>em,.knowledge-tabs button>span>small{margin:0;line-height:1.45}
+.knowledge-tabs button>span>em{font-size:10px;align-self:start}
+.knowledge-tabs button>span>small{font-size:10px;align-self:start;white-space:normal}
+.knowledge-tabs button>span{font-size:17px;line-height:1.4}
+@media(max-width:900px){.knowledge-tabs button{min-height:126px;padding:17px 18px}.knowledge-tabs button>span{grid-template-rows:27px 19px 26px}}
+@media(max-width:600px){.knowledge-tabs button{min-height:104px;grid-template-columns:30px 1fr;padding:14px 16px}.knowledge-tabs button>span{grid-template-rows:25px 18px 24px}}
+/* Home primary action · visible hover and press response */
+.hero-actions .button-primary{position:relative;isolation:isolate;overflow:hidden;gap:10px;padding-right:22px;box-shadow:0 8px 20px rgba(23,63,53,.12);transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
+.hero-actions .button-primary:before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(105deg,transparent 0 36%,rgba(255,255,255,.22) 48%,transparent 60%);transform:translateX(-120%);animation:home-action-glint 3.8s ease-in-out infinite}
+.hero-actions .button-primary:after{content:"→";display:inline-block;color:#e4c98f;font-size:16px;line-height:1;transform:translateX(0);transition:transform .2s ease,color .2s ease}
+.hero-actions .button-primary:hover{background:var(--jade-2);transform:translateY(-3px);box-shadow:0 14px 28px rgba(23,63,53,.24)}
+.hero-actions .button-primary:hover:after{color:#fff;transform:translateX(5px)}
+.hero-actions .button-primary:active{transform:translateY(1px) scale(.97);box-shadow:0 4px 10px rgba(23,63,53,.16)}
+.hero-actions .button-primary:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+@keyframes home-action-glint{0%,62%,100%{transform:translateX(-120%)}82%{transform:translateX(120%)}}
+@media(prefers-reduced-motion:reduce){.hero-actions .button-primary:before{animation:none}.hero-actions .button-primary,.hero-actions .button-primary:after{transition:none}}
