@@ -12,7 +12,9 @@ import {
   type BaziProfileActivity,
   yongshenText,
 } from "./profile-activity";
+import { BAZI_TERMS } from "@/lib/bazi/knowledge-links";
 import { ElementDistribution } from "./element-distribution";
+import { TermLink } from "./knowledge-link";
 import { StrengthBreakdown } from "./strength-breakdown";
 import { TenGodRelations } from "./ten-god-relations";
 import { YongshenDerivation } from "./yongshen-derivation";
@@ -30,7 +32,7 @@ export function ElementsStep({ chart, profileActivity }: { chart: BaziChartResul
       <h2>{t("五行十神")}</h2>
       <p className="kicker">{t("命局结构")}</p>
       <p className={styles.subline}>
-        日主 {STEM_LABEL[chart.day_master.stem]}
+        <TermLink term={BAZI_TERMS.dayMaster}>日主</TermLink> {STEM_LABEL[chart.day_master.stem]}
         {ELEMENT_LABEL[chart.day_master.element]} · 以下十神均相对日主而论
       </p>
 
