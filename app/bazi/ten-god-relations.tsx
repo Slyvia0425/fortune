@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from "react";
 import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, STEM_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodPositions } from "@/lib/bazi/structure";
+import { TenGodRanking } from "./ten-god-ranking";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -38,13 +39,36 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
   const [selectedElement, setSelectedElement] = useState<ElementKey>(busiest.element);
   const selected = cycle.find((node) => node.element === selectedElement) ?? cycle[0];
   const selectedInfo = GROUP_INFO[selected.group];
+  const [view, setView] = useState<"info" | "ranking">("info");
 
   return (
     <section id="sec-relations" className={`${styles.section} ${styles.rise}`} style={{ animationDelay: delay }}>
       <div className={styles.sectionHead}>
         <h3>{t("五行与十神")}</h3>
-        <span>{t("点击任一五行，查看它在命局中对应的十神")}</span>
+        <span>{view === "info" ? t("点击任一五行，查看它在命局中对应的十神") : t("点击任一十神，查看它在命局中的位置")}</span>
       </div>
+      <div className={styles.viewSwitch} role="tablist">
+        {(
+          [
+            ["info", "基本信息"],
+            ["ranking", "强弱排行"],
+          ] as const
+        ).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={view === key}
+            className={`${styles.viewTab} ${view === key ? styles.viewTabOn : ""}`}
+            onClick={() => setView(key)}
+          >
+            {t(label)}
+          </button>
+        ))}
+      </div>
+      {view === "ranking" ? (
+        <TenGodRanking chart={chart} />
+      ) : (
       <div className={styles.relationGrid}>
         <div>
           <div className={styles.cycle}>
@@ -163,6 +187,7 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
           </div>
         </div>
       </div>
+      )}
     </section>
 
   );

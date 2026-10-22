@@ -691,4 +691,15 @@ export const EN: Record<string, string> = {
   "一签，只问一事": "One lot, one question",
   "短暂静心，将问题在心中说明白。传统签文与分项解释来自项目签库，并会与辅助解读清楚区分。":
     "Pause, and settle on a single question. The verse and its layer-by-layer commentary come from the project corpus, and stay clearly apart from generated reading.",
+  // --- BaZi: step navigation and ten-god ranking --------------------------
+  "基本信息": "Basic information",
+  "强弱排行": "Ranking",
+  "点击任一十神，查看它在命局中的位置": "Select a ten god to see where it sits in the chart",
+  "按各十神在命局中出现的次数排序（天干与藏干各计一次，共 {total} 处）。":
+    "Ten gods ordered by how often they appear in the chart (each stem and hidden stem counted once, {total} in all).",
+  "出现最多的是": "Most frequent:",
+  "，{top} 处。": ", {top} occurrences.",
+  "十神出现次数排行": "Ten gods ranked by number of appearances",
+  "未见": "None",
+  "命局中未见{name}。": "No {name} in this chart.",
 };

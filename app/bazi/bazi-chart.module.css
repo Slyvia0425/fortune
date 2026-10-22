@@ -807,6 +807,56 @@
 .previewActions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
 .previewSave { padding: 5px 22px; font-size: 13px; letter-spacing: 0.1em; color: #fff; background: var(--jade); border: 1px solid var(--jade); cursor: pointer; }
 .previewSave:hover { background: var(--jade-2); }
+
+/* ---- 五行与十神：切换与强弱排行 ----------------------------------------- */
+
+.viewSwitch { display: flex; width: fit-content; max-width: 100%; align-self: flex-start; margin: 0; border: 1px solid var(--line); }
+.viewTab { padding: 6px 18px; font: inherit; font-size: 14px; color: var(--muted); background: transparent; border: 0; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.viewTab + .viewTab { border-left: 1px solid var(--line); }
+.viewTab:hover { color: var(--ink); }
+.viewTabOn { color: #fff; background: var(--jade); }
+.viewTabOn:hover { color: #fff; }
+
+.rankWrap { display: grid; gap: 14px; }
+.rankSummary { margin: 0; font-size: 14px; line-height: 1.8; color: var(--muted); }
+.rankSummary b { color: var(--ink); font-weight: 600; }
+.rankList { display: grid; gap: 2px; }
+.rankRow {
+  display: grid;
+  grid-template-columns: 22px 78px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  font: inherit;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-left: 3px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.rankRow:hover { background: var(--el-tint); }
+.rankRow:focus-visible { outline: 2px solid rgba(23, 32, 28, 0.45); outline-offset: 1px; }
+.rankRowOn { background: var(--el-tint); border-left-color: var(--el); }
+.rankNo { font-size: 12px; color: var(--muted); }
+.rankName { display: flex; align-items: baseline; gap: 6px; }
+.rankName b { font-size: 16px; font-weight: 600; color: var(--el-strong); }
+.rankName small { font-size: 11px; color: var(--muted); }
+.rankTrack { height: 14px; background: #efede6; }
+.rankBar { display: block; height: 100%; background: var(--el); transform-origin: left center; animation: grow 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both; transition: filter 0.2s ease; }
+.rankRow:hover .rankBar, .rankRowOn .rankBar { filter: saturate(1.25) brightness(1.06); }
+.rankCount { font-size: 15px; font-weight: 600; text-align: right; color: var(--el-strong); }
+.rankRowEmpty .rankName b, .rankRowEmpty .rankCount { color: var(--muted); font-weight: 400; }
+.rankRowEmpty .rankCount { font-size: 12px; }
+.rankRowEmpty .rankTrack { background: transparent; border: 1px dashed #d9d6cc; }
+.rankDetail { margin: 2px 0 6px; padding: 14px 18px; background: var(--el-tint); border-left: 3px solid var(--el); }
+
+@media (max-width: 800px) {
+  .rankRow { grid-template-columns: 18px 70px minmax(0, 1fr) 32px; gap: 8px; padding: 7px 6px; }
+}
+@media (prefers-reduced-motion: reduce) { .rankBar { animation: none; } }
 /* Where a step offers its own record to the personal knowledge base. */
 .collectRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
 .collectNote { font-size: 12px; color: #8d8b82; }
