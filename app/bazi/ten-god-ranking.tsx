@@ -2,6 +2,7 @@ import { Fragment, useMemo, useState } from "react";
 import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, TEN_GOD_GROUP_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodRanking, type TenGodGroup } from "@/lib/bazi/structure";
+import { useI18n } from "@/lib/i18n";
 import styles from "./bazi-chart.module.css";
 
 /**
@@ -9,6 +10,7 @@ import styles from "./bazi-chart.module.css";
  * A count, not a judgement of strength or favour: the classics give no weights for it, so none are invented here.
  */
 export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
+  const { t } = useI18n();
   const dayMasterElement = chart.day_master.element;
   const ranking = useMemo(() => tenGodRanking(chart.pillars), [chart.pillars]);
   const elementOfGroup = useMemo(() => {
@@ -27,15 +29,15 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
   return (
     <div className={styles.rankWrap}>
       <p className={styles.rankSummary}>
-        按各十神在命局中出现的次数排序（天干与藏干各计一次，共 {total} 处）。
+        {t("按各十神在命局中出现的次数排序（天干与藏干各计一次，共 {total} 处）。", { total })}
         {leaders.length > 0 && (
           <>
-            出现最多的是 <b>{leaders.map((item) => TEN_GOD_LABEL[item.tenGod]).join("、")}</b>，{top} 处。
+            {t("出现最多的是")} <b>{leaders.map((item) => TEN_GOD_LABEL[item.tenGod]).join("、")}</b>{t("，{top} 处。", { top })}
           </>
         )}
       </p>
 
-      <div className={styles.rankList} role="group" aria-label="十神出现次数排行">
+      <div className={styles.rankList} role="group" aria-label={t("十神出现次数排行")}>
         {ranking.map((item, index) => {
           const element = elementOfGroup[item.group];
           const isSelected = item.tenGod === selectedGod;
@@ -66,7 +68,7 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
                     />
                   )}
                 </span>
-                <span className={styles.rankCount}>{item.count > 0 ? item.count : "未见"}</span>
+                <span className={styles.rankCount}>{item.count > 0 ? item.count : t("未见")}</span>
               </button>
               {isSelected && (
                 <div className={`${styles.rankDetail} ${styles.el}`} data-element={element} aria-live="polite">
@@ -83,7 +85,7 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
                         ))}
                       </ul>
                     ) : (
-                      <p style={{ margin: 0, color: "var(--muted)" }}>命局中未见{TEN_GOD_LABEL[item.tenGod]}。</p>
+                      <p style={{ margin: 0, color: "var(--muted)" }}>{t("命局中未见{name}。", { name: TEN_GOD_LABEL[item.tenGod] })}</p>
                     )}
                   </div>
                 </div>

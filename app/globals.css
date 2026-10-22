@@ -182,7 +182,7 @@ html[lang="en"] .evidence-stats strong{font-size:clamp(22px,2.5vw,32px);letter-s
 .hero-actions .text-link:hover:after{height:2px;background:var(--red);transform:scaleX(1.08)}
 .hero-actions .text-link:hover span{transform:translateX(5px)}
 .hero-actions .text-link:focus-visible{outline:2px solid var(--red);outline-offset:4px}
-.bazi-workspace,.divination-workspace{grid-template-columns:minmax(0,1fr)}
+.divination-workspace{grid-template-columns:minmax(0,1fr)}
 .divination-workspace{padding-top:36px}
 .oracle-result-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .oracle-result-actions .secondary-button{min-height:40px;margin:0;padding:9px 18px;background:transparent;transition:color .2s ease,background-color .2s ease,border-color .2s ease,transform .2s ease}

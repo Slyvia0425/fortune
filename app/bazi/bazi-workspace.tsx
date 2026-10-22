@@ -249,6 +249,31 @@ export default function BaziWorkspace() {
 
   return (
     <div className="page-shell workspace bazi-workspace">
+      <aside className="side-steps">
+        {STEPS.map((item) => {
+          const locked = item.id !== 1 && !unlocked;
+          return (
+            <span
+              key={item.id}
+              className={step === item.id ? "active" : undefined}
+              onClick={() => goto(item.id)}
+              role="button"
+              tabIndex={locked ? -1 : 0}
+              aria-disabled={locked}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  goto(item.id);
+                }
+              }}
+              style={{ cursor: locked ? "default" : "pointer", opacity: locked ? 0.4 : 1 }}
+            >
+              {String(item.id).padStart(2, "0")}　{t(item.label)}
+            </span>
+          );
+        })}
+      </aside>
+
       <section className="panel bazi-panel" ref={panel}>
         {profileNotice ? <p className="notice">{profileNotice}</p> : null}
 
