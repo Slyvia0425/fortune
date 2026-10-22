@@ -1,5 +1,6 @@
 import { AXES, type Axis, type Dms, daysIn, digitsOnly } from "@/lib/bazi/birth-input";
 import { useI18n } from "@/lib/i18n";
+import { SourceLink } from "./knowledge-link";
 import type { Gender, BirthFormState } from "./use-birth-form";
 
 /** Step 1: the birth form. All state lives in `useBirthForm`; this only draws it. */
@@ -106,7 +107,7 @@ function ClassicCasePicker({ form }: { form: BirthFormState }) {
         <div className="case-card">
           <div className="case-source">
             《{shown.book}》{shown.chapter.includes(" · ") ? shown.chapter.split(" · ")[1] : shown.chapter} · {shown.speaker}{" "}
-            <a href={shown.kb_url} target="_blank" rel="noreferrer">{t("查看原文")}</a>
+            <SourceLink url={shown.kb_url} arrow={false} />
           </div>
           <div className="case-main">
             <div className="case-pillars">{shown.pillars}</div>

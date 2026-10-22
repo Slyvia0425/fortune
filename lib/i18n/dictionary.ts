@@ -702,4 +702,7 @@ export const EN: Record<string, string> = {
   "十神出现次数排行": "Ten gods ranked by number of appearances",
   "未见": "None",
   "命局中未见{name}。": "No {name} in this chart.",
+  // --- BaZi: links into the knowledge centre -------------------------------
+  "在典籍中查看": "Read in the Classics",
+  "在典籍中查看「{term}」": "Read “{term}” in the Classics",
 };

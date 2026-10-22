@@ -2,6 +2,8 @@ import { useState, type CSSProperties } from "react";
 import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, STEM_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodPositions } from "@/lib/bazi/structure";
+import { BAZI_TERMS } from "@/lib/bazi/knowledge-links";
+import { TermLink } from "./knowledge-link";
 import { TenGodRanking } from "./ten-god-ranking";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
@@ -162,7 +164,9 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
           <div key={selected.element} className={styles.fade} style={{ display: "grid", gap: 14 }}>
             <div className={styles.groupNoteHead}>
               <b>{ELEMENT_LABEL[selected.element]}</b>
-              <strong>{selectedInfo.label}</strong>
+              <strong>
+                <TermLink term={BAZI_TERMS.group[selected.group]}>{selectedInfo.label}</TermLink>
+              </strong>
               <span>{selectedInfo.relation}</span>
             </div>
             <p>

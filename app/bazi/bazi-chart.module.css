@@ -857,6 +857,8 @@
   .rankRow { grid-template-columns: 18px 70px minmax(0, 1fr) 32px; gap: 8px; padding: 7px 6px; }
 }
 @media (prefers-reduced-motion: reduce) { .rankBar { animation: none; } }
+.termLink { color: inherit; text-decoration: underline dotted; text-underline-offset: 4px; text-decoration-color: rgba(23, 32, 28, 0.45); }
+.termLink:hover { color: var(--red); text-decoration-color: var(--red); }
 /* Where a step offers its own record to the personal knowledge base. */
 .collectRow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
 .collectNote { font-size: 12px; color: #8d8b82; }

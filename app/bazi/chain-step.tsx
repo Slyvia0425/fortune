@@ -4,6 +4,7 @@ import CollectionButton from "@/app/components/collection-button";
 import { booksOf, drawnEdges, layerSteps } from "@/lib/bazi/chain";
 import { chainJson, chartMarkdown, exportName } from "@/lib/bazi/export";
 import { ExportPreview, type ExportFile } from "./export-preview";
+import { SourceLink } from "./knowledge-link";
 import {
   chartSourceId,
   dayMasterText,
@@ -68,9 +69,7 @@ function UseBlock({ use }: { use: TraceUse }) {
         <p className={styles.useSource}>
           《{source.book}》{source.chapter ? ` ${source.chapter}` : ""}
           {source.quotation && `　「${source.quotation}」`}
-          {source.kb_url?.startsWith("http") && (
-            <a href={source.kb_url} target="_blank" rel="noreferrer">{t("查看原文 ↗")}</a>
-          )}
+          <SourceLink url={source.kb_url} />
         </p>
       )}
     </li>

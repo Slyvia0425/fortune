@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { BaziChartResult, DayMasterStrength } from "@/lib/contracts/bazi";
 import { FACTOR_LABEL, PATTERN_LABEL, STRENGTH_LABEL } from "@/lib/bazi/display";
 import { contribution } from "@/lib/bazi/strength";
+import { SourceLink } from "./knowledge-link";
 import { StrengthDemo } from "./strength-demo";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
@@ -131,9 +132,7 @@ export function StrengthBreakdown({ chart, delay }: { chart: BaziChartResult; de
                           {(factor.quotation || factor.kb_url?.startsWith("http")) && (
                             <div className={styles.basisFoot}>
                               {factor.quotation && <span>“{factor.quotation}”</span>}
-                              {factor.kb_url?.startsWith("http") && (
-                                <a href={factor.kb_url} target="_blank" rel="noreferrer">{t("查看原文 ↗")}</a>
-                              )}
+                              <SourceLink url={factor.kb_url} />
                             </div>
                           )}
                         </div>
