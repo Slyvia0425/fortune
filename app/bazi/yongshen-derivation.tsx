@@ -1,11 +1,12 @@
 import type { BaziChartResult } from "@/lib/contracts/bazi";
 import { ARBITRATION_LABEL, ELEMENT_LABEL, METHOD_LABEL } from "@/lib/bazi/display";
+import { engineText } from "@/lib/bazi/engine-text";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
 /** 用神推导: the two methods (扶抑, 调候) side by side with what each took, and the arbitration between them across the full width. */
 export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; delay: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const derivation = chart.derivation;
   const arbitration = derivation.arbitration;
 
@@ -37,17 +38,17 @@ export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; d
               className={`${styles.methodCard} ${adopted ? styles.methodCardAdopted : ""}`}
             >
               <div className={styles.methodHead}>
-                <strong>{METHOD_LABEL[method.method]}</strong>
+                <strong>{t(METHOD_LABEL[method.method])}</strong>
                 {adopted && <span className={styles.adoptedTag}>{t("已采纳")}</span>}
                 {setAside && <span className={styles.setAsideTag}>{t("未采用")}</span>}
               </div>
-              <p className={styles.methodBasis}>{method.basis}</p>
+              <p className={styles.methodBasis}>{engineText(method.basis, locale, t)}</p>
               {setAside && <p className={styles.methodNote}>{t("特殊格局成立，改按格局自己的取法；这里是按常规推出的结果，仅供对照。")}</p>}
               <div className={styles.chipRow}>
                 <span className={styles.chipLabel}>{t("用神")}</span>
                 {method.useful.map((element) => (
                   <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
-                    {ELEMENT_LABEL[element]}
+                    {t(ELEMENT_LABEL[element])}
                   </span>
                 ))}
               </div>
@@ -56,7 +57,7 @@ export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; d
                   <span className={styles.chipLabel}>{t("忌神")}</span>
                   {method.unfavourable.map((element) => (
                     <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
-                      {ELEMENT_LABEL[element]}
+                      {t(ELEMENT_LABEL[element])}
                     </span>
                   ))}
                 </div>
@@ -74,16 +75,16 @@ export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; d
       <div className={styles.arbitration}>
         <div className={styles.arbitrationHead}>
           <span className={styles.arbitrationTag}>
-            {arbitration.outcome === "other" ? "特殊格局" : arbitration.conflict ? "结论冲突" : "结论一致"}
+            {arbitration.outcome === "other" ? t("特殊格局") : arbitration.conflict ? t("结论冲突") : t("结论一致")}
           </span>
-          <strong>{ARBITRATION_LABEL[arbitration.outcome]}</strong>
+          <strong>{t(ARBITRATION_LABEL[arbitration.outcome])}</strong>
         </div>
-        <p className={styles.methodBasis}>{arbitration.rationale}</p>
+        <p className={styles.methodBasis}>{engineText(arbitration.rationale, locale, t)}</p>
         <div className={styles.chipRow}>
           <span className={styles.chipLabel}>{t("用神")}</span>
           {chart.disposition.useful.map((element) => (
             <span key={element} className={`${styles.chip} ${styles.el}`} data-element={element}>
-              {ELEMENT_LABEL[element]}
+              {t(ELEMENT_LABEL[element])}
             </span>
           ))}
         </div>
@@ -91,7 +92,7 @@ export function YongshenDerivation({ chart, delay }: { chart: BaziChartResult; d
           <span className={styles.chipLabel}>{t("忌神")}</span>
           {chart.disposition.unfavourable.map((element) => (
             <span key={element} className={`${styles.chipMuted} ${styles.el}`} data-element={element}>
-              {ELEMENT_LABEL[element]}
+              {t(ELEMENT_LABEL[element])}
             </span>
           ))}
         </div>
