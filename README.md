@@ -10,6 +10,7 @@
 
 - 统一账户：注册、登录、退出和用户隔离可用。
 - 八字排盘：Python 算法服务的确定性排盘、命局诊断与倾向对照已进入主分支；未配置该服务时接口返回 503 `ALGORITHM_SERVICE_NOT_CONFIGURED`。
+- 八字现代解读：命局倾向页第四栏，用语言模型把引擎结论写成三段白话，并由校验器核对；未配置模型、校验不通过或请求过于频繁时退回模板文字，页脚会注明来源。模型沿用 `LLM_BASE_URL`、`LLM_API_KEY`、`LLM_MODEL`，限流见 `.env.local.example`。
 - 易卦推演：三数字起卦、本卦、动爻、互卦、变卦、Core 事实与混合证据检索可用；未配置 Python 服务时返回明确标记的 Mock 数据。
 - 观音百签：完整结构化签库、服务端安全随机抽签与证据化解释可用。
 - 知识检索：已接入 764 条结构化知识页面，支持本地详情页、原文与注释对照、来源追踪和收藏。
@@ -147,7 +148,8 @@ tests/              自动化测试
 
 | Method | Route | 状态 |
 | --- | --- | --- |
-| POST | `/api/bazi/chart` | 可用；未配置 Python 时返回 Mock，M1 新算法尚未并入主分支 |
+| POST | `/api/bazi/chart` | 可用；由 Python 算法服务计算，未配置时返回 503 |
+| POST | `/api/bazi/interpret` | 可用；服务端重算命盘后生成现代解读，模型回答经校验，失败时退回模板；按客户端限流 |
 | POST | `/api/divination/cast` | 可用；配置 Python 后执行确定性起卦 |
 | POST | `/api/divination/chat` | 可用；识别问题、时间和数字并调度起卦 |
 | POST | `/api/divination/interpret` | 可用；生成 Evidence Pack 和受证据约束的现代解释 |
