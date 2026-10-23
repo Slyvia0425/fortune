@@ -17,6 +17,8 @@ import {
   tallyEvidence,
   type BaziProfileActivity,
 } from "./profile-activity";
+import { ModernReading } from "./modern-reading";
+import type { ReadingState } from "./use-reading";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -26,9 +28,11 @@ import { useI18n } from "@/lib/i18n";
  */
 export function AdvisoryStep({
   chart,
+  reading,
   profileActivity,
 }: {
   chart: BaziChartResult;
+  reading: ReadingState;
   profileActivity?: BaziProfileActivity;
 }) {
   const { t } = useI18n();
@@ -38,9 +42,11 @@ export function AdvisoryStep({
       <p className="kicker">{t("依据命局十神与典籍说法")}</p>
       <p className={styles.subline}>
         {t("以下按职业、学业、财运三个方向，列出命局里相关的十神，以及典籍对它们的说法。只是说明，不排序、不评分，也不构成职业、教育或投资建议。")}
+        {" "}
+        {t("第四栏“现代解读”用日常的话概括整张命盘。")}
       </p>
 
-      <Tallies chart={chart} />
+      <Tallies chart={chart} reading={reading} />
 
       {profileActivity ? (
         <div className={styles.collectRow}>
@@ -72,10 +78,12 @@ export function AdvisoryStep({
   );
 }
 
-function Tallies({ chart }: { chart: BaziChartResult }) {
+function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingState }) {
   const { t } = useI18n();
   const tallies = chart.domain_tallies;
-  const [tab, setTab] = useState<AdvisoryDomain>(tallies[0]?.domain ?? "career");
+  // The three directions come from the engine; the plain-language reading is a fourth, written afterwards from the same chart.
+  const [tab, setTab] = useState<AdvisoryDomain | "reading">(tallies[0]?.domain ?? "career");
+  const showReading = tab === "reading";
   const tally = tallies.find((t) => t.domain === tab) ?? tallies[0];
   const citedIds = new Set(tallies.flatMap((t) => t.groups.map((g) => g.source_id)).filter(Boolean));
   const cited = chart.source_refs.filter((ref) => citedIds.has(ref.source_id));        // only the books this page quotes
@@ -95,10 +103,22 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
             {DOMAIN_LABEL[item.domain]}
           </button>
         ))}
+        <button
+          type="button"
+          role="tab"
+          aria-selected={showReading}
+          className={`${styles.tab} ${showReading ? styles.tabActive : ""}`}
+          onClick={() => setTab("reading")}
+        >
+          {t("现代解读")}
+        </button>
       </div>
 
-      <p className={`panel-intro ${styles.domainLead}`}>{tally.narrative}</p>
+      {showReading && <ModernReading reading={reading} />}
 
+      {!showReading && <p className={`panel-intro ${styles.domainLead}`}>{tally.narrative}</p>}
+
+      {!showReading && (
       <div className={styles.tallyList} key={tab}>
         {tally.groups.map((group, index) => {
           const source = group.source_id
@@ -163,8 +183,9 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
           );
         })}
       </div>
+      )}
 
-      {cited.length > 0 && (
+      {cited.length > 0 && !showReading && (
         <p className={styles.legendNote}>
           参考文献：
           {cited.map((ref) => [ref.title, ref.edition].filter(Boolean).join(" · ")).join("；")}

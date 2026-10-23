@@ -705,4 +705,17 @@ export const EN: Record<string, string> = {
   // --- BaZi: links into the knowledge centre -------------------------------
   "在典籍中查看": "Read in the Classics",
   "在典籍中查看「{term}」": "Read “{term}” in the Classics",
+  // --- BaZi: plain-language reading ---------------------------------------
+  "现代解读": "Plain-language reading",
+  "第四栏“现代解读”用日常的话概括整张命盘。": "The fourth tab, Plain-language reading, sums up the whole chart in everyday words.",
+  "重新生成": "Generate again",
+  "参考出处": "Source",
+  "命盘特征": "What the chart shows",
+  "强弱与用神": "Strength and useful elements",
+  "职业、学业与财运": "Career, study and wealth",
+  "解读生成中…": "Writing the reading…",
+  "解读暂时没有生成。": "The reading is not available right now.",
+  "由语言模型（{model}）根据命盘结论撰写，并已核对与规则引擎的结论一致。": "Written by a language model ({model}) from the chart's conclusions and checked against the rule engine's results.",
+  "未连接语言模型，回答由模块兜底逻辑生成。": "No language model is connected; the answer comes from the module's fallback logic.",
+  "模型的回答没有通过核对，回答由模块兜底逻辑生成。": "The model's answer did not pass the checks; the answer comes from the module's fallback logic.",
 };
