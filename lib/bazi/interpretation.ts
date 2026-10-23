@@ -356,10 +356,17 @@ export function ruleBasedReading(chart: BaziChartResult, facts: BaziFacts, local
     const held = direction?.groups.find((group) => group.count > 0);
     const name = direction ? DOMAIN_LABEL[direction.domain] : "";
     if (!held) return { zh: `${name}上不被某一种固定的路数限定，发展空间比较开阔，可以按自己的兴趣去尝试`, en: `in ${direction?.domain ?? "this direction"} you are not tied to one fixed path, so there is room to follow your own interests` };
-    return {
-      zh: `${name}上，命盘里有“${held.category}”这一类特质（${held.gloss}），这是可以发挥的长处，可以往这个方向多用力`,
-      en: `in ${direction.domain}, the chart holds the "${held.category}" quality, a strength you can lean on`,
-    };
+    const zh = [
+      `${name}上，命盘里有“${held.category}”这一类特质（${held.gloss}），适合在这方面多发挥`,
+      `${name}方面，“${held.category}”是你身上的亮点（${held.gloss}），往这个方向用力会更顺手`,
+      `${name}上，“${held.category}”这一面（${held.gloss}）可以成为你的底气，慢慢积累就会越做越有心得`,
+    ][index % 3];
+    const en = [
+      `in ${direction.domain}, the chart holds the "${held.category}" quality, a good place to put your effort`,
+      `in ${direction.domain}, "${held.category}" is a bright spot, and leaning on it should feel natural`,
+      `in ${direction.domain}, "${held.category}" can be your footing, and it grows with steady practice`,
+    ][index % 3];
+    return { zh, en };
   };
   const [careerLine, studyLine, wealthLine] = [0, 1, 2].map(directionLine);
 
@@ -368,7 +375,7 @@ export function ruleBasedReading(chart: BaziChartResult, facts: BaziFacts, local
     return {
       part1: `这张命盘的四柱是 ${ganzhi}，日主为${facts.day_master.stem}（${facts.day_master.element}）。八个字里${listElements(top, "zh")}最多（${pct(top[0])}%）${missing.length ? `，${listElements(missing, "zh")}没有出现` : ""}，十神里${TEN_GOD_GROUP_LABEL[busiest]}出现得最多，共 ${positions[busiest].length} 处。落到性格和做事上，${traits.map((group) => TRAIT_ZH[group]).join("；")}，这些倾向往往会在日常的小事里慢慢显露出来。${quote}`,
       part1_refs: part1Refs,
-      part2: `日主${STRENGTH_LABEL[strength]}，意思是日主自身的力量相对${weak ? "不足，命局更需要生扶" : "充足，命局更需要疏泄和克制"}${near ? "；而且接近强弱的分界线，这个结论只是倾向，不是定论" : ""}${pattern ? `；命局按${pattern}判断` : ""}。用神为${listElements(keys.useful, "zh")}，是对命局起补益作用的五行${unfavourable.length ? `；忌神为${listElements(unfavourable, "zh")}，是命局里已经偏多或会加重偏向的五行` : ""}。日常可以参考：${habits.map((key) => HABIT_ZH[key]).join("；")}。`,
+      part2: `日主${STRENGTH_LABEL[strength]}，意思是日主自身的力量相对${weak ? "不足，命局更需要生扶" : "充足，命局更需要疏泄和克制"}${near ? "；而且接近强弱的分界线，这个结论只是倾向，不是定论" : ""}${pattern ? `；命局按${pattern}判断` : ""}。用神为${listElements(keys.useful, "zh")}，是对命局起补益作用的五行${unfavourable.length ? `；忌神为${listElements(unfavourable, "zh")}，${weak ? "是会进一步消耗、克制日主的五行" : "是会继续加强本来就偏旺的日主的五行"}` : ""}。日常可以参考：${habits.map((key) => HABIT_ZH[key]).join("；")}。`,
       part2_refs: [],
       part3: `放到三个方向上看：${careerLine.zh}；${studyLine.zh}；${wealthLine.zh}。愿这些特质帮你更有底气地往前走。以上解读仅供参考，不构成预测，也不构成现实决策建议。`,
     };
@@ -378,7 +385,7 @@ export function ruleBasedReading(chart: BaziChartResult, facts: BaziFacts, local
   return {
     part1: `The four pillars are ${ganzhi}, and the day master is ${facts.day_master.stem} (${ELEMENT_EN[keys.dayMaster]}). Across the eight characters ${listElements(top, "en")} appears most (${pct(top[0])}%)${missing.length ? `, and ${listElements(missing, "en")} does not appear` : ""}, and among the ten gods the ${GROUP_EN[busiest]} group appears most, ${positions[busiest].length} times. In character and in the way you work, you are ${traits.map((group) => TRAIT_EN[group]).join("; and ")}, and these leanings tend to show up in everyday small things.${quote}`,
     part1_refs: part1Refs,
-    part2: `The day master is ${level}, meaning its own strength is relatively ${weak ? "short, so the chart leans on support" : "plentiful, so the chart leans on draining and restraint"}${near ? "; the result sits close to the dividing line, so treat it as a tendency rather than a verdict" : ""}${pattern ? `; the chart is judged as a special structure (${pattern})` : ""}. The useful elements are ${listElements(keys.useful, "en")}, the ones that support the chart${unfavourable.length ? `; the unfavourable elements are ${listElements(unfavourable, "en")}, the ones that are already plentiful or would add to the lean` : ""}. For everyday life you could ${habits.map((key) => HABIT_EN[key]).join("; and ")}.`,
+    part2: `The day master is ${level}, meaning its own strength is relatively ${weak ? "short, so the chart leans on support" : "plentiful, so the chart leans on draining and restraint"}${near ? "; the result sits close to the dividing line, so treat it as a tendency rather than a verdict" : ""}${pattern ? `; the chart is judged as a special structure (${pattern})` : ""}. The useful elements are ${listElements(keys.useful, "en")}, the ones that support the chart${unfavourable.length ? `; the unfavourable elements are ${listElements(unfavourable, "en")}, ${weak ? "the ones that would drain or restrain it further" : "the ones that would add to a day master that is already strong"}` : ""}. For everyday life you could ${habits.map((key) => HABIT_EN[key]).join("; and ")}.`,
     part2_refs: [],
     part3: `Across the three directions: ${careerLine.en}; ${studyLine.en}; ${wealthLine.en}. May these qualities give you steadier footing as you go forward. This reading is for reference only, and it is neither a prediction nor advice for real-world decisions.`,
   };

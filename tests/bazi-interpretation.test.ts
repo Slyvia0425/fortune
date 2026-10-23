@@ -123,6 +123,19 @@ describe("ruleBasedReading", () => {
     }
   });
 
+  it("describes the unfavourable elements by the strength: a weak day master is drained, not over-supplied", () => {
+    const zh = ruleBasedReading(chart, facts, "zh").part2;
+    expect(zh).toContain("消耗、克制日主");
+    expect(zh).not.toContain("已经偏多");
+    const strong = { ...chart, day_master: { ...chart.day_master, strength: "very_strong" as const } };
+    expect(ruleBasedReading(strong, buildBaziFacts(strong), "zh").part2).toContain("加强本来就偏旺的日主");
+  });
+
+  it("varies the wording of the three directions", () => {
+    const zh = ruleBasedReading(chart, facts, "zh").part3;
+    expect(new Set(["适合在这方面多发挥", "是你身上的亮点", "可以成为你的底气"].filter((phrase) => zh.includes(phrase))).size).toBe(3);
+  });
+
   it("says when the result is a close call", () => {
     const close = { ...facts, strength: { ...facts.strength, near_balance: true } };
     expect(ruleBasedReading(chart, close, "zh").part2).toContain("接近");
