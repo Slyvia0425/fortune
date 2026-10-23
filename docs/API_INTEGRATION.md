@@ -30,6 +30,10 @@ Request:
 
 Return the `BaziChartResult` shape defined in `lib/contracts/bazi.ts`, which also carries `calculation_trace`: the steps from the input to the conclusions, with the rules and book passages each one used. Do not wrap it in the common API envelope; Next.js adds that wrapper and forwards `source_refs` into it. `solar_term` carries the position within the solar-term cycle — module 1.2's climate rules key off `month_term` and off how far into the term the birth falls, so a month pillar alone is not enough. Its fields compare the birth moment against the term in **civil time, uncorrected**: a solar term is one astronomical instant worldwide, so true solar time shifts the hour pillar but never the month. Enum values are romanised (`jia`, `zi`, `direct_wealth`; `wu` is the stem 戊, `wu_branch` the branch 午) and mapped to Chinese in `lib/bazi/display.ts`. The service computes 1.1 (chart) and 1.2 (strength, special patterns, 用神, arbitration, reasoning trace) from the rule base; only the 1.4 parts (`domain_tallies`, `overview`) are still placeholders, so `meta.mock` stays `true` until 1.4 exists. Treat `result.meta.mock` as authoritative (the envelope copies it from the chart).
 
+### POST /api/bazi/interpret
+
+Takes the same body as `/api/bazi/chart` plus an optional `locale` (`zh` or `en`). The route recomputes the chart through the algorithm service, so the model only ever sees the engine's own conclusions (`lib/bazi/interpretation.ts` builds the facts and the prompt). The model's answer must pass `checkReading` (stated strength level and the useful and unfavourable elements agree with the engine, no promises of outcomes); a failed check is sent back once with the reasons. The result carries `source` (`llm` or `rules`), `reason` for the templates (`not_configured`, `failed` or `rate_limited`), the `reading` (three paragraphs and their evidence ids) and the `evidence` offered, which only includes neutral or encouraging classical passages. Without a model, or over the limit set by `BAZI_READING_LIMIT` per `BAZI_READING_WINDOW_SECONDS` (default 12 per 600 s per client), the same three paragraphs come from templates and the page says so.
+
 ### POST /divination/cast
 
 Request:
@@ -47,6 +51,7 @@ The reference implementation is in `python_algorithm/`. Its rules are: arrays ar
 | Method | Route | Implementation entry |
 | --- | --- | --- |
 | POST | `/api/bazi/chart` | `lib/bazi/service.ts` |
+| POST | `/api/bazi/interpret` | `app/api/bazi/interpret/route.ts`; chart recomputed server-side, then a checked LLM reading with a template fallback |
 | GET | `/api/bazi/cities?q=` | Python `/bazi/cities` (GeoNames); 503 without the service, the form then offers coordinates |
 | GET | `/api/bazi/lunar?date=&leap=` | Python `/bazi/lunar-date`; without the service the date is let through unchecked, with a warning |
 | POST | `/api/divination/cast` | `lib/divination/service.ts` |

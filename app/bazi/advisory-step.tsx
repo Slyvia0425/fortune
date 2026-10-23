@@ -17,6 +17,9 @@ import {
   tallyEvidence,
   type BaziProfileActivity,
 } from "./profile-activity";
+import { engineText } from "@/lib/bazi/engine-text";
+import { ModernReading } from "./modern-reading";
+import type { ReadingState } from "./use-reading";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -26,9 +29,11 @@ import { useI18n } from "@/lib/i18n";
  */
 export function AdvisoryStep({
   chart,
+  reading,
   profileActivity,
 }: {
   chart: BaziChartResult;
+  reading: ReadingState;
   profileActivity?: BaziProfileActivity;
 }) {
   const { t } = useI18n();
@@ -38,9 +43,11 @@ export function AdvisoryStep({
       <p className="kicker">{t("依据命局十神与典籍说法")}</p>
       <p className={styles.subline}>
         {t("以下按职业、学业、财运三个方向，列出命局里相关的十神，以及典籍对它们的说法。只是说明，不排序、不评分，也不构成职业、教育或投资建议。")}
+        {" "}
+        {t("第四栏“现代解读”用日常的话概括整张命盘。")}
       </p>
 
-      <Tallies chart={chart} />
+      <Tallies chart={chart} reading={reading} />
 
       {profileActivity ? (
         <div className={styles.collectRow}>
@@ -72,10 +79,12 @@ export function AdvisoryStep({
   );
 }
 
-function Tallies({ chart }: { chart: BaziChartResult }) {
-  const { t } = useI18n();
+function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingState }) {
+  const { t, locale } = useI18n();
   const tallies = chart.domain_tallies;
-  const [tab, setTab] = useState<AdvisoryDomain>(tallies[0]?.domain ?? "career");
+  // The three directions come from the engine; the plain-language reading is a fourth, written afterwards from the same chart.
+  const [tab, setTab] = useState<AdvisoryDomain | "reading">(tallies[0]?.domain ?? "career");
+  const showReading = tab === "reading";
   const tally = tallies.find((t) => t.domain === tab) ?? tallies[0];
   const citedIds = new Set(tallies.flatMap((t) => t.groups.map((g) => g.source_id)).filter(Boolean));
   const cited = chart.source_refs.filter((ref) => citedIds.has(ref.source_id));        // only the books this page quotes
@@ -92,13 +101,25 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
             className={`${styles.tab} ${item.domain === tab ? styles.tabActive : ""}`}
             onClick={() => setTab(item.domain)}
           >
-            {DOMAIN_LABEL[item.domain]}
+            {t(DOMAIN_LABEL[item.domain])}
           </button>
         ))}
+        <button
+          type="button"
+          role="tab"
+          aria-selected={showReading}
+          className={`${styles.tab} ${showReading ? styles.tabActive : ""}`}
+          onClick={() => setTab("reading")}
+        >
+          {t("现代解读")}
+        </button>
       </div>
 
-      <p className={`panel-intro ${styles.domainLead}`}>{tally.narrative}</p>
+      {showReading && <ModernReading reading={reading} />}
 
+      {!showReading && <p className={`panel-intro ${styles.domainLead}`}>{engineText(tally.narrative, locale, t)}</p>}
+
+      {!showReading && (
       <div className={styles.tallyList} key={tab}>
         {tally.groups.map((group, index) => {
           const source = group.source_id
@@ -113,19 +134,19 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
               <div className={styles.tallyHead}>
                 {/* Category first, the ten-god group beside it: the category
                     names the association, the group is the evidence for it. */}
-                <strong>{group.category}</strong>
+                <strong>{engineText(group.category, locale, t)}</strong>
                 <span className={styles.groupTag}>
-                  {TEN_GOD_GROUP_LABEL[group.group]}
+                  {t(TEN_GOD_GROUP_LABEL[group.group])}
                 </span>
-                <span className={styles.tallyCount}>{group.count} 处</span>
+                <span className={styles.tallyCount}>{t("{count} 处", { count: group.count })}</span>
               </div>
 
               {/* Plain language first, the classical passage after it: the quotation is the evidence, not the explanation. */}
-              <p className={styles.groupNarrative}>{group.narrative}</p>
+              <p className={styles.groupNarrative}>{engineText(group.narrative, locale, t)}</p>
 
               {group.quotation ? (
                 <div className={`${styles.basisCard} ${styles.tallyBasis}`}>
-                  {group.quotation_plain && <p className={styles.ruleText}>{group.quotation_plain}</p>}
+                  {group.quotation_plain && <p className={styles.ruleText}>{engineText(group.quotation_plain, locale, t)}</p>}
                   <div className={group.quotation_plain ? styles.basisFoot : undefined}>
                     <span>「{group.quotation}」</span>
                     {source && (
@@ -151,11 +172,11 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
                     data-element={occ.element}
                   >
                     <small>
-                      {PILLAR_LABEL[occ.pillar]}
-                      {occ.position === "hidden" ? "藏干" : ""}
+                      {t(PILLAR_LABEL[occ.pillar])}
+                      {occ.position === "hidden" ? `${locale === "en" ? " " : ""}${t("藏干")}` : ""}
                     </small>
                     <b>{STEM_LABEL[occ.stem]}</b>
-                    <small>{TEN_GOD_LABEL[occ.ten_god]}</small>
+                    <small>{t(TEN_GOD_LABEL[occ.ten_god])}</small>
                   </span>
                 ))}
               </div>
@@ -163,10 +184,11 @@ function Tallies({ chart }: { chart: BaziChartResult }) {
           );
         })}
       </div>
+      )}
 
-      {cited.length > 0 && (
+      {cited.length > 0 && !showReading && (
         <p className={styles.legendNote}>
-          参考文献：
+          {t("参考文献：")}
           {cited.map((ref) => [ref.title, ref.edition].filter(Boolean).join(" · ")).join("；")}
         </p>
       )}

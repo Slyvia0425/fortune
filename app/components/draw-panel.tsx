@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CollectionButton from "@/app/components/collection-button";
 import type { ApiEnvelope } from "@/lib/contracts/api";
 import { getGuanyinStick } from "@/lib/guanyin/library";
+import { getLocalizedGuanyinStick } from "@/lib/guanyin/translation";
 import { type DrawRecord, type GuanyinDrawResult, type GuanyinReasoningStatement, type QuestionDomain } from "@/lib/guanyin/types";
 import { useI18n } from "@/lib/i18n";
 import { randomId } from "@/lib/crypto/random-id";
@@ -26,7 +27,7 @@ function DrawAnimation({ stickNumber }: { stickNumber: number }) {
       <i className="tube-rim" />
       <div className="fortune-sticks">
         {[0, 1, 2, 3, 4, 5, 6].map((index) => <i className={index === 3 ? "fortune-stick chosen-stick" : "fortune-stick"} key={index}>
-          {index === 3 && <b>第 {stickNumber} 签</b>}
+          {index === 3 && <b>{t("第 {number} 签", { number: stickNumber }, "Lot {number}")}</b>}
         </i>)}
       </div>
       <i className="tube-body" />
@@ -114,7 +115,7 @@ export default function DrawPanel() {
             <label htmlFor="question">{t("所问之事")}</label>
             <textarea id="question" value={question} onChange={(event) => setQuestion(event.target.value)} placeholder={t("写下此刻最想问的一件事")} rows={3} />
             <fieldset><legend>{t("请选择领域")}</legend><div className="domain-grid">{domainOptions.map((option) => <label className="domain-option" key={option.value}>
-              <input type="radio" name="domain" value={option.value} checked={domain === option.value} onChange={() => setDomain(option.value)} /><span>{option.label}</span>
+              <input type="radio" name="domain" value={option.value} checked={domain === option.value} onChange={() => setDomain(option.value)} /><span>{t(option.label)}</span>
             </label>)}</div></fieldset>
 {question.trim() && domain ? (
               <CollectionButton
@@ -142,14 +143,16 @@ export default function DrawPanel() {
 }
 
 function Result({ record, onReset }: { record: DrawRecord; onReset: () => void }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const stick = getGuanyinStick(record.stickNumber);
+  const displayStick = getLocalizedGuanyinStick(record.stickNumber, locale);
   const domainLabel = domainOptions.find((option) => option.value === record.domain)?.label;
   return <div className="result-card" aria-live="polite">
-    <p className="eyebrow">{t("你所问的事")}</p><p className="result-question">{record.question}</p><div className="result-heading"><p>第 {stick.id} 签</p><span>{stick.level}</span></div><h2 id="oracle-dialog-title">{stick.title}</h2>
-    <div className="poem" aria-label={t("签诗")}>{stick.poem.map((line) => <p key={line}>{line}</p>)}</div>
+    <p className="eyebrow">{t("你所问的事")}</p><p className="result-question">{record.question}</p><div className="result-heading"><p>{t("第 {number} 签", { number: stick.id }, "Lot {number}")}</p><span>{displayStick.level}</span></div><h2 id="oracle-dialog-title">{displayStick.title}</h2>
+    <div className="poem" aria-label={t("签诗")}>{displayStick.poem.map((line) => <p key={line}>{line}</p>)}</div>
     <UserFacingResult record={record} />
-    <details className="traditional-details"><summary>{t("查看签文原解与典故")}</summary><dl className="interpretations"><div><dt>{t("传统解曰")}</dt><dd>{stick.traditional.jieyue}</dd></div><div><dt>{t("传统仙机")}</dt><dd>{stick.traditional.xianji}</dd></div><div><dt>{domainLabel}事项</dt><dd>{stick.traditional.topics[record.domain]}</dd></div><div><dt>{t("传统典故")}</dt><dd>{stick.traditional.diangu}</dd></div></dl></details>
+    <details className="traditional-details"><summary>{t("查看签文原解与典故")}</summary><dl className="interpretations"><div><dt>{t("传统解曰")}</dt><dd>{displayStick.traditional.jieyue}</dd></div><div><dt>{t("传统仙机")}</dt><dd>{displayStick.traditional.xianji}</dd></div><div><dt>{t(domainLabel ?? "事项")}</dt><dd>{displayStick.traditional.topics[record.domain]}</dd></div><div><dt>{locale === "en" ? "Traditional story (abridged)" : t("传统典故")}</dt><dd>{displayStick.traditional.diangu}</dd></div></dl></details>
+    {locale === "en" && <details className="traditional-details"><summary>View the Chinese source</summary><div lang="zh-CN"><h3>{stick.title} · {stick.level}</h3><div className="poem">{stick.poem.map((line, index) => <p key={index}>{line}</p>)}</div><dl className="interpretations"><div><dt>传统解曰</dt><dd>{stick.traditional.jieyue}</dd></div><div><dt>传统仙机</dt><dd>{stick.traditional.xianji}</dd></div><div><dt>{domainLabel}事项</dt><dd>{stick.traditional.topics[record.domain]}</dd></div><div><dt>传统典故</dt><dd>{stick.traditional.diangu}</dd></div></dl></div></details>}
     <ReasoningEvidence reasoning={record.reasoning} />
     <div className="oracle-result-actions"><CollectionButton
       action="interpretation"

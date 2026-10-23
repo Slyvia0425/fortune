@@ -24,6 +24,7 @@ import { PersonArchive } from "./person-archive";
 import { PillarsStep } from "./pillars-step";
 import { displayName, personKey, type BaziProfileActivity } from "./profile-activity";
 import { useBirthForm } from "./use-birth-form";
+import { useBaziReading } from "./use-reading";
 import styles from "./bazi-chart.module.css";
 
 const STEPS = [
@@ -91,6 +92,8 @@ export default function BaziWorkspace() {
   const [submitted, setSubmitted] = useState<BaziChartRequest | null>(null);        // the request the chart on show was made from
   const [pending, setPending] = useState(false);
   const [profileNotice, setProfileNotice] = useState("");
+  // Starts as soon as the engine has answered (`submitted` is set with the chart), so the text is ready when step 4 is opened.
+  const reading = useBaziReading(submitted);
 
   // Who the chart belongs to. Kept beside the form rather than inside it: it is
   // not an input to the calculation, only a name the records are filed under.
@@ -346,7 +349,7 @@ export default function BaziWorkspace() {
         {/* ---------------------------------------------------------- */}
         {step === 4 && chart && (
           <>
-            <AdvisoryStep chart={chart} profileActivity={profileActivity} />
+            <AdvisoryStep chart={chart} reading={reading} profileActivity={profileActivity} />
             <StepNav step={step} unlocked={unlocked} onNavigate={goto} onReset={() => setStep(1)} />
           </>
         )}

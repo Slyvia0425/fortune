@@ -35,6 +35,9 @@ export function useBirthForm() {
   const [cityHits, setCityHits] = useState<CityHit[]>([]);
   const [city, setCity] = useState<CityHit | null>(null);
   const [cityLoading, setCityLoading] = useState(false);
+  // Whether the list under the box is showing (it can be dismissed without losing the hits), and the query the last search was for.
+  const [cityOpen, setCityOpen] = useState(false);
+  const [citySearched, setCitySearched] = useState<string | null>(null);
   const [lat, setLat] = useState<Dms>(emptyDms("lat"));
   const [lng, setLng] = useState<Dms>(emptyDms("lng"));
 
@@ -83,8 +86,12 @@ export function useBirthForm() {
         const res = await fetch(`/api/bazi/cities?q=${encodeURIComponent(q)}`, { signal: controller.signal });
         const data: ApiEnvelope<CityHit[]> = await res.json();
         setCityHits(data.result ?? []);
+        if (!controller.signal.aborted) setCitySearched(q);
       } catch {
-        if (!controller.signal.aborted) setCityHits([]);
+        if (!controller.signal.aborted) {
+          setCityHits([]);
+          setCitySearched(q);
+        }
       } finally {
         if (!controller.signal.aborted) setCityLoading(false);
       }
@@ -98,6 +105,7 @@ export function useBirthForm() {
   function typeCity(text: string) {
     setCityQuery(text);
     setCity(null);
+    setCityOpen(true);
     if (!text.trim()) setCityHits([]);
   }
 
@@ -105,7 +113,19 @@ export function useBirthForm() {
     setCity(hit);
     setCityQuery(hit.name);
     setCityHits([]);
+    setCityOpen(false);
   }
+
+  /** Hides the list (Esc, a click elsewhere) and shows it again when the box is focused with a query still in it. */
+  function dismissCities() {
+    setCityOpen(false);
+  }
+  function reopenCities() {
+    if (cityQuery.trim() && !city) setCityOpen(true);
+  }
+
+  /** The list is open, the search for what is typed has finished, and it found nothing. */
+  const cityNoMatch = cityOpen && !cityLoading && !city && cityHits.length === 0 && cityQuery.trim() !== "" && citySearched === cityQuery.trim();
 
   /** Picks a classical case at random (not the one just shown) and fills the form with a modern birth moment whose four pillars
    *  are the case's; the user still presses 生成命盘. */
@@ -163,7 +183,7 @@ export function useBirthForm() {
   return {
     dateParts, setDateParts, timeParts, setTimeParts, gender, setGender,
     calendar, setCalendar, isLeapMonth, setIsLeapMonth, lunar, setLunar, lunarCheck, lunarMessage,
-    placeMode, setPlaceMode, cityQuery, cityHits, city, cityLoading, typeCity, chooseCity, lat, setLat, lng, setLng,
+    placeMode, setPlaceMode, cityQuery, cityHits, city, cityLoading, cityOpen, cityNoMatch, typeCity, chooseCity, dismissCities, reopenCities, lat, setLat, lng, setLng,
     classicCase, classicCaseOpen, setClassicCaseOpen, pickClassicCase,
     notice, setNotice, buildRequest,
   };

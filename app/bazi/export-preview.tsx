@@ -44,7 +44,7 @@ export function ExportPreview({ file, onClose }: { file: ExportFile; onClose: ()
           </button>
         </div>
         <p className={styles.previewName}>
-          {file.name}　<small>{file.text.length} 字</small>
+          {file.name}　<small>{t("{count} 字", { count: file.text.length })}</small>
         </p>
         <div className={styles.previewBox}>
           <pre className={styles.previewText}>{file.text}</pre>
@@ -53,7 +53,7 @@ export function ExportPreview({ file, onClose }: { file: ExportFile; onClose: ()
             className={`${styles.previewCopy} ${copy === "done" ? styles.previewCopyDone : ""}`}
             onClick={onCopy}
             aria-label={t("复制内容")}
-            title={copy === "done" ? "已复制" : copy === "failed" ? "复制失败，请手动选取" : "复制"}
+            title={copy === "done" ? t("已复制") : copy === "failed" ? t("复制失败，请手动选取") : t("复制")}
           >
             {copy === "done" ? <CheckIcon /> : <CopyIcon />}
           </button>

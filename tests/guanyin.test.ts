@@ -16,6 +16,7 @@ import {
   retrieveGuanyinSemanticEvidence,
 } from "../lib/guanyin/semantic";
 import { questionDomains } from "../lib/guanyin/types";
+import { validateGuanyinTranslationCatalog } from "../lib/guanyin/translation";
 
 const reason = (signId: number, domain: (typeof questionDomains)[number], question = "一般情况如何？") => buildGuanyinStructuredReasoning({ signId, domain, question });
 
@@ -40,6 +41,12 @@ describe("观音签库", () => {
     expect(() => getGuanyinStick(101)).toThrow(RangeError);
     expect(() => getGuanyinStick(1.5)).toThrow(TypeError);
     expect(() => getGuanyinStick("1")).toThrow(TypeError);
+  });
+});
+
+describe("观音签英文独立翻译契约", () => {
+  it("拒绝缺少完整 100 签的英文目录", () => {
+    expect(() => validateGuanyinTranslationCatalog({ version: "test", sourceVersion: "test", locale: "en", translations: [] })).toThrow("必须完整包含 100 支签");
   });
 });
 

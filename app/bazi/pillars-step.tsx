@@ -22,6 +22,7 @@ import {
   sourceEvidence,
   type BaziProfileActivity,
 } from "./profile-activity";
+import { engineText, short } from "@/lib/bazi/engine-text";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -94,11 +95,11 @@ function TimelineRow({
               {item.bottom && <small className={styles.luckYear}>{item.bottom}</small>}
               <span className={`${styles.luckChar} ${styles.el}`} data-element={item.stemElement}>
                 <b>{item.stem}</b>
-                <i>{TEN_GOD_LABEL[item.stemTenGod]}</i>
+                <i>{short(t(TEN_GOD_LABEL[item.stemTenGod]))}</i>
               </span>
               <span className={`${styles.luckChar} ${styles.el}`} data-element={item.branchElement}>
                 <b>{item.branch}</b>
-                <i>{TEN_GOD_LABEL[item.branchTenGod]}</i>
+                <i>{short(t(TEN_GOD_LABEL[item.branchTenGod]))}</i>
               </span>
               {item.key === currentKey && <span className={styles.luckNow}>{t("当前")}</span>}
             </button>
@@ -118,7 +119,7 @@ export function PillarsStep({
   warnings: string[];
   profileActivity?: BaziProfileActivity;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const cells = chartCells(chart.pillars);
   const dayMaster = cells.find((cell) => cell.isDayMaster) ?? cells[0];
   const [selectedId, setSelectedId] = useState(dayMaster.id);
@@ -151,15 +152,15 @@ export function PillarsStep({
 
   function renderTile(cell: ChartCell) {
     const meta = cell.polarity
-      ? `${POLARITY_LABEL[cell.polarity]}${ELEMENT_LABEL[cell.element]}`
-      : `${ELEMENT_LABEL[cell.element]}${cell.isMonthBranch ? " · 月令" : ""}`;
+      ? t(`${POLARITY_LABEL[cell.polarity]}${ELEMENT_LABEL[cell.element]}`)
+      : `${t(ELEMENT_LABEL[cell.element])}${cell.isMonthBranch ? ` · ${t("月令")}` : ""}`;
     return (
       <button
         type="button"
         className={`${styles.tile} ${styles.el}`}
         data-element={cell.element}
         aria-pressed={cell.id === selected.id}
-        aria-label={`${cell.position === "stem" ? "天干" : "地支"} ${cell.char}`}
+        aria-label={`${t(cell.position === "stem" ? "天干" : "地支")} ${cell.char}`}
         onClick={() => setSelectedId(cell.id)}
       >
         <span className={styles.tileChar}>{cell.char}</span>
@@ -183,8 +184,9 @@ export function PillarsStep({
           <h2>{t("四柱排盘")}</h2>
           <p className="kicker">{t("规则引擎计算结果")}</p>
           <p className={styles.subline}>
-            日主 {STEM_LABEL[chart.day_master.stem]}
-            {ELEMENT_LABEL[chart.day_master.element]}
+            {t("日主")} {STEM_LABEL[chart.day_master.stem]}
+            {locale === "en" ? " " : ""}
+            {t(ELEMENT_LABEL[chart.day_master.element])}
           </p>
         </div>
         <button
@@ -216,27 +218,27 @@ export function PillarsStep({
             {time.timezone}
             {time.timezone !== "UTC" &&
               `（UTC${time.utc_offset_minutes >= 0 ? "+" : "−"}${Math.abs(time.utc_offset_minutes / 60).toFixed(1)}）`}
-            {time.dst_applied && " · 已计入夏令时"}
+            {time.dst_applied && ` · ${t("已计入夏令时")}`}
           </span>
           <span className={styles.arrow}>|</span>
-          <span>民用时间 {time.civil_time}</span>
+          <span>{t("民用时间")} {time.civil_time}</span>
           <span className={styles.arrow}>→</span>
-          <span>经度修正 {signed(time.longitude_correction_minutes)} 分</span>
+          <span>{t("经度修正")} {t("{value} 分", { value: signed(time.longitude_correction_minutes) })}</span>
           <span className={styles.arrow}>+</span>
-          <span>均时差 {signed(time.equation_of_time_minutes)} 分</span>
+          <span>{t("均时差")} {t("{value} 分", { value: signed(time.equation_of_time_minutes) })}</span>
           <span className={styles.arrow}>→</span>
-          <strong>真太阳时 {time.true_solar_time}</strong>
+          <strong>{t("真太阳时")} {time.true_solar_time}</strong>
           {time.crossed_pillar_boundary && <span className={styles.arrow}>|</span>}
           {time.crossed_pillar_boundary && <span className="notice">{t("校正后跨越了时柱边界")}</span>}
           {/* The month pillar is set by a 节; some rules in 1.2 additionally
               split the month at its 中气, so the position within the term is
               shown, not just which month it is. */}
           <span className={styles.termRow}>
-            节气：{SOLAR_TERM_LABEL[term.current_term]}后 {term.days_since_term.toFixed(1)} 天
+            {t("节气：{term}后 {days} 天", { term: t(SOLAR_TERM_LABEL[term.current_term]), days: term.days_since_term.toFixed(1) })}
             <span className={styles.arrow}>·</span>
-            距{SOLAR_TERM_LABEL[term.next_term]} {term.days_to_next_term.toFixed(1)} 天
+            {t("距{term} {days} 天", { term: t(SOLAR_TERM_LABEL[term.next_term]), days: term.days_to_next_term.toFixed(1) })}
             <span className={styles.arrow}>·</span>
-            月令取{SOLAR_TERM_LABEL[term.month_term]}
+            {t("月令取{term}", { term: t(SOLAR_TERM_LABEL[term.month_term]) })}
             {term.near_boundary && <span className="notice">　{t("接近节气交界，结论对出生时刻较敏感")}</span>}
           </span>
         </div>
@@ -255,10 +257,10 @@ export function PillarsStep({
                 style={{ animationDelay: `${index * 90}ms` }}
               >
                 <span className={`${styles.pillarLabel} ${isDay ? styles.pillarLabelDay : ""}`}>
-                  {PILLAR_LABEL[pillar.label]}
+                  {t(PILLAR_LABEL[pillar.label])}
                 </span>
                 <span className={`${styles.godPill} ${isDay ? styles.godPillDay : ""}`}>
-                  {pillar.ten_god ? TEN_GOD_LABEL[pillar.ten_god] : "日主"}
+                  {pillar.ten_god ? short(t(TEN_GOD_LABEL[pillar.ten_god])) : t("日主")}
                 </span>
                 {renderTile(stem)}
                 {renderTile(branch)}
@@ -271,9 +273,9 @@ export function PillarsStep({
                     >
                       <div>
                         <span>
-                          <b>{STEM_LABEL[hidden.stem]}</b> {QI_LABEL[hidden.qi]}
+                          <b>{STEM_LABEL[hidden.stem]}</b> {short(t(QI_LABEL[hidden.qi]))}
                         </span>
-                        <span>{TEN_GOD_LABEL[hidden.ten_god]}</span>
+                        <span>{short(t(TEN_GOD_LABEL[hidden.ten_god]))}</span>
                       </div>
                       <div className={styles.qiTrack}>
                         <div className={`${styles.qiBar} ${styles.grow}`} style={{ width: QI_WIDTH[hidden.qi] }} />
@@ -296,11 +298,11 @@ export function PillarsStep({
           {/* Keyed so the note fades in afresh each time the selection changes. */}
           <div key={selected.id} className={styles.fade} style={{ display: "grid", gap: 12 }}>
             <span className={styles.asideChar}>{selected.char}</span>
-            <span className={styles.asideTitle}>{note.title}</span>
-            <span className={styles.asidePlace}>{note.place}</span>
+            <span className={styles.asideTitle}>{engineText(note.title, locale, t)}</span>
+            <span className={styles.asidePlace}>{engineText(note.place, locale, t)}</span>
             <div className={styles.divider} />
-            {note.relation && <span className={styles.asideRelation}>{note.relation}</span>}
-            <p className={styles.asideBody}>{note.body}</p>
+            {note.relation && <span className={styles.asideRelation}>{engineText(note.relation, locale, t)}</span>}
+            <p className={styles.asideBody}>{engineText(note.body, locale, t)}</p>
           </div>
           <span className={styles.asideHint}>{t("点击命盘中任意一字，查看它在命局中的位置与关系。")}</span>
         </aside>
@@ -311,7 +313,7 @@ export function PillarsStep({
         {GENERATING_ORDER.map((element) => (
           <span key={element} className={styles.el} data-element={element}>
             <ElementIcon element={element} />
-            {ELEMENT_LABEL[element]}
+            {t(ELEMENT_LABEL[element])}
           </span>
         ))}
         <p className={styles.legendNote}>
@@ -361,16 +363,16 @@ export function PillarsStep({
         </div>
 
         <p className={styles.legendNote}>
-          起运 {onset.years} 岁{onset.months > 0 && ` ${onset.months} 个月`} ·{" "}
-          {LUCK_DIRECTION_LABEL[onset.direction]}
-          {onset.rationale && `　${onset.rationale}`}
+          {onset.months > 0 ? t("起运 {years} 岁 {months} 个月", { years: onset.years, months: onset.months }) : t("起运 {years} 岁", { years: onset.years })} ·{" "}
+          {t(LUCK_DIRECTION_LABEL[onset.direction])}
+          {onset.rationale && `　${engineText(onset.rationale, locale, t)}`}
         </p>
 
         <TimelineRow
           title={t("大运")}
           items={chart.luck_cycles.map((cycle) => ({
             key: String(cycle.start_year),
-            top: `${cycle.start_age} 岁起`,
+            top: t("{age} 岁起", { age: cycle.start_age }),
             bottom: `${cycle.start_year}–${cycle.end_year}`,
             stem: STEM_LABEL[cycle.stem],
             branch: BRANCH_LABEL[cycle.branch],
@@ -386,7 +388,7 @@ export function PillarsStep({
 
         <TimelineRow
           title={t("流年")}
-          note={`${selectedCycle.start_year}–${selectedCycle.end_year}　随所选大运变化`}
+          note={`${selectedCycle.start_year}–${selectedCycle.end_year}　${t("随所选大运变化")}`}
           items={yearsOfCycle.map((year) => ({
             key: String(year.year),
             top: `${year.year}`,
