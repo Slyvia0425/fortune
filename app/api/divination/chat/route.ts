@@ -1,3 +1,5 @@
+import { questionLanguage, divinationText } from "@/lib/divination/language";
+import type { Locale } from "@/lib/i18n/locale";
 import type { DialogueState, DivinationChatMessage } from "@/lib/contracts/divination";
 import { failure, record, success } from "@/lib/contracts/api";
 import { continueDivinationChatWithLlm, singleIssueClarification } from "@/lib/divination/chat";
@@ -9,6 +11,7 @@ import { traceRoute } from "@/lib/server/case-trace";
 export async function POST(request: Request) { return traceRoute("chat",request,()=>handlePost(request)); }
 async function handlePost(request: Request) {
   let checkpoint:DialogueState|undefined;
+  let language:Locale="zh";
   const body = record(await request.json().catch(()=>null));
   const last = Array.isArray(body?.messages) ? record(body.messages.at(-1)) : null;
   if (!body || !last || last.role !== "user" || typeof last.content !== "string" || !last.content.trim() || last.content.length > 500
@@ -16,11 +19,13 @@ async function handlePost(request: Request) {
     || (body.message_id !== undefined && !UUID_PATTERN.test(String(body.message_id)))) {
     return failure("divination-chat-v2", "INVALID_REQUEST", "请提供一条不超过500字的用户消息和有效会话编号。", undefined, 422);
   }
+  language=questionLanguage([{role:"user",content:last.content}],body.response_language==="en"?"en":"zh");
   const timezone = typeof body.timezone === "string" ? body.timezone : "Asia/Hong_Kong";
   try { new Intl.DateTimeFormat("en", {timeZone:timezone}); } catch { return failure("divination-chat-v2","INVALID_TIMEZONE","请提供有效时区。",undefined,422); }
   try {
     const initial = await callHybrid<DialogueState>("dialogue-load", { conversation_id:body.conversation_id });
     checkpoint=initial;
+    language=questionLanguage([...initial.messages,{role:"user",content:last.content}],initial.reply?.response_language??language);
     const messageId = String(body.message_id ?? crypto.randomUUID());
     const duplicate = initial.messages.find(m=>m.message_id===messageId);
     if (duplicate) {
@@ -38,7 +43,7 @@ async function handlePost(request: Request) {
     }, true);
     checkpoint=collected;
     let result = duplicate&&initial.reply?.question_analysis_status==="extraction_failed"
-      ? {...initial.reply,status:"ready_for_confirmation" as const} : await continueDivinationChatWithLlm(messages);
+      ? {...initial.reply,status:"ready_for_confirmation" as const} : await continueDivinationChatWithLlm(messages,language);
     let questionAnalysis;
     if(result.status==="ready_for_confirmation"&&result.question_context){
       questionAnalysis=await analyzeSingleQuestion(result.question_context);
@@ -47,6 +52,7 @@ async function handlePost(request: Request) {
         retry_message:messages.filter(m=>m.role==="user").at(-1),message:"问事预检暂未完成，草稿已保留。可重试预检，无需重新输入已提供的信息。"};
       else result={...result,question_analysis_status:"valid"};
     }
+    result={...result,response_language:language,message:divinationText(language,result.message),suggestions:result.suggestions.map(s=>divinationText(language,s))};
     const candidate = result.status === "ready_for_confirmation" && result.question_context && result.extraction?.numbers&&questionAnalysis?.status==="valid"
       ? {question_context:result.question_context, numbers:result.extraction.numbers, timezone,question_analysis:questionAnalysis} : null;
     const saved = await callHybrid<DialogueState>("dialogue-save", {
@@ -55,6 +61,6 @@ async function handlePost(request: Request) {
     }, true);
     return Response.json(success(dialogueReply(saved), {system:"divination-chat-v2",sessionId:saved.conversation_id}));
   } catch(error) {
-    return failure("divination-chat-v2","DIALOGUE_ERROR",error instanceof HybridServiceError?error.message:"问事整理未完成，草稿已保留，可重试。",checkpoint?{conversation_id:checkpoint.conversation_id,draft_revision:checkpoint.revision}:undefined,error instanceof HybridServiceError?error.status:502);
+    return failure("divination-chat-v2","DIALOGUE_ERROR",divinationText(language,error instanceof HybridServiceError?error.message:"问事整理未完成，草稿已保留，可重试。"),checkpoint?{conversation_id:checkpoint.conversation_id,draft_revision:checkpoint.revision}:undefined,error instanceof HybridServiceError?error.status:502);
   }
 }

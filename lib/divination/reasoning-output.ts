@@ -2,7 +2,7 @@ import { findingObservation, factObservations, requiredUnresolved, reasoningTask
 import type { BuiltReasoningInput } from "./reasoning-input";
 import { assertFactClaimDirections, assertNoUnverifiedDerivation } from "./fact-claim-guard";
 import { validateExplainerReport, ExplainerValidationError } from "./explainer-report";
-import { compileFullReasoningOutput } from "./full-reasoning";
+import { compileFullReasoningOutput, FullReasoningReferenceError } from "./full-reasoning";
 
 export interface ReasoningIssue {code:string;path:string;received?:unknown;expected?:unknown}
 export class ReasoningValidationError extends Error {
@@ -34,7 +34,7 @@ function envelope(c:ReasoningContext,findings:ReasoningFindingV1[],synthesis:Str
 const partialAssessment=()=>({status:"insufficient" as const,conclusion:null,reasons:["仅保留已经通过验证的任务分析，尚未形成完整结论。"],limitation_notes:["部分任务未通过验证；不得据此作最终预测。"]});
 export function compileReasoningOutput(raw:unknown,c:ReasoningContext,built:BuiltReasoningInput,requireExplainer=false):StructuredReasoningV1 {
   if(c.validation_mode==="integrity"){
-    try{return compileFullReasoningOutput(raw,c,built,requireExplainer);}catch(error){throw new ReasoningValidationError([{code:error instanceof Error?error.message:"REASONING_SCHEMA_INVALID",path:"$"}]);}
+    try{return compileFullReasoningOutput(raw,c,built,requireExplainer);}catch(error){if(error instanceof FullReasoningReferenceError)throw new ReasoningValidationError(error.issues);throw new ReasoningValidationError([{code:error instanceof Error?error.message:"REASONING_SCHEMA_INVALID",path:"$"}]);}
   }
   // Existing public V1 is still accepted by the public validator, not rewritten.
   if(obj(raw)&&raw.version===STRUCTURED_REASONING_VERSION){if(requireExplainer&&!raw.explainer)throw new ReasoningValidationError([{code:"REASONING_EXPLAINER_REQUIRED",path:"explainer"}]);return validateStructuredReasoning(raw,c);}

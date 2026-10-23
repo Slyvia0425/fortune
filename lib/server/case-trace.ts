@@ -44,7 +44,7 @@ export async function traceNode<T>(node:string,input:unknown,work:()=>Promise<T>
     await persist(state,name,{...base,status:"returned",elapsed_ms:Date.now()-started,output:project(result)});
     return result;
   }catch(error){
-    await persist(state,name,{...base,status:"threw",elapsed_ms:Date.now()-started,error:{name:error instanceof Error?error.name:"Error",message:error instanceof Error?error.message:String(error),issues:error&&typeof error==="object"&&"issues" in error?error.issues:undefined}});
+    await persist(state,name,{...base,status:"threw",elapsed_ms:Date.now()-started,error:{name:error instanceof Error?error.name:"Error",message:error instanceof Error?error.message:String(error),cause_code:error instanceof Error&&error.cause&&typeof error.cause==="object"&&"code" in error.cause?String(error.cause.code):undefined,issues:error&&typeof error==="object"&&"issues" in error?error.issues:undefined}});
     throw error;
   }
 }

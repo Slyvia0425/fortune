@@ -25,7 +25,7 @@ export interface StructuredReasoningV1 {
   competing_views:CompetingViewV1[];unresolved_questions:string[];
   overall_assessment:{status:"supported"|"conditional"|"insufficient";conclusion:string|null;reasons:string[];limitation_notes:string[]};
 }
-export interface ReasoningContext {planner:InitialPlannerSnapshot;agent:AgentResult;question:string;identity:Record<string,unknown>;frozen?:FrozenQuestionRecord;validation_mode?:"integrity"|"strict"}
+export interface ReasoningContext {research_question_zh?:string;planner:InitialPlannerSnapshot;agent:AgentResult;question:string;identity:Record<string,unknown>;frozen?:FrozenQuestionRecord;validation_mode?:"integrity"|"strict"}
 export const reasoningHash=(reasoning:StructuredReasoningV1)=>analysisHash(reasoning);
 const labels={role_binding:"角色定位",moving:"动静",transformation:"动变",month_break:"月破",day_clash:"日冲",xun_empty:"旬空",month_seasonal_label:"月令标签",hidden_location:"伏神位置",line_relationship:"有向五行关系"};
 const lineName=(ref:string)=>ref.replace(/^main:([1-6])$/,"本卦第$1爻").replace(/^hidden:([1-6])$/,"第$1位伏神").replace(/^(?:transformed|changed):([1-6])$/,"变卦第$1爻");
