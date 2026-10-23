@@ -166,6 +166,8 @@ tests/              自动化测试
 
 ## 数据说明
 
+观音百签的英文展示数据位于 `sticks/guanyin.en.json`，按相同签号与中文底本对应。切换 EN 后可离线显示英文签诗和传统解读，无需启动 Ollama；抽签与推理仍使用中文证据。英文典故为简述，完整中文原文可展开查看。翻译来源、底本疑难及维护方法见 [英译说明](sticks/TRANSLATION.md)。动态问事解读和英文问题识别不属于此静态译库的翻译范围。
+
 主知识文件位于 `data/knowledge_sources_complete/knowledge_sources_pages.json`。原始网页和 PDF 用于来源复核，具体来源范围、版权处理和字段说明见 [数据说明](data/knowledge_sources_complete/README.md)。
 
 根目录的原始 ZIP 包不会进入 Git；可复现项目所需的解压数据已经位于 `data/`。

@@ -1,9 +1,9 @@
 /**
  * Interface copy, keyed by the Chinese string that appears in the components.
  *
- * Only presentation belongs here. Classical quotations, sign verses, hexagram
- * texts, book titles, and anything the user saved stay in Chinese: they are the
- * source material the system is meant to keep verbatim, not interface labels.
+ * Only interface presentation belongs here. Source texts and saved evidence
+ * stay verbatim. Guanyin's static English display texts live separately in
+ * sticks/guanyin.en.json and are matched to the Chinese originals by lot ID.
  * Keys must match the source string exactly, including punctuation. A string
  * with no entry here is shown as written.
  */
@@ -356,7 +356,7 @@ export const EN: Record<string, string> = {
   "卦爻辞原文与出处": "Line and judgement texts with sources",
   "传统典故": "Allusion",
   "传统解曰": "Traditional explanation",
-  "传统仙机": "Oracle verse",
+  "传统仙机": "Traditional counsel",
   "一签问一事": "One lot, one question",
   "开始阅读 · Read": "Start reading · Read",
   "全部图书 · Library": "All books · Library",
@@ -522,6 +522,13 @@ export const EN: Record<string, string> = {
   "签诗": "Verse",
   "签文": "Lot text",
   "灵签签文": "Guanyin lot",
+  "第 {number} 签": "Lot {number}",
+  "事业": "Career",
+  "姻缘": "Relationships",
+  "财运": "Wealth",
+  "健康": "Health",
+  "家庭": "Family",
+  "出行": "Travel",
   "这支签的倾向": "What this lot leans towards",
   "查看签文原解与典故": "Read the verse's own explanation and allusion",
   "查看解读依据": "See the evidence behind the reading",
