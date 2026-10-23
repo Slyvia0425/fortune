@@ -13,7 +13,7 @@ const SEGMENT_GAP = 3;
 
 /** 五行分布: the engine's weighted element distribution as a ring. Hovering the ring lifts one element and dims the rest; the legend follows. */
 export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; delay: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const dayMasterElement = chart.day_master.element;
   // The element the pointer (or keyboard focus, or a tap) is on in the distribution: it is lifted, the rest dim, and the centre reads it out.
   const [focusedElement, setFocusedElement] = useState<ElementKey | null>(null);
@@ -92,7 +92,7 @@ export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; 
             {focused && focusedInfo ? (
               <>
                 <small>
-                  {ELEMENT_LABEL[focused.element]} · {focusedInfo.label}
+                  {t(ELEMENT_LABEL[focused.element])} · {t(focusedInfo.label)}
                 </small>
                 <strong>{total > 0 ? `${((focused.value / total) * 100).toFixed(1)}%` : "—"}</strong>
               </>
@@ -101,7 +101,8 @@ export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; 
                 <small>{t("日主")}</small>
                 <strong>
                   {STEM_LABEL[chart.day_master.stem]}
-                  {ELEMENT_LABEL[dayMasterElement]}
+                  {locale === "en" ? " " : ""}
+                  {t(ELEMENT_LABEL[dayMasterElement])}
                 </strong>
               </>
             )}
@@ -119,10 +120,10 @@ export function ElementDistribution({ chart, delay }: { chart: BaziChartResult; 
               >
                 <ElementIcon element={segment.element} size={17} />
                 <strong>
-                  {ELEMENT_LABEL[segment.element]}
+                  {t(ELEMENT_LABEL[segment.element])}
                 </strong>
                 <span className={styles.groupText}>
-                  {info.label} · {info.relation}
+                  {t(info.label)} · {t(info.relation)}
                 </span>
                 <div className={styles.barTrack}>
                   {segment.value > 0 && (

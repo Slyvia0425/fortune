@@ -117,9 +117,13 @@
 
 .godPill {
   font-size: 13px;
-  padding: 1px 12px;
+  padding: 2px 8px;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 14px;
+  max-width: 100%;
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 .godPillDay { background: var(--ink); color: #fff; border-color: var(--ink); }
 
@@ -149,7 +153,10 @@
 
 .hiddenList { display: grid; gap: 8px; width: 100%; }
 .hiddenRow { display: grid; gap: 4px; font-size: 13px; }
-.hiddenRow > div:first-child { display: flex; justify-content: space-between; }
+.hiddenRow > div:first-child { display: flex; justify-content: space-between; gap: 8px; }
+.hiddenRow > div:first-child span:last-child { text-align: right; }
+:global(html[lang^="en"]) .hiddenRow > div:first-child { flex-direction: column; gap: 0; }
+:global(html[lang^="en"]) .hiddenRow > div:first-child span:last-child { text-align: left; }
 .hiddenRow b { color: var(--el); }
 .hiddenRow span:last-child { color: var(--muted); }
 .qiTrack { height: 4px; background: rgba(23, 32, 28, 0.08); }
@@ -229,7 +236,7 @@
 .legendGrid { flex: 1; min-width: 280px; display: grid; gap: 12px; }
 .legendRow {
   display: grid;
-  grid-template-columns: 18px 26px 128px minmax(0, 1fr) 56px;
+  grid-template-columns: 18px 44px 128px minmax(0, 1fr) 56px;
   gap: 10px;
   align-items: center;
   font-size: 15px;
@@ -316,7 +323,7 @@
 .factorList { display: grid; gap: 2px; }
 .factorRow {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) 190px;
+  grid-template-columns: 96px minmax(0, 1fr) 190px;
   gap: 14px;
   align-items: center;
   width: 100%;
@@ -430,10 +437,10 @@
   .hiddenList { gap: 6px; }
   .hiddenRow { font-size: 11px; }
   .hiddenRow > div:first-child { flex-direction: column; align-items: center; gap: 0; }
-  .factorRow { grid-template-columns: 48px minmax(0, 1fr); padding: 10px 12px; }
+  .factorRow { grid-template-columns: 82px minmax(0, 1fr); padding: 10px 12px; }
   .factorDetail { grid-template-columns: 1fr; padding-left: 12px; }
   .factorRow .factorTrack, .factorRow .value { grid-column: 2; }
-  .legendRow { grid-template-columns: 18px 26px minmax(0, 1fr) 52px; }
+  .legendRow { grid-template-columns: 18px 44px minmax(0, 1fr) 52px; }
   .legendRow .barTrack { display: none; }
 }
 
@@ -868,3 +875,17 @@
 .archiveClear { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 12px; padding: 0; }
 .archiveClear:hover:not(:disabled) { color: var(--red); }
 .archiveClear:disabled { opacity: .4; cursor: default; }
+
+/* 现代解读: the plain-language reading on the tendency page. */
+.readingCard { margin-top: 0; }
+.readingBody { display: grid; gap: 14px; transition: opacity 0.2s ease; }
+.readingStale { opacity: 0.55; }
+.readingLabel { margin: 6px 0 -6px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--jade); }
+.readingPara { margin: 0; font-size: 15.5px; line-height: 2; color: var(--ink); text-align: justify; }
+.readingWait { margin: 24px 0; font-size: 14px; color: var(--muted); }
+.readingRefs { margin: -4px 0 0; padding: 8px 14px; list-style: none; display: grid; gap: 6px; font-size: 12.5px; line-height: 1.75; color: var(--muted); background: #f4f1ea; border-left: 3px solid var(--line); }
+.readingRefs span { margin-right: 8px; font-size: 11px; letter-spacing: 0.08em; color: var(--jade); }
+.readingRefs cite { margin-left: 6px; font-style: normal; color: #8d8b82; }
+.readingSource { margin: 0; font-size: 12px; color: #8d8b82; line-height: 1.7; }
+.readingAgain { border: 0; background: none; padding: 0; font: inherit; color: var(--jade); text-decoration: underline; cursor: pointer; }
+.readingAgain:disabled { opacity: .5; cursor: default; }

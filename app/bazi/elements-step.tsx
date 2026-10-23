@@ -23,7 +23,7 @@ import { useI18n } from "@/lib/i18n";
 
 /** Step 3: the chart's structure (element distribution, ten gods), how strong the day master is and why, and the useful elements derived from it. */
 export function ElementsStep({ chart, profileActivity }: { chart: BaziChartResult; profileActivity?: BaziProfileActivity }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const elements = (Object.keys(chart.elements) as Array<keyof typeof chart.elements>)
     .map((key) => `${ELEMENT_LABEL[key]} ${chart.elements[key]}`)
     .join("，");
@@ -32,8 +32,9 @@ export function ElementsStep({ chart, profileActivity }: { chart: BaziChartResul
       <h2>{t("五行十神")}</h2>
       <p className="kicker">{t("命局结构")}</p>
       <p className={styles.subline}>
-        <TermLink term={BAZI_TERMS.dayMaster}>日主</TermLink> {STEM_LABEL[chart.day_master.stem]}
-        {ELEMENT_LABEL[chart.day_master.element]} · 以下十神均相对日主而论
+        <TermLink term={BAZI_TERMS.dayMaster}>{t("日主")}</TermLink> {STEM_LABEL[chart.day_master.stem]}
+        {locale === "en" ? " " : ""}
+        {t(ELEMENT_LABEL[chart.day_master.element])} · {t("以下十神均相对日主而论")}
       </p>
 
       <ElementDistribution chart={chart} delay="0ms" />

@@ -298,7 +298,9 @@ html[lang="en"] .evidence-stats strong{font-size:clamp(22px,2.5vw,32px);letter-s
 .seg button[aria-pressed=true]{background:var(--jade);color:#fff}
 .seg-block{display:grid;grid-auto-flow:column;grid-auto-columns:1fr}
 .seg-block button{height:44px;font-size:15px}
-.city-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);background:#fffdf9;box-shadow:0 10px 24px rgba(23,32,28,.08);max-height:260px;overflow:auto}
+.city-field{position:relative}
+.city-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);background:#fffdf9;box-shadow:0 10px 24px rgba(23,32,28,.08);max-height:260px;overflow:auto;position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30}
+.city-empty{padding:12px 14px;font-size:13px;line-height:1.7;color:var(--muted)}
 .city-option{width:100%;text-align:left;padding:10px 14px;background:transparent;border:0;cursor:pointer;font-size:14px}
 .city-option:hover{background:rgba(23,63,53,.06)}
 .dms-row{display:grid;grid-template-columns:minmax(86px,1.1fr) minmax(0,1fr) auto minmax(0,1fr) auto;align-items:center;gap:8px}

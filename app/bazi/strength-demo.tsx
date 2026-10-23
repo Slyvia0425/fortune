@@ -171,12 +171,12 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
                     data-self={cell.id === dayMasterId}
                   >
                     <b>{cell.char}</b>
-                    <small>{cell.isDayMaster ? "日主" : cell.tenGod ? TEN_GOD_LABEL[cell.tenGod] : ""}</small>
+                    <small>{cell.isDayMaster ? t("日主") : cell.tenGod ? t(TEN_GOD_LABEL[cell.tenGod]) : ""}</small>
                   </div>
                 );
                 return (
                   <div key={pillar.label} className={styles.demoColumn}>
-                    <span className={styles.demoLabel}>{PILLAR_LABEL[pillar.label]}</span>
+                    <span className={styles.demoLabel}>{t(PILLAR_LABEL[pillar.label])}</span>
                     {tile(stem)}
                     {tile(branch)}
                     <div className={styles.demoHidden}>
@@ -189,7 +189,7 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
                           data-lit={targets.has(`${pillar.label}-hidden-${hidden.qi}`)}
                         >
                           {STEM_LABEL[hidden.stem]}
-                          <small>{QI_LABEL[hidden.qi]}</small>
+                          <small>{t(QI_LABEL[hidden.qi])}</small>
                         </span>
                       ))}
                     </div>
@@ -210,7 +210,7 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
 
             <div className={styles.demoCaption} key={active.key}>
               <p>
-                <b>{FACTOR_LABEL[active.key] ?? active.key}</b>
+                <b>{t(FACTOR_LABEL[active.key]) ?? active.key}</b>
                 {active.rule_text}
               </p>
               {active.evidence.length > 0 ? (
@@ -235,8 +235,8 @@ export function StrengthDemo({ chart, onClose }: { chart: BaziChartResult; onClo
                 className={styles.demoTab}
                 onClick={() => setActiveKey(factor.key)}
               >
-                {FACTOR_LABEL[factor.key] ?? factor.key}
-                <small>{factor.evidence.length > 0 ? `${factor.evidence.length} 处` : "无"}</small>
+                {t(FACTOR_LABEL[factor.key]) ?? factor.key}
+                <small>{factor.evidence.length > 0 ? t("{count} 处", { count: factor.evidence.length }) : t("无")}</small>
               </button>
             ))}
           </div>
