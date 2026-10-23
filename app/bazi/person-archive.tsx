@@ -52,7 +52,7 @@ export function PersonArchive({
             id="person-name"
             type="text"
             maxLength={40}
-            placeholder="本人"
+            placeholder={t("本人")}
             value={personName}
             onChange={(event) => onName(event.target.value)}
           />
@@ -95,7 +95,7 @@ export function PersonArchive({
             {profiles.map((profile) => (
               <option key={profile.profile_id} value={profile.profile_id}>
                 {profile.name}
-                {profile.relation ? `（${profile.relation}）` : ""}
+                {profile.relation ? ` (${t(profile.relation)})` : ""}
                 {profile.birth_date ? ` · ${profile.birth_date}` : ""}
               </option>
             ))}

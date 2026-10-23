@@ -149,7 +149,8 @@
 
 .hiddenList { display: grid; gap: 8px; width: 100%; }
 .hiddenRow { display: grid; gap: 4px; font-size: 13px; }
-.hiddenRow > div:first-child { display: flex; justify-content: space-between; }
+.hiddenRow > div:first-child { display: flex; justify-content: space-between; gap: 8px; }
+.hiddenRow > div:first-child span:last-child { text-align: right; }
 .hiddenRow b { color: var(--el); }
 .hiddenRow span:last-child { color: var(--muted); }
 .qiTrack { height: 4px; background: rgba(23, 32, 28, 0.08); }

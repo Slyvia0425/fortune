@@ -17,6 +17,7 @@ import {
   tallyEvidence,
   type BaziProfileActivity,
 } from "./profile-activity";
+import { engineText } from "@/lib/bazi/engine-text";
 import { ModernReading } from "./modern-reading";
 import type { ReadingState } from "./use-reading";
 import styles from "./bazi-chart.module.css";
@@ -79,7 +80,7 @@ export function AdvisoryStep({
 }
 
 function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingState }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const tallies = chart.domain_tallies;
   // The three directions come from the engine; the plain-language reading is a fourth, written afterwards from the same chart.
   const [tab, setTab] = useState<AdvisoryDomain | "reading">(tallies[0]?.domain ?? "career");
@@ -100,7 +101,7 @@ function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingS
             className={`${styles.tab} ${item.domain === tab ? styles.tabActive : ""}`}
             onClick={() => setTab(item.domain)}
           >
-            {DOMAIN_LABEL[item.domain]}
+            {t(DOMAIN_LABEL[item.domain])}
           </button>
         ))}
         <button
@@ -116,7 +117,7 @@ function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingS
 
       {showReading && <ModernReading reading={reading} />}
 
-      {!showReading && <p className={`panel-intro ${styles.domainLead}`}>{tally.narrative}</p>}
+      {!showReading && <p className={`panel-intro ${styles.domainLead}`}>{engineText(tally.narrative, locale, t)}</p>}
 
       {!showReading && (
       <div className={styles.tallyList} key={tab}>
@@ -133,19 +134,19 @@ function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingS
               <div className={styles.tallyHead}>
                 {/* Category first, the ten-god group beside it: the category
                     names the association, the group is the evidence for it. */}
-                <strong>{group.category}</strong>
+                <strong>{engineText(group.category, locale, t)}</strong>
                 <span className={styles.groupTag}>
-                  {TEN_GOD_GROUP_LABEL[group.group]}
+                  {t(TEN_GOD_GROUP_LABEL[group.group])}
                 </span>
-                <span className={styles.tallyCount}>{group.count} 处</span>
+                <span className={styles.tallyCount}>{t("{count} 处", { count: group.count })}</span>
               </div>
 
               {/* Plain language first, the classical passage after it: the quotation is the evidence, not the explanation. */}
-              <p className={styles.groupNarrative}>{group.narrative}</p>
+              <p className={styles.groupNarrative}>{engineText(group.narrative, locale, t)}</p>
 
               {group.quotation ? (
                 <div className={`${styles.basisCard} ${styles.tallyBasis}`}>
-                  {group.quotation_plain && <p className={styles.ruleText}>{group.quotation_plain}</p>}
+                  {group.quotation_plain && <p className={styles.ruleText}>{engineText(group.quotation_plain, locale, t)}</p>}
                   <div className={group.quotation_plain ? styles.basisFoot : undefined}>
                     <span>「{group.quotation}」</span>
                     {source && (
@@ -171,11 +172,11 @@ function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingS
                     data-element={occ.element}
                   >
                     <small>
-                      {PILLAR_LABEL[occ.pillar]}
-                      {occ.position === "hidden" ? "藏干" : ""}
+                      {t(PILLAR_LABEL[occ.pillar])}
+                      {occ.position === "hidden" ? `${locale === "en" ? " " : ""}${t("藏干")}` : ""}
                     </small>
                     <b>{STEM_LABEL[occ.stem]}</b>
-                    <small>{TEN_GOD_LABEL[occ.ten_god]}</small>
+                    <small>{t(TEN_GOD_LABEL[occ.ten_god])}</small>
                   </span>
                 ))}
               </div>
@@ -187,7 +188,7 @@ function Tallies({ chart, reading }: { chart: BaziChartResult; reading: ReadingS
 
       {cited.length > 0 && !showReading && (
         <p className={styles.legendNote}>
-          参考文献：
+          {t("参考文献：")}
           {cited.map((ref) => [ref.title, ref.edition].filter(Boolean).join(" · ")).join("；")}
         </p>
       )}

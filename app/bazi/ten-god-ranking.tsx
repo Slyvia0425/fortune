@@ -3,6 +3,7 @@ import type { BaziChartResult, ElementKey } from "@/lib/contracts/bazi";
 import { ELEMENT_LABEL, TEN_GOD_GROUP_LABEL, TEN_GOD_LABEL } from "@/lib/bazi/display";
 import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodRanking, type TenGodGroup } from "@/lib/bazi/structure";
 import { useI18n } from "@/lib/i18n";
+import { engineText } from "@/lib/bazi/engine-text";
 import styles from "./bazi-chart.module.css";
 
 /**
@@ -10,7 +11,7 @@ import styles from "./bazi-chart.module.css";
  * A count, not a judgement of strength or favour: the classics give no weights for it, so none are invented here.
  */
 export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const dayMasterElement = chart.day_master.element;
   const ranking = useMemo(() => tenGodRanking(chart.pillars), [chart.pillars]);
   const elementOfGroup = useMemo(() => {
@@ -32,7 +33,7 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
         {t("按各十神在命局中出现的次数排序（天干与藏干各计一次，共 {total} 处）。", { total })}
         {leaders.length > 0 && (
           <>
-            {t("出现最多的是")} <b>{leaders.map((item) => TEN_GOD_LABEL[item.tenGod]).join("、")}</b>{t("，{top} 处。", { top })}
+            {t("出现最多的是")} <b>{leaders.map((item) => t(TEN_GOD_LABEL[item.tenGod])).join("、")}</b>{t("，{top} 处。", { top })}
           </>
         )}
       </p>
@@ -54,8 +55,8 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
               >
                 <span className={styles.rankNo}>{item.count > 0 ? rank : "–"}</span>
                 <span className={styles.rankName}>
-                  <b>{TEN_GOD_LABEL[item.tenGod]}</b>
-                  <small>{TEN_GOD_GROUP_LABEL[item.group]}</small>
+                  <b>{t(TEN_GOD_LABEL[item.tenGod])}</b>
+                  <small>{t(TEN_GOD_GROUP_LABEL[item.group])}</small>
                 </span>
                 <span className={styles.rankTrack}>
                   {item.count > 0 && (
@@ -74,18 +75,18 @@ export function TenGodRanking({ chart }: { chart: BaziChartResult }) {
                 <div className={`${styles.rankDetail} ${styles.el}`} data-element={element} aria-live="polite">
                   <div className={styles.fade} style={{ display: "grid", gap: 10 }}>
                     <div className={styles.groupNoteHead}>
-                      <b>{ELEMENT_LABEL[element]}</b>
-                      <strong>{TEN_GOD_LABEL[item.tenGod]}</strong>
-                      <span>{GROUP_INFO[item.group].relation}</span>
+                      <b>{t(ELEMENT_LABEL[element])}</b>
+                      <strong>{t(TEN_GOD_LABEL[item.tenGod])}</strong>
+                      <span>{t(GROUP_INFO[item.group].relation)}</span>
                     </div>
                     {item.positions.length > 0 ? (
                       <ul className={styles.positionList}>
                         {item.positions.map((position) => (
-                          <li key={position}>{position}</li>
+                          <li key={position}>{engineText(position, locale, t)}</li>
                         ))}
                       </ul>
                     ) : (
-                      <p style={{ margin: 0, color: "var(--muted)" }}>{t("命局中未见{name}。", { name: TEN_GOD_LABEL[item.tenGod] })}</p>
+                      <p style={{ margin: 0, color: "var(--muted)" }}>{t("命局中未见{name}。", { name: t(TEN_GOD_LABEL[item.tenGod]) })}</p>
                     )}
                   </div>
                 </div>

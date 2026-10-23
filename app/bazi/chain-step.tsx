@@ -14,6 +14,7 @@ import {
   sourceEvidence,
   type BaziProfileActivity,
 } from "./profile-activity";
+import { engineText } from "@/lib/bazi/engine-text";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -54,17 +55,17 @@ function tagsOf(step: TraceStep): string[] {
 }
 
 function UseBlock({ use }: { use: TraceUse }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const source = use.source;
   return (
     <li className={styles.useBlock}>
       <div className={styles.useHead}>
-        <span className={styles.useKind} data-kind={use.kind}>{KIND_LABEL[use.kind]}</span>
+        <span className={styles.useKind} data-kind={use.kind}>{t(KIND_LABEL[use.kind])}</span>
         {use.id && <code>{use.id}</code>}
-        <strong>{use.title}</strong>
+        <strong>{engineText(use.title, locale, t)}</strong>
         {use.derived && <span className={styles.derivedMark}>{t("本项目形式化")}</span>}
       </div>
-      {use.detail && <p>{use.detail}</p>}
+      {use.detail && <p>{engineText(use.detail, locale, t)}</p>}
       {source && (
         <p className={styles.useSource}>
           《{source.book}》{source.chapter ? ` ${source.chapter}` : ""}
@@ -87,7 +88,7 @@ export function ChainStep({
   onNavigate: Navigate;
   profileActivity?: BaziProfileActivity;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const steps = chart.calculation_trace;
   const rows = useMemo(() => layerSteps(steps), [steps]);
   const number = new Map(rows.flat().map((id, index) => [id, index + 1]));        // numbered as they are laid out, top to bottom
@@ -144,6 +145,8 @@ export function ChainStep({
         {t("每个方块是一次计算：读自哪些步骤、得出什么、依据哪条规则和哪本书。点开方块看数字和出处。箭头表示数据流向，指向读取它的那一步（窄屏不画箭头，每个方块都写明「读自」哪些步骤）。")}
       </p>
 
+      {locale === "en" && <p className={styles.legendNote}>{t("推导链路的每一步由规则引擎用中文写成：步骤名称已译成英文，各步的计算说明、规则和典籍引文保持原文。")}</p>}
+
       <div className={styles.exportRow}>
         <span className={styles.chipLabel}>{t("导出")}</span>
         <button type="button" className={styles.exportButton} onClick={() => setPreview({ name: exportName(chart, "chain", "json"), mime: "application/json", text: chainJson(chart, request) })}>
@@ -186,14 +189,14 @@ export function ChainStep({
                 >
                   <button type="button" className={styles.dagHead} aria-expanded={isOpen} onClick={() => toggle(id)}>
                     <span className={styles.chainNo}>{number.get(id)}</span>
-                    <span className={styles.chainTitle}>{step.title}</span>
+                    <span className={styles.chainTitle}>{engineText(step.title, locale, t)}</span>
                     <span className={styles.chainCaret} aria-hidden="true" />
-                    <span className={isOpen ? styles.dagSummaryFull : styles.dagSummary}>{step.summary}</span>
-                    {step.inputs.length > 0 && <span className={styles.dagFrom}>读自：{step.inputs.map((input) => byId.get(input)?.title).join("、")}</span>}
+                    <span className={isOpen ? styles.dagSummaryFull : styles.dagSummary}>{engineText(step.summary, locale, t)}</span>
+                    {step.inputs.length > 0 && <span className={styles.dagFrom}>{t("读自：{steps}", { steps: step.inputs.map((input) => engineText(byId.get(input)?.title ?? "", locale, t)).join(locale === "en" ? ", " : "、") })}</span>}
                     {tags.length > 0 && (
                       <span className={styles.chainKnowledge}>
                         {tags.map((tag) => (
-                          <span key={tag}>{tag}</span>
+                          <span key={tag}>{t(tag)}</span>
                         ))}
                       </span>
                     )}
@@ -204,8 +207,8 @@ export function ChainStep({
                         <dl className={styles.chainFacts}>
                           {step.facts.map((fact) => (
                             <div key={fact.label} className={styles.factRow}>
-                              <dt>{fact.label}</dt>
-                              <dd>{fact.value}</dd>
+                              <dt>{engineText(fact.label, locale, t)}</dt>
+                              <dd>{engineText(fact.value, locale, t)}</dd>
                             </div>
                           ))}
                         </dl>
@@ -222,7 +225,7 @@ export function ChainStep({
                       )}
                       {see && (
                         <button type="button" className={styles.flowGo} onClick={() => onNavigate(see.step, see.section)}>
-                          {see.label} →
+                          {t(see.label)} →
                         </button>
                       )}
                     </div>

@@ -5,6 +5,7 @@ import { cycleFromDayMaster, GROUP_INFO, groupForElement, tenGodPositions } from
 import { BAZI_TERMS } from "@/lib/bazi/knowledge-links";
 import { TermLink } from "./knowledge-link";
 import { TenGodRanking } from "./ten-god-ranking";
+import { engineText } from "@/lib/bazi/engine-text";
 import styles from "./bazi-chart.module.css";
 import { useI18n } from "@/lib/i18n";
 
@@ -22,7 +23,7 @@ function onRing(angleDeg: number) {
 
 /** 五行与十神: the five elements as a ring of generation (outer) and overcoming (inner) around the day master; pick one to read its ten gods. */
 export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; delay: string }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const dayMasterElement = chart.day_master.element;
   const positions = tenGodPositions(chart.pillars);
 
@@ -134,13 +135,13 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
                     className={`${styles.node} ${node.count === 0 ? styles.nodeEmpty : ""} ${styles.el} ${styles.pop}`}
                     data-element={node.element}
                     aria-pressed={node.element === selected.element}
-                    aria-label={`${ELEMENT_LABEL[node.element]}，${info.label}，${node.count} 处`}
+                    aria-label={`${t(ELEMENT_LABEL[node.element])}, ${t(info.label)}, ${t("{count} 处", { count: node.count })}`}
                     onClick={() => setSelectedElement(node.element)}
                     style={{ "--k": size / VIEW_W, animationDelay: `${150 + index * 100}ms` } as CSSProperties}
                   >
                     <span className={styles.nodeChar}>{ELEMENT_LABEL[node.element]}</span>
                     <span className={styles.nodeLabel}>
-                      {info.label} · {node.count}
+                      {t(info.label)} · {node.count}
                     </span>
                   </button>
                 </div>
@@ -165,19 +166,19 @@ export function TenGodRelations({ chart, delay }: { chart: BaziChartResult; dela
             <div className={styles.groupNoteHead}>
               <b>{ELEMENT_LABEL[selected.element]}</b>
               <strong>
-                <TermLink term={BAZI_TERMS.group[selected.group]}>{selectedInfo.label}</TermLink>
+                <TermLink term={BAZI_TERMS.group[selected.group]}>{t(selectedInfo.label)}</TermLink>
               </strong>
-              <span>{selectedInfo.relation}</span>
+              <span>{t(selectedInfo.relation)}</span>
             </div>
             <p>
-              {selectedInfo.definition}。{selectedInfo.polarityRule}。
+              {t(selectedInfo.definition)}. {t(selectedInfo.polarityRule)}.
             </p>
             <div className={styles.divider} />
             <strong>{t("命局中出现的位置")}</strong>
             {positions[selected.group].length > 0 ? (
               <ul className={styles.positionList}>
                 {positions[selected.group].map((position) => (
-                  <li key={position}>{position}</li>
+                  <li key={position}>{engineText(position, locale, t)}</li>
                 ))}
               </ul>
             ) : (
