@@ -48,6 +48,12 @@ describe("facts the model may use", () => {
     expect(new Set(facts.evidence.map((item) => item.quotation)).size).toBe(facts.evidence.length);
   });
 
+  it("leave out classical passages about strife and loss, and keep the neutral and favourable ones", () => {
+    const text = facts.evidence.map((item) => `${item.quotation}${item.plain ?? ""}`).join("");
+    expect(text).not.toMatch(/争竞|争夺|夺财|劫弟之财/);
+    expect(facts.evidence.some((item) => item.source.includes("论印绶") || item.source.includes("论伤官"))).toBe(true);
+  });
+
   it("do not carry the checking keys into the request", () => {
     expect(Object.keys(modelFacts(facts))).not.toContain("_keys");
     const request = buildReadingRequest(facts, "zh");

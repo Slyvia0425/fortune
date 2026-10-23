@@ -10,6 +10,7 @@ import {
   TEN_GOD_GROUP_LABEL,
   TEN_GOD_LABEL,
 } from "@/lib/bazi/display";
+import { CATEGORY_EN } from "@/lib/bazi/engine-text";
 import { GROUP_INFO, STEM_POLARITY, tenGodPositions, type TenGodGroup } from "@/lib/bazi/structure";
 
 /**
@@ -100,13 +101,22 @@ export interface BaziFacts {
   _keys: { dayMaster: ElementKey; level: DayMasterStrength; useful: ElementKey[]; unfavourable: ElementKey[]; stem: string };
 }
 
+/**
+ * Passages that speak of strife, loss or harm are left out of what the model may cite: the reading is meant to be encouraging, and a
+ * classical line about brothers quarrelling over wealth would sit badly in it. Neutral and favourable passages are kept.
+ */
+const DISCOURAGING_PASSAGE = /争竞|争夺|相争|夺财|劫弟之财|夺走|凶|祸|败|破财|不吉|灾|刑克|克害|损伤/;
+function isDiscouraging(text: string): boolean {
+  return DISCOURAGING_PASSAGE.test(text);
+}
+
 /** The passages the tendency page and the strength factors quote: one per ten-god group present, then one per strength factor, at most six. */
 function collectEvidence(chart: BaziChartResult): EvidenceItem[] {
   const titles = new Map(chart.source_refs.map((ref) => [ref.source_id, ref.title]));
   const items: Array<Omit<EvidenceItem, "id">> = [];
   const seen = new Set<string>();
   const add = (topic: string, quotation: string | null | undefined, plain: string | null | undefined, sourceId: string | null | undefined, chapter: string | null | undefined) => {
-    if (!quotation || !sourceId || seen.has(quotation)) return;
+    if (!quotation || !sourceId || seen.has(quotation) || isDiscouraging(`${quotation}${plain ?? ""}`)) return;
     seen.add(quotation);
     const book = titles.get(sourceId);
     const place = (chapter ?? "").replace(`${book} · `, "");
@@ -356,15 +366,16 @@ export function ruleBasedReading(chart: BaziChartResult, facts: BaziFacts, local
     const held = direction?.groups.find((group) => group.count > 0);
     const name = direction ? DOMAIN_LABEL[direction.domain] : "";
     if (!held) return { zh: `${name}上不被某一种固定的路数限定，发展空间比较开阔，可以按自己的兴趣去尝试`, en: `in ${direction?.domain ?? "this direction"} you are not tied to one fixed path, so there is room to follow your own interests` };
+    const category = CATEGORY_EN[held.category] ?? held.category;
     const zh = [
       `${name}上，命盘里有“${held.category}”这一类特质（${held.gloss}），适合在这方面多发挥`,
       `${name}方面，“${held.category}”是你身上的亮点（${held.gloss}），往这个方向用力会更顺手`,
       `${name}上，“${held.category}”这一面（${held.gloss}）可以成为你的底气，慢慢积累就会越做越有心得`,
     ][index % 3];
     const en = [
-      `in ${direction.domain}, the chart holds the "${held.category}" quality, a good place to put your effort`,
-      `in ${direction.domain}, "${held.category}" is a bright spot, and leaning on it should feel natural`,
-      `in ${direction.domain}, "${held.category}" can be your footing, and it grows with steady practice`,
+      `in ${direction.domain}, the chart holds the quality of ${category}, a good place to put your effort`,
+      `in ${direction.domain}, ${category} is a bright spot, and leaning on it should feel natural`,
+      `in ${direction.domain}, ${category} can be your footing, and it grows with steady practice`,
     ][index % 3];
     return { zh, en };
   };
