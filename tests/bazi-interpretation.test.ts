@@ -210,6 +210,25 @@ describe("POST /api/bazi/interpret", () => {
     expect((await post(BODY)).json.result.source).toBe("llm");
   });
 
+  it("answers from the templates, without a model call, once a client is over the limit", async () => {
+    vi.stubEnv("LLM_API_KEY", "key");
+    vi.stubEnv("LLM_MODEL", "stand-in");
+    vi.stubEnv("BAZI_READING_LIMIT", "2");
+    modelAnswers(GOOD, GOOD);
+    // one route instance for all three calls, so that they share its limiter
+    vi.resetModules();
+    vi.doMock("../lib/server/python-client", () => ({ pythonServiceConfigured: () => true, callPython: async () => sample.result }));
+    const { POST } = await import("../app/api/bazi/interpret/route");
+    const ask = () => POST(new Request("http://x/api/bazi/interpret", { method: "POST", body: JSON.stringify(BODY), headers: { "x-forwarded-for": "9.9.9.9" } }));
+    expect((await (await ask()).json()).result.source).toBe("llm");
+    expect((await (await ask()).json()).result.source).toBe("llm");
+    const limited = await ask();
+    const body = await limited.json();
+    expect(body.result).toMatchObject({ source: "rules", reason: "rate_limited" });
+    expect(body.warnings).toContain("RATE_LIMITED");
+    expect(Number(limited.headers.get("retry-after"))).toBeGreaterThan(0);
+  });
+
   it("rejects an invalid birth request and a failing engine", async () => {
     expect((await post({ ...BODY, birth_date: "2001-02-29" })).status).toBe(400);
   });

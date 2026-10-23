@@ -48,7 +48,9 @@ export function ModernReading({ reading }: { reading: ReadingState }) {
                 ? t("由语言模型（{model}）根据命盘结论撰写，并已核对与规则引擎的结论一致。", { model: result.model ?? "" })
                 : result.reason === "failed"
                   ? t("模型的回答没有通过核对，回答由模块兜底逻辑生成。")
-                  : t("未连接语言模型，回答由模块兜底逻辑生成。")}{" "}
+                  : result.reason === "rate_limited"
+                    ? t("请求比较频繁，本次回答由模块兜底逻辑生成，稍后可以重新生成。")
+                    : t("未连接语言模型，回答由模块兜底逻辑生成。")}{" "}
             <button type="button" className={styles.readingAgain} onClick={reading.regenerate} disabled={waiting}>
               {t("重新生成")}
             </button>

@@ -5,8 +5,8 @@ import { useI18n } from "@/lib/i18n";
 
 export interface ReadingResult {
   source: "llm" | "rules";
-  /** Why the templates were used: no model is connected, or the model's answer did not pass the checks. */
-  reason: "not_configured" | "failed" | null;
+  /** Why the templates were used: no model is connected, its answer did not pass the checks, or this client asked too often. */
+  reason: "not_configured" | "failed" | "rate_limited" | null;
   model: string | null;
   reading: Reading;
   evidence: EvidenceItem[];

@@ -718,4 +718,7 @@ export const EN: Record<string, string> = {
   "由语言模型（{model}）根据命盘结论撰写，并已核对与规则引擎的结论一致。": "Written by a language model ({model}) from the chart's conclusions and checked against the rule engine's results.",
   "未连接语言模型，回答由模块兜底逻辑生成。": "No language model is connected; the answer comes from the module's fallback logic.",
   "模型的回答没有通过核对，回答由模块兜底逻辑生成。": "The model's answer did not pass the checks; the answer comes from the module's fallback logic.",
+  // --- BaZi: city picker ----------------------------------------------------
+  "请求比较频繁，本次回答由模块兜底逻辑生成，稍后可以重新生成。": "Too many requests in a short time, so this answer comes from the module's fallback logic; try again in a little while.",
+  "没有找到匹配的城市。请检查英文拼写，或切换到「填经纬度」。": "No matching city. Check the spelling, or switch to entering coordinates.",
 };

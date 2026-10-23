@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { AXES, type Axis, type Dms, daysIn, digitsOnly } from "@/lib/bazi/birth-input";
 import { useI18n } from "@/lib/i18n";
 import { SourceLink } from "./knowledge-link";
@@ -122,6 +123,18 @@ function ClassicCasePicker({ form }: { form: BirthFormState }) {
 
 export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; pending: boolean; onSubmit: () => void }) {
   const { t } = useI18n();
+  const cityBox = useRef<HTMLDivElement>(null);
+  const { cityOpen, dismissCities } = form;
+
+  // A press anywhere outside the box and its list puts the list away.
+  useEffect(() => {
+    if (!cityOpen) return;
+    const away = (event: PointerEvent) => {
+      if (cityBox.current && event.target instanceof Node && !cityBox.current.contains(event.target)) dismissCities();
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [cityOpen, dismissCities]);
   const { dateParts, timeParts, lunar } = form;
   return (
     <>
@@ -260,31 +273,45 @@ export function BirthForm({ form, pending, onSubmit }: { form: BirthFormState; p
               ]}
             />
           </div>
-          <input
-            id="city"
-            type="text"
-            autoComplete="off"
-            placeholder={t("输入城市英文名，如 Shanghai")}
-            value={form.cityQuery}
-            disabled={form.placeMode === "manual_coordinates"}
-            onChange={(e) => form.typeCity(e.target.value)}
-          />
-          {form.placeMode === "dropdown" && form.cityHits.length > 0 && (
-            <ul role="listbox" className="city-list">
-              {form.cityHits.map((hit) => (
-                <li key={hit.id} role="option" aria-selected={false}>
-                  <button type="button" className="city-option" onClick={() => form.chooseCity(hit)}>
-                    {hit.name}
-                    {hit.alias ? ` (${hit.alias})` : ""} · {hit.country_code}
-                    <small className="city-coords">
-                      {"  "}
-                      {hit.latitude.toFixed(2)}, {hit.longitude.toFixed(2)}
-                    </small>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+          <div className="city-field" ref={cityBox}>
+            <input
+              id="city"
+              type="text"
+              autoComplete="off"
+              role="combobox"
+              aria-expanded={form.placeMode === "dropdown" && form.cityOpen && (form.cityHits.length > 0 || form.cityNoMatch)}
+              aria-controls="city-results"
+              placeholder={t("输入城市英文名，如 Shanghai")}
+              value={form.cityQuery}
+              disabled={form.placeMode === "manual_coordinates"}
+              onChange={(e) => form.typeCity(e.target.value)}
+              onFocus={form.reopenCities}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") form.dismissCities();
+              }}
+            />
+            {form.placeMode === "dropdown" && form.cityOpen && (form.cityHits.length > 0 || form.cityNoMatch) && (
+              <ul role="listbox" id="city-results" className="city-list">
+                {form.cityHits.map((hit) => (
+                  <li key={hit.id} role="option" aria-selected={false}>
+                    <button type="button" className="city-option" onClick={() => form.chooseCity(hit)}>
+                      {hit.name}
+                      {hit.alias ? ` (${hit.alias})` : ""} · {hit.country_code}
+                      <small className="city-coords">
+                        {"  "}
+                        {hit.latitude.toFixed(2)}, {hit.longitude.toFixed(2)}
+                      </small>
+                    </button>
+                  </li>
+                ))}
+                {form.cityHits.length === 0 && (
+                  <li className="city-empty" role="status">
+                    {t("没有找到匹配的城市。请检查英文拼写，或切换到「填经纬度」。")}
+                  </li>
+                )}
+              </ul>
+            )}
+          </div>
           {form.placeMode === "dropdown" && (
             <small className="field-note">
               {form.city

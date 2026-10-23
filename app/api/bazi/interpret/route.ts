@@ -3,8 +3,16 @@ import { buildBaziFacts, ruleBasedReading, type ReadingLocale } from "@/lib/bazi
 import { calculateBazi } from "@/lib/bazi/service";
 import { algorithmFailure, readBirthRequest } from "@/lib/server/bazi-route";
 import { baziLlmConfigured, generateBaziReading } from "@/lib/server/bazi-llm";
+import { clientKey, createRateLimiter, positiveNumber } from "@/lib/server/rate-limit";
 
 const SYSTEM = "bazi-interpretation-v1";
+
+// Each reading is a model call, so one client gets a handful per window: 12 in 10 minutes unless BAZI_READING_LIMIT and
+// BAZI_READING_WINDOW_SECONDS say otherwise. Over the limit the reading still comes back, from the templates.
+const limiter = createRateLimiter({
+  limit: positiveNumber(process.env.BAZI_READING_LIMIT, 12),
+  windowMs: positiveNumber(process.env.BAZI_READING_WINDOW_SECONDS, 600) * 1000,
+});
 
 /**
  * 现代解读. The body is the birth request the chart was made from, plus an optional `locale`. The chart is recomputed here, so the
@@ -33,6 +41,13 @@ export async function POST(request: Request) {
   const facts = buildBaziFacts(chart);
 
   if (baziLlmConfigured()) {
+    const turn = limiter.take(clientKey(request));
+    if (!turn.allowed) {
+      return Response.json(
+        success({ source: "rules", reason: "rate_limited", locale, model: null, reading: ruleBasedReading(chart, facts, locale), evidence: facts.evidence }, { system: SYSTEM, warnings: ["RATE_LIMITED"] }),
+        { headers: { "retry-after": String(turn.retryAfterSeconds) } },
+      );
+    }
     try {
       const generated = await generateBaziReading(facts, locale);
       return Response.json(success({ source: "llm", reason: null, locale, model: generated.model, reading: generated.reading, evidence: facts.evidence }, { system: SYSTEM }));
