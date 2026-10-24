@@ -4,6 +4,9 @@ from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+LOCAL_ENVIRONMENTS = {"development", "dev", "local", "test", "docker"}
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -51,9 +54,45 @@ class Settings(BaseSettings):
     recommendation_weights_json: str | None = None
     case_similarity_threshold: float = Field(default=0.60, ge=0, le=1)
 
+    def __init__(self, **values: object) -> None:
+        # Keep explicit Settings(debug=...) calls working without allowing the
+        # unrelated shell variable DEBUG to override MODULE4_DEBUG.
+        if "debug" in values and "MODULE4_DEBUG" not in values:
+            values["MODULE4_DEBUG"] = values.pop("debug")
+        super().__init__(**values)
+
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def serves_public_traffic(self) -> bool:
+        return self.environment.strip().lower() not in LOCAL_ENVIRONMENTS
+
+
+def server_safety_problems(settings: Settings) -> list[str]:
+    if not settings.serves_public_traffic:
+        return []
+
+    problems = []
+    if settings.allow_legacy_user_header:
+        problems.append(
+            "ALLOW_LEGACY_USER_HEADER must be false: with it on, any caller can name "
+            "another user through X-User-Id and read or write that user's data."
+        )
+    if not settings.require_user_header:
+        problems.append(
+            "REQUIRE_USER_HEADER must be true: with it off, a request that sends no "
+            "session is served as DEV_USER_ID instead of being rejected."
+        )
+    if settings.debug:
+        problems.append("MODULE4_DEBUG must be false outside local development.")
+    if settings.auto_create_tables:
+        problems.append(
+            "AUTO_CREATE_TABLES must be false outside local development; run "
+            "`alembic upgrade head` instead."
+        )
+    return problems
 
 
 @lru_cache(maxsize=1)

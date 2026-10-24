@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const module4Root = join(root, "fortune_module4");
+const algorithmRoot = join(root, "python_algorithm");
 const nextBin = join(root, "node_modules", "next", "dist", "bin", "next");
 const pythonCandidates = process.platform === "win32"
   ? [join(module4Root, ".venv", "Scripts", "python.exe")]
@@ -56,13 +57,18 @@ function stop(signal = "SIGTERM") {
   }, 5000).unref();
 }
 
-console.log("开发环境：Next.js http://localhost:3000 · Module 4 http://127.0.0.1:8001");
+console.log("开发环境：Next.js http://localhost:3000 · 算法服务 http://127.0.0.1:8000 · Module 4 http://127.0.0.1:8001");
+start("algorithms", python, ["-m", "uvicorn", "app:app", "--host", "127.0.0.1", "--port", "8000"], { cwd: algorithmRoot });
 start("module4", python, ["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8001"], { cwd: module4Root });
 // Keep the current development bundler explicit.
 start("next", process.execPath, [nextBin, "dev", "--webpack"], {
   cwd: root,
-  env: { ...process.env, MODULE4_API_BASE_URL: "http://127.0.0.1:8001" },
+  env: {
+    ...process.env,
+    PYTHON_ALGORITHM_BASE_URL: "http://127.0.0.1:8000",
+    MODULE4_API_BASE_URL: "http://127.0.0.1:8001",
+  },
 });
 
-process.on("SIGINT", () => stop("SIGINT"));
+process.on("SIGINT", () => stop("SIGTERM"));
 process.on("SIGTERM", () => stop("SIGTERM"));
