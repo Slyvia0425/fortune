@@ -812,7 +812,6 @@ export const EN: Record<string, string> = {
   "逆排": "Reverse",
   "职业方向": "Career",
   "学业方向": "Study",
-  "财运": "Wealth",
   "阳": "Yang",
   "阴": "Yin",
   "月令": "Month branch",
