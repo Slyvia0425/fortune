@@ -16,6 +16,7 @@ export async function POST(request: Request) {
 
   const question = text(body?.question);
   const domain = body?.domain;
+  const locale = body?.locale === "en" ? "en" : "zh";
   if (!isQuestionDomain(domain)) {
     return failure("guanyin-100-v1", "INVALID_DOMAIN", "请选择有效的问题领域。", undefined, 400);
   }
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
   const reasoning = buildGuanyinStructuredReasoning({ signId: stick.id, domain, question });
   const knowledge = retrieveKnowledgeForGuanyinReasoning(reasoning, { limit: 3 });
   const evidenceIntegration = buildGuanyinEvidenceIntegration({ stick, reasoning, knowledge });
-  const generationRequest = buildGuanyinLlmGenerationRequest({ question, domain, integration: evidenceIntegration });
+  const generationRequest = buildGuanyinLlmGenerationRequest({ question, domain, integration: evidenceIntegration, locale });
   const llmGeneration: GuanyinDrawResult["llm_generation"] = evidenceIntegration.status === "ready"
     ? { status: "pending", request: generationRequest, explanation: null, model: null, warning: null }
     : { status: "integration_unavailable", request: generationRequest, explanation: null, model: null, warning: "结构化推理尚未完成，系统未调用扩展解释。" };

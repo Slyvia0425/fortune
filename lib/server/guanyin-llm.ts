@@ -1,7 +1,10 @@
-import { buildGuanyinLlmGenerationRequest, hasMeaningfulGuanyinExplanationGain, validateGuanyinLlmExplanation, type GuanyinLlmExplanation } from "../guanyin/llm-explanation";
+import { bindGuanyinExplanationEvidence, buildGuanyinLlmGenerationRequest, hasMeaningfulGuanyinExplanationGain, validateGuanyinLlmExplanation, type GuanyinLlmExplanation } from "../guanyin/llm-explanation";
 import type { GuanyinEvidenceIntegration, QuestionDomain } from "../guanyin/types";
 
 type ChatCompletion = { choices?: Array<{ message?: { content?: string | null } }> };
+
+const MAX_GENERATION_ATTEMPTS = 2;
+const MAX_ATTEMPT_TIMEOUT_MS = 90_000;
 
 function configuration() {
   const baseUrl = (process.env.LLM_BASE_URL || "https://api.openai.com/v1").trim().replace(/^["']|["']$/g, "").replace(/\/$/, "");
@@ -9,7 +12,8 @@ function configuration() {
   const model = process.env.LLM_MODEL;
   const reasoningEffort = process.env.LLM_REASONING_EFFORT?.trim();
   const configuredTimeout = Number(process.env.LLM_TIMEOUT_SECONDS);
-  const timeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0 ? Math.min(configuredTimeout, 600) * 1000 : 120_000;
+  const configuredTimeoutMs = Number.isFinite(configuredTimeout) && configuredTimeout > 0 ? configuredTimeout * 1000 : MAX_ATTEMPT_TIMEOUT_MS;
+  const timeoutMs = Math.min(configuredTimeoutMs, MAX_ATTEMPT_TIMEOUT_MS);
   return { apiKey, model, reasoningEffort, timeoutMs, completionUrl: baseUrl.endsWith("/chat/completions") ? baseUrl : `${baseUrl}/chat/completions` };
 }
 
@@ -18,18 +22,18 @@ export function guanyinLlmConfigured() {
   return Boolean(apiKey && model);
 }
 
-export async function generateGuanyinExplanation(input: { question: string; domain: QuestionDomain; integration: GuanyinEvidenceIntegration }): Promise<{ explanation: GuanyinLlmExplanation; model: string }> {
+export async function generateGuanyinExplanation(input: { question: string; domain: QuestionDomain; integration: GuanyinEvidenceIntegration; locale?: "zh" | "en" }): Promise<{ explanation: GuanyinLlmExplanation; model: string }> {
   const { apiKey, model, reasoningEffort, timeoutMs, completionUrl } = configuration();
   if (!apiKey || !model) throw new Error("LLM_NOT_CONFIGURED");
   if (input.integration.status !== "ready") throw new Error("INTEGRATION_NOT_READY");
   const request = buildGuanyinLlmGenerationRequest(input);
   let correction = "";
   let lastError = "LLM_INVALID_EXPLANATION";
-  for (let attempt = 0; attempt < 3; attempt += 1) {
+  for (let attempt = 0; attempt < MAX_GENERATION_ATTEMPTS; attempt += 1) {
     const response = await fetch(completionUrl, {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify({ model, temperature: 0, ...(reasoningEffort ? { reasoning_effort: reasoningEffort } : {}), response_format: { type: "json_object" }, messages: [
+      body: JSON.stringify({ model, temperature: 0, max_tokens: 1_200, ...(reasoningEffort ? { reasoning_effort: reasoningEffort } : {}), response_format: { type: "json_object" }, messages: [
         { role: "system", content: request.systemInstruction },
         { role: "user", content: `${JSON.stringify({ payload: request.payload, output_contract: request.outputContract })}${correction}` },
       ] }),
@@ -45,7 +49,11 @@ export async function generateGuanyinExplanation(input: { question: string; doma
       correction = "\n上一次输出不是有效 JSON。请重新生成，只返回严格符合 output_contract 的 JSON。";
       continue;
     }
-    const validated = validateGuanyinLlmExplanation(value, input.integration, { mandatoryActionTopics: request.payload.realityBoundaries.mandatoryActionTopics });
+    const validated = validateGuanyinLlmExplanation(bindGuanyinExplanationEvidence(value, input.integration), input.integration, {
+      mandatoryActionTopics: request.payload.realityBoundaries.mandatoryActionTopics,
+      softActionGuidance: request.payload.realityBoundaries.softActionGuidance,
+      questionDetails: request.payload.realityBoundaries.questionDetails,
+    });
     if (!validated.valid || !validated.explanation) {
       lastError = `LLM_INVALID_EXPLANATION:${validated.errors.join("|")}`;
       correction = `\n上一次输出未通过校验：${validated.errors.join("；")}。请修正这些问题，减少重复，并重新返回完整 JSON。`;

@@ -13,7 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Page() {
   return <main className="subpage guanyin-page">
-    <PageHeading eyebrow="观音百签" title="静心一念，签落有声" description="签号由浏览器安全随机数从完整百签库中抽取。问题只影响阅读焦点，不会改变签文原文。" />
-    <section className="page-shell section-block"><div className="panel"><p className="kicker"><Trans zh="求签之前" /></p><h2><Trans zh="一签，只问一事" /></h2><p className="panel-intro"><Trans zh="短暂静心，将问题在心中说明白。传统签文与分项解释来自项目签库，并会与辅助解读清楚区分。" /></p><DrawPanel /></div></section>
+    <PageHeading eyebrow="观音百签" title="静心一念，签落有声" description="在心中安放一件所问之事。所得之签不替你决定，只借古意照见当下。" />
+    <section className="page-shell section-block guanyin-entry-section"><div className="panel guanyin-entry-panel">
+      <div className="guanyin-entry-copy"><p className="kicker"><Trans zh="求签之前" /></p><h2><Trans zh="一签，只问一事" /></h2><p className="panel-intro"><Trans zh="短暂静心，把此刻真正想确认的事情说清楚。先读签诗，再结合现实处境理解其中的提醒。" /></p><DrawPanel /></div>
+      <aside className="guanyin-entry-guide" aria-label="求签提示"><div className="entry-seal" aria-hidden="true"><span>观音</span><span>灵签</span></div><ol><li><b>壹</b><span><strong><Trans zh="一事一问" /></strong><small><Trans zh="让所问清楚而专一" /></small></span></li><li><b>贰</b><span><strong><Trans zh="随缘得签" /></strong><small><Trans zh="不预设想要的答案" /></small></span></li><li><b>叁</b><span><strong><Trans zh="静心而读" /></strong><small><Trans zh="把签意带回现实思考" /></small></span></li></ol></aside>
+    </div></section>
   </main>;
 }

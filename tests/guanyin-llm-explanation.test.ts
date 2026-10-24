@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { buildGuanyinEvidenceIntegration } from "../lib/guanyin/evidence-integration";
-import { buildGuanyinLlmGenerationRequest, hasMeaningfulGuanyinExplanationGain, validateGuanyinLlmExplanation } from "../lib/guanyin/llm-explanation";
+import { bindGuanyinExplanationEvidence, buildGuanyinLlmGenerationRequest, hasMeaningfulGuanyinExplanationGain, validateGuanyinLlmExplanation } from "../lib/guanyin/llm-explanation";
 import { getGuanyinStick } from "../lib/guanyin/library";
 import { retrieveKnowledgeForGuanyinReasoning } from "../lib/guanyin/knowledge-retrieval";
 import { buildGuanyinStructuredReasoning } from "../lib/guanyin/reasoning";
@@ -30,6 +30,56 @@ describe("观音签受控 LLM 解释层", () => {
     expect(request.payload.oracleTendency.coreJudgment).toEqual(integration.coreJudgment);
     expect(request.payload.realityBoundaries.mandatoryActionTopics).toContain("确认责任主体与兑现条件");
     expect(request.outputContract).toHaveProperty("direct_answer");
+  });
+
+  it("提取用户的具体处境并拒绝没有回应问题要点的通用解释", () => {
+    const stick = getGuanyinStick(16);
+    const question = "最近公司发展不稳定，但外面的工作机会也不够明确，我现在适合换工作吗？";
+    const reasoning = buildGuanyinStructuredReasoning({ signId: 16, domain: "career", question });
+    const integration = buildGuanyinEvidenceIntegration({ stick, reasoning, knowledge: retrieveKnowledgeForGuanyinReasoning(reasoning, { limit: 3 }) });
+    const request = buildGuanyinLlmGenerationRequest({ question, domain: "career", integration });
+    expect(request.payload.realityBoundaries.questionDetails).toEqual(["最近公司发展不稳定", "外面的工作机会也不够明确"]);
+    const { output } = fixture();
+    const generic = validateGuanyinLlmExplanation(output, integration, { questionDetails: request.payload.realityBoundaries.questionDetails });
+    expect(generic.errors.join(" ")).toContain("最近公司发展不稳定");
+    expect(generic.errors.join(" ")).toContain("外面的工作机会也不够明确");
+  });
+
+  it("由英文界面开关启用英文理解与英文输出约束", () => {
+    const stick = getGuanyinStick(16);
+    const question = "My company is unstable, but outside opportunities are unclear. Should I resign now?";
+    const reasoning = buildGuanyinStructuredReasoning({ signId: 16, domain: "career", question });
+    const integration = buildGuanyinEvidenceIntegration({ stick, reasoning, knowledge: retrieveKnowledgeForGuanyinReasoning(reasoning, { limit: 3 }) });
+    const request = buildGuanyinLlmGenerationRequest({ question, domain: "career", integration, locale: "en" });
+    expect(request.payload.outputLocale).toBe("en");
+    expect(reasoning.questionAnalysis.primaryIntent).toBe("career_change");
+    expect(request.systemInstruction).toContain("当前界面语言为英文");
+    expect(request.systemInstruction).toContain("不要输出翻译过程、中文解释或中英对照");
+    expect(request.payload.realityBoundaries.directAnswerRequirement).toContain("immediate resignation");
+    expect(request.payload.realityBoundaries.questionDetails).toContain("My company is unstable");
+    expect(request.outputContract.direct_answer).toContain("English words");
+  });
+
+  it("把健康行动提醒作为软规则自动补充而不拒绝主体解释", () => {
+    const stick = getGuanyinStick(13);
+    const question = "My symptoms are improving. Can I stop follow-up visits?";
+    const reasoning = buildGuanyinStructuredReasoning({ signId: 13, domain: "health", question });
+    const integration = buildGuanyinEvidenceIntegration({ stick, reasoning, knowledge: retrieveKnowledgeForGuanyinReasoning(reasoning, { limit: 3 }) });
+    const request = buildGuanyinLlmGenerationRequest({ question, domain: "health", integration, locale: "en" });
+    const safetyId = integration.evidence.find((item) => item.type === "system_safety")?.sourceId ?? request.payload.safetyEvidence[0].sourceId;
+    const output = {
+      direct_answer: { text: "Improving symptoms alone are not enough to decide whether to stop follow-up visits. Confirm the change with a qualified clinician first.", evidence_ids: [safetyId] },
+      oracle_context: integration.coreJudgment ? { text: "The lot suggests caution and patience, but it cannot determine your medical condition or replace clinical evidence.", evidence_ids: integration.coreJudgment.sourceIds } : null,
+      conditions: [], actions: [], risks: [], safety_guidance: [],
+    };
+    expect(request.payload.realityBoundaries.mandatoryActionTopics).toEqual([]);
+    const result = validateGuanyinLlmExplanation(bindGuanyinExplanationEvidence(output, integration), integration, {
+      mandatoryActionTopics: request.payload.realityBoundaries.mandatoryActionTopics,
+      softActionGuidance: request.payload.realityBoundaries.softActionGuidance,
+      questionDetails: request.payload.realityBoundaries.questionDetails,
+    });
+    expect(result.errors).toEqual([]);
+    expect(result.explanation?.safetyGuidance.map((item) => item.text).join(" ")).toContain("severe or worsen quickly");
   });
 
   it("不会把内部输出字段写进面向用户的回答要求", () => {
@@ -62,17 +112,31 @@ describe("观音签受控 LLM 解释层", () => {
   it("拒绝现实回答引用签文，以及签文倾向引用安全规则", () => {
     const { integration, safetyId, output } = fixture();
     const mixedDirect = structuredClone(output); mixedDirect.direct_answer.evidence_ids = [...integration.coreJudgment!.sourceIds];
-    expect(validateGuanyinLlmExplanation(mixedDirect, integration).errors.join(" ")).toContain("direct_answer 只能引用系统安全来源");
+    expect(validateGuanyinLlmExplanation(mixedDirect, integration).errors.join(" ")).toContain("direct_answer 没有引用该分区对应的证据");
     const mixedOracle = structuredClone(output); mixedOracle.oracle_context!.evidence_ids = [safetyId];
-    expect(validateGuanyinLlmExplanation(mixedOracle, integration).errors.join(" ")).toContain("oracle_context 只能引用核心签文判断来源");
+    expect(validateGuanyinLlmExplanation(mixedOracle, integration).errors.join(" ")).toContain("oracle_context 没有引用该分区对应的证据");
   });
 
   it("拒绝行动建议引用签文或未知来源", () => {
     const { integration, output } = fixture();
     const wrongAction = structuredClone(output); wrongAction.actions[0].evidence_ids = [...integration.coreJudgment!.sourceIds];
-    expect(validateGuanyinLlmExplanation(wrongAction, integration).errors.join(" ")).toContain("actions[0] 只能引用系统安全来源");
+    expect(validateGuanyinLlmExplanation(wrongAction, integration).errors.join(" ")).toContain("actions[0] 没有引用该分区对应的证据");
     const unknown = structuredClone(output); unknown.direct_answer.evidence_ids = ["invented-source"];
     expect(validateGuanyinLlmExplanation(unknown, integration).errors.join(" ")).toContain("未知来源");
+  });
+
+  it("在进入硬校验前由程序修复模型放错分区的证据编号", () => {
+    const { integration, output } = fixture();
+    const misplaced = structuredClone(output);
+    misplaced.direct_answer.evidence_ids = [...integration.coreJudgment!.sourceIds];
+    misplaced.oracle_context!.evidence_ids = ["invented-source"];
+    misplaced.conditions[0].evidence_ids = [...integration.coreJudgment!.sourceIds];
+    misplaced.actions[0].evidence_ids = [...integration.coreJudgment!.sourceIds];
+    const repaired = bindGuanyinExplanationEvidence(misplaced, integration);
+    const result = validateGuanyinLlmExplanation(repaired, integration);
+    expect(result.valid).toBe(true);
+    expect(result.explanation?.directAnswer.evidenceIds.every((id) => integration.evidence.some((item) => item.sourceId === id && item.type === "system_safety") || id.startsWith("guanyin-generation-safety:"))).toBe(true);
+    expect(result.explanation?.oracleContext?.evidenceIds).toEqual(integration.coreJudgment?.sourceIds);
   });
 
   it("允许否定性安全说明但拒绝正向结果保证", () => {
@@ -81,6 +145,13 @@ describe("观音签受控 LLM 解释层", () => {
     expect(validateGuanyinLlmExplanation(safe, integration).errors.join(" ")).not.toContain("确定性");
     const unsafe = structuredClone(output); unsafe.direct_answer.text = "这个项目必然成功。";
     expect(validateGuanyinLlmExplanation(unsafe, integration).errors.join(" ")).toContain("确定性");
+  });
+
+  it("允许用确定性词语说明误读风险", () => {
+    const { integration, output } = fixture();
+    const cautious = structuredClone(output);
+    cautious.direct_answer.text = "把签文理解为结果必然改善可能带来误判风险。";
+    expect(validateGuanyinLlmExplanation(cautious, integration).errors.join(" ")).not.toContain("确定性");
   });
 
   it("拒绝向用户暴露内部生成指令和字段名", () => {
