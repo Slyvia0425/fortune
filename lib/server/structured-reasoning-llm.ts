@@ -28,23 +28,33 @@ export type ReasoningCompletion=(system:string,input:unknown,repairCode?:string,
 const requestReasoningJson:ReasoningCompletion=(system,input,repair,options)=>requestPlannerJson(system,input,repair,options??PR6_CALL_TIMEOUT_MS);
 export interface ReasoningNodeResult<T>{status:"ready"|"partial"|"failed";value?:T;attempts:number;code?:string;failure_kind?:ReasoningFailureKind;diagnostic_run_id?:string}
 const errorCode=(error:unknown)=>error instanceof SyntaxError?"MODEL_JSON_INVALID":error instanceof Error&&/^[A-Z_0-9]+$/.test(error.message)?error.message:"MODEL_REQUEST_FAILED";
+export function isTransientReasoningError(error:unknown):boolean{
+  if(!(error instanceof Error))return false;
+  return (error instanceof TypeError&&error.message==="fetch failed")
+    ||["TimeoutError"].includes(error.name)
+    ||error.message==="WORKFLOW_NODE_TIMEOUT"
+    ||/^PLANNER_HTTP_(408|429|500|502|503|504)$/.test(error.message);
+}
 async function node<T>(stage:"reasoning"|"writing",prompt:string,input:unknown,validate:(raw:unknown)=>T,completion:ReasoningCompletion,save:ReasoningDiagnosticSink,salvage?:(raw:unknown)=>T|undefined,profile?:{prompt_version:string;max_tokens:number}):Promise<ReasoningNodeResult<T>>{
   const run:ReasoningRunDiagnostic={run_id:randomUUID(),created_at:new Date().toISOString(),input_hash:analysisHash(input),attempts:[]};
+  let transportRetries=0,repairAttempts=0;
   let attempts=0,code:string|undefined,kind:ReasoningFailureKind|undefined,previous:string|null=null,issues:ReasoningIssue[]=[],partial:T|undefined;
   const failed=():ReasoningNodeResult<T>=>({status:partial?"partial":"failed",value:partial,attempts,code,failure_kind:kind,diagnostic_run_id:run.run_id});
   try{return await boundedWorkflow(PR6_NODE_TIMEOUT_MS,async()=>{
-    for(;attempts<2;){
+    for(;repairAttempts<2&&attempts<4;){
       if(workflowRemaining()<=50)throw new Error("WORKFLOW_DEADLINE");
       if(attempts&&workflowRemaining()<PR6_MIN_REPAIR_MS)break;
       attempts++;const started=Date.now();let raw:string|null=null,metadata:ReasoningMetadata={},parsed:unknown;
-      const callInput=attempts===1?input:{...(input as Record<string,unknown>),repair:{previous_output:previous,issues}};
+      const callInput=previous===null?input:{...(input as Record<string,unknown>),repair:{previous_output:previous,issues}};
       let value:T|undefined,accepted=false;
-      const timeout=Math.min(PR6_CALL_TIMEOUT_MS,Math.floor(workflowRemaining()-50));
+      const timeout=Math.min(PR6_CALL_TIMEOUT_MS,60_000,Math.floor(workflowRemaining()-(transportRetries<2&&workflowRemaining()>2*PR6_MIN_REPAIR_MS?PR6_MIN_REPAIR_MS:50)));
+      const priorRepair={code,issues};let retryTransport=false;
       try{
         // This call deadline includes response-body parsing, not just response headers.
         raw=await boundedWorkflow(timeout,()=>completion(prompt,callInput,code,{timeoutMs:timeout,maxTokens:profile?.max_tokens??PR6_MAX_OUTPUT_TOKENS,onMetadata:m=>{metadata=m;}}));
         parsed=JSON.parse(raw);value=await traceNode(`${stage}-validation`,{attempt:attempts,raw_output:raw},()=>validate(parsed));accepted=true;issues=[];
       }catch(error){
+        retryTransport=isTransientReasoningError(error);
         code=errorCode(error);kind=classifyReasoningFailure(error);issues=error instanceof ReasoningValidationError?error.issues:[{code,path:"$"}];
         if(parsed!==undefined&&salvage){const recovered=salvage(parsed);if(recovered)partial=recovered;}
       }
@@ -53,7 +63,13 @@ async function node<T>(stage:"reasoning"|"writing",prompt:string,input:unknown,v
         request_timeout_ms:metadata.request_timeout_ms??timeout,outcome:accepted?"accepted":kind!,issues,raw_output:raw});
       try{await save(structuredClone(run));}catch{code="REASONING_DIAGNOSTIC_WRITE_FAILED";kind="transport_error";partial=undefined;return failed();}
       if(accepted)return {status:"ready",value,attempts,diagnostic_run_id:run.run_id};
-      // Never blindly repeat a timeout/HTTP failure or an unsupported prediction.
+      // Transport retries resend the identical request and do not consume output repair.
+      if(retryTransport&&transportRetries<2&&workflowRemaining()>PR6_MIN_REPAIR_MS){
+        transportRetries++;code=priorRepair.code;issues=priorRepair.issues;
+        await new Promise(resolve=>setTimeout(resolve,250*transportRetries));continue;
+      }
+      repairAttempts++;
+      // Non-transient failures and semantic failures are not retried.
       if(!["invalid_json","schema_invalid","invalid_reference"].includes(kind!))break;
       previous=raw;
     }

@@ -73,7 +73,7 @@ describe("网页冻结盘接线", () => {
     expect(services.hybrid.mock.invocationCallOrder[0]).toBeLessThan(services.call.mock.invocationCallOrder[1]);
     expect(services.hybrid.mock.invocationCallOrder[0]).toBeLessThan(services.plan.mock.invocationCallOrder[0]);
     expect(services.plan.mock.invocationCallOrder[0]).toBeLessThan(services.call.mock.invocationCallOrder[1]);
-    expect(services.call).toHaveBeenCalledWith("source-evidence",expect.objectContaining({queries:["官鬼 酉化申 进退神"],query_lanes:["theory"]}));
+    expect(services.call).toHaveBeenCalledWith("source-evidence",expect.objectContaining({queries:["官鬼 酉化申 进退神\n问事：服务端原问题"],query_lanes:["theory"]}));
     expect((await response.json()).result.hybrid_evidence.chart_hash).toBe("frozen-hash");
   });
   it("拒绝浏览器盘面／问题替换，以及不匹配哈希", async () => {

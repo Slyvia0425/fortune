@@ -16,9 +16,9 @@ describe("PR-6 structured result display",()=>{
     expect(html).toContain("流程状态：已完成");expect(html).toContain("理论分析结论：有条件");
     expect(html).toContain("流程完成不代表现实结果已确定");
   });
-  it("写作失败仍能查看结构化观察、条件、原文及来源",()=>{
+  it("写作失败仍能查看观察与来源，但不展示条件局限清单",()=>{
     const r=result(),html=renderToStaticMarkup(createElement(InterpretationPanel,{result:r}));
-    expect(html).toContain("结构化分析已保留");expect(html).toContain("原文适用条件仍待核验");expect(html).toContain(r.evidence_snapshot!.evidence[0].text);expect(html).toContain("source1");
+    expect(html).toContain("结构化分析已保留");expect(html).not.toContain("原文适用条件仍待核验");expect(html).toContain(r.evidence_snapshot!.evidence[0].text);expect(html).toContain("source1");
   });
   it("推理未通过不能只提示旧式自由解读重试",()=>{
     const r=result();delete r.structured_reasoning;r.analysis_status="reasoning_failed";

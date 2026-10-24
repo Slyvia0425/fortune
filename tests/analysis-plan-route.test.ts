@@ -396,3 +396,20 @@ describe("PR-3 冻结盘规划接口",()=>{
     record.confirmation_status="legacy_unconfirmed";expect((await planRoute(request())).status).toBe(409);
   });
 });
+
+ describe("Chinese retrieval for English questions",()=>{
+  it("translates the event before DB retrieval without changing the frozen question",async()=>{
+    const original="Will my trip to Shanghai next month go smoothly?";
+    setup(original);
+    services.model.mockImplementation(async(_system:string,input:Record<string,unknown>)=>{
+      if(input.original_question)return JSON.stringify({question_zh:"下个月去上海的行程会顺利吗？"});
+      return JSON.stringify({tasks:minimumAnalysisPlan(input.fact_catalog as FactCatalog,input.question_analysis as SingleQuestionAnalysis,"question-hash","TEST").tasks});
+    });
+    const response=await interpretRoute(request());expect(response.status).toBe(200);
+    const retrieval=services.call.mock.calls.find(([path])=>path==="source-evidence-round");
+    expect(retrieval).toBeDefined();
+    expect(retrieval![1].queries.every((q:string)=>q.includes("下个月去上海的行程会顺利吗？")&&!q.includes(original))).toBe(true);
+    expect(record.question).toBe(original);expect(record.confirmed_question?.normalized_question).toBe(original);
+    expect(record.cast.question_hash).toBe("question-hash");
+  });
+});

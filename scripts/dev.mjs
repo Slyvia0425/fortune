@@ -58,8 +58,8 @@ function stop(signal = "SIGTERM") {
 
 console.log("开发环境：Next.js http://localhost:3000 · Module 4 http://127.0.0.1:8001");
 start("module4", python, ["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", "8001"], { cwd: module4Root });
-// Keep the current development bundler explicit.
-start("next", process.execPath, [nextBin, "dev", "--webpack"], {
+// Use the Next.js default bundler; avoid the legacy webpack dev manifest path.
+start("next", process.execPath, [nextBin, "dev", "--turbopack"], {
   cwd: root,
   env: { ...process.env, MODULE4_API_BASE_URL: "http://127.0.0.1:8001" },
 });

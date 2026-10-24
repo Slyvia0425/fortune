@@ -9,6 +9,14 @@ const candidate = (overrides: Record<string, unknown> = {}) => ({
 });
 
 describe("D1 分类契约", () => {
+  it("英文实体、关系与相对时间保留原文证据",()=>{
+    const text="Will my trip to Shanghai to visit friends next month go smoothly?";
+    const result=parseQuestionContext(JSON.stringify(candidate({raw_question:text,domain:"travel",goal:"trip smoothness",goal_groups:["trip smoothness"],time_expression:"next month",target_entities:[{entity_id:"e1",label:"friends",kind:"person"}],relationships:[{from_entity_id:"perspective",to_entity_id:"e1",relation:"friend",evidence_text:"friends"}]})),[{role:"user",content:text}]);
+    if(!result||result.need_follow_up)throw new Error("expected context");
+    expect(result.context.raw_question).toBe(text);
+    expect(result.context.time_expression.value).toBe("next month");
+    expect(result.context.relationships[0]).toMatchObject({to_entity_id:"entity-1",evidence:{text:"friends"}});
+  });
   it.each([ ["career","outcome","feasibility"], ["relationship","timing","timing"],
     ["finance","current_state","status"], ["business","intention","status"] ])("区分 %s 领域与 %s 功能", (domain,type,legacy) => {
     const result=parseQuestionContext(JSON.stringify(candidate({domain,question_type:type})),[]);

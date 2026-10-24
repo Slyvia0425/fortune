@@ -5,6 +5,7 @@ import type { ApiEnvelope } from "@/lib/contracts/api";
 import type { DivinationCastResult, HexagramView } from "@/lib/contracts/divination";
 import type { HexagramEvidenceResult } from "@/lib/contracts/knowledge";
 import styles from "./hexagram-evolution.module.css";
+import { divinationText } from "@/lib/divination/language";
 import { useI18n } from "@/lib/i18n";
 
 type NodeKey = "primary" | "mutual" | "transformed";
@@ -87,6 +88,8 @@ function HexagramNode({
   selection: Selection;
   onSelect: (selection: Selection) => void;
 }) {
+  const {locale}=useI18n();
+  const t=(text:string)=>divinationText(locale,text);
   const meta = NODE_META[kind];
   const upper = trigram(hexagram.upper_trigram);
   const lower = trigram(hexagram.lower_trigram);
@@ -101,11 +104,11 @@ function HexagramNode({
     >
       <button className={styles.nodeHeader} type="button" onClick={() => onSelect({ node: kind })}>
         <span className={styles.nodeIndex}>{meta.index}</span>
-        <span>{meta.label}</span>
-        <span className={styles.hexNumber}>第 {hexagram.number} 卦</span>
+        <span>{t(meta.label)}</span>
+        <span className={styles.hexNumber}>{locale==="en"?`No. ${hexagram.number}`:`第 ${hexagram.number} 卦`}</span>
       </button>
 
-      <div className={styles.hexBody} aria-label={`${meta.label} ${hexagram.name} 六爻卦象`}>
+      <div className={styles.hexBody} aria-label={`${t(meta.label)} ${hexagram.name}`}>
         {displayLines.map(({ value, position }) => {
           const moving = kind !== "mutual" && movingLines.includes(position);
           const selected = selection.node === kind && selection.line === position;
@@ -114,7 +117,7 @@ function HexagramNode({
               className={`${styles.yaoRow} ${moving ? styles.moving : ""} ${selected ? styles.yaoSelected : ""}`}
               type="button"
               key={position}
-              aria-label={`第 ${position} 爻，${LINE_NAME[value]}${moving ? "，动爻" : ""}`}
+              aria-label={locale==="en"?`Line ${position}, ${t(LINE_NAME[value])}${moving?", moving":""}`:`第 ${position} 爻，${LINE_NAME[value]}${moving ? "，动爻" : ""}`}
               onClick={() => onSelect({ node: kind, line: position })}
             >
               <span className={styles.lineNumber}>{position}</span>
@@ -122,7 +125,7 @@ function HexagramNode({
                 <i />
                 {value % 2 === 0 && <i />}
               </span>
-              <span className={styles.lineState}>{moving ? "变" : ""}</span>
+              <span className={styles.lineState}>{moving ? t("变") : ""}</span>
             </button>
           );
         })}
@@ -131,9 +134,9 @@ function HexagramNode({
       <button className={styles.nodeFooter} type="button" onClick={() => onSelect({ node: kind })}>
         <span className={styles.hexName}>{hexagram.name}</span>
         <span className={styles.trigramPair}>
-          <span data-element={upper.element}>{upper.symbol} {upper.image} · {ELEMENT_LABEL[upper.element]}</span>
+          <span data-element={upper.element}>{upper.symbol} {t(upper.image)} · {t(ELEMENT_LABEL[upper.element])}</span>
           <i />
-          <span data-element={lower.element}>{lower.symbol} {lower.image} · {ELEMENT_LABEL[lower.element]}</span>
+          <span data-element={lower.element}>{lower.symbol} {t(lower.image)} · {t(ELEMENT_LABEL[lower.element])}</span>
         </span>
       </button>
     </article>
@@ -162,7 +165,8 @@ async function requestEvidence(number: number, line?: number, signal?: AbortSign
 }
 
 function EvidencePanel({ state, line }: { state: EvidenceState; line?: number }) {
-  const { t } = useI18n();
+  const { locale } = useI18n();
+  const t=(text:string)=>divinationText(locale,text);
   if (state.status === "loading") {
     return <div className={styles.evidenceNotice}>{t("正在核对知识库原文与出处…")}</div>;
   }
@@ -197,10 +201,10 @@ function EvidencePanel({ state, line }: { state: EvidenceState; line?: number })
         <p className={styles.originalText}>{evidence.original}</p>
       </section>
       <section>
-        <h4>{t("译注")}</h4>
+        <h4>{locale==="en"?"Original Chinese commentary":t("译注")}</h4>
         {evidence.commentary.length ? evidence.commentary.map((item, index) => <p key={index}>{item}</p>) : <p>{t("现有资料未提供可核验注释。")}</p>}
         {evidence.translation_en ? (
-          <details>
+          <details open={locale==="en"}>
             <summary>{t("查看资料所附英文译文")}</summary>
             <p lang="en">{evidence.translation_en}</p>
           </details>
@@ -222,7 +226,8 @@ function EvidencePanel({ state, line }: { state: EvidenceState; line?: number })
 }
 
 export default function HexagramEvolution({ result }: { result: DivinationCastResult }) {
-  const { t } = useI18n();
+  const { locale } = useI18n();
+  const t=(text:string)=>divinationText(locale,text);
   const [selection, setSelection] = useState<Selection>({ node: "primary" });
   const [evidence, setEvidence] = useState<EvidenceState>({ status: "loading", data: null });
   const requestId = useRef(0);
@@ -285,7 +290,7 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
           selection={selection}
           onSelect={selectEvidence}
         />
-        <Connector label="取互" detail="二三四 · 三四五" />
+        <Connector label={t("取互")} detail={t("二三四 · 三四五")} />
         <HexagramNode
           kind="mutual"
           hexagram={result.mutual}
@@ -293,7 +298,7 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
           selection={selection}
           onSelect={selectEvidence}
         />
-        <Connector label="爻变" detail={movingLabel} />
+        <Connector label={t("爻变")} detail={locale==="en"?result.moving_lines.join(", ")||"None":movingLabel} />
         <HexagramNode
           kind="transformed"
           hexagram={result.transformed}
@@ -306,37 +311,37 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
       <div className={styles.insightGrid}>
         <div className={styles.detailPanel}>
           <div className={styles.detailHeading}>
-            <span>{selectedMeta.label}</span>
+            <span>{t(selectedMeta.label)}</span>
             <strong>{selectedHexagram.name}</strong>
-            <small>第 {selectedHexagram.number} 卦</small>
+            <small>{locale==="en"?`No. ${selectedHexagram.number}`:`第 ${selectedHexagram.number} 卦`}</small>
           </div>
 
           {selectedLine && selection.line ? (
             <div className={styles.lineDetail}>
-              <span className={styles.detailOrdinal}>第 {selection.line} 爻</span>
-              <strong>{LINE_NAME[selectedLine]}</strong>
+              <span className={styles.detailOrdinal}>{locale==="en"?`Line ${selection.line}`:`第 ${selection.line} 爻`}</span>
+              <strong>{t(LINE_NAME[selectedLine])}</strong>
               <p>
                 {result.moving_lines.includes(selection.line)
-                  ? "此爻为动爻，在变卦中阴阳翻转，是本次卦变的直接节点。"
-                  : "此爻在本次推演中保持不变。"}
+                  ? t("此爻为动爻，在变卦中阴阳翻转，是本次卦变的直接节点。")
+                  : t("此爻在本次推演中保持不变。")}
               </p>
             </div>
           ) : (
-            <p className={styles.description}>{selectedMeta.description}</p>
+            <p className={styles.description}>{t(selectedMeta.description)}</p>
           )}
 
           <dl className={styles.trigramDetails}>
             <div>
               <dt>{t("上卦")}</dt>
-              <dd>{upper.symbol} {upper.image} · {ELEMENT_LABEL[upper.element]}</dd>
+              <dd>{upper.symbol} {t(upper.image)} · {t(ELEMENT_LABEL[upper.element])}</dd>
             </div>
             <div>
               <dt>{t("下卦")}</dt>
-              <dd>{lower.symbol} {lower.image} · {ELEMENT_LABEL[lower.element]}</dd>
+              <dd>{lower.symbol} {t(lower.image)} · {t(ELEMENT_LABEL[lower.element])}</dd>
             </div>
             <div>
               <dt>{t("五行关系")}</dt>
-              <dd>{elementRelation(upper.element, lower.element)}</dd>
+              <dd>{t(elementRelation(upper.element, lower.element))}</dd>
             </div>
           </dl>
         </div>
@@ -345,11 +350,11 @@ export default function HexagramEvolution({ result }: { result: DivinationCastRe
           <p className={styles.panelLabel}>{t("解释分层")}</p>
           <div>
             <span>{t("规则结果")}</span>
-            <p>{result.traditional_meaning}</p>
+            <p>{t(result.traditional_meaning)}</p>
           </div>
           <div>
             <span>{t("情境说明")}</span>
-            <p>{result.contextual_interpretation}</p>
+            <p>{t(result.contextual_interpretation)}</p>
           </div>
           <EvidencePanel state={evidence} line={selection.line} />
         </div>

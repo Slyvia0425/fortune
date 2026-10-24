@@ -2,7 +2,7 @@ import { analysisHash } from "./analysis-utils";
 import { factObservations, reasoningTasks, requiredUnresolved, knownConflictGroups, validateReasoningContext, type ReasoningContext } from "./structured-reasoning";
 import { buildPlannerInput } from "./planner-input";
 
-export const REASONING_INPUT_VERSION="reasoning-input-mode-isolated-v5";
+export const REASONING_INPUT_VERSION="reasoning-input-chinese-reference-map-v6";
 export function buildReasoningInput(c:ReasoningContext){
   validateReasoningContext(c);
   const full=c.validation_mode==="integrity";
@@ -20,6 +20,7 @@ export function buildReasoningInput(c:ReasoningContext){
     ?{known_facts:confirmedContext.known_facts,process_stage:confirmedContext.process_stage,exclusions:confirmedContext.exclusions,relationships:confirmedContext.relationships,target_entities:confirmedContext.target_entities}:undefined;
   const role=(r:NonNullable<typeof c.planner.use_roles.primary>)=>({role:r.role,main_line_refs:r.main_line_refs,hidden_line_refs:r.hidden_line_refs,location_status:r.location_status});
   const input={version:REASONING_INPUT_VERSION,
+    ...(c.research_question_zh?{research_question_zh:c.research_question_zh,output_language:"zh"}:{}),
     validation_mode:full?"integrity":"strict",
     confirmed_question:{confirmation_id:c.planner.confirmation_id,question_hash:c.planner.question_hash,normalized_question:c.question,time_constraint:c.planner.question_analysis.time_constraint??null,...(background?{context:background}:{})},
     use_role_decision:{rules_version:c.planner.use_roles.rules_version,primary:c.planner.use_roles.primary?role(c.planner.use_roles.primary):null,auxiliary:(c.planner.use_roles.auxiliary??[]).map(role)},
@@ -35,7 +36,7 @@ export function buildReasoningInput(c:ReasoningContext){
       for(const round of [1,2]){const first=evidence.find(e=>e.rounds.includes(round));if(first)required.add(first.evidence_id);}
       for(const gap of c.agent.snapshot.unresolved_gaps)if(gap.trigger.type==="source_gap"&&gap.trigger.task_id===t.parent_task_id)required.add(gap.trigger.evidence_id);
       for(const group of knownConflictGroups(c))for(const id of group)if(evidence.some(e=>e.evidence_id===id))required.add(id);
-      return {...t,definitions_only:full?false:t.definitions_only,kind:parent.kind,topic_ids:parent.topic_ids,fact_refs:t.fact_refs.map(id=>factAlias[id]),required_evidence_ids:full?[]:[...required].map(id=>evidenceAlias[id])};
+      return {...t,allowed_evidence_ids:evidence.map(e=>evidenceAlias[e.evidence_id]),definitions_only:full?false:t.definitions_only,kind:parent.kind,topic_ids:parent.topic_ids,fact_refs:t.fact_refs.map(id=>factAlias[id]),required_evidence_ids:full?[]:[...required].map(id=>evidenceAlias[id])};
     }),
     evidence:c.agent.snapshot.evidence.map(e=>({evidence_id:evidenceAlias[e.evidence_id],text:e.text,task_ids:e.task_ids,rounds:e.rounds,kind:e.kind,candidate_role:e.candidate_role,
       provenance:{source_revision_id:e.source_revision_id,quote_hash:e.quote_hash,origins:e.origins,shared_source_group:e.shared_source_group,same_text_group:e.same_text_group}})),

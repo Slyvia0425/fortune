@@ -20,7 +20,7 @@ export interface ReasoningStageResult {
 }
 export function reasoningStageVersions(){const profile=reasoningProfile();return {pipeline:REASONING_STAGE_VERSION,mode:profile.mode,schema:STRUCTURED_REASONING_VERSION,reasoning_prompt:profile.prompt_version,writing_prompt:WRITING_PROMPT_VERSION,
   input:REASONING_INPUT_VERSION,explainer:EXPLAINER_VERSION,full_validator:FULL_REASONING_VERSION,max_output_tokens:profile.max_tokens,fact_guard:FACT_CLAIM_GUARD_VERSION,prompts_hash:analysisHash([profile.prompt,WRITING_PROMPT]),model_profile:analysisModelProfile()};}
-export function reasoningCheckpointKey(c:ReasoningContext){return analysisHash({versions:reasoningStageVersions(),validation_mode:c.validation_mode??(reasoningMode()==="full"?"integrity":"strict"),planner:c.planner.versions,question:c.question,chart_hash:c.planner.chart_hash,
+export function reasoningCheckpointKey(c:ReasoningContext){return analysisHash({versions:reasoningStageVersions(),validation_mode:c.validation_mode??(reasoningMode()==="full"?"integrity":"strict"),planner:c.planner.versions,question:c.question,research_question_zh:c.research_question_zh??null,chart_hash:c.planner.chart_hash,
   confirmation_id:c.planner.confirmation_id,question_hash:c.planner.question_hash,plan_hash:c.planner.initial_plan.plan_hash,evidence:c.agent.snapshot,supplemental:c.agent.supplemental_tasks,identity:c.identity});}
 interface StageDependencies {store:ReasoningStageStore;synthesize:typeof synthesizeStructuredReasoning;write:typeof writeReasoningText;assertFresh:()=>Promise<void>}
 const code=(error:unknown)=>error instanceof Error&&/^[A-Z_0-9]+$/.test(error.message)?error.message:"REASONING_STAGE_ERROR";
