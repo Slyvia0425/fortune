@@ -1,82 +1,192 @@
-# 知命 Fortune Teller Master
+# Fortune Teller Master (知命)
 
-面向传统中国术数知识学习的可解释系统。项目将确定性计算、传统资料检索和现代语言解释分层处理，包含八字排盘、易卦推演、观音灵签、典籍检索与个人知识库五个前端模块。
+An explainable intelligent reasoning system for studying traditional Chinese metaphysical knowledge. The project separates deterministic calculation, classical knowledge retrieval, structured reasoning, evidence integration, and modern-language explanation into auditable layers.
 
-> 本项目用于传统文化学习、知识探索和课程演示，不构成医疗、法律、投资或其他重要现实决策建议。
+The platform contains five main modules:
 
-## 当前状态
+- **Bazi (Four Pillars)** chart calculation and interpretation
+- **Liuyao / I Ching** hexagram casting and evidence-based reasoning
+- **Guanyin Lots** with structured reasoning and knowledge-enhanced explanations
+- **Classical Knowledge Centre** with search, source tracing, and a knowledge graph
+- **Personal Knowledge Workspace** for conversations, collections, notes, and profiles
 
-本仓库为全分支整合分支 `integration/all-branches`，已把 `upstream/main`、`M1_branch`、`M3_branch`、`feat/module2a-divination-chatbot` 与本组 Module 4 分支合并到同一条历史。
+> **Disclaimer:** This project is intended for traditional-culture learning, knowledge exploration, and academic demonstration. It does not provide medical, legal, financial, investment, or other high-stakes professional advice.
 
-- 统一账户：注册、登录、退出和用户隔离可用。
-- 八字排盘：Python 算法服务的确定性排盘、命局诊断与倾向对照已进入主分支；未配置该服务时接口返回 503 `ALGORITHM_SERVICE_NOT_CONFIGURED`。
-- 八字现代解读：命局倾向页第四栏，用语言模型把引擎结论写成三段白话，并由校验器核对；未配置模型、校验不通过或请求过于频繁时退回模板文字，页脚会注明来源。模型沿用 `LLM_BASE_URL`、`LLM_API_KEY`、`LLM_MODEL`，限流见 `.env.local.example`。
-- 易卦推演：三数字起卦、本卦、动爻、互卦、变卦、Core 事实与混合证据检索可用；未配置 Python 服务时返回明确标记的 Mock 数据。
-- 观音百签：完整结构化签库、服务端安全随机抽签与证据化解释可用。
-- 知识检索：已接入 764 条结构化知识页面，支持本地详情页、原文与注释对照、来源追踪和收藏。
-- 知识图谱：概念节点、关系、规范化和对比展示可用；完整实体关系数据库仍可继续扩展。
-- Module 4 会话历史：完整对话和结构化术数事件持久化保存，支持会话列表、消息时间线、来源和最近预览。
-- Module 2 接入：用户消息、助手回复、起卦完成事件和最终解释写入 Module 4；普通聊天不进入推荐或相似案例推理。
-- 个人知识库：收藏、笔记、标签、人物档案、隐私设置、导出和删除接口可用。
-- 中英切换：界面文案按中文原文为键的字典翻译，语言写入 Cookie，服务端首屏即按所选语言渲染；已收藏内容、签文、卦辞与古籍原文不参与翻译。
-- 移动端布局：已合入上游移动端导航与布局更新，首页在窄屏显示入口宫格，八字、易卦、灵签、典籍等子页面提供返回控件。
-- 当前验证：前端 250 项测试通过（2 项跳过），Module 4 后端 514 项测试通过，Python 算法 354 项测试通过，TypeScript 检查与生产构建通过。
+## System Overview
 
-## 分支状态
+The system follows a layered design rather than allowing a language model to generate conclusions directly:
 
-- `upstream/main`：`20c5c3d`，已全部合并（含移动端导航与布局更新）。
-- `upstream/M1_branch`：`8f750ec`，已通过 `upstream/main` 进入本分支。
-- `upstream/M3_branch`：`d9f0a51`，已合并。
-- `upstream/feat/module2a-divination-chatbot`：`ec5d8ae`，已合并，包含上游 revert 掉的 liuyao 检索栈。
-- `fork/M4_branch`：`0fc7828`，已合并。
+```text
+User Input
+   ↓
+Domain and Intent Detection
+   ↓
+Deterministic Calculation / Source Lot
+   ↓
+Structured Reasoning
+   ↓
+Knowledge-Graph and Evidence Retrieval
+   ↓
+Evidence Integration and Safety Boundaries
+   ↓
+Controlled Language-Model Explanation
+   ↓
+Validation, Fallback, and Traceable User Output
+```
 
-## 环境要求
+This design keeps source material, computational results, reasoning statements, and generated explanations distinguishable and independently testable.
 
-- Node.js 20 或更高版本
-- npm 10 或更高版本
-- 可选：Python 算法服务
+## Current Features
 
-## 本地启动
+- **Unified accounts:** registration, sign-in, sign-out, and user-level data isolation.
+- **Bazi calculation:** deterministic charts and diagnostic facts produced by the Python algorithm service. When the service is unavailable, the API returns `503 ALGORITHM_SERVICE_NOT_CONFIGURED`.
+- **Bazi modern explanation:** converts engine results into a validated three-part plain-language reading. Invalid, unavailable, or rate-limited model responses fall back to deterministic template text.
+- **Liuyao reasoning:** supports three-number casting, primary and changed hexagrams, moving lines, nuclear hexagrams, frozen core facts, and hybrid evidence retrieval.
+- **Guanyin Lots:** contains all 100 structured lots, cryptographically secure server-side drawing, semantic annotation, structured reasoning, evidence retrieval, evidence integration, and bounded modern explanations.
+- **Knowledge retrieval:** provides 764 structured knowledge pages with local reading pages, original-text/commentary comparison, source tracing, and collection support.
+- **Knowledge graph:** presents normalized concepts, relations, and comparison views and can be extended with additional entities and relations.
+- **Conversation history:** stores complete conversations and structured divination events through Module 4.
+- **Personal workspace:** supports collections, notes, tags, profiles, privacy settings, export, and deletion.
+- **Chinese/English interface:** stores the selected language in a cookie and renders the first server response in that language. All 100 Guanyin lots have an offline English catalogue.
+- **Responsive design:** provides desktop and mobile navigation and layouts for the home page and major functional modules.
 
-仅启动前端与 Module 4 后端：
+## Guanyin Lot Reasoning Module
+
+The Guanyin module is implemented as a knowledge-enhanced reasoning and explanation pipeline.
+
+### 1. Data preparation
+
+- Structured the complete set of **100 Guanyin lots**, including poems, traditional interpretations, topic-specific readings, and allusions.
+- Defined a controlled semantic vocabulary covering themes, actions, development patterns, symbols, timing, and risks.
+- Created and reviewed semantic assignments linking source passages to tags, confidence values, domains, intents, and source IDs.
+- Expanded the reviewed data incrementally from 10 to 30, 50, 70, 90, and finally 100 lots.
+
+### 2. Structured reasoning
+
+The system combines the user's question, question domain, detected intent, and reviewed lot tags to produce:
+
+- a core judgment;
+- themes and development trends;
+- conditional action guidance;
+- risks and practical boundaries;
+- timing information;
+- uncertainty statements;
+- traceable evidence references.
+
+Traditional symbolic language is not automatically converted into claims about real people or events. For example, symbolic references to hidden harm cannot be used to assert that a specific person intends to cause harm.
+
+### 3. Knowledge retrieval and evidence integration
+
+Semantic tags are mapped to knowledge-graph concepts. Candidate evidence is then ranked and filtered by:
+
+- semantic relevance;
+- question domain and intent;
+- theoretical system;
+- source reliability;
+- direct-evidence or background-only usage;
+- duplicated or near-duplicate content;
+- deterministic, fatalistic, or unsupported wording.
+
+The integration layer gives precedence to real-world safety rules, followed by structured reasoning, source-lot evidence, and traditional background material.
+
+### 4. Controlled explanation generation
+
+The language model receives the user's specific question, structured reasoning, integrated evidence, and explicit safety boundaries. Generated explanations are checked through:
+
+- JSON schema validation;
+- evidence and citation validation;
+- prohibited-claim checks;
+- internal-rule-ID filtering;
+- repetition and explanation-value detection;
+- automatic retry and deterministic fallback.
+
+If the output adds no meaningful synthesis, conditional analysis, or executable guidance, the system withholds the extended explanation instead of repeating the structured result.
+
+### 5. Evaluation
+
+The module includes automated and human evaluation for:
+
+- reasoning correctness;
+- required-tag recall and forbidden-tag leakage;
+- decision-direction accuracy;
+- evidence traceability;
+- domain and intent boundary violations;
+- retrieval relevance and source reliability;
+- groundedness and unsupported expansion;
+- safety and non-fatalistic language;
+- actionability of practical guidance.
+
+Representative high-risk cases cover career, finance, relationships, family, health, relocation, and travel decisions.
+
+## Technology Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Web application | Next.js 16, React 19, TypeScript |
+| Styling | CSS, Tailwind CSS toolchain |
+| Algorithm services | Python, FastAPI, Uvicorn |
+| Personal data service | FastAPI, SQLAlchemy, Alembic |
+| Database | PostgreSQL in production; local development database support |
+| Knowledge processing | Structured JSON datasets, semantic mappings, hybrid retrieval |
+| Model integration | OpenAI-compatible API or local Ollama/vLLM service |
+| Testing | Vitest, ESLint, TypeScript, Python test suites |
+
+## Requirements
+
+- Node.js 20 or later
+- npm 10 or later
+- Python 3 for the optional algorithm services
+- Optional local or remote OpenAI-compatible model service
+
+## Local Setup
+
+Clone the repository and install the frontend dependencies:
 
 ```bash
-git clone <repository-url>
-cd fortune-system
+git clone https://github.com/Slyvia0425/fortune.git
+cd fortune
 npm install
+```
+
+Start the frontend and Module 4 service:
+
+```bash
 npm run dev
 ```
 
-浏览器打开 [http://localhost:3000](http://localhost:3000)。该命令会同时启动 Next.js（3000）和 Module 4 服务（8001），并按 `Ctrl+C` 一起关闭。
+Open [http://localhost:3000](http://localhost:3000). Both services stop together when `Ctrl+C` is pressed.
 
-启动完整本地开发环境：
+To start the complete local development environment:
 
 ```bash
 npm run dev:all
 ```
 
-`dev:all` 默认启动前端 3000、Python 算法服务 8000、Module 4 服务 8003，并把持久数据写入 `~/Documents/Codex/fortune-data`。可通过 `FORTUNE_DATA_DIR` 修改数据目录。
+By default, `dev:all` starts:
 
-单独调试前端或 Module 4：
+- Next.js frontend on port `3000`
+- Python algorithm service on port `8000`
+- Module 4 API on port `8003`
+
+Persistent development data is stored in `~/Documents/Codex/fortune-data`. Set `FORTUNE_DATA_DIR` to use a different location.
+
+Individual services can also be started separately:
 
 ```bash
 npm run dev:web
 npm run dev:module4
 ```
 
-Python 算法服务尚未启动时可以保持 `.env.local` 中对应变量为空；易卦推演会使用带有 Mock 标记的兼容结果，八字排盘需要该服务。默认端口和地址如下：
+Default service configuration:
 
 ```env
 PYTHON_ALGORITHM_BASE_URL=http://127.0.0.1:8000
 MODULE4_API_BASE_URL=http://127.0.0.1:8003
 ```
 
-`PYTHON_BAZI_BASE_URL` 和 `PYTHON_DIVINATION_BASE_URL` 仍可作为可选覆盖项，
-用于把八字与易卦拆成独立进程部署。
+`PYTHON_BAZI_BASE_URL` and `PYTHON_DIVINATION_BASE_URL` may be used to deploy the Bazi and Liuyao algorithms as separate processes.
 
-Python 运行环境放在项目自己的 `.runtime/` 目录。初次运行会创建隔离环境，因此第一次启动会比后续慢。
-
-如需单独启动组合算法服务：
+To start the combined Python algorithm service manually:
 
 ```bash
 cd python_algorithm
@@ -85,101 +195,116 @@ python3 -m venv .venv
 .venv/bin/uvicorn app:app --reload --port 8000
 ```
 
-具体请求和返回结构见 [Python 算法接入说明](docs/API_INTEGRATION.md)。
+See [Python API Integration](docs/API_INTEGRATION.md) for request and response contracts.
 
-## 服务器部署
+## Model Configuration
 
-单机部署时四个服务共用一台机器，端口固定为：前端 3000、Python 算法服务 8000、
-Module 4 API 8003、PostgreSQL 5432；模型服务（Ollama 或 vLLM）与数据库只监听
-`127.0.0.1`，对外只暴露前端端口。Module 4 必须用 `PORT=8003` 启动，因为 8000 已被
-算法服务占用。
+The explanation layers use the following environment variables:
 
-生产环境不要沿用开发默认值：`REQUIRE_USER_HEADER=false` 会把没有携带会话的请求当作
-`DEV_USER_ID`，`ALLOW_LEGACY_USER_HEADER=true` 则允许任意调用方用 `X-User-Id` 冒充其他
-账号。`ENVIRONMENT=production` 下应用会拒绝以这两个开关启动，模板见
-[Module 4 部署模式](fortune_module4/docs/deployment_modes.md)。
-
-## 常用命令
-
-```bash
-npm run dev        # 启动前端和 Module 4
-npm run dev:all    # 启动前端、Python 算法和 Module 4
-npm run dev:web    # 仅启动前端
-npm run dev:module4 # 仅启动 Module 4
-npm test           # 运行测试
-npm run lint       # 运行 ESLint
-npm run typecheck  # 运行 TypeScript 检查
-npm run check      # 依次执行测试、Lint 和类型检查
-npm run verify:stack # 对已启动的整套服务做 HTTP 契约验收
-npm run verify     # 执行 check 和生产构建
-npm run build      # 生产构建
-npm start          # 启动生产构建
+```env
+LLM_BASE_URL=http://127.0.0.1:11434/v1
+LLM_API_KEY=
+LLM_MODEL=qwen3:8b
 ```
 
-## 项目结构
+The deterministic calculation, source lots, structured reasoning, and retrieved evidence remain available without a model. If the model is unavailable or its response fails validation, the interface displays the validated structured result or a bounded fallback instead.
+
+## Common Commands
+
+```bash
+npm run dev          # Start the frontend and Module 4
+npm run dev:all      # Start the frontend, Python algorithms, and Module 4
+npm run dev:web      # Start only the frontend
+npm run dev:module4  # Start only Module 4
+npm test             # Run the frontend test suite
+npm run lint         # Run ESLint
+npm run typecheck    # Run TypeScript checks
+npm run check        # Run tests, linting, and type checking
+npm run verify:stack # Verify contracts against the running service stack
+npm run verify       # Run checks and a production build
+npm run build        # Create a production build
+npm start            # Start the production build
+```
+
+## Project Structure
 
 ```text
 app/
-  api/              Next.js 对外 API 与输入校验
-  bazi/             八字页面
-  divination/       易卦页面
-  guanyin/          观音灵签页面
-  knowledge/        典籍检索页面
-  library/          个人知识库页面
+  api/              Next.js API routes and input validation
+  bazi/             Bazi user interface
+  divination/       Liuyao / I Ching user interface
+  guanyin/          Guanyin Lot user interface
+  knowledge/        Classical knowledge search and graph
+  library/          Personal knowledge workspace
 lib/
-  contracts/        前后端共享 TypeScript 契约
-  server/           Python 服务适配器
-  bazi/             八字服务入口
-  divination/       起卦服务入口
-  guanyin/          灵签数据校验和查询
-  knowledge/        知识库检索
-  module4/          Module 4 API 客户端、会话同步和类型
-fortune_module4/    持久化个人服务后端、数据库迁移和测试
-python_algorithm/   八字与易卦算法服务入口
-data/               结构化知识数据及来源材料
-sticks/             观音百签数据
-docs/               集成与协作文档
-tests/              自动化测试
+  contracts/        Shared TypeScript contracts
+  server/           Python service adapters
+  bazi/             Bazi service integration
+  divination/       Liuyao casting and reasoning
+  guanyin/          Lot data, reasoning, retrieval, and generation
+  knowledge/        Knowledge retrieval
+  module4/          Module 4 clients, synchronization, and types
+fortune_module4/    Persistent personal-service backend and migrations
+python_algorithm/   Bazi and Liuyao algorithm services
+data/               Structured knowledge data and source material
+sticks/             Chinese and English Guanyin Lot catalogues
+docs/               Integration and collaboration documentation
+tests/              Automated frontend tests
 ```
 
-算法组通常只需对照 `lib/contracts` 实现 Python 返回结构。Next.js 会通过 `lib/server/python-client.ts` 调用 Python，不需要修改 React 页面。
+## Main API Routes
 
-## API
-
-| Method | Route | 状态 |
+| Method | Route | Description |
 | --- | --- | --- |
-| POST | `/api/bazi/chart` | 可用；由 Python 算法服务计算，未配置时返回 503 |
-| POST | `/api/bazi/interpret` | 可用；服务端重算命盘后生成现代解读，模型回答经校验，失败时退回模板；按客户端限流 |
-| POST | `/api/divination/cast` | 可用；配置 Python 后执行确定性起卦 |
-| POST | `/api/divination/chat` | 可用；识别问题、时间和数字并调度起卦 |
-| POST | `/api/divination/interpret` | 可用；生成 Evidence Pack 和受证据约束的现代解释 |
-| POST | `/api/guanyin-lot/draw` | 可用 |
-| GET | `/api/knowledge/search?q=` | 可用 |
-| GET | `/api/knowledge/graph?concept=` | 可用；当前为整理后的概念关系，数据库扩展待续 |
-| GET | `/api/knowledge/compare?q=` | 可用 |
-| GET | `/api/knowledge/explain?q=` | 可用；返回概念解释、证据状态和来源 |
-| POST | `/api/session/event` | 持久化兼容接口；登录后写入 Module 4 |
-| GET | `/api/module4/api/v1/sessions` | 可用；读取当前用户会话历史列表 |
-| GET | `/api/module4/api/v1/sessions/{id}/events` | 可用；读取完整消息和结构化事件时间线 |
-| POST | `/api/module4/api/v1/feedback` | 可用；反馈记录并生成独立反馈事件 |
-| POST | `/api/user/notes` | 持久化兼容接口；登录后写入 Module 4 笔记 API |
+| `POST` | `/api/bazi/chart` | Calculate a Bazi chart through the Python service |
+| `POST` | `/api/bazi/interpret` | Generate a validated modern Bazi explanation |
+| `POST` | `/api/divination/cast` | Perform deterministic Liuyao casting |
+| `POST` | `/api/divination/chat` | Detect the question, time, and numbers and dispatch casting |
+| `POST` | `/api/divination/interpret` | Generate an evidence pack and bounded explanation |
+| `POST` | `/api/guanyin-lot/draw` | Draw a Guanyin lot and build its reasoning result |
+| `GET` | `/api/knowledge/search?q=` | Search structured knowledge sources |
+| `GET` | `/api/knowledge/graph?concept=` | Retrieve normalized concept relations |
+| `GET` | `/api/knowledge/compare?q=` | Compare knowledge records |
+| `GET` | `/api/knowledge/explain?q=` | Return concept explanations, evidence status, and sources |
+| `POST` | `/api/session/event` | Persist compatible session events through Module 4 |
+| `GET` | `/api/module4/api/v1/sessions` | Read the current user's session history |
+| `GET` | `/api/module4/api/v1/sessions/{id}/events` | Read a complete event timeline |
+| `POST` | `/api/module4/api/v1/feedback` | Store feedback as an independent event |
+| `POST` | `/api/user/notes` | Store notes through the Module 4 API |
 
-所有浏览器端接口均返回 `lib/contracts/api.ts` 中定义的统一响应结构。
+Browser-facing APIs use the unified response contracts defined in `lib/contracts/api.ts`.
 
-## 数据说明
+## Data and Sources
 
-观音百签的英文展示数据位于 `sticks/guanyin.en.json`，按相同签号与中文底本对应。切换 EN 后可离线显示英文签诗和传统解读，无需启动 Ollama；抽签与推理仍使用中文证据。英文典故为简述，完整中文原文可展开查看。翻译来源、底本疑难及维护方法见 [英译说明](sticks/TRANSLATION.md)。动态问事解读和英文问题识别不属于此静态译库的翻译范围。
+The English Guanyin catalogue is stored in `sticks/guanyin.en.json` and is aligned with the Chinese source by lot number. English poems and traditional readings can be displayed offline without Ollama; reasoning continues to use the reviewed Chinese evidence. See [Translation Notes](sticks/TRANSLATION.md) for translation provenance and maintenance guidance.
 
-主知识文件位于 `data/knowledge_sources_complete/knowledge_sources_pages.json`。原始网页和 PDF 用于来源复核，具体来源范围、版权处理和字段说明见 [数据说明](data/knowledge_sources_complete/README.md)。
+The primary knowledge dataset is stored in `data/knowledge_sources_complete/knowledge_sources_pages.json`. Original webpages and PDFs are retained for source verification. See [Knowledge Data Notes](data/knowledge_sources_complete/README.md) for coverage, copyright handling, and field definitions.
 
-根目录的原始 ZIP 包不会进入 Git；可复现项目所需的解压数据已经位于 `data/`。
+Original ZIP archives are excluded from Git. All reproducible project data required by the application is stored under `data/`.
 
-## 协作约定
+## Deployment Notes
 
-1. 从 `main` 拉取最新代码并创建功能分支。
-2. 不提交 `.env.local`、密钥、`node_modules` 或 `.next`。
-3. 修改接口结构时同步更新 `lib/contracts` 和 `docs/API_INTEGRATION.md`。
-4. 提交前运行 `npm run check` 和 `npm run build`。
-5. Mock 数据必须设置 `meta.mock: true` 并返回清晰 warning。
-6. 会话消息只用于完整历史存档；推荐和相似案例只能读取 Module 4 的正式推理白名单事件。
-7. 合并其他成员分支前先检查 `Module 4`、`lib/contracts` 和数据库迁移的兼容性。
+For a single-server deployment, the recommended internal ports are:
+
+- frontend: `3000`
+- Python algorithm service: `8000`
+- Module 4 API: `8003`
+- PostgreSQL: `5432`
+
+The database and local model service should listen only on `127.0.0.1`; expose only the frontend through the public reverse proxy.
+
+Do not use development authentication defaults in production. In particular, `REQUIRE_USER_HEADER=false` and `ALLOW_LEGACY_USER_HEADER=true` must not be enabled. The production application rejects these settings. See [Module 4 Deployment Modes](fortune_module4/docs/deployment_modes.md).
+
+## Development Guidelines
+
+1. Pull the latest `main` branch and create a feature branch.
+2. Do not commit `.env.local`, credentials, `node_modules`, `.next`, or local databases.
+3. Update both `lib/contracts` and `docs/API_INTEGRATION.md` when changing an API contract.
+4. Run `npm run check` and `npm run build` before merging.
+5. Mock responses must set `meta.mock: true` and return a clear warning.
+6. Conversation messages are stored for history only; recommendation and case-similarity logic may read only approved structured reasoning events.
+7. Check Module 4, shared contracts, and database migration compatibility before merging another branch.
+
+## Repository
+
+[https://github.com/Slyvia0425/fortune](https://github.com/Slyvia0425/fortune)
