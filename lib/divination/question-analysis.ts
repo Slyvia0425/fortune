@@ -4,7 +4,7 @@ import { EVENT_TAXONOMY, QUESTION_TAXONOMY_VERSION, QUESTION_TYPES, type Questio
 import { hasExplicitMultipleIssues } from "./chat-gate";
 
 export const QUESTION_ANALYSIS_VERSION = "single-question-analysis-v4";
-export const QUESTION_ANALYSIS_PROMPT_VERSION = "q1-precheck-v1";
+export const QUESTION_ANALYSIS_PROMPT_VERSION = "q1-precheck-v2-literal-context";
 export type QuestionAnalysisStatus = "valid" | "semantic_conflict" | "extraction_failed" | "unsupported";
 export interface QuestionSource { source_id:string; text:string }
 export interface SemanticEvidence { source_id:string; start:number; end:number; text:string }
@@ -93,11 +93,28 @@ export function validateQuestionAnalysis(value:unknown,context:QuestionContext):
     const stable="actor_"+createHash("sha256").update(JSON.stringify([label,a.role,ev])).digest("hex").slice(0,16);
     map.set(id,stable);return {id:stable,label,role:a.role as "querent"|"target"|"third_party",evidence:ev};
   });
+  // Resolve the confirmed perspective endpoint only from a unique literal self reference.
+  // This repairs IDs, not relationship meaning; the edge still must match D1 below.
+  if(context.relationships.some(r=>r.from_entity_id==="perspective")&&!actors.some(a=>a.role==="querent")){
+    const label=context.perspective_person?.evidence?.text??(context.raw_question.match(/我/g)?.length===1?"我":null);
+    if(label){
+      const ev=literalEvidence(label,sources),id="actor_"+createHash("sha256").update(JSON.stringify([label,"querent",ev])).digest("hex").slice(0,16);
+      actors.push({id,label,role:"querent",evidence:ev});
+    }
+  }
   if(new Set(actors.map(a=>a.id)).size!==actors.length)throw new Error("QUESTION_ACTOR_DUPLICATE");
   const modelRelationships=array(v.relationships);
   if(!context.relationships.length&&modelRelationships.length)issues.push("UNCONFIRMED_RELATION_DISCARDED");
   const relationships=(context.relationships.length?modelRelationships:[]).map(item=>{
-    const r=object(item),ev=evidence(r.evidence,sources),from=map.get(String(r.from)),to=map.get(String(r.to)),relation=text(r.relation,100);
+    const r=object(item),ev=evidence(r.evidence,sources),relation=text(r.relation,100);
+    let from=map.get(String(r.from)),to=map.get(String(r.to));
+    const confirmed=context.relationships.filter(c=>c.relation===relation&&c.evidence?.text===ev.text);
+    if(confirmed.length===1){
+      const c=confirmed[0];
+      const endpoint=(entityId:string)=>actors.filter(a=>entityId==="perspective"?a.role==="querent":a.label===context.target_entities.find(e=>e.entity_id===entityId)?.label);
+      const starts=endpoint(c.from_entity_id),ends=endpoint(c.to_entity_id);
+      if(starts.length===1&&ends.length===1){from=starts[0].id;to=ends[0].id;}
+    }
     const fromActor=actors.find(a=>a.id===from),toActor=actors.find(a=>a.id===to);
     const matches=context.relationships.some(c=>{
       const fromLabel=context.target_entities.find(e=>e.entity_id===c.from_entity_id)?.label;
@@ -126,7 +143,7 @@ export function validateQuestionAnalysis(value:unknown,context:QuestionContext):
     time={kind:t.kind as NonNullable<SingleQuestionAnalysis["time_constraint"]>["kind"],expression,evidence:ev};
   }
   const explicit_context=array(v.explicit_context).map(item=>{
-    const c=object(item),ev=evidence(c.evidence,sources),description=text(c.text);
+    const c=object(item),ev=evidence(c.evidence??c,sources),description=text(c.text);
     if(ev.source_id==="question"||description!==ev.text)throw new Error("QUESTION_CONTEXT_INVALID");return {text:description,evidence:ev};
   });
   const subject=v.subject_actor_id===null?null:map.get(String(v.subject_actor_id));

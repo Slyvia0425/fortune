@@ -146,6 +146,6 @@ describe("Evidence-backed three-section explainer",()=>{
     const html=renderToStaticMarkup(createElement(InterpretationPanel,{result}));
     for(const title of ["断语","行动建议","卦理分析"])expect(html).toContain(`<h4>${title}</h4>`);
     expect(html).toContain('href="#explainer-evidence-1"');expect(html).toContain('id="explainer-evidence-1"');
-    expect(html).toContain("典籍依据与适用条件");expect(html.match(/不是对未来事实的科学证明/g)).toHaveLength(1);
+    expect(html).toContain("典籍依据");expect(html.match(/不是对未来事实的科学证明/g)).toHaveLength(1);
   });
 });

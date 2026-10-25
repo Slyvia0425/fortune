@@ -95,6 +95,26 @@ describe("Q1 单一问事与跨领域契约",()=>{
     expect(result.issues).toContain("UNCONFIRMED_RELATION_DISCARDED");
     expect(()=>validateQuestionAnalysis({...questionOutput(raw),actors:[{id:"A",label:"妻子",role:"target"}]},ctx)).toThrow("QUESTION_SOURCE_INVALID");
   });
+  it("中文背景接受模型扁平引用，但仍拒绝虚构来源文字",()=>{
+    const ctx=semanticContext("我下个月去上海找朋友玩，行程能顺利吗？");
+    ctx.known_facts=[{value:"去上海找朋友玩",provenance:"user_explicit",verification_status:"extracted",evidence:{start_offset:4,end_offset_exclusive:11,text:"去上海找朋友玩"}}];
+    const output={...questionOutput(ctx.raw_question,"travel","travel_outcome"),explicit_context:[{source_id:"context:fact:0",text:"去上海找朋友玩"}]};
+    expect(validateQuestionAnalysis(output,ctx).explicit_context[0]).toEqual({text:"去上海找朋友玩",evidence:{source_id:"context:fact:0",start:0,end:7,text:"去上海找朋友玩"}});
+    expect(()=>validateQuestionAnalysis({...output,explicit_context:[{source_id:"context:fact:0",text:"朋友已同意"}]},ctx)).toThrow("QUESTION_SOURCE_INVALID");
+  });
+  it("关系端点从已确认关系及唯一原文人物修复，不新增关系",()=>{
+    const ctx=semanticContext("我下个月去上海找朋友玩，行程能顺利吗？");
+    const ev={text:"朋友",start_offset:8,end_offset_exclusive:10};
+    ctx.target_entities=[{entity_id:"e1",label:"朋友",kind:"person",provenance:"user_explicit",evidence:ev}];
+    ctx.relationships=[{from_entity_id:"perspective",to_entity_id:"e1",relation:"朋友",provenance:"user_explicit",evidence:ev}];
+    const output={...questionOutput(ctx.raw_question,"travel","travel_outcome"),actors:[{id:"A1",label:"朋友",role:"target"}],relationships:[{from:"A1",to:"A1",relation:"朋友",evidence:{source_id:"context:relation:0",text:"朋友"}}]};
+    const result=validateQuestionAnalysis(output,ctx),edge=result.relationships[0];
+    expect(edge.from).not.toBe(edge.to);
+    expect(result.actors.find(a=>a.id===edge.from)).toMatchObject({label:"我",role:"querent",evidence:{source_id:"question",start:0,end:1}});
+    expect(()=>validateQuestionAnalysis({...output,relationships:[{...output.relationships[0],relation:"同事"}]},ctx)).toThrow("QUESTION_RELATION_INVALID");
+    ctx.raw_question="去上海找朋友玩，行程能顺利吗？";
+    expect(()=>validateQuestionAnalysis({...output,normalized_question:ctx.raw_question},ctx)).toThrow("QUESTION_RELATION_INVALID");
+  });
   it("状态文案使用已定位原文，不能接受模型追加的已发生结论",()=>{
     const ctx=semanticContext("能找到工作吗");
     const result=validateQuestionAnalysis({...questionOutput(ctx.raw_question),target_state:"已经找到工作",target_state_evidence:{source_id:"question",start:1,end:5,text:"找到工作"}},ctx);

@@ -98,3 +98,19 @@ def server_safety_problems(settings: Settings) -> list[str]:
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     return Settings()
+
+
+def server_safety_problems(settings: Settings) -> list[str]:
+    """Reject development identity and schema defaults on public deployments."""
+    if settings.environment.strip().lower() in {"development", "local", "test", "docker"}:
+        return []
+    problems = []
+    if settings.allow_legacy_user_header:
+        problems.append("ALLOW_LEGACY_USER_HEADER must be false")
+    if not settings.require_user_header:
+        problems.append("REQUIRE_USER_HEADER must be true")
+    if settings.debug:
+        problems.append("MODULE4_DEBUG must be false")
+    if settings.auto_create_tables:
+        problems.append("AUTO_CREATE_TABLES must be false; apply database migrations before startup")
+    return problems

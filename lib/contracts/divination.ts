@@ -113,7 +113,7 @@ export type ChatRole="user"|"assistant";
 export interface DivinationChatMessage { role:ChatRole; content:string; message_id?:string }
 export interface DivinationChatRequest { messages:DivinationChatMessage[] }
 export interface DivinationExtraction { source:"llm"|"rules"|"unavailable"; question?:string; time_range?:string; method?:CastingMethod; numbers?:NumberTriple; fallback_reason?:string }
-export interface DivinationChatReply { status:"clarify"|"ready"|"ready_for_confirmation"|"confirmed"|"blocked"; message:string; suggestions:string[]; cast_request?:DivinationCastRequest; extraction?:DivinationExtraction; question_context?:QuestionContext; conversation_id?:string; draft_revision?:number; confirmation_preview?:QuestionConfirmationPreview; confirmed_question?:ConfirmedQuestionV1; question_analysis_status?:import("../divination/question-analysis").QuestionAnalysisStatus; retry_message?:DivinationChatMessage }
+export interface DivinationChatReply { response_language?: "zh"|"en"; status:"clarify"|"ready"|"ready_for_confirmation"|"confirmed"|"blocked"; message:string; suggestions:string[]; cast_request?:DivinationCastRequest; extraction?:DivinationExtraction; question_context?:QuestionContext; conversation_id?:string; draft_revision?:number; confirmation_preview?:QuestionConfirmationPreview; confirmed_question?:ConfirmedQuestionV1; question_analysis_status?:import("../divination/question-analysis").QuestionAnalysisStatus; retry_message?:DivinationChatMessage }
 
 export interface HybridEvidenceUnit {
   usage?:"analogy_only"|"rule_reasoning"|"source_reading";
@@ -178,3 +178,5 @@ export interface ModelUseAnalysis {
   selection:{candidate_id:string|null;line_ref:string|null;evidence_ids:string[];reason:string};
   uncertainties:string[];
 }
+
+export interface DivinationInterpretationResult { english_reading?: import("../divination/english-reading").EnglishReading }

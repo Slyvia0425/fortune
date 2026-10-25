@@ -1,3 +1,5 @@
+import { questionLanguage, divinationText } from "./language";
+import type { Locale } from "../i18n/locale";
 import type {DivinationChatMessage,DivinationChatReply,DivinationExtraction,QuestionContext} from "@/lib/contracts/divination";
 import {extractQuestionContext} from "../server/divination-llm";
 import {hasExplicitMultipleIssues} from "./chat-gate";
@@ -66,11 +68,11 @@ export function continueDivinationChat(messages:DivinationChatMessage[]):Divinat
   return makeReply(messages,ruleContext(messages),"rules","LLM_NOT_USED");
 }
 
-export async function continueDivinationChatWithLlm(messages:DivinationChatMessage[]):Promise<DivinationChatReply>{
+async function chatWithLlm(messages:DivinationChatMessage[], language:Locale):Promise<DivinationChatReply>{
   const text=userText(messages); if(!text||/灵签|观音|抽签/.test(text))return continueDivinationChat(messages);
   if(hasExplicitMultipleIssues(userMessages(messages).at(-1)?.content??""))return {status:"clarify",message:"一个卦只问一件事。请选定本次要问的一个问题，其他事项需要另行起卦。",suggestions:[]};
   try {
-    const extracted=await extractQuestionContext(messages);
+    const extracted=await extractQuestionContext(messages,language);
     if(!extracted)return makeReply(messages,ruleContext(messages),"unavailable","LLM_EMPTY_OR_INVALID_RESPONSE");
     if(extracted.need_follow_up) {
       const context=ruleContext(messages);
@@ -79,4 +81,10 @@ export async function continueDivinationChatWithLlm(messages:DivinationChatMessa
     return makeReply(messages,extracted.context,"llm");
   }
   catch(error) { return makeReply(messages,ruleContext(messages),"unavailable",error instanceof Error?error.message:"LLM_UNKNOWN_ERROR"); }
+}
+
+export async function continueDivinationChatWithLlm(messages:DivinationChatMessage[], fallback:Locale="zh"):Promise<DivinationChatReply>{
+  const language=questionLanguage(messages,fallback);
+  const reply=await chatWithLlm(messages,language);
+  return {...reply,response_language:language,message:divinationText(language,reply.message),suggestions:reply.suggestions.map(s=>divinationText(language,s))};
 }

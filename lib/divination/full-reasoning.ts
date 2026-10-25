@@ -5,7 +5,7 @@ import type { ExplainerReport,InterpretationClaim } from "./explainer-report";
 import { evidenceCitation } from "./explainer-report";
 import { canonicalAnalysis,freezeAnalysis } from "./analysis-utils";
 
-export const FULL_REASONING_VERSION="full-generation-integrity-v2-optional-advice";
+export const FULL_REASONING_VERSION="full-generation-integrity-v5-batch-reference-repair";
 const fail=(code:string):never=>{throw new Error(`REASONING_${code}`);};
 const obj=(v:unknown):Record<string,unknown>=>{if(!v||typeof v!=="object"||Array.isArray(v))return fail("SCHEMA_INVALID");return v as Record<string,unknown>;};
 const keys=(v:Record<string,unknown>,allowed:string[])=>{if(Object.keys(v).some(k=>!allowed.includes(k)))fail("SCHEMA_INVALID");};
@@ -22,21 +22,35 @@ function unique<T>(a:T[]){return [...new Set(a)];}
 function currentEvidence(ids:string[],c:ReasoningContext){
   if(ids.some(id=>!c.agent.snapshot.evidence.some(e=>e.evidence_id===id)))fail("EVIDENCE_INVALID");
 }
+export class FullReasoningReferenceError extends Error {
+  constructor(public readonly issues: {code:string;path:string;received:unknown;expected:unknown}[]) {super(issues[0].code);}
+}
+function resolveDraftEvidence(raw:unknown,c:ReasoningContext,built:BuiltReasoningInput,path:string,parents?:string[],max=40):string[]{
+  const refs=strings(raw,max);
+  const allowed=c.agent.snapshot.evidence.filter(e=>!parents||e.task_ids.some(id=>parents.includes(id)));
+  const aliases=Object.entries(built.evidenceIds).filter(([,id])=>allowed.some(e=>e.evidence_id===id)).map(([alias])=>alias);
+  const issues=refs.flatMap((ref,index)=>allowed.some(e=>e.evidence_id===(built.evidenceIds[ref]??ref))?[]:[{
+    code:"REASONING_EVIDENCE_INVALID",path:`${path}[${index}]`,received:ref,
+    expected:{allowed_evidence_ids:aliases,parent_task_ids:parents??null,instruction:"仅从此列表选择确实支持本段的资料；没有适用资料时将任务标为insufficient并说明缺口，不要伪造或改写引用。"},
+  }]);
+  if(issues.length)throw new FullReasoningReferenceError(issues);
+  return refs.map(ref=>built.evidenceIds[ref]??ref);
+}
 function reportFromDraft(raw:unknown,r:StructuredReasoningV1,c:ReasoningContext,built:BuiltReasoningInput):ExplainerReport{
   const v=obj(raw);keys(v,["sections","limitations"]);const s=obj(v.sections);keys(s,["verdict","advice","analysis"]);
   const sections={verdict:[] as string[],advice:[] as string[],analysis:[] as string[]},claims:InterpretationClaim[]=[];
   const tasks=reasoningTasks(c);
   for(const section of ["verdict","advice","analysis"] as const){
     const rows=list(section==="advice"?(s[section]??[]):s[section],section==="verdict"?2:section==="advice"?4:6);if(!rows.length&&section!=="advice")fail("EXPLAINER_SECTION_REQUIRED");
-    for(const raw of rows){
+    for(const [rowIndex,raw] of rows.entries()){
       const p=obj(raw);keys(p,["text","evidence_ids","practical","task_ids"]);
       if(p.practical!==undefined&&typeof p.practical!=="boolean")fail("SCHEMA_INVALID");
       const practical=p.practical===true;if(practical&&section!=="advice")fail("SCHEMA_INVALID");
-      const evidence_ids=unique(strings(p.evidence_ids,20).map(id=>built.evidenceIds[id]??id));currentEvidence(evidence_ids,c);
+      const evidence_ids=unique(resolveDraftEvidence(p.evidence_ids,c,built,`explainer.sections.${section}[${rowIndex}].evidence_ids`,undefined,20));
       if(!practical&&!evidence_ids.length)fail("EVIDENCE_REQUIRED");
       const task_ids=p.task_ids===undefined?unique(evidence_ids.flatMap(id=>c.agent.snapshot.evidence.find(e=>e.evidence_id===id)!.task_ids)):strings(p.task_ids,30);
       if(task_ids.some(id=>!c.planner.initial_plan.tasks.some(t=>t.task_id===id)&&!tasks.some(t=>t.task_id===id)))fail("TASK_INVALID");
-      if(evidence_ids.some(id=>!c.agent.snapshot.evidence.find(e=>e.evidence_id===id)!.task_ids.some(parent=>task_ids.some(id=>id===parent||tasks.some(t=>t.task_id===id&&t.parent_task_id===parent)))))fail("EVIDENCE_INVALID");
+      resolveDraftEvidence(p.evidence_ids,c,built,`explainer.sections.${section}[${rowIndex}].evidence_ids`,task_ids.map(id=>tasks.find(t=>t.task_id===id)?.parent_task_id??id),20);
       const claim_id=`C${claims.length+1}`,basis_task_ids=task_ids;
       claims.push({claim_id,kind:practical?"practical":section==="verdict"?"synthesis":"rule_application",scope:section==="verdict"?"outcome":"local",
         strength:r.overall_assessment.status,text:dataProse(p.text,c),basis_task_ids,basis_finding_ids:r.findings.filter(f=>basis_task_ids.includes(f.task_id)).map(f=>f.finding_id),
@@ -56,13 +70,21 @@ export function compileFullReasoningOutput(raw:unknown,c:ReasoningContext,built:
   if(v.version!==undefined)return validateIntegrityReasoning(raw,c);
   keys(v,["findings","synthesis","explainer"]);
   const tasks=reasoningTasks(c);
+  // Return all task-reference errors in one repair round, never alter model prose or citations.
+  const referenceIssues:FullReasoningReferenceError["issues"]=[];
+  for(const [i,row] of list(v.findings,30).entries()){
+    const f=obj(row),task=tasks.find(t=>t.task_id===f.task_id);
+    if(!task)fail("TASK_INVALID");
+    try{resolveDraftEvidence(f.evidence_ids,c,built,`findings[${i}].evidence_ids`,[task!.parent_task_id]);}
+    catch(error){if(error instanceof FullReasoningReferenceError)referenceIssues.push(...error.issues);else throw error;}
+  }
+  if(referenceIssues.length)throw new FullReasoningReferenceError(referenceIssues);
   const findings=list(v.findings,30).map((raw,i):ReasoningFindingV1=>{
     const f=obj(raw);keys(f,["task_id","fact_refs","evidence_ids","status","interpretation","conditions","limitations"]);
     const task=tasks.find(t=>t.task_id===f.task_id);if(!task)return fail("TASK_INVALID");
     const refs=f.fact_refs===undefined?task.fact_refs:strings(f.fact_refs).map(id=>built.factIds[id]??id);
-    const evidence_ids=strings(f.evidence_ids,40).map(id=>built.evidenceIds[id]??id);currentEvidence(evidence_ids,c);
+    const evidence_ids=resolveDraftEvidence(f.evidence_ids,c,built,`findings[${i}].evidence_ids`,[task.parent_task_id]);
     if(refs.some(id=>!c.planner.fact_catalog.facts.some(f=>f.fact_id===id)))fail("FACT_INVALID");
-    if(evidence_ids.some(id=>!c.agent.snapshot.evidence.find(e=>e.evidence_id===id)!.task_ids.includes(task.parent_task_id)))fail("EVIDENCE_INVALID");
     return {finding_id:`finding_${i+1}`,task_id:task.task_id,fact_refs:refs,evidence_ids,observation:findingObservation(c,refs),status:status(f.status),
       interpretation:dataProse(f.interpretation,c),assumptions_or_conditions:strings(f.conditions??[]).map(s=>dataProse(s,c)),limitations:strings(f.limitations??[]).map(s=>dataProse(s,c))};
   });

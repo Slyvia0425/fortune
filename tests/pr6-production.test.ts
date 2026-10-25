@@ -133,10 +133,10 @@ describe("PR6 production retry, diagnostics and budgets",()=>{
   it("inner deadline really reduces remaining budget",async()=>{
     await boundedWorkflow(1000,async()=>{expect(workflowRemaining()).toBeLessThanOrEqual(1000);await boundedWorkflow(100,async()=>expect(workflowRemaining()).toBeLessThanOrEqual(100));});
   });
-  it("timeout is diagnosed once, without repeating the request",async()=>{
+  it("transient timeouts receive bounded retries with diagnostics for each attempt",async()=>{
     const model=vi.fn().mockRejectedValue(new DOMException("provider deadline","TimeoutError")),runs:ReasoningRunDiagnostic[]=[];
     const result=await synthesizeStructuredReasoning(reasoningFixture(),model,async r=>{runs.push(r);});
-    expect(result.status).toBe("failed");expect(result.failure_kind).toBe("timeout");expect(model).toHaveBeenCalledTimes(1);expect(runs[0].attempts[0].outcome).toBe("timeout");
+    expect(result.status).toBe("failed");expect(result.failure_kind).toBe("timeout");expect(model).toHaveBeenCalledTimes(3);expect(runs.at(-1)?.attempts).toHaveLength(3);expect(runs[0].attempts[0].outcome).toBe("timeout");
   });
   it("invalid JSON and references get one repair with original draft, usage and exact issue",async()=>{
     const c=reasoningFixture(),raw=compact(c);raw.findings[0].evidence_ids=["BAD"];

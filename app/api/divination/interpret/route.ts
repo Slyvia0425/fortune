@@ -1,3 +1,5 @@
+import { prepareChineseQuestion, chineseRetrievalQuery, QuestionTranslationError, CHINESE_RESEARCH_VERSION } from "@/lib/server/chinese-research-question";
+import { englishInterpretation } from "@/lib/server/divination-translation";
 import { RecordedInterpretationFailure, stageNames, type InterpretationDiagnostic } from "@/lib/server/interpretation-diagnostics";
 import type { FrozenQuestionRecord, HybridEvidencePack, HybridInterpretation } from "@/lib/contracts/divination";
 import { failure, record, success, text } from "@/lib/contracts/api";
@@ -25,7 +27,13 @@ import { PR6_WORKFLOW_BUDGET_MS, PR6_TAIL_BUDGET_MS } from "@/lib/server/structu
 interface RoundContext { snapshot:InitialPlannerSnapshot; compiled:CompiledRetrievalPlan; identity:Record<string,unknown>; owner:string;fingerprint:string;deadlineAt:number;singleRound:boolean;retryIncomplete:boolean;structured:boolean }
 
 import { traceNode, traceRoute } from "@/lib/server/case-trace";
-export async function POST(request: Request) {return traceRoute("interpret",request,()=>handlePost(request));}
+export async function POST(request: Request) {
+  const input=record(await request.clone().json().catch(()=>null));
+  const {response_language,translation_retry,...analysisInput}=input??{};
+  const analysisRequest=new Request(request.url,{method:request.method,headers:request.headers,body:JSON.stringify(analysisInput),signal:request.signal});
+  const response=await traceRoute("interpret",analysisRequest,()=>handlePost(analysisRequest));
+  return response_language==="en"?englishInterpretation(response,translation_retry===true):response;
+}
 async function handlePost(request: Request) {
   const structured=!["v1","pr4","pr5"].includes(process.env.LIUYAO_RETRIEVAL_PIPELINE??"");
   const deadlineAt=Date.now()+(structured?PR6_WORKFLOW_BUDGET_MS:180_000);
@@ -55,8 +63,9 @@ async function interpretRequest(request:Request,deadlineAt:number){
     if(saved.cast.confirmation_id!==confirmed.confirmation_id || saved.cast.question_hash!==confirmed.question_hash || saved.question!==confirmed.normalized_question){
       return failure("divination-interpret-v4","CONFIRMATION_MISMATCH","冻结问事与确认记录不一致。",undefined,409);
     }
+    const research=await traceNode("chinese-question-translation",{original_question:saved.question},()=>prepareChineseQuestion(owner,saved.question));
     return withBasicExplanation(saved, async()=>{
-    if(process.env.LIUYAO_RETRIEVAL_PIPELINE==="v1")return cachedInterpretation(owner,{pipeline_version:"confirmed-fixed-use-v4",chart_id:chartId,chart_hash:saved.cast.chart_hash,confirmation_id:confirmed.confirmation_id,question_hash:confirmed.question_hash},retry===true,()=>generate(saved));
+    if(process.env.LIUYAO_RETRIEVAL_PIPELINE==="v1")return cachedInterpretation(owner,{pipeline_version:"confirmed-fixed-use-v4",research,chart_id:chartId,chart_hash:saved.cast.chart_hash,confirmation_id:confirmed.confirmation_id,question_hash:confirmed.question_hash},retry===true,()=>generate(saved,undefined,research.question_zh));
     const snapshot=await loadInitialAnalysisPlan(saved);
     if(snapshot.status!=="ready")return Response.json(success({evidence_pack:buildDivinationEvidencePack({question:saved.question,cast:saved.cast}),modern_interpretation:null,frozen_core:saved.cast.core_facts,planner_status:snapshot},
       {system:"divination-interpret-pr4",warnings:["分析计划尚未就绪，未执行检索，原卦盘已保留。"]}));
@@ -64,14 +73,15 @@ async function interpretRequest(request:Request,deadlineAt:number){
     const identity=await callHybrid<Record<string,unknown>>("source-profile",{chart_id:chartId});
     const singleRound=process.env.LIUYAO_RETRIEVAL_PIPELINE==="pr4";
     const structured=!singleRound&&process.env.LIUYAO_RETRIEVAL_PIPELINE!=="pr5";
-    const cacheIdentity={pipeline_version:singleRound?"analysis-planner-v4.1-pr4":structured?"analysis-planner-v4.1-pr6":"analysis-planner-v4.1-pr5",chart_id:chartId,chart_hash:saved.cast.chart_hash,
+    const cacheIdentity={research,language_pipeline:CHINESE_RESEARCH_VERSION,pipeline_version:singleRound?"analysis-planner-v4.1-pr4":structured?"analysis-planner-v4.1-pr6":"analysis-planner-v4.1-pr5",chart_id:chartId,chart_hash:saved.cast.chart_hash,
       confirmation_id:confirmed.confirmation_id,question_hash:confirmed.question_hash,versions:snapshot.versions,
       compilation_hash:compiled.compilation_hash,retrieval_identity:identity,writer_version:"legacy-evidence-writer-pr4-v1",
       ...(singleRound?{}:{agent:AGENT_CONTROLLER_VERSION,gap_prompt:GAP_PROMPT_VERSION,gap_aliases:analysisHash(GAP_QUERY_ALIASES)}),
       ...(structured?{reasoning:reasoningStageVersions(),tail_ms:90_000}:{})};
-    return cachedInterpretation(owner,cacheIdentity,retry===true,()=>generate(saved,{snapshot,compiled,identity,owner,fingerprint:analysisHash(cacheIdentity),deadlineAt,singleRound,retryIncomplete:retry===true,structured}));
+    return cachedInterpretation(owner,cacheIdentity,retry===true,()=>generate(saved,{snapshot,compiled,identity,owner,fingerprint:analysisHash(cacheIdentity),deadlineAt,singleRound,retryIncomplete:retry===true,structured},research.question_zh));
     });
   } catch(error){
+    if(error instanceof QuestionTranslationError)return failure("divination-interpret-v4","QUESTION_TRANSLATION_UNAVAILABLE","问事中文翻译暂未完成，请重试；原问题和卦盘已保留。",undefined,502);
     return failure("divination-interpret-v4","FROZEN_RECORD_ERROR",error instanceof HybridServiceError?error.message:"无法读取已确认卦盘。",undefined,error instanceof HybridServiceError?error.status:502);
   }
 }
@@ -94,7 +104,7 @@ async function withBasicExplanation(saved:FrozenQuestionRecord, work:()=>Promise
   }));
 }
 
-async function generate(saved:FrozenQuestionRecord,round?:RoundContext){
+async function generate(saved:FrozenQuestionRecord,round?:RoundContext,researchQuestionZh=saved.question){
   try{
     const chartId=saved.cast.chart_id!;
     const questionContext=saved.question_context??undefined;
@@ -102,18 +112,18 @@ async function generate(saved:FrozenQuestionRecord,round?:RoundContext){
     const warnings: string[] = [];
     const useRoles=round?.snapshot.use_roles??await determineUseRoles(saved.cast.core_facts,saved.question,saved.cast.chart_hash!,questionContext);
     if(useRoles.status!=="generated"||!saved.cast.core_facts) return Response.json(success({evidence_pack:evidencePack,modern_interpretation:null,frozen_core:saved.cast.core_facts,use_role_analysis:useRoles},{system:"divination-interpret-v2",sources:evidencePack.sources,warnings:[...useRoles.missing_information,...useRoles.uncertainties]}));
-    const retrievalPlan=round?fallbackRetrievalPlan(saved.question,saved.cast.core_facts,useRoles,"V1_COMPARISON_ONLY_NOT_EXECUTED"):await planRetrievalQueries(saved.cast.core_facts,saved.question,useRoles);
+    const retrievalPlan=round?fallbackRetrievalPlan(saved.question,saved.cast.core_facts,useRoles,"V1_COMPARISON_ONLY_NOT_EXECUTED"):await planRetrievalQueries(saved.cast.core_facts,researchQuestionZh,useRoles);
     warnings.push(...(round?round.compiled.warnings:retrievalPlan.warnings));
     let agent:AgentResult|undefined;
     const retrieve=async(compiled:CompiledRetrievalPlan)=>(await callHybrid<{hybrid_evidence:HybridEvidencePack}>("source-evidence-round",{chart_id:chartId,chart_hash:saved.cast.chart_hash,
-      queries:compiled.queries.map(q=>q.query),query_lanes:compiled.queries.map(q=>q.lane),
+      queries:compiled.queries.map(q=>chineseRetrievalQuery(q.query,researchQuestionZh)),query_lanes:compiled.queries.map(q=>q.lane),
       query_requests:compiled.queries.map(q=>({request_id:q.request_id,parent_task_id:q.parent_task_id,round:q.round})),retrieval_identity:round!.identity},true)).hybrid_evidence;
     let retrieved:{hybrid_evidence:HybridEvidencePack};
     if(round&&!round.singleRound){
       const store=evidenceAgentStore(round.owner,round.fingerprint);
       agent=await runEvidenceAgent({chart_id:chartId,question_hash:round.snapshot.question_hash,plan:round.snapshot.initial_plan,facts:round.snapshot.fact_catalog,
         question:round.snapshot.question_analysis,identity:round.identity,compiled:round.compiled,fingerprint:round.fingerprint,deadlineAt:round.deadlineAt,retryIncomplete:round.retryIncomplete,minReservedTailMs:round.structured?PR6_TAIL_BUDGET_MS:50_000},
-        {now:Date.now,retrieve:compiled=>boundedWorkflow(20_000,()=>retrieve(compiled)),analyze:analyzeEvidenceGaps,...store,save:state=>traceNode("evidence-accumulator-checkpoint",state,()=>store.save(state),()=>({saved:true}))});
+        {now:Date.now,retrieve:compiled=>boundedWorkflow(60_000,()=>retrieve(compiled)),analyze:analyzeEvidenceGaps,...store,save:state=>traceNode("evidence-accumulator-checkpoint",state,()=>store.save(state),()=>({saved:true}))});
       const pack=accumulatedEvidencePack(agent.snapshot);
       if(!pack||agent.snapshot.status==="stale")return Response.json(success({evidence_pack:evidencePack,modern_interpretation:null,frozen_core:saved.cast.core_facts,
         initial_analysis:round.snapshot,compiled_retrieval:round.compiled,evidence_snapshot:agent.snapshot,analysis_agent:agent},
@@ -121,17 +131,17 @@ async function generate(saved:FrozenQuestionRecord,round?:RoundContext){
       retrieved={hybrid_evidence:pack};
       if(!round.structured)warnings.push(`PR-5 有界检索停止：${agent.stop_reason}；停止不代表证据充分。结构化推理待 PR-6。`);
     }else retrieved=round?{hybrid_evidence:await retrieve(round.compiled)}:await callHybrid<{hybrid_evidence:HybridEvidencePack}>("source-evidence",{chart_id:chartId,chart_hash:saved.cast.chart_hash,
-        queries:retrievalPlan.queries.map(q=>q.query),query_lanes:retrievalPlan.queries.map(q=>q.lane),question_context:questionContext});
+        queries:retrievalPlan.queries.map(q=>chineseRetrievalQuery(q.query,researchQuestionZh)),query_lanes:retrievalPlan.queries.map(q=>q.lane),question_context:questionContext});
     if(round&&(retrieved.hybrid_evidence.chart_hash!==saved.cast.chart_hash||retrieved.hybrid_evidence.chart_id!==chartId))throw new Error("RETRIEVAL_CHART_MISMATCH");
     if(round&&canonicalAnalysis(retrieved.hybrid_evidence.retrieval_identity)!==canonicalAnalysis(round.identity))throw new Error("RETRIEVAL_PROFILE_MISMATCH");
     if(round?.structured&&agent){
-      const stage=await runReasoningStage(round.owner,{planner:round.snapshot,agent,question:saved.question,identity:round.identity,frozen:saved},async()=>{
+      const stage=await runReasoningStage(round.owner,{planner:round.snapshot,agent,question:saved.question,research_question_zh:researchQuestionZh,identity:round.identity,frozen:saved},async()=>{
         const current=await boundedWorkflow(10_000,()=>callHybrid<Record<string,unknown>>("source-profile",{chart_id:chartId}));
         if(canonicalAnalysis(current)!==canonicalAnalysis(round.identity))throw new Error("REASONING_IDENTITY_CHANGED");
       });
       if(stage.diagnostic)warnings.push(`结构化解读未全部完成（${stage.diagnostic.stage}/${stage.diagnostic.code}），已保留可恢复检查点，未绕过推理校验。`);
       return Response.json(success({evidence_pack:evidencePack,modern_interpretation:stage.modern,structured_reasoning:stage.reasoning,reasoning_text:stage.text,
-        analysis_status:stage.status,reasoning_diagnostic:stage.diagnostic,reasoning_checkpoint_key:stage.checkpoint_key,diagnostic_run_id:stage.diagnostic_run_id,
+        analysis_status:stage.status,research_question_zh:researchQuestionZh,reasoning_diagnostic:stage.diagnostic,reasoning_checkpoint_key:stage.checkpoint_key,diagnostic_run_id:stage.diagnostic_run_id,
         evidence_snapshot:agent.snapshot,analysis_agent:agent,initial_analysis:round.snapshot,compiled_retrieval:round.compiled,hybrid_evidence:retrieved.hybrid_evidence,
         use_role_analysis:useRoles,frozen_core:saved.cast.core_facts,model_used:process.env.LLM_MODEL},{system:"divination-interpret-pr6",sources:evidencePack.sources,warnings}));
     }
@@ -142,7 +152,7 @@ async function generate(saved:FrozenQuestionRecord,round?:RoundContext){
     if(agent&&!agent.snapshot.evidence.length)warnings.push("累计证据为空，未调用解释模型；原卦盘与缺口检查点已保留。");
     else if (!divinationLlmConfigured()) warnings.push("综合解释服务未配置。");
     else {
-      try { const write=()=>interpretDivinationEvidence(evidencePack, {
+      try { const write=()=>interpretDivinationEvidence({...evidencePack,question:researchQuestionZh}, {
         core: saved.cast.core_facts, evidence: retrieved.hybrid_evidence, candidateAnalysis: hybrid,roleAnalysis:useRoles,
       });classical=agent?await boundedWorkflow(40_000,write):await write(); }
       catch (error) {
